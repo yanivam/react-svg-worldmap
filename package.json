@@ -1,0 +1,58 @@
+{
+  "name": "react-worldmap",
+  "version": "1.0.0",
+  "license": "MIT",
+  "displayName": "React World Countries Map",
+  "description": "A pure react component to draw a map of world countries. Simple. Free.",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build"
+  },
+  "peerDependencies": {
+    "react": ">=16",
+    "react-path-tooltip": "1.0.2",
+    "@types/d3-geo": "^1.11.1",
+    "d3-geo": "^1.11.9"
+  },
+  "authors": [
+    "yanivam (https://github.com/yanivam)"
+  ],
+  "keywords": [
+    "react",
+    "world map",
+    "map",
+    "component",
+    "typescript",
+    "svg",
+    "countries"
+  ],
+  "module": "dist/react-worldmap.esm.js",
+  "devDependencies": {
+    "@types/d3-geo": "^1.11.1",
+    "@types/jest": "^25.1.4",
+    "@types/react": "^16.9.27",
+    "@types/react-dom": "^16.9.5",
+    "d3-geo": "^1.11.9",
+    "husky": "^4.2.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-path-tooltip": "1.0.2",
+    "tsdx": "^0.13.0",
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3"
+  },
+  "bugs": "https://github.com/yanivam/react-worldmap/issues",
+  "repository": "github:yanivam/react-worldmap"
+}
