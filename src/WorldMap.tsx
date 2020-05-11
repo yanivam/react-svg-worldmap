@@ -13,8 +13,8 @@ interface IData {
 interface IProps {
   data: IData[],
   title?: string,
-  "value-prefix"?: string,
-  "value-suffix"?: string,
+  valuePrefix?: string,
+  valueSuffix?: string,
   color?: string,
   tooltipBgColor?: string,
   tooltipTextColor?: string,
@@ -36,8 +36,8 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const size = typeof (props.size) !== "undefined" ? props.size : "xs"
   const width = CSizes[size]
   const height = CSizes[size] * CHeightRatio
-  const valuePrefix = (typeof(props["value-prefix"])==="undefined") ? "" : props["value-prefix"]
-  const valueSuffix = (typeof(props["value-suffix"])==="undefined") ? "" : props["value-suffix"]
+  const valuePrefix = (typeof(props.valuePrefix)==="undefined") ? "" : props.valuePrefix
+  const valueSuffix = (typeof(props.valueSuffix)==="undefined") ? "" : props.valueSuffix
   const tooltipBgColor = (typeof(props.tooltipBgColor)==="undefined") ? "black" : props.tooltipBgColor
   const tooltipTextColor = (typeof(props.tooltipTextColor)==="undefined") ? "white" : props.tooltipTextColor
   const title = (typeof(props.title)==="undefined") ? "" : <p>{props.title}</p>

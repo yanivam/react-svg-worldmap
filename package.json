@@ -2,7 +2,7 @@
   "name": "react-worldmap",
   "version": "1.0.0",
   "license": "MIT",
-  "displayName": "React World Countries Map",
+  "displayName": "React Worldmap",
   "description": "A pure react component to draw a map of world countries. Simple. Free.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -31,6 +31,7 @@
   ],
   "keywords": [
     "react",
+    "worldmap",
     "world map",
     "map",
     "component",

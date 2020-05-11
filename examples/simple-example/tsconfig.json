@@ -20,6 +20,10 @@
     "jsx": "react"
   },
   "include": [
-    "src"
+    "src/**/*",
+    "../../src/**/*"
+  ],
+  "files": [
+    "WorldMap.tsx"
   ]
 }
