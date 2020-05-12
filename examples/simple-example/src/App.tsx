@@ -1,6 +1,6 @@
 import React from "react"
 import "./App.css"
-import { WorldMap } from "WorldMap"
+import { WorldMap } from "react-worldmap"
 
 function App() {
   const data1 =
@@ -38,10 +38,10 @@ function App() {
           <tbody>
             <tr>
               <td>
-                <WorldMap color="red" title="Top 10 Populous Countries" value-suffix="people" size="lg" data={data1} />
+                <WorldMap color="red" title="Top 10 Populous Countries" value-suffix="people" size="lg" data={data1} border={true}/>
               </td>
               <td>
-                <WorldMap color="green" title="Top 10 GDP per Capita" value-prefix="$" size="lg" data={data2} />
+                <WorldMap color="green" title="Top 10 GDP per Capita" value-prefix="$" size="lg" data={data2} border={true}/>
               </td>
             </tr>
           </tbody>

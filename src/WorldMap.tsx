@@ -18,7 +18,9 @@ interface IProps {
   color?: string,
   tooltipBgColor?: string,
   tooltipTextColor?: string,
-  size?: string // possile values are sm, md, lg
+  size?: string, // possile values are sm, md, lg
+  border?: boolean,
+  borderColor?: string
 }
 
 const CSizes: { [key: string]: number } = {
@@ -40,6 +42,9 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const valueSuffix = (typeof(props.valueSuffix)==="undefined") ? "" : props.valueSuffix
   const tooltipBgColor = (typeof(props.tooltipBgColor)==="undefined") ? "black" : props.tooltipBgColor
   const tooltipTextColor = (typeof(props.tooltipTextColor)==="undefined") ? "white" : props.tooltipTextColor
+  const isBorder = (typeof(props.border)==="undefined") ? false : props.border
+  const borderColor = (typeof(props.borderColor)==="undefined") ? "black" : props.borderColor
+  const border = isBorder ? <rect width={width} height={height} stroke={borderColor} fill="none"/> : <path></path>
   const title = (typeof(props.title)==="undefined") ? "" : <p>{props.title}</p>
 
   const containerRef = React.createRef<SVGSVGElement>();
@@ -96,6 +101,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
     <div style={{backgroundColor: "white", height: "auto", width: "auto", padding: "0px", margin: "0px"}}>
       {title}
       <svg ref={containerRef} height={height + "px"} width={width + "px"} viewBox={CViewBox}>
+        {border}
         {countriesPath}
       </svg>
     </div>

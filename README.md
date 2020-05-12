@@ -88,15 +88,17 @@ Example of valid data prop:
 
 ### Optional Props
 
-| Prop             | Type   | Description |
-| ---------------- | ------ | ----------- |
-| size             | string | The size of your map, either "sm", md", or "lg" |
-| title            | string | Any string for the title of your map |
-| color            | string | Color for highlighted countries. A standard color string. E.g. "red" or "#ff0000" |
-| tooltipBgColor   | string | Tooltip background color |
-| tooltipTextColor | string | Tooltip text color |
-| valuePrefix      | string | A string to prefix values in tooltips. E.g. "$" |
-| valueSuffix      | string | A string to suffix values in tooltips. E.g. "USD" |
+| Prop             | Type    | Description |
+| ---------------- | ------- | ----------- |
+| size             | string  | The size of your map, either "sm", md", or "lg" |
+| title            | string  | Any string for the title of your map |
+| color            | string  | Color for highlighted countries. A standard color string. E.g. "red" or "#ff0000" |
+| tooltipBgColor   | string  | Tooltip background color |
+| tooltipTextColor | string  | Tooltip text color |
+| valuePrefix      | string  | A string to prefix values in tooltips. E.g. "$" |
+| valueSuffix      | string  | A string to suffix values in tooltips. E.g. "USD" |
+| border           | boolean | true/false for drawing a border around the map |
+| borderColor      | string  | Border color |
 
 ## License
 MIT
