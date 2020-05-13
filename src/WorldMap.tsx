@@ -44,7 +44,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const tooltipTextColor = (typeof(props.tooltipTextColor)==="undefined") ? "white" : props.tooltipTextColor
   const isBorder = (typeof(props.border)==="undefined") ? false : props.border
   const borderColor = (typeof(props.borderColor)==="undefined") ? "black" : props.borderColor
-  const border = isBorder ? <rect width={width} height={height} stroke={borderColor} fill="none"/> : <path></path>
+  const border = isBorder ? <rect x={0} y={-220} width={"100%"} height={"105%"} stroke={borderColor} fill="none"/> : <path></path>
   const title = (typeof(props.title)==="undefined") ? "" : <p>{props.title}</p>
 
   const containerRef = React.createRef<SVGSVGElement>();

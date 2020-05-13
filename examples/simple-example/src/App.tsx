@@ -38,10 +38,10 @@ function App() {
           <tbody>
             <tr>
               <td>
-                <WorldMap color="red" title="Top 10 Populous Countries" value-suffix="people" size="lg" data={data1} border={true}/>
+                <WorldMap color="red" tooltipBgColor={"blue"} title="Top 10 Populous Countries" value-suffix="people" size="lg" data={data1} border={true}/>
               </td>
               <td>
-                <WorldMap color="green" title="Top 10 GDP per Capita" value-prefix="$" size="lg" data={data2} border={true}/>
+                <WorldMap color="green" tooltipBgColor={"purple"} title="Top 10 GDP per Capita" value-prefix="$" size="lg" data={data2} border={true}/>
               </td>
             </tr>
           </tbody>
