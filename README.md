@@ -3,7 +3,7 @@
 
 A pure react component to visualize world maps with highlighted countries. Simple. Free. No Registration, No access token, No back-end service.
 
-~~~
+~~~tsx
 import { WorldMap } from "react-worldmap"
 ...
 const data =
@@ -42,7 +42,7 @@ Explore the example folder for a simple case for an end-to-end react app using t
 
 Here is a simple example:
 
-~~~
+~~~tsx
 import React from "react"
 import "./App.css"
 import { WorldMap } from "react-worldmap"
@@ -77,7 +77,7 @@ The only mandatory prop. Data contains an array of country/value objects, with v
 
 Example of valid data prop:
 
-~~~
+~~~tsx
   const data =
     [
       { country: "cn", value: 1 }, // china
