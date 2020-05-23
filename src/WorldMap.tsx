@@ -30,7 +30,6 @@ const CSizes: { [key: string]: number } = {
   "xl": 640
 }
 
-const CViewBox = "0 -200 960 650"
 const CHeightRatio = 3 / 4
 
 export const WorldMap: React.FC<IProps> = (props) => {
@@ -45,8 +44,10 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const tooltipTextColor = (typeof (props.tooltipTextColor) === "undefined") ? "white" : props.tooltipTextColor
   const isBorder = (typeof (props.border) === "undefined") ? false : props.border
   const borderColor = (typeof (props.borderColor) === "undefined") ? "black" : props.borderColor
-  const border = isBorder ? <rect x={0} y={-200} width={"100%"} height={"100%"} stroke={borderColor} fill="none" /> : <path></path>
+  const border = isBorder ? <rect x={0} y={0} width={"100%"} height={"100%"} stroke={borderColor} fill="none" /> : <path></path>
   const title = (typeof (props.title) === "undefined") ? "" : <p>{props.title}</p>
+  const scale = 0.5 / 480 * width
+  const transformPaths = "scale(" + scale.toString() + ") translate (0,240)"
 
   const containerRef = React.createRef<SVGSVGElement>();
 
@@ -92,7 +93,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
         textColor={tooltipTextColor}
         pathRef={triggerRef}
         svgRef={containerRef}
-        tip={feature.properties.NAME + " " + valuePrefix + " " + countryValueMap[feature.properties.ISO_A2].toLocaleString() + " " + valueSuffix}
+        tip={feature.properties.NAME_LONG + " " + valuePrefix + " " + countryValueMap[feature.properties.ISO_A2].toLocaleString() + " " + valueSuffix}
       />
 
     return { "path": path, "tooltip": tooltip }
@@ -112,9 +113,11 @@ export const WorldMap: React.FC<IProps> = (props) => {
   return (
     <div style={{ backgroundColor: "white", height: "auto", width: "auto", padding: "0px", margin: "0px" }}>
       {title}
-      <svg ref={containerRef} height={height + "px"} width={width + "px"} viewBox={CViewBox}>
+      <svg ref={containerRef} height={height + "px"} width={width + "px"}>
         {border}
+        <g transform={transformPaths}>
         {paths}
+        </g>
         {tooltips}
       </svg>
     </div>
