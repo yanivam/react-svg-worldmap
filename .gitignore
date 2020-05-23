@@ -1,5 +1,4 @@
 node_modules/
-build/
 dist/
 .firebase/
 package-lock.json
