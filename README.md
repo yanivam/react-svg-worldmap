@@ -12,7 +12,7 @@ const data =
       { country: "in", value: 1311559204 }, // india
     ]
 ...
-<ReactWorldCountriesMap color="red" title="This is My Map" size="lg" data={data} />
+<WorldMap color="red" title="This is My Map" size="lg" data={data} />
 ~~~
 
 ## Why is it different? 
