@@ -1,6 +1,6 @@
 import React from "react"
 import "./App.css"
-import { WorldMap } from "react-worldmap"
+import { WorldMap } from "react-svg-worldmap"
 
 function App() {
   const data1 =

@@ -39,7 +39,7 @@
     "svg",
     "countries"
   ],
-  "module": "dist/react-worldmap.esm.js",
+  "module": "dist/react-svg-worldmap.esm.js",
   "devDependencies": {
     "@types/d3-geo": "^1.11.1",
     "@types/jest": "^25.1.4",
@@ -52,6 +52,6 @@
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
   },
-  "bugs": "https://github.com/yanivam/react-worldmap/issues",
-  "repository": "github:yanivam/react-worldmap"
+  "bugs": "https://github.com/yanivam/react-svg-worldmap/issues",
+  "repository": "github:yanivam/react-svg-worldmap"
 }

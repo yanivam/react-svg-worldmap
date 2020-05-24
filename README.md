@@ -1,10 +1,10 @@
-# react-worldmap [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![npm version](https://img.shields.io/npm/v/react-worldmap.svg?style=flat)](https://www.npmjs.com/package/react-worldmap) [![Demo: Simple Example](https://img.shields.io/badge/demo-live-red.svg)](https://react-worldmap-simple-example.imfast.io)
+# react-svg-worldmap [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![npm version](https://img.shields.io/npm/v/react-svg-worldmap.svg?style=flat)](https://www.npmjs.com/package/react-svg-worldmap) [![Demo: Simple Example](https://img.shields.io/badge/demo-live-red.svg)](https://react-svg-worldmap-simple-example.imfast.io)
 
 
 A pure react component to visualize world maps with highlighted countries. Simple. Free. No Registration, No access token, No back-end service.
 
 ~~~tsx
-import { WorldMap } from "react-worldmap"
+import { WorldMap } from "react-svg-worldmap"
 ...
 const data =
     [
@@ -33,7 +33,7 @@ It all started with a fun project that I was building and needed to draw simple 
 In order to install, run the following command:
 
 ~~~
-$ npm install react-worldmap --save
+$ npm install react-svg-worldmap --save
 ~~~
 
 ## Usage
@@ -45,7 +45,7 @@ Here is a simple example:
 ~~~tsx
 import React from "react"
 import "./App.css"
-import { WorldMap } from "react-worldmap"
+import { WorldMap } from "react-svg-worldmap"
 
 function App() {
   const data =
