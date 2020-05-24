@@ -18,7 +18,7 @@
     "react-dom": "^16.13.1",
     "react-path-tooltip": "^1.0.3",
     "react-scripts": "3.4.1",
-    "react-worldmap": "file:../..",
+    "react-worldmap": "^1.0.0",
     "sass": "^1.26.5",
     "typescript": "^3.8.3"
   },
