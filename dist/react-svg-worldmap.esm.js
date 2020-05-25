@@ -1765,7 +1765,6 @@ var CSizes = {
 };
 var CHeightRatio = 3 / 4;
 var WorldMap = function WorldMap(props) {
-  // Inits
   var size = typeof props.size !== "undefined" ? props.size : "sm";
   var width = CSizes[size];
   var height = CSizes[size] * CHeightRatio;
@@ -1786,8 +1785,7 @@ var WorldMap = function WorldMap(props) {
   var title = typeof props.title === "undefined" ? "" : React.createElement("p", null, props.title);
   var scale = 0.5 / 480 * width;
   var transformPaths = "scale(" + scale.toString() + ") translate (0,240)";
-  var containerRef = React.createRef(); // Calc min/max values and build country map for direct access
-
+  var containerRef = React.createRef();
   var countryValueMap = {};
   var max = -Infinity;
   var min = Infinity;
@@ -1797,8 +1795,7 @@ var WorldMap = function WorldMap(props) {
     min = min > value ? value : min;
     max = max < value ? value : max;
     countryValueMap[key] = value;
-  }); // Build a path & a tooltip for each country
-
+  });
   var projection = geoMercator();
   var pathGenerator = geoPath().projection(projection);
   var pathsAndToolstips = geoData.features.map(function (feature, idx) {
@@ -1837,16 +1834,13 @@ var WorldMap = function WorldMap(props) {
       "path": path,
       "tooltip": tooltip
     };
-  }); // build paths
-
+  });
   var paths = pathsAndToolstips.map(function (entry) {
     return entry.path;
-  }); // build tooltips
-
+  });
   var tooltips = pathsAndToolstips.map(function (entry) {
     return entry.tooltip;
-  }); // Render the SVG
-
+  });
   return React.createElement("div", {
     style: {
       backgroundColor: "white",

@@ -1,10 +1,11 @@
 {
   "include": ["src", "types"],
   "compilerOptions": {
-    "module": "esnext",
-    "lib": ["dom", "esnext"],
-    "importHelpers": false, // was true
-    "declaration": false, // was true
+    "module": "ESNext", // was esnext
+    "allowSyntheticDefaultImports": true, // new
+    "lib": ["dom", "ESNext"], 
+    "importHelpers": true, 
+    "declaration": true, 
     "sourceMap": false, // was true
     "rootDir": "./src",
     "strict": false,
@@ -24,6 +25,7 @@
       "*": ["src/*", "node_modules/*"]
     },
     "jsx": "react",
-    "esModuleInterop": true
+    "removeComments": true, // new
+    "esModuleInterop": false // was true
   }
 }
