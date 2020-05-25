@@ -1,7 +1,7 @@
 # react-svg-worldmap [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![npm version](https://img.shields.io/npm/v/react-svg-worldmap.svg?style=flat)](https://www.npmjs.com/package/react-svg-worldmap) [![Demo: Simple Example](https://img.shields.io/badge/demo-live-red.svg)](https://react-svg-worldmap-simple-example.imfast.io)
 
 
-A pure react component to visualize world maps with highlighted countries. Simple. Free. No Registration, No access token, No back-end service.
+A pure react component to visualize a world map with highlighted set of countries. Simple. Free.
 
 ~~~tsx
 import { WorldMap } from "react-svg-worldmap"
