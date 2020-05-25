@@ -3,9 +3,9 @@
   "compilerOptions": {
     "module": "esnext",
     "lib": ["dom", "esnext"],
-    "importHelpers": true,
-    "declaration": true,
-    "sourceMap": true,
+    "importHelpers": false, // was true
+    "declaration": false, // was true
+    "sourceMap": false, // was true
     "rootDir": "./src",
     "strict": false,
     "noImplicitAny": true,
