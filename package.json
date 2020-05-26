@@ -1,6 +1,6 @@
 {
   "name": "react-svg-worldmap",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "license": "MIT",
   "displayName": "React Worldmap",
   "description": "A pure react component to draw a map of world countries. Simple. Free.",
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "tsdx watch",
-    "build": "tsdx build",
+    "build": "tsdx build --format esm",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
     "prepare": "tsdx build"
