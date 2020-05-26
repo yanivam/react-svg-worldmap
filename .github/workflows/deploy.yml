@@ -34,7 +34,7 @@ jobs:
 
     # Run the build 
     - name: Run build
-      run: tsdx build --format esm
+      run: npm install tsdx; tsdx build --format esm
 
     # Publish to npm
     - name: publish
