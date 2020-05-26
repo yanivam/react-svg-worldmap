@@ -6,6 +6,7 @@ name: CI
 # events but only for the master branch
 on:
   pull_request:
+    types: [ closed ]
     branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -29,8 +30,8 @@ jobs:
       run: npm install
     
     - name: create npmignore
-      run: cat "src/" > .npmignore
-      
+      run: echo "src/" > .npmignore
+
     # Run the build 
     - name: Run build
       run: tsdx build --format esm
