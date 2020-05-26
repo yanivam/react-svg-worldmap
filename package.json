@@ -18,7 +18,7 @@
     "build": "tsdx build --format esm",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
-    "prepare": "tsdx build"
+    "prepare": "tsdx build --format esm"
   },
   "peerDependencies": {
     "react": ">=16",
