@@ -1,14 +1,13 @@
 {
   "name": "react-svg-worldmap",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "license": "MIT",
   "displayName": "React Worldmap",
   "description": "A pure react component to draw a map of world countries. Simple. Free.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "engines": {
     "node": ">=10"
