@@ -28,9 +28,12 @@ jobs:
     - name: Run install
       run: npm install
     
+    - name: create npmignore
+      run: cat "src/" > .npmignore
+      
     # Run the build 
     - name: Run build
-      run: npm run build
+      run: tsdx build --format esm
 
     # Publish to npm
     - name: publish
