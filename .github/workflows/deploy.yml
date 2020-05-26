@@ -25,13 +25,14 @@ jobs:
         node-version: 12
         registry-url: https://registry.npmjs.org/
 
+    # Create .npmignore
+    - name: create npmignore
+      run: echo "src/" > .npmignore
+
     # Run the install 
     - name: Run install
       run: npm install
     
-    - name: create npmignore
-      run: echo "src/ \ndist/index.js \ndist/react-svg-worldmap.cjs.development.js \ndist/react-svg-worldmap.cjs.development.js.map \ndist/react-svg-worldmap.cjs.production.js \ndist/react-svg-worldmap.cjs.production.js.map" > .npmignore
-
     # Publish to npm
     - name: publish
       run: npm publish --access public
