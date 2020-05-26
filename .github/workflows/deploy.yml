@@ -30,11 +30,7 @@ jobs:
       run: npm install
     
     - name: create npmignore
-      run: echo "src/" > .npmignore
-
-    # Run the build 
-    - name: Run build
-      run: npm install tsdx; tsdx build --format esm
+      run: echo "src/ \ndist/index.js \ndist/react-svg-worldmap.cjs.development.js \ndist/react-svg-worldmap.cjs.development.js.map \ndist/react-svg-worldmap.cjs.production.js \ndist/react-svg-worldmap.cjs.production.js.map" > .npmignore
 
     # Publish to npm
     - name: publish
