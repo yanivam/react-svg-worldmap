@@ -1,4 +1,4 @@
 node_modules
 .cache
-dist
-react-svg-worldmap/node_modules
+dist/
+../../node_modules

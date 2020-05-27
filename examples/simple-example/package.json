@@ -17,7 +17,7 @@
     "react-dom": "^16.13.1",
     "react-path-tooltip": "^1.0.7",
     "react-scripts": "3.4.1",
-    "react-svg-worldmap": "^1.0.6",
+    "react-svg-worldmap": "^1.0.15",
     "sass": "^1.26.5",
     "typescript": "^3.8.3"
   },
@@ -30,9 +30,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "files": [
-    "build"
-  ],
   "browserslist": {
     "production": [
       ">0.2%",
