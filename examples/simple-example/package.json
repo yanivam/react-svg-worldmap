@@ -19,13 +19,16 @@
     "react-scripts": "3.4.1",
     "react-svg-worldmap": "^1.0.15",
     "sass": "^1.26.5",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "snyk": "^1.332.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -41,5 +44,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "snyk": true
 }
