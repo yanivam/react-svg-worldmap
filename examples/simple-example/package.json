@@ -10,7 +10,7 @@
     "@types/node": "^12.12.32",
     "@types/react": "^16.9.26",
     "@types/react-dom": "^16.9.5",
-    "d3-geo": "^1.11.9",
+    "d3-geo": "^1.12.1",
     "fibers": "^5.0.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
@@ -18,7 +18,7 @@
     "react-path-tooltip": "^1.0.7",
     "react-scripts": "3.4.1",
     "react-svg-worldmap": "^1.0.15",
-    "sass": "^1.26.5",
+    "sass": "^1.26.7",
     "typescript": "^3.8.3"
   },
   "scripts": {
