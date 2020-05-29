@@ -93,7 +93,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
         textColor={tooltipTextColor}
         pathRef={triggerRef}
         svgRef={containerRef}
-        tip={feature.properties.NAME_LONG + " " + valuePrefix + " " + countryValueMap[feature.properties.ISO_A2].toLocaleString() + " " + valueSuffix}
+        tip={feature.properties.NAME + " " + valuePrefix + " " + countryValueMap[feature.properties.ISO_A2].toLocaleString() + " " + valueSuffix}
       />
 
     return { "path": path, "tooltip": tooltip }
