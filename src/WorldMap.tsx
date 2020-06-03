@@ -86,11 +86,12 @@ export const WorldMap: React.FC<IProps> = (props) => {
       style={{ fill: color, fillOpacity: opacityLevel, stroke: "black", strokeWidth: 1, strokeOpacity: 0.2, cursor: "pointer" }}
     />
 
-    const tooltip = (!isHighlight) ? <g></g> :
+    const tooltip = (!isHighlight) ? <g key={"path" + idx}></g> :
       <PathTooltip
         fontSize={12}
         bgColor={tooltipBgColor}
         textColor={tooltipTextColor}
+        key={"path" + idx}
         pathRef={triggerRef}
         svgRef={containerRef}
         tip={feature.properties.NAME + " " + valuePrefix + " " + countryValueMap[feature.properties.ISO_A2].toLocaleString() + " " + valueSuffix}
