@@ -20,7 +20,8 @@ interface IProps {
   tooltipTextColor?: string,
   size?: string, // possile values are sm, md, lg
   border?: boolean,
-  borderColor?: string
+  borderColor?: string,
+  countryBorderColor?:string
 }
 
 const CSizes: { [key: string]: number } = {
@@ -44,6 +45,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const tooltipTextColor = (typeof (props.tooltipTextColor) === "undefined") ? "white" : props.tooltipTextColor
   const isBorder = (typeof (props.border) === "undefined") ? false : props.border
   const borderColor = (typeof (props.borderColor) === "undefined") ? "black" : props.borderColor
+  const countryBorderColor = (typeof (props.countryBorderColor) === "undefined") ? "black" : props.countryBorderColor
   const border = isBorder ? <rect x={0} y={0} width={"100%"} height={"100%"} stroke={borderColor} fill="none" /> : <path></path>
   const title = (typeof (props.title) === "undefined") ? "" : <p>{props.title}</p>
   const scale = 0.5 / 480 * width
@@ -82,6 +84,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
     const path = <path
       key={"path" + idx}
       ref={triggerRef}
+      stroke={countryBorderColor}
       d={pathGenerator(feature as GeoJSON.Feature) as string}
       style={{ fill: color, fillOpacity: opacityLevel, stroke: "black", strokeWidth: 1, strokeOpacity: 0.2, cursor: "pointer" }}
     />
