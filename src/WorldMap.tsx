@@ -34,6 +34,8 @@ const CSizes: { [key: string]: number } = {
 const CHeightRatio = 3 / 4
 
 export const WorldMap: React.FC<IProps> = (props) => {
+  
+  //calculate window width
   const updateWindowWidth = () => {
     const [width, setWidth] = useState(0);
     useLayoutEffect(() => {
@@ -47,8 +49,12 @@ export const WorldMap: React.FC<IProps> = (props) => {
     return width;
   }
   const windowWidth = updateWindowWidth()
+
+  //get input size
   const size = typeof (props.size) !== "undefined" ? props.size : "sm"
-  const filteredSize = (size : string) => {
+
+  //adjust responsive size
+  const responsify = (size : string) => {
     let realSize = size
     while(CSizes[realSize] > windowWidth) {
       if(realSize == "sm") {
@@ -66,10 +72,10 @@ export const WorldMap: React.FC<IProps> = (props) => {
     }
     return CSizes[realSize]
   }
-  console.log(windowWidth)
-  console.log(filteredSize(size))
-  const width = filteredSize(size)
-  const height = filteredSize(size) * CHeightRatio
+  
+  //inits
+  const width = responsify(size)
+  const height = responsify(size) * CHeightRatio
   const valuePrefix = (typeof (props.valuePrefix) === "undefined") ? "" : props.valuePrefix
   const valueSuffix = (typeof (props.valueSuffix) === "undefined") ? "" : props.valueSuffix
   const tooltipBgColor = (typeof (props.tooltipBgColor) === "undefined") ? "black" : props.tooltipBgColor
