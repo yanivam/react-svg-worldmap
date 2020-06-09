@@ -17,7 +17,7 @@
     "react-dom": "^16.13.1",
     "react-path-tooltip": "^1.0.8",
     "react-scripts": "3.4.1",
-    "react-svg-worldmap": "1.0.19",
+    "react-svg-worldmap": "^1.0.20",
     "sass": "^1.26.7",
     "typescript": "^3.8.3"
   },

@@ -38,18 +38,18 @@ function App() {
           <tbody>
             <tr>
               <td>
-                <WorldMap color="red" tooltipBgColor={"blue"} title="Top 10 Populous Countries" valueSuffix="people" size="sm" data={data1} border={true}/>
+                <WorldMap color="red" tooltipBgColor={"blue"} title="Top 10 Populous Countries" valueSuffix="people" size="sm" data={data1} frame={true}/>
               </td>
               <td>
-                <WorldMap color="green" tooltipBgColor={"purple"} title="Top 10 GDP per Capita" valuePrefix="$" size="md" data={data2} border={true}/>
+                <WorldMap color="green" tooltipBgColor={"purple"} title="Top 10 GDP per Capita" valuePrefix="$" size="md" data={data2} frame={true}/>
               </td>
             </tr>
             <tr>
               <td>
-                <WorldMap color="red" tooltipBgColor={"blue"} title="Top 10 Populous Countries" borderColor={"blue"} valueSuffix="people" size="lg" data={data1} border={true}/>
+                <WorldMap color="red" tooltipBgColor={"blue"} title="Top 10 Populous Countries" borderColor={"blue"} frameColor={"pink"} valueSuffix="people" size="lg" data={data1} frame={true}/>
               </td>
               <td>
-                <WorldMap color="green" tooltipBgColor={"purple"} title="Top 10 GDP per Capita" valuePrefix="$" size="xl" data={data2} border={true}/>
+                <WorldMap color="green" tooltipBgColor={"purple"} title="Top 10 GDP per Capita" valuePrefix="$" size="xl" data={data2} frame={true}/>
               </td>
             </tr>
           </tbody>

@@ -19,8 +19,9 @@ interface IProps {
   tooltipBgColor?: string,
   tooltipTextColor?: string,
   size?: string, // possile values are sm, md, lg
-  border?: boolean,
-  borderColor?: string
+  frame?: boolean,
+  frameColor?: string,
+  borderColor?:string
 }
 
 const CSizes: { [key: string]: number } = {
@@ -42,9 +43,10 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const valueSuffix = (typeof (props.valueSuffix) === "undefined") ? "" : props.valueSuffix
   const tooltipBgColor = (typeof (props.tooltipBgColor) === "undefined") ? "black" : props.tooltipBgColor
   const tooltipTextColor = (typeof (props.tooltipTextColor) === "undefined") ? "white" : props.tooltipTextColor
-  const isBorder = (typeof (props.border) === "undefined") ? false : props.border
+  const isFrame = (typeof (props.frame) === "undefined") ? false : props.frame
+  const frameColor = (typeof (props.frameColor) === "undefined") ? "black" : props.frameColor
   const borderColor = (typeof (props.borderColor) === "undefined") ? "black" : props.borderColor
-  const border = isBorder ? <rect x={0} y={0} width={"100%"} height={"100%"} stroke={borderColor} fill="none" /> : <path></path>
+  const frame = isFrame ? <rect x={0} y={0} width={"100%"} height={"100%"} stroke={frameColor} fill="none" /> : <path></path>
   const title = (typeof (props.title) === "undefined") ? "" : <p>{props.title}</p>
   const scale = 0.5 / 480 * width
   const transformPaths = "scale(" + scale.toString() + ") translate (0,240)"
@@ -83,7 +85,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
       key={"path" + idx}
       ref={triggerRef}
       d={pathGenerator(feature as GeoJSON.Feature) as string}
-      style={{ fill: color, fillOpacity: opacityLevel, stroke: "black", strokeWidth: 1, strokeOpacity: 0.2, cursor: "pointer" }}
+      style={{ fill: color, fillOpacity: opacityLevel, stroke: borderColor, strokeWidth: 1, strokeOpacity: 0.2, cursor: "pointer" }}
     />
 
     const tooltip = (!isHighlight) ? <g key={"path" + idx}></g> :
@@ -115,7 +117,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
     <div style={{ backgroundColor: "white", height: "auto", width: "auto", padding: "0px", margin: "0px" }}>
       {title}
       <svg ref={containerRef} height={height + "px"} width={width + "px"}>
-        {border}
+        {frame}
         <g transform={transformPaths}>
         {paths}
         </g>
