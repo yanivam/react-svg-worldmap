@@ -97,8 +97,9 @@ Example of valid data prop:
 | tooltipTextColor | string  | Tooltip text color |
 | valuePrefix      | string  | A string to prefix values in tooltips. E.g. "$" |
 | valueSuffix      | string  | A string to suffix values in tooltips. E.g. "USD" |
-| border           | boolean | true/false for drawing a border around the map |
-| borderColor      | string  | Border color |
+| frame           | boolean | true/false for drawing a border around the map |
+| frameColor      | string  | Frame color |
+| borderColor      | string  | Border color around each individual country. "black" by default |
 
 ## License
 MIT
