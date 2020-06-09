@@ -84,9 +84,8 @@ export const WorldMap: React.FC<IProps> = (props) => {
     const path = <path
       key={"path" + idx}
       ref={triggerRef}
-      stroke={countryBorderColor}
       d={pathGenerator(feature as GeoJSON.Feature) as string}
-      style={{ fill: color, fillOpacity: opacityLevel, stroke: "black", strokeWidth: 1, strokeOpacity: 0.2, cursor: "pointer" }}
+      style={{ fill: color, fillOpacity: opacityLevel, stroke: countryBorderColor, strokeWidth: 1, strokeOpacity: 0.2, cursor: "pointer" }}
     />
 
     const tooltip = (!isHighlight) ? <g key={"path" + idx}></g> :
