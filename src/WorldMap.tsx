@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useLayoutEffect } from "react"
 import { geoMercator, geoPath } from "d3-geo"
 import geoData from "./countries.geo"
 import { PathTooltip } from "react-path-tooltip"
@@ -34,11 +34,48 @@ const CSizes: { [key: string]: number } = {
 const CHeightRatio = 3 / 4
 
 export const WorldMap: React.FC<IProps> = (props) => {
+  
+  //calculate window width
+  const updateWindowWidth = () => {
+    const [width, setWidth] = useState(0);
+    useLayoutEffect(() => {
+      const updateWidth = () => {
+        setWidth(window.innerWidth);
+      }
+      window.addEventListener('resize', updateWidth);
+      updateWidth();
+      return () => window.removeEventListener('resize', updateWidth);
+    }, []);
+    return width;
+  }
+  const windowWidth = updateWindowWidth()
 
-  // Inits
+  //get input size
   const size = typeof (props.size) !== "undefined" ? props.size : "sm"
-  const width = CSizes[size]
-  const height = CSizes[size] * CHeightRatio
+
+  //adjust responsive size
+  const responsify = (size : string) => {
+    let realSize = size
+    while(CSizes[realSize] > windowWidth) {
+      if(realSize == "sm") {
+        return CSizes["sm"]
+      }
+      if(realSize === "md") {
+        realSize = "sm"
+      }
+      else if(realSize === "lg") {
+        realSize = "md"
+      }
+      else {
+        realSize = "lg"
+      }
+    }
+    return CSizes[realSize]
+  }
+  
+  //inits
+  const width = responsify(size)
+  const height = responsify(size) * CHeightRatio
   const valuePrefix = (typeof (props.valuePrefix) === "undefined") ? "" : props.valuePrefix
   const valueSuffix = (typeof (props.valueSuffix) === "undefined") ? "" : props.valueSuffix
   const tooltipBgColor = (typeof (props.tooltipBgColor) === "undefined") ? "black" : props.tooltipBgColor
