@@ -21,7 +21,7 @@ interface IProps {
   size?: string, // possile values are sm, md, lg
   frame?: boolean,
   frameColor?: string,
-  borderColor?:string
+  borderColor?: string
 }
 
 const CSizes: { [key: string]: number } = {
@@ -34,7 +34,7 @@ const CSizes: { [key: string]: number } = {
 const CHeightRatio = 3 / 4
 
 export const WorldMap: React.FC<IProps> = (props) => {
-  
+
   //calculate window width
   const updateWindowWidth = () => {
     const [width, setWidth] = useState(0);
@@ -54,16 +54,16 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const size = typeof (props.size) !== "undefined" ? props.size : "sm"
 
   //adjust responsive size
-  const responsify = (size : string) => {
+  const responsify = (size: string) => {
     let realSize = size
-    while(CSizes[realSize] > windowWidth) {
-      if(realSize == "sm") {
+    while (CSizes[realSize] > windowWidth) {
+      if (realSize == "sm") {
         return CSizes["sm"]
       }
-      if(realSize === "md") {
+      if (realSize === "md") {
         realSize = "sm"
       }
-      else if(realSize === "lg") {
+      else if (realSize === "lg") {
         realSize = "md"
       }
       else {
@@ -72,7 +72,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
     }
     return CSizes[realSize]
   }
-  
+
   //inits
   const width = responsify(size)
   const height = responsify(size) * CHeightRatio
@@ -123,6 +123,8 @@ export const WorldMap: React.FC<IProps> = (props) => {
       ref={triggerRef}
       d={pathGenerator(feature as GeoJSON.Feature) as string}
       style={{ fill: color, fillOpacity: opacityLevel, stroke: borderColor, strokeWidth: 1, strokeOpacity: 0.2, cursor: "pointer" }}
+      onMouseOver={(event) => { event.currentTarget.style.strokeWidth = "4" }}
+      onMouseOut={(event) => { event.currentTarget.style.strokeWidth = "1" }}
     />
 
     const tooltip = (!isHighlight) ? <g key={"path" + idx}></g> :
@@ -156,7 +158,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
       <svg ref={containerRef} height={height + "px"} width={width + "px"}>
         {frame}
         <g transform={transformPaths}>
-        {paths}
+          {paths}
         </g>
         {tooltips}
       </svg>
