@@ -123,8 +123,8 @@ export const WorldMap: React.FC<IProps> = (props) => {
       ref={triggerRef}
       d={pathGenerator(feature as GeoJSON.Feature) as string}
       style={{ fill: color, fillOpacity: opacityLevel, stroke: borderColor, strokeWidth: 1, strokeOpacity: 0.2, cursor: "pointer" }}
-      onMouseOver={(event) => { event.currentTarget.style.strokeWidth = "4" }}
-      onMouseOut={(event) => { event.currentTarget.style.strokeWidth = "1" }}
+      onMouseOver={(event) => { event.currentTarget.style.strokeWidth = "2"; event.currentTarget.style.strokeOpacity = "0.5" }}
+      onMouseOut={(event) => { event.currentTarget.style.strokeWidth = "1"; event.currentTarget.style.strokeOpacity = "0.2" }}
     />
 
     const tooltip = (!isHighlight) ? <g key={"path" + idx}></g> :
