@@ -100,6 +100,7 @@ Example of valid data prop:
 | frame            | boolean | true/false for drawing a frame around the map |
 | frameColor       | string  | Frame color |
 | borderColor      | string  | Border color around each individual country. "black" by default |
+| type             | string  | Select type of map you want, either "tooltip" or "marker" :warning: ** Still in beta ** :warning: |
 
 ## License
 MIT

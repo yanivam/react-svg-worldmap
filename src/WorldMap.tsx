@@ -2,6 +2,7 @@ import React, { useState, useLayoutEffect } from "react"
 import { geoMercator, geoPath } from "d3-geo"
 import geoData from "./countries.geo"
 import { PathTooltip } from "react-path-tooltip"
+import { PathMarker } from "react-path-marker"
 
 const CDefaultColor = "#dddddd"
 
@@ -21,6 +22,7 @@ interface IProps {
   size?: string, // possile values are sm, md, lg
   frame?: boolean,
   frameColor?: string,
+  type?: string,
   borderColor?: string
 }
 
@@ -109,13 +111,15 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const pathsAndToolstips = geoData.features.map((feature, idx) => {
 
     const triggerRef = React.createRef<SVGPathElement>();
-    const isHighlight = typeof (countryValueMap[feature.properties.ISO_A2]) != "undefined"
+    const isoCode = feature.properties.ISO_A2 === "UL" ? "US" : feature.properties.ISO_A2 === "RI" ? "RU" : feature.properties.ISO_A2 === "FM" ? "FR" : feature.properties.ISO_A2 === "NS" ? "NO" : feature.properties.ISO_A2
+    const countryName = feature.properties.ISO_A2 === "UL" ? "United States" : feature.properties.ISO_A2 === "RI" ? "Russia" : feature.properties.ISO_A2 === "FM" ? "France" : feature.properties.ISO_A2 === "NS" ? "Norway" : feature.properties.NAME
+    const isHighlight = typeof (countryValueMap[isoCode]) != "undefined"
     let color: string = CDefaultColor
     let opacityLevel = 0.2
 
     if (isHighlight) {
       color = props.color ? props.color : CDefaultColor
-      opacityLevel += 0.2 + (0.6 * (countryValueMap[feature.properties.ISO_A2] - min) / (max - min))
+      opacityLevel += 0.2 + (0.6 * (countryValueMap[isoCode] - min) / (max - min))
     }
 
     const path = <path
@@ -127,18 +131,33 @@ export const WorldMap: React.FC<IProps> = (props) => {
       onMouseOut={(event) => { event.currentTarget.style.strokeWidth = "1"; event.currentTarget.style.strokeOpacity = "0.2" }}
     />
 
-    const tooltip = (!isHighlight) ? <g key={"path" + idx}></g> :
-      <PathTooltip
+    const marker = (typeof (countryValueMap[feature.properties.ISO_A2]) === "undefined") ? <g key={"path" + idx}></g>
+    :
+    <PathMarker 
         fontSize={12}
         bgColor={tooltipBgColor}
-        textColor={tooltipTextColor}
+        textColor={tooltipBgColor}
         key={"path" + idx}
         pathRef={triggerRef}
         svgRef={containerRef}
-        tip={feature.properties.NAME + " " + valuePrefix + " " + countryValueMap[feature.properties.ISO_A2].toLocaleString() + " " + valueSuffix}
+        tooltipTextColor={tooltipTextColor}
+        tooltipBgColor={tooltipBgColor}
+        smallText={isoCode}
+        bigText={countryName + " " + valuePrefix + " " + countryValueMap[isoCode].toLocaleString() + " " + valueSuffix}
+    />
+
+    const tooltip = (!isHighlight) ? <g key={"path" + idx}></g> :
+      <PathTooltip
+      fontSize={12}
+      bgColor={tooltipBgColor}
+      textColor={tooltipTextColor}
+      key={"path" + idx}
+      pathRef={triggerRef}
+      svgRef={containerRef}
+      tip={countryName + " " + valuePrefix + " " + countryValueMap[isoCode].toLocaleString() + " " + valueSuffix}
       />
 
-    return { "path": path, "tooltip": tooltip }
+    return { "path": path, "highlightedMarkerOrTooltip": props.type === "marker" ? marker : tooltip }
   })
 
   // build paths
@@ -147,8 +166,8 @@ export const WorldMap: React.FC<IProps> = (props) => {
   })
 
   // build tooltips
-  const tooltips = pathsAndToolstips.map(entry => {
-    return entry.tooltip
+  const markersOrTooltips = pathsAndToolstips.map(entry => {
+    return entry.highlightedMarkerOrTooltip
   })
 
   // Render the SVG
@@ -160,7 +179,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
         <g transform={transformPaths}>
           {paths}
         </g>
-        {tooltips}
+        {markersOrTooltips}
       </svg>
     </div>
   )
