@@ -11,12 +11,15 @@ interface IData {
   value: number
 }
 
-interface IStyle  {
+export interface ICountryContext {
+  country: string,
+  countryValue: number,
+  countryPlace: number,
+  countriesCount: number,
   color: string,
-  opacity: number
+  minValue: number,
+  maxValue: number
 }
-
-type StyleType = () => IStyle
 
 interface IProps {
   data: IData[],
@@ -30,7 +33,7 @@ interface IProps {
   frame?: boolean,
   frameColor?: string,
   type?: string,
-  styleFunction?: StyleType,
+  styleFunction?: (context: ICountryContext) => {},
   borderColor?: string
 }
 
@@ -43,6 +46,11 @@ const CSizes: { [key: string]: number } = {
 
 const CHeightRatio = 3 / 4
 
+
+const defaultCountryStyle = (context:ICountryContext) => {
+  const style={{ fill: context.color, fillOpacity: opacityLevel, stroke: borderColor, strokeWidth: 1, strokeOpacity: 0.2, cursor: "pointer" }}
+  return style;
+}
 export const WorldMap: React.FC<IProps> = (props) => {
 
   //calculate window width
