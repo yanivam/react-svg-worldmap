@@ -11,11 +11,9 @@ interface IData {
   value: number
 }
 
-export interface ICountryContext {
+export type ICountryContext = {
   country: string,
   countryValue: number,
-  countryPlace: number,
-  countriesCount: number,
   color: string,
   minValue: number,
   maxValue: number
@@ -46,11 +44,6 @@ const CSizes: { [key: string]: number } = {
 
 const CHeightRatio = 3 / 4
 
-
-const defaultCountryStyle = (context:ICountryContext) => {
-  const style={{ fill: context.color, fillOpacity: opacityLevel, stroke: borderColor, strokeWidth: 1, strokeOpacity: 0.2, cursor: "pointer" }}
-  return style;
-}
 export const WorldMap: React.FC<IProps> = (props) => {
 
   //calculate window width
@@ -108,6 +101,12 @@ export const WorldMap: React.FC<IProps> = (props) => {
 
   const containerRef = React.createRef<SVGSVGElement>();
 
+  const defaultCountryStyle = (context : ICountryContext) => {
+    const opacityLevel = 0.2 + (0.6 * (context.countryValue - context.minValue) / (context.maxValue - context.minValue))
+    const style={ fill: context.color, fillOpacity: opacityLevel, stroke: borderColor, strokeWidth: 1, strokeOpacity: 0.2, cursor: "pointer" }
+    return style;
+  }
+
   // Calc min/max values and build country map for direct access
   const countryValueMap: { [key: string]: number } = {}
   let max: number = -Infinity
@@ -127,22 +126,17 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const pathsAndToolstips = geoData.features.map((feature, idx) => {
 
     const triggerRef = React.createRef<SVGPathElement>();
-    const isoCode = feature.properties.ISO_A2 === "UL" ? "US" : feature.properties.ISO_A2 === "RI" ? "RU" : feature.properties.ISO_A2 === "FM" ? "FR" : feature.properties.ISO_A2 === "NS" ? "NO" : feature.properties.ISO_A2
-    const countryName = feature.properties.ISO_A2 === "UL" ? "United States" : feature.properties.ISO_A2 === "RI" ? "Russia" : feature.properties.ISO_A2 === "FM" ? "France" : feature.properties.ISO_A2 === "NS" ? "Norway" : feature.properties.NAME
+    const isoCode = feature.properties.ISO_A2 === "US_child_path" ? "US" : feature.properties.ISO_A2 === "RU_child_path" ? "RU" : feature.properties.ISO_A2 === "FR_child_path" ? "FR" : feature.properties.ISO_A2 === "NO_child_path" ? "NO" : feature.properties.ISO_A2
+    const countryName = feature.properties.ISO_A2 === "US_child_path" ? "United States" : feature.properties.ISO_A2 === "RU_child_path" ? "Russia" : feature.properties.ISO_A2 === "FR_child_path" ? "France" : feature.properties.ISO_A2 === "NO_child_path" ? "Norway" : feature.properties.NAME
     const isHighlight = typeof (countryValueMap[isoCode]) != "undefined"
     let color: string = CDefaultColor
-    let opacityLevel = 0.2
-
-    if (isHighlight) {
-      color = props.styleFunction && props.styleFunction().color ? props.styleFunction().color : props.color ? props.color : CDefaultColor
-      opacityLevel += props.styleFunction && props.styleFunction().opacity ? props.styleFunction().opacity : 0.2 + (0.6 * (countryValueMap[isoCode] - min) / (max - min))
-    }
+    const style = props.styleFunction && isHighlight ? props.styleFunction({country: countryName, countryValue: countryValueMap[isoCode], color: color, minValue: min, maxValue: max}) : defaultCountryStyle({country: countryName, countryValue: countryValueMap[isoCode], color: color, minValue: min, maxValue: max})
 
     const path = <path
       key={"path" + idx}
       ref={triggerRef}
       d={pathGenerator(feature as GeoJSON.Feature) as string}
-      style={{ fill: color, fillOpacity: opacityLevel, stroke: borderColor, strokeWidth: 1, strokeOpacity: 0.2, cursor: "pointer" }}
+      style={style}
       onMouseOver={(event) => { event.currentTarget.style.strokeWidth = "2"; event.currentTarget.style.strokeOpacity = "0.5" }}
       onMouseOut={(event) => { event.currentTarget.style.strokeWidth = "1"; event.currentTarget.style.strokeOpacity = "0.2" }}
     />
