@@ -11,6 +11,13 @@ interface IData {
   value: number
 }
 
+interface IStyle  {
+  color: string,
+  opacity: number
+}
+
+type StyleType = () => IStyle
+
 interface IProps {
   data: IData[],
   title?: string,
@@ -23,6 +30,7 @@ interface IProps {
   frame?: boolean,
   frameColor?: string,
   type?: string,
+  styleFunction?: StyleType,
   borderColor?: string
 }
 
@@ -118,8 +126,8 @@ export const WorldMap: React.FC<IProps> = (props) => {
     let opacityLevel = 0.2
 
     if (isHighlight) {
-      color = props.color ? props.color : CDefaultColor
-      opacityLevel += 0.2 + (0.6 * (countryValueMap[isoCode] - min) / (max - min))
+      color = props.styleFunction && props.styleFunction().color ? props.styleFunction().color : props.color ? props.color : CDefaultColor
+      opacityLevel += props.styleFunction && props.styleFunction().opacity ? props.styleFunction().opacity : 0.2 + (0.6 * (countryValueMap[isoCode] - min) / (max - min))
     }
 
     const path = <path

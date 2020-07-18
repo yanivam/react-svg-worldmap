@@ -34,7 +34,7 @@ function App() {
           <tbody>
             <tr>
               <td>
-                <WorldMap color="red" tooltipBgColor={"blue"} title="Top 10 Populous Countries" valueSuffix="people" size="sm" data={data1} frame={true}/>
+                <WorldMap tooltipBgColor={"blue"} title="Top 10 Populous Countries" valueSuffix="people" size="sm" data={data1} frame={true} styleFunction={() => {return {color: "red", opacity: 0.2}}}/>
               </td>
               <td>
                 <WorldMap color="green" tooltipBgColor={"purple"} title="Top 10 GDP per Capita" valuePrefix="$" size="md" data={data2} frame={true}/>
