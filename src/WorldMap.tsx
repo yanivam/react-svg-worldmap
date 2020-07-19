@@ -11,7 +11,7 @@ interface IData {
   value: number
 }
 
-export type ICountryContext = {
+interface ICountryContext {
   country: string,
   countryValue: number,
   color: string,
@@ -130,7 +130,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
     const countryName = feature.properties.ISO_A2 === "US_child_path" ? "United States" : feature.properties.ISO_A2 === "RU_child_path" ? "Russia" : feature.properties.ISO_A2 === "FR_child_path" ? "France" : feature.properties.ISO_A2 === "NO_child_path" ? "Norway" : feature.properties.NAME
     const isHighlight = typeof (countryValueMap[isoCode]) != "undefined"
     let color: string = CDefaultColor
-    const style = props.styleFunction && isHighlight ? props.styleFunction({country: countryName, countryValue: countryValueMap[isoCode], color: color, minValue: min, maxValue: max}) : defaultCountryStyle({country: countryName, countryValue: countryValueMap[isoCode], color: color, minValue: min, maxValue: max})
+    const style = props.styleFunction && isHighlight ? props.styleFunction({country: isoCode, countryValue: countryValueMap[isoCode], color: props.color ? props.color : CDefaultColor, minValue: min, maxValue: max}) : defaultCountryStyle({country: countryName, countryValue: countryValueMap[isoCode], color: color, minValue: min, maxValue: max})
 
     const path = <path
       key={"path" + idx}
