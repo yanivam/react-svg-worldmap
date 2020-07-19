@@ -136,6 +136,7 @@ const stylingFunction = (context : any) => {
  * An example of a custom styling function
  * Context type must remain any so that you can use the inputs that I pass to you
  The inputs are as follows:
+ 
  | Input             | Type    | Description |
  | ---------------- | ------- | ----------- |
  | country      | string | ISO value for each country |
