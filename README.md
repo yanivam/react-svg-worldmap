@@ -99,8 +99,27 @@ Example of valid data prop:
 | valueSuffix      | string  | A string to suffix values in tooltips. E.g. "USD" |
 | frame            | boolean | true/false for drawing a frame around the map |
 | frameColor       | string  | Frame color |
+| styleFunction    | (context: any) => {}  | A custom function that controls the styling of each country (see custom-style-example for an example of how to use) |
 | borderColor      | string  | Border color around each individual country. "black" by default |
 | type             | string  | Select type of map you want, either "tooltip" or "marker" :warning: ** Still in beta ** :warning: |
+
+### Samples
+
+examples/simple-example
+ * A simple example of the world map
+ * 4 maps given two different data sets
+ * Example of some simple features using the default styling
+
+
+examples/custom-style-example
+ * An example of a custom styling function
+ * Context type must remain any so that you can use the inputs that I pass to you
+ The inputs are as follows:
+ | country      | string | ISO value for each country |
+ | countryValue | number | Value inputted for the specific country (this is the input data for the specific country) |
+ | color        | string | The color that is inputted by the user for countries with values |
+ | minValue     | number | The smallest value of the input data |
+ | maxValue     | number | The largest value of the input data |
 
 ## License
 MIT

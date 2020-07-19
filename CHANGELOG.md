@@ -10,3 +10,8 @@
 
 * Fixed dependency bug for d3-geo not being a module
 * Added marker type that is still in progress in beta (see README.md file for more detail)
+
+## 1.0.25
+
+* Renamed the islands to avoid confusion
+* Added user control over map styling using stylingFunction (see README.md file for more detail)
