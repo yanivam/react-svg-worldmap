@@ -86,10 +86,31 @@ Example of valid data prop:
     ]
 ~~~
 
+### Custom Styling
+This is an optional more advanced customization option. When used, the developer has full control to define the color, opacity and any other style element of a country with data record. 
+
+This is done by passing your custom implementation of the `styleFunction`. The function recieves as input the country context that includes country,countryValue: colorm, minValue and maxValue, and returns a json object representing the style. 
+
+For example: 
+~~~tsx
+const stylingFunction = (context : any) => {
+    const opacityLevel = 0.1 + (1.5 * (context.countryValue - context.minValue) / (context.maxValue - context.minValue))
+    return {
+        fill: context.country === "US" ? "blue" : context.color, 
+        fillOpacity: opacityLevel, 
+        stroke: "green", 
+        strokeWidth: 1, 
+        strokeOpacity: 0.2, 
+        cursor: "pointer" 
+           }
+}
+~~~
+
 ### Optional Props
 
 | Prop             | Type    | Description |
 | ---------------- | ------- | ----------- |
+| data             | Array   | Mandatory. Array of JSON records, each with country/value. |
 | size             | string  | The size of your map, either "sm", md", or "lg" |
 | title            | string  | Any string for the title of your map |
 | color            | string  | Color for highlighted countries. A standard color string. E.g. "red" or "#ff0000" |
@@ -103,15 +124,15 @@ Example of valid data prop:
 | borderColor      | string  | Border color around each individual country. "black" by default |
 | type             | string  | Select type of map you want, either "tooltip" or "marker" :warning: ** Still in beta ** :warning: |
 
-### Samples
+## Samples
 
-examples/simple-example
+### examples/simple-example
  * A simple example of the world map
  * 4 maps given two different data sets
  * Example of some simple features using the default styling
 
 
-examples/custom-style-example
+### examples/custom-style-example
  * An example of a custom styling function
  * Context type must remain any so that you can use the inputs that I pass to you
  The inputs are as follows:
