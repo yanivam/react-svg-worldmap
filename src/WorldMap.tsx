@@ -102,8 +102,10 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const containerRef = React.createRef<SVGSVGElement>();
 
   const defaultCountryStyle = (context : ICountryContext) => {
-    const opacityLevel = 0.2 + (0.6 * (context.countryValue - context.minValue) / (context.maxValue - context.minValue))
-    const style={ fill: context.color, fillOpacity: opacityLevel, stroke: borderColor, strokeWidth: 1, strokeOpacity: 0.2, cursor: "pointer" }
+    console.log(context)
+    const contextCountryValue = context.countryValue ? context.countryValue : 0
+    const opacityLevel = 0.2 + (0.6 * (contextCountryValue - context.minValue) / (context.maxValue - context.minValue))
+    const style={ fill: context.color, fillOpacity: contextCountryValue === 0 ? contextCountryValue : opacityLevel, stroke: borderColor, strokeWidth: 1, strokeOpacity: 0.2, cursor: "pointer" }
     return style;
   }
 
@@ -129,8 +131,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
     const isoCode = feature.properties.ISO_A2 === "US_child_path" ? "US" : feature.properties.ISO_A2 === "RU_child_path" ? "RU" : feature.properties.ISO_A2 === "FR_child_path" ? "FR" : feature.properties.ISO_A2 === "NO_child_path" ? "NO" : feature.properties.ISO_A2
     const countryName = feature.properties.ISO_A2 === "US_child_path" ? "United States" : feature.properties.ISO_A2 === "RU_child_path" ? "Russia" : feature.properties.ISO_A2 === "FR_child_path" ? "France" : feature.properties.ISO_A2 === "NO_child_path" ? "Norway" : feature.properties.NAME
     const isHighlight = typeof (countryValueMap[isoCode]) != "undefined"
-    let color: string = CDefaultColor
-    const style = props.styleFunction && isHighlight ? props.styleFunction({country: isoCode, countryValue: countryValueMap[isoCode], color: props.color ? props.color : CDefaultColor, minValue: min, maxValue: max}) : defaultCountryStyle({country: countryName, countryValue: countryValueMap[isoCode], color: color, minValue: min, maxValue: max})
+    const style = props.styleFunction && isHighlight ? props.styleFunction({country: isoCode, countryValue: countryValueMap[isoCode], color: props.color ? props.color : CDefaultColor, minValue: min, maxValue: max}) : defaultCountryStyle({country: isoCode, countryValue: countryValueMap[isoCode], color: props.color ? props.color : CDefaultColor, minValue: min, maxValue: max})
 
     const path = <path
       key={"path" + idx}
