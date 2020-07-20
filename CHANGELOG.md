@@ -15,3 +15,7 @@
 
 * Renamed the islands to avoid confusion
 * Added user control over map styling using stylingFunction (see README.md file for more detail)
+
+## 1.0.26
+
+* Bug fix returning functionality due to the default styling function
