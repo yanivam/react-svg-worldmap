@@ -102,7 +102,6 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const containerRef = React.createRef<SVGSVGElement>();
 
   const defaultCountryStyle = (context : ICountryContext) => {
-    console.log(context)
     const contextCountryValue = context.countryValue ? context.countryValue : 0
     const opacityLevel = 0.2 + (0.6 * (contextCountryValue - context.minValue) / (context.maxValue - context.minValue))
     const style={ fill: context.color, fillOpacity: contextCountryValue === 0 ? contextCountryValue : opacityLevel, stroke: borderColor, strokeWidth: 1, strokeOpacity: 0.2, cursor: "pointer" }
