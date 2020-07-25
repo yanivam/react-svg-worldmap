@@ -19,3 +19,7 @@
 ## 1.0.26
 
 * Bug fix returning functionality due to the default styling function
+
+## 1.0.27
+
+* Bug fix, console.log that was forgotten, solved issue
