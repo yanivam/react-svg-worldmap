@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "react-path-tooltip": "^1.0.8",
-    "react-path-marker": "^1.0.4",
+    "react-path-marker": "^1.0.7",
     "@types/d3-geo": "^1.11.1",
     "d3-geo": "^1.11.9"
   },
@@ -50,7 +50,7 @@
     "@types/react-dom": "^16.9.5",
     "d3-geo": "^1.12.1",
     "husky": "^4.2.3",
-    "react-path-marker": "^1.0.4",
+    "react-path-marker": "^1.0.7",
     "react-path-tooltip": "^1.0.8",
     "tsdx": "^0.13.0",
     "tslib": "^1.11.1",
