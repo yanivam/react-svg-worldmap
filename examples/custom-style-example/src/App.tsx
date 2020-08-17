@@ -22,7 +22,7 @@ function App() {
           <tbody>
             <tr>
               <td>
-                <WorldMap color={"red"} tooltipBgColor={"#D3D3D3"} title="Custom Style Test" valueSuffix="points" size="lg" data={data} frame={true} styleFunction={stylingFunction}/>
+                <WorldMap color={"red"} type={"marker"} tooltipBgColor={"#D3D3D3"} title="Custom Style Test" valueSuffix="points" size="lg" data={data} frame={true} styleFunction={stylingFunction}/>
               </td>
             </tr>
           </tbody>

@@ -122,7 +122,7 @@ const stylingFunction = (context : any) => {
 | frameColor       | string  | Frame color |
 | styleFunction    | (context: any) => {}  | A custom function that controls the styling of each country (see custom-style-example for an example of how to use) |
 | borderColor      | string  | Border color around each individual country. "black" by default |
-| type             | string  | Select type of map you want, either "tooltip" or "marker" :warning: ** Still in beta ** :warning: |
+| type             | string  | Select type of map you want, either "tooltip" or "marker" |
 
 ## Samples
 
