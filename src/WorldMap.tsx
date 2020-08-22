@@ -126,10 +126,11 @@ export const WorldMap: React.FC<IProps> = (props) => {
 
   const pathsAndToolstips = geoData.features.map((feature, idx) => {
 
-    const triggerRef = React.createRef<SVGPathElement>();
+    const triggerRef = React.createRef<SVGPathElement>()
     const isoCode = feature.properties.ISO_A2 === "US_child_path" ? "US" : feature.properties.ISO_A2 === "RU_child_path" ? "RU" : feature.properties.ISO_A2 === "FR_child_path" ? "FR" : feature.properties.ISO_A2 === "NO_child_path" ? "NO" : feature.properties.ISO_A2
     const countryName = feature.properties.ISO_A2 === "US_child_path" ? "United States" : feature.properties.ISO_A2 === "RU_child_path" ? "Russia" : feature.properties.ISO_A2 === "FR_child_path" ? "France" : feature.properties.ISO_A2 === "NO_child_path" ? "Norway" : feature.properties.NAME
     const isHighlight = typeof (countryValueMap[isoCode]) != "undefined"
+    const markerRef = React.createRef<SVGCircleElement>()
     const style = props.styleFunction && isHighlight ? props.styleFunction({country: isoCode, countryValue: countryValueMap[isoCode], color: props.color ? props.color : CDefaultColor, minValue: min, maxValue: max}) : defaultCountryStyle({country: isoCode, countryValue: countryValueMap[isoCode], color: props.color ? props.color : CDefaultColor, minValue: min, maxValue: max})
 
     const path = <path
@@ -141,33 +142,29 @@ export const WorldMap: React.FC<IProps> = (props) => {
       onMouseOut={(event) => { event.currentTarget.style.strokeWidth = "1"; event.currentTarget.style.strokeOpacity = "0.2" }}
     />
 
-    const marker = (typeof (countryValueMap[feature.properties.ISO_A2]) === "undefined") ? <g key={"path" + idx}></g>
+    const marker = (typeof (countryValueMap[feature.properties.ISO_A2]) === "undefined") ? <g pointerEvents={"none"} key={"path" + idx + "abc"}></g>
     :
     <PathMarker 
-        fontSize={12}
-        bgColor={tooltipBgColor}
-        textColor={tooltipBgColor}
-        key={"path" + idx}
+        color={tooltipBgColor}
+        borderColor={borderColor}
+        key={"path_" + idx + "_abc"}
+        markerRef={markerRef}
         pathRef={triggerRef}
         svgRef={containerRef}
-        tooltipTextColor={tooltipTextColor}
-        tooltipBgColor={tooltipBgColor}
-        smallText={isoCode}
-        bigText={countryName + " " + valuePrefix + " " + countryValueMap[isoCode].toLocaleString() + " " + valueSuffix}
     />
 
-    const tooltip = (!isHighlight) ? <g key={"path" + idx}></g> :
+    const tooltip = (!isHighlight) ? <g pointerEvents={"none"} key={"path" + idx + "xyz"}></g> :
       <PathTooltip
       fontSize={12}
       bgColor={tooltipBgColor}
       textColor={tooltipTextColor}
-      key={"path" + idx}
+      key={"path_" + idx + "_xyz"}
       pathRef={triggerRef}
       svgRef={containerRef}
       tip={countryName + " " + valuePrefix + " " + countryValueMap[isoCode].toLocaleString() + " " + valueSuffix}
       />
 
-    return { "path": path, "highlightedMarkerOrTooltip": props.type === "marker" ? marker : tooltip }
+  return { "path": path, "highlightedMarkerOrTooltip": props.type === "marker" ? <g pointerEvents={"none"} key={"path" + idx + "ghi"}>{marker}{tooltip}</g> : tooltip }
   })
 
   // build paths
