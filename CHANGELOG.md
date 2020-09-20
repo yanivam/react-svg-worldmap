@@ -27,3 +27,7 @@
 ## 1.0.28
 
 * Marker update, changed the style of markers and updated them to be circular because I believe that those would be more optimal for small countries rather than a larger icon like the old version
+
+## 1.0.29
+
+* Reduce the size of the countries.geo.json by limiting number preceision to 3 digits
