@@ -127,8 +127,9 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const pathsAndToolstips = geoData.features.map((feature, idx) => {
 
     const triggerRef = React.createRef<SVGPathElement>()
-    const isoCode = feature.properties.ISO_A2 === "US_child_path" ? "US" : feature.properties.ISO_A2 === "RU_child_path" ? "RU" : feature.properties.ISO_A2 === "FR_child_path" ? "FR" : feature.properties.ISO_A2 === "NO_child_path" ? "NO" : feature.properties.ISO_A2
-    const countryName = feature.properties.ISO_A2 === "US_child_path" ? "United States" : feature.properties.ISO_A2 === "RU_child_path" ? "Russia" : feature.properties.ISO_A2 === "FR_child_path" ? "France" : feature.properties.ISO_A2 === "NO_child_path" ? "Norway" : feature.properties.NAME
+    const isoCode = feature.I === "US_child_path" ? "US" : feature.I === "RU_child_path" ? "RU" : feature.I === "FR_child_path" ? "FR" : feature.I === "NO_child_path" ? "NO" : feature.I
+    const countryName = feature.I === "US_child_path" ? "United States" : feature.I === "RU_child_path" ? "Russia" : feature.I === "FR_child_path" ? "France" : feature.I === "NO_child_path" ? "Norway" : feature.N
+    const geoFeature : GeoJSON.Feature = {"type":"Feature", "properties":{"NAME": countryName,"ISO_A2":isoCode},"geometry":{"type":"MultiPolygon","coordinates":(feature.C as unknown as GeoJSON.Position[][][])}}
     const isHighlight = typeof (countryValueMap[isoCode]) != "undefined"
     const markerRef = React.createRef<SVGCircleElement>()
     const style = props.styleFunction && isHighlight ? props.styleFunction({country: isoCode, countryValue: countryValueMap[isoCode], color: props.color ? props.color : CDefaultColor, minValue: min, maxValue: max}) : defaultCountryStyle({country: isoCode, countryValue: countryValueMap[isoCode], color: props.color ? props.color : CDefaultColor, minValue: min, maxValue: max})
@@ -136,13 +137,13 @@ export const WorldMap: React.FC<IProps> = (props) => {
     const path = <path
       key={"path" + idx}
       ref={triggerRef}
-      d={pathGenerator(feature as GeoJSON.Feature) as string}
+      d={pathGenerator(geoFeature as GeoJSON.Feature) as string}
       style={style}
       onMouseOver={(event) => { event.currentTarget.style.strokeWidth = "2"; event.currentTarget.style.strokeOpacity = "0.5" }}
       onMouseOut={(event) => { event.currentTarget.style.strokeWidth = "1"; event.currentTarget.style.strokeOpacity = "0.2" }}
     />
 
-    const marker = (typeof (countryValueMap[feature.properties.ISO_A2]) === "undefined") ? <g pointerEvents={"none"} key={"path" + idx + "abc"}></g>
+    const marker = (typeof (countryValueMap[feature.I]) === "undefined") ? <g pointerEvents={"none"} key={"path" + idx + "abc"}></g>
     :
     <PathMarker 
         color={tooltipBgColor}
