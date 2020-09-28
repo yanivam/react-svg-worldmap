@@ -44,3 +44,7 @@
 ## 1.0.32
 
 * Minify geo json.
+
+## 1.0.33
+
+* Uglified our exported files, looking for change in size of file
