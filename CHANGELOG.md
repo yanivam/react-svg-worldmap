@@ -48,3 +48,7 @@
 ## 1.0.33
 
 * Uglified our exported files, looking for change in size of file
+
+## 1.0.34
+
+* Restored JSON to previous implementation so that it works with the code I wrote and highlights the right things
