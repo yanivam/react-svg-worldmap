@@ -129,7 +129,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
     const triggerRef = React.createRef<SVGPathElement>()
     const isoCode = feature.I === "US_child_path" ? "US" : feature.I === "RU_child_path" ? "RU" : feature.I === "FR_child_path" ? "FR" : feature.I === "NO_child_path" ? "NO" : feature.I
     const countryName = feature.I === "US_child_path" ? "United States" : feature.I === "RU_child_path" ? "Russia" : feature.I === "FR_child_path" ? "France" : feature.I === "NO_child_path" ? "Norway" : feature.N
-    const geoFeature : GeoJSON.Feature = {"type":"Feature", "properties":{"NAME": countryName,"ISO_A2":isoCode},"geometry":{"type":"MultiPolygon","coordinates":(feature.C as unknown as GeoJSON.Position[][][])}}
+    const geoFeature : GeoJSON.Feature = {"type":"Feature", "properties":{"NAME": countryName,"ISO_A2":isoCode},"geometry":{"type":"MultiPolygon","coordinates":(feature.C as GeoJSON.Position[][][])}}
     const isHighlight = typeof (countryValueMap[isoCode]) != "undefined"
     const markerRef = React.createRef<SVGCircleElement>()
     const style = props.styleFunction && isHighlight ? props.styleFunction({country: isoCode, countryValue: countryValueMap[isoCode], color: props.color ? props.color : CDefaultColor, minValue: min, maxValue: max}) : defaultCountryStyle({country: isoCode, countryValue: countryValueMap[isoCode], color: props.color ? props.color : CDefaultColor, minValue: min, maxValue: max})

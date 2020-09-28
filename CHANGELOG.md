@@ -36,3 +36,7 @@
 
 * Tried to reduce the size of countries.geo.json even more by changing the structure of the file and adding the extra properties programatically.
 * Changed names so they have spaces in between multiple words ex. UnitedStates -> United States
+
+## 1.0.31
+
+* Fixed bug with new data where some countries did not display properly
