@@ -40,3 +40,7 @@
 ## 1.0.31
 
 * Fixed bug with new data where some countries did not display properly
+
+## 1.0.32
+
+* Minify geo json.
