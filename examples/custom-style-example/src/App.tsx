@@ -34,8 +34,6 @@ function App() {
       { "country": "ru", value: 7 },  // russia
     ]
 
-  console.log(geoData);
-  console.log(geoData.features.find((el: Feature) => el.N === "Russia"));
   const dataT = 'Kingdom of Belgium';
   geoData.features.map((el: Feature) => el.N = dataT);
   
