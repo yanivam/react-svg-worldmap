@@ -52,3 +52,8 @@
 ## 1.0.34
 
 * Restored JSON to previous implementation so that it works with the code I wrote and highlights the right things
+
+## 1.0.35
+
+* Added localization ability and tooltip text customization through a callback function called tooltipTextFunction
+* Added example of how to use to examples
