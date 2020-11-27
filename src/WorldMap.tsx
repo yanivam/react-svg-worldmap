@@ -32,6 +32,7 @@ interface IProps {
   frameColor?: string,
   type?: string,
   styleFunction?: (context: ICountryContext) => {},
+  customTooltipTextFunction?: (countryName: string, isoCode: string, value: string, prefix: string, suffix: string) => string,
   borderColor?: string
 }
 
@@ -162,7 +163,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
       key={"path_" + idx + "_xyz"}
       pathRef={triggerRef}
       svgRef={containerRef}
-      tip={countryName + " " + valuePrefix + " " + countryValueMap[isoCode].toLocaleString() + " " + valueSuffix}
+      tip={props.customTooltipTextFunction && countryValueMap[isoCode] ? props.customTooltipTextFunction(countryName, isoCode, countryValueMap[isoCode].toString(), valuePrefix, valueSuffix) : countryValueMap[isoCode] ? countryName + " " + valuePrefix + " " + countryValueMap[isoCode].toLocaleString() + " " + valueSuffix : ""}
       />
 
   return { "path": path, "highlightedMarkerOrTooltip": props.type === "marker" ? <g pointerEvents={"none"} key={"path" + idx + "ghi"}>{marker}{tooltip}</g> : tooltip }
