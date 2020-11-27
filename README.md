@@ -151,6 +151,7 @@ const stylingFunction = (context : any) => {
  * An example showing how to use the tooltipTextFunction to locolize tooltip texts. 
  * The function translates both country names and values to spanish. 
  * For example: 
+ 
  | Data                                           | Localized text                      |
  | ---------------------------------------------- | ----------------------------------- |
  | ```  { "country": "us", value: 331883986 } ``` | "Estados Unidos: 3.32 mil millónes" |
