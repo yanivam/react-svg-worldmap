@@ -39,7 +39,7 @@ function App() {
       { value: 1, symbol: "" },
       { value: 1E3, symbol: " miles " },
       { value: 1E6, symbol: " millónes " },
-      { value: 1E9, symbol: " mil millones " }
+      { value: 1E9, symbol: " mil millónes " }
     ];
     var rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
     var i;
@@ -66,7 +66,7 @@ function App() {
           title="Los diez países principales por PIB per cápita"
           size="xl"
           data={data}
-          customTooltipTextFunction={localizationCallback} />
+          tooltipTextFunction={localizationCallback} />
       </div>
     </div>
   )
