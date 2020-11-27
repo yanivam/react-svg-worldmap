@@ -1,6 +1,6 @@
 {
   "name": "react-svg-worldmap",
-  "version": "1.0.34",
+  "version": "1.0.35",
   "license": "MIT",
   "displayName": "React Worldmap",
   "description": "A pure react component to draw a map of world countries. Simple. Free.",
@@ -25,10 +25,10 @@
     "react-dom": ">=16.0.0"
   },
   "dependencies": {
-    "react-path-tooltip": "^1.0.8",
-    "react-path-marker": "^1.0.8",
     "@types/d3-geo": "^1.11.1",
-    "d3-geo": "^1.11.9"
+    "d3-geo": "^1.11.9",
+    "react-path-marker": "^1.0.8",
+    "react-path-tooltip": "^1.0.8"
   },
   "authors": [
     "yanivam (https://github.com/yanivam)"

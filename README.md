@@ -108,21 +108,22 @@ const stylingFunction = (context : any) => {
 
 ### Optional Props
 
-| Prop             | Type    | Description |
-| ---------------- | ------- | ----------- |
-| data             | Array   | Mandatory. Array of JSON records, each with country/value. |
-| size             | string  | The size of your map, either "sm", md", or "lg" |
-| title            | string  | Any string for the title of your map |
-| color            | string  | Color for highlighted countries. A standard color string. E.g. "red" or "#ff0000" |
-| tooltipBgColor   | string  | Tooltip background color |
-| tooltipTextColor | string  | Tooltip text color |
-| valuePrefix      | string  | A string to prefix values in tooltips. E.g. "$" |
-| valueSuffix      | string  | A string to suffix values in tooltips. E.g. "USD" |
-| frame            | boolean | true/false for drawing a frame around the map |
-| frameColor       | string  | Frame color |
-| styleFunction    | (context: any) => {}  | A custom function that controls the styling of each country (see custom-style-example for an example of how to use) |
-| borderColor      | string  | Border color around each individual country. "black" by default |
-| type             | string  | Select type of map you want, either "tooltip" or "marker" |
+| Prop                | Type    | Description |
+| ------------------- | ------- | ----------- |
+| data                | Array   | Mandatory. Array of JSON records, each with country/value. |
+| size                | string  | The size of your map, either "sm", md", or "lg" |
+| title               | string  | Any string for the title of your map |
+| color               | string  | Color for highlighted countries. A standard color string. E.g. "red" or "#ff0000" |
+| tooltipBgColor      | string  | Tooltip background color |
+| tooltipTextColor    | string  | Tooltip text color |
+| valuePrefix         | string  | A string to prefix values in tooltips. E.g. "$" |
+| valueSuffix         | string  | A string to suffix values in tooltips. E.g. "USD" |
+| frame               | boolean | true/false for drawing a frame around the map |
+| frameColor          | string  | Frame color |
+| borderColor         | string  | Border color around each individual country. "black" by default |
+| type                | string  | Select type of map you want, either "tooltip" or "marker" |
+| styleFunction       | (context: any) => {}  | A callback function to customize styling of each country (see custom-style-example) |
+| tooltipTextFunction | (countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => {}  | A callback function to customize tooltip text (see localization-example) |
 
 ## Samples
 
@@ -145,5 +146,14 @@ const stylingFunction = (context : any) => {
  | minValue     | number | The smallest value of the input data |
  | maxValue     | number | The largest value of the input data |
 
+
+### examples/localization-example
+ * An example showing how to use the tooltipTextFunction to locolize tooltip texts. 
+ * The function translates both country names and values to spanish. 
+ * For example: 
+ | Data                                           | Localized text                      |
+ | ---------------------------------------------- | ----------------------------------- |
+ | ```  { "country": "us", value: 331883986 } ``` | "Estados Unidos: 3.32 mil millónes" |
+ 
 ## License
 MIT
