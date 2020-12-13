@@ -32,6 +32,7 @@ interface IProps {
   frameColor?: string,
   type?: string,
   styleFunction?: (context: ICountryContext) => {},
+  onClickFunction?: (e: React.MouseEvent<SVGElement, MouseEvent>, countryName: string, isoCode: string, value: string, prefix: string, suffix: string) => {},
   tooltipTextFunction?: (countryName: string, isoCode: string, value: string, prefix: string, suffix: string) => string,
   borderColor?: string
 }
@@ -140,6 +141,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
       ref={triggerRef}
       d={pathGenerator(geoFeature as GeoJSON.Feature) as string}
       style={style}
+      onClick={(e) => {props.onClickFunction && countryValueMap[isoCode] ? props.onClickFunction(e, countryName, isoCode, countryValueMap[isoCode].toString(), valuePrefix, valueSuffix) : ()=>{}}}
       onMouseOver={(event) => { event.currentTarget.style.strokeWidth = "2"; event.currentTarget.style.strokeOpacity = "0.5" }}
       onMouseOut={(event) => { event.currentTarget.style.strokeWidth = "1"; event.currentTarget.style.strokeOpacity = "0.2" }}
     />
