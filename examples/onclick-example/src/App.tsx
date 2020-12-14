@@ -37,7 +37,7 @@ function App() {
     return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
   }
 
-  const clickAction = (e: React.MouseEvent<SVGElement, MouseEvent>, countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => {
+  const clickAction = (event: React.MouseEvent<SVGElement, MouseEvent>, countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => {
     const numberValue = parseInt(value, 10)
     const fNumber = formattedNumber(numberValue, 2)
     setState({cName: countryName, iso: isoCode, val: fNumber, pre: "", suff: ""})

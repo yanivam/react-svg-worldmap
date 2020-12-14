@@ -32,7 +32,7 @@ interface IProps {
   frameColor?: string,
   type?: string,
   styleFunction?: (context: ICountryContext) => {},
-  onClickFunction?: (e: React.MouseEvent<SVGElement, MouseEvent>, countryName: string, isoCode: string, value: string, prefix: string, suffix: string) => {},
+  onClickFunction?: (event: React.MouseEvent<SVGElement, MouseEvent>, countryName: string, isoCode: string, value: string, prefix: string, suffix: string) => {},
   tooltipTextFunction?: (countryName: string, isoCode: string, value: string, prefix: string, suffix: string) => string,
   borderColor?: string
 }

@@ -111,7 +111,7 @@ This is an optional more advanced customization option. When used, the developer
 
 This is done by passing your custom implementation of the `onClickFunction`. The function takes in the following parameters:
 
-`1. e: React.MouseEvent<SVGElement, MouseEvent>`
+`1. event: React.MouseEvent<SVGElement, MouseEvent>`
 `2. countryName: string`
 `3. isoCode: string`
 `4. value: string`
@@ -120,7 +120,7 @@ This is done by passing your custom implementation of the `onClickFunction`. The
 
 For example: 
 ~~~tsx
-const clickAction = (e: React.MouseEvent<SVGElement, MouseEvent>, countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => {
+const clickAction = (event: React.MouseEvent<SVGElement, MouseEvent>, countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => {
     //Your action on click that you want to perform see example in the examples folder called onclick-example
 }
 ~~~
