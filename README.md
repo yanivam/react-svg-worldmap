@@ -106,6 +106,25 @@ const stylingFunction = (context : any) => {
 }
 ~~~
 
+### On Click Action
+This is an optional more advanced customization option. When used, the developer has full access to the click event, country name, iso code, value, prefix and suffix is given. 
+
+This is done by passing your custom implementation of the `onClickFunction`. The function takes in the following parameters:
+
+`1. event: React.MouseEvent<SVGElement, MouseEvent>`
+`2. countryName: string`
+`3. isoCode: string`
+`4. value: string`
+`5. prefix?: string`
+`6. suffix?: string`
+
+For example: 
+~~~tsx
+const clickAction = (event: React.MouseEvent<SVGElement, MouseEvent>, countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => {
+    //Your action on click that you want to perform see example in the examples folder called onclick-example
+}
+~~~
+
 ### Optional Props
 
 | Prop                | Type    | Description |

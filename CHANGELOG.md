@@ -57,3 +57,11 @@
 
 * Added localization ability and tooltip text customization through a callback function called tooltipTextFunction
 * Added example of how to use to examples
+
+## 1.0.36
+
+* README.md typo
+
+## 1.0.37
+
+* Onclick callback as requested, for instructions on usage see README.md, for an example look at the example folder under onclick-example.
