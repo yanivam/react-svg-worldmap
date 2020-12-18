@@ -25,6 +25,8 @@ interface IProps {
   valuePrefix?: string,
   valueSuffix?: string,
   color?: string,
+  defaultStrokeOpacity?: number
+  backgroundColor?: string, 
   tooltipBgColor?: string,
   tooltipTextColor?: string,
   size?: string, // possile values are sm, md, lg
@@ -94,6 +96,8 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const tooltipBgColor = (typeof (props.tooltipBgColor) === "undefined") ? "black" : props.tooltipBgColor
   const tooltipTextColor = (typeof (props.tooltipTextColor) === "undefined") ? "white" : props.tooltipTextColor
   const isFrame = (typeof (props.frame) === "undefined") ? false : props.frame
+  const backgroundColor = (typeof (props.backgroundColor) === "undefined") ? "white" : props.backgroundColor
+  const defaultStrokeOpacity = (typeof (props.defaultStrokeOpacity) === "undefined") ? 0.2 : props.defaultStrokeOpacity
   const frameColor = (typeof (props.frameColor) === "undefined") ? "black" : props.frameColor
   const borderColor = (typeof (props.borderColor) === "undefined") ? "black" : props.borderColor
   const frame = isFrame ? <rect x={0} y={0} width={"100%"} height={"100%"} stroke={frameColor} fill="none" /> : <path></path>
@@ -106,7 +110,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const defaultCountryStyle = (context : ICountryContext) => {
     const contextCountryValue = context.countryValue ? context.countryValue : 0
     const opacityLevel = 0.2 + (0.6 * (contextCountryValue - context.minValue) / (context.maxValue - context.minValue))
-    const style={ fill: context.color, fillOpacity: contextCountryValue === 0 ? contextCountryValue : opacityLevel, stroke: borderColor, strokeWidth: 1, strokeOpacity: 0.2, cursor: "pointer" }
+    const style={ fill: context.color, fillOpacity: contextCountryValue === 0 ? contextCountryValue : opacityLevel, stroke: borderColor, strokeWidth: 1, strokeOpacity: props.defaultStrokeOpacity, cursor: "pointer" }
     return style;
   }
 
@@ -143,7 +147,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
       style={style}
       onClick={(e) => {props.onClickFunction && countryValueMap[isoCode] ? props.onClickFunction(e, countryName, isoCode, countryValueMap[isoCode].toString(), valuePrefix, valueSuffix) : ()=>{}}}
       onMouseOver={(event) => { event.currentTarget.style.strokeWidth = "2"; event.currentTarget.style.strokeOpacity = "0.5" }}
-      onMouseOut={(event) => { event.currentTarget.style.strokeWidth = "1"; event.currentTarget.style.strokeOpacity = "0.2" }}
+      onMouseOut={(event) => { event.currentTarget.style.strokeWidth = "1"; event.currentTarget.style.strokeOpacity = `${defaultStrokeOpacity}` }}
     />
 
     const marker = (typeof (countryValueMap[feature.I]) === "undefined") ? <g pointerEvents={"none"} key={"path" + idx + "abc"}></g>
@@ -183,7 +187,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
 
   // Render the SVG
   return (
-    <div style={{ backgroundColor: "white", height: "auto", width: "auto", padding: "0px", margin: "0px" }}>
+    <div style={{ backgroundColor: backgroundColor, height: "auto", width: "auto", padding: "0px", margin: "0px" }}>
       {title}
       <svg ref={containerRef} height={height + "px"} width={width + "px"}>
         {frame}
