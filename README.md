@@ -138,7 +138,7 @@ const clickAction = (event: React.MouseEvent<SVGElement, MouseEvent>, countryNam
 | valuePrefix         | string  | A string to prefix values in tooltips. E.g. "$" |
 | valueSuffix         | string  | A string to suffix values in tooltips. E.g. "USD" |
 | backgroundColor     | string  | Component background color |
-| defaultStrokeOpacity| string  | The stroke opacity of non selected countries |
+| strokeOpacity| string  | The stroke opacity of non selected countries |
 | frame               | boolean | true/false for drawing a frame around the map |
 | frameColor          | string  | Frame color |
 | borderColor         | string  | Border color around each individual country. "black" by default |

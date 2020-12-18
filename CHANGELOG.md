@@ -65,3 +65,8 @@
 ## 1.0.37
 
 * Onclick callback as requested, for instructions on usage see README.md, for an example look at the example folder under onclick-example.
+
+## 1.0.38
+
+* Contribution thanks to [GoncaloGarcia]: https://github.com/GoncaloGarcia
+* Allow setting background color and strokeOpacity as props

@@ -25,7 +25,7 @@ interface IProps {
   valuePrefix?: string,
   valueSuffix?: string,
   color?: string,
-  defaultStrokeOpacity?: number
+  strokeOpacity?: number
   backgroundColor?: string, 
   tooltipBgColor?: string,
   tooltipTextColor?: string,
@@ -91,17 +91,17 @@ export const WorldMap: React.FC<IProps> = (props) => {
   //inits
   const width = responsify(size)
   const height = responsify(size) * CHeightRatio
-  const valuePrefix = (typeof (props.valuePrefix) === "undefined") ? "" : props.valuePrefix
-  const valueSuffix = (typeof (props.valueSuffix) === "undefined") ? "" : props.valueSuffix
-  const tooltipBgColor = (typeof (props.tooltipBgColor) === "undefined") ? "black" : props.tooltipBgColor
-  const tooltipTextColor = (typeof (props.tooltipTextColor) === "undefined") ? "white" : props.tooltipTextColor
-  const isFrame = (typeof (props.frame) === "undefined") ? false : props.frame
-  const backgroundColor = (typeof (props.backgroundColor) === "undefined") ? "white" : props.backgroundColor
-  const defaultStrokeOpacity = (typeof (props.defaultStrokeOpacity) === "undefined") ? 0.2 : props.defaultStrokeOpacity
-  const frameColor = (typeof (props.frameColor) === "undefined") ? "black" : props.frameColor
-  const borderColor = (typeof (props.borderColor) === "undefined") ? "black" : props.borderColor
+  const valuePrefix = props.valuePrefix ? "" : props.valuePrefix
+  const valueSuffix = props.valueSuffix ? "" : props.valueSuffix
+  const tooltipBgColor = props.tooltipBgColor ? "black" : props.tooltipBgColor
+  const tooltipTextColor = props.tooltipTextColor ? "white" : props.tooltipTextColor
+  const isFrame = props.frame ? false : props.frame
+  const backgroundColor = props.backgroundColor ? "white" : props.backgroundColor
+  const strokeOpacity = props.strokeOpacity ? 0.2 : props.strokeOpacity
+  const frameColor = props.frameColor ? "black" : props.frameColor
+  const borderColor = props.borderColor ? "black" : props.borderColor
   const frame = isFrame ? <rect x={0} y={0} width={"100%"} height={"100%"} stroke={frameColor} fill="none" /> : <path></path>
-  const title = (typeof (props.title) === "undefined") ? "" : <p>{props.title}</p>
+  const title = props.title ? "" : <p>{props.title}</p>
   const scale = 0.5 / 480 * width
   const transformPaths = "scale(" + scale.toString() + ") translate (0,240)"
 
@@ -110,7 +110,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const defaultCountryStyle = (context : ICountryContext) => {
     const contextCountryValue = context.countryValue ? context.countryValue : 0
     const opacityLevel = 0.2 + (0.6 * (contextCountryValue - context.minValue) / (context.maxValue - context.minValue))
-    const style={ fill: context.color, fillOpacity: contextCountryValue === 0 ? contextCountryValue : opacityLevel, stroke: borderColor, strokeWidth: 1, strokeOpacity: props.defaultStrokeOpacity, cursor: "pointer" }
+    const style={ fill: context.color, fillOpacity: contextCountryValue === 0 ? contextCountryValue : opacityLevel, stroke: borderColor, strokeWidth: 1, strokeOpacity: strokeOpacity, cursor: "pointer" }
     return style;
   }
 
@@ -145,12 +145,12 @@ export const WorldMap: React.FC<IProps> = (props) => {
       ref={triggerRef}
       d={pathGenerator(geoFeature as GeoJSON.Feature) as string}
       style={style}
-      onClick={(e) => {props.onClickFunction && countryValueMap[isoCode] ? props.onClickFunction(e, countryName, isoCode, countryValueMap[isoCode].toString(), valuePrefix, valueSuffix) : ()=>{}}}
+      onClick={(e) => {props.onClickFunction && countryValueMap[isoCode] ? props.onClickFunction(e, countryName, isoCode, countryValueMap[isoCode].toString(), valuePrefix ? valuePrefix : "", valueSuffix ? valueSuffix : "") : ()=>{}}}
       onMouseOver={(event) => { event.currentTarget.style.strokeWidth = "2"; event.currentTarget.style.strokeOpacity = "0.5" }}
-      onMouseOut={(event) => { event.currentTarget.style.strokeWidth = "1"; event.currentTarget.style.strokeOpacity = `${defaultStrokeOpacity}` }}
+      onMouseOut={(event) => { event.currentTarget.style.strokeWidth = "1"; event.currentTarget.style.strokeOpacity = `${strokeOpacity}` }}
     />
 
-    const marker = (typeof (countryValueMap[feature.I]) === "undefined") ? <g pointerEvents={"none"} key={"path" + idx + "abc"}></g>
+    const marker = countryValueMap[feature.I] ? <g pointerEvents={"none"} key={"path" + idx + "abc"}></g>
     :
     <PathMarker 
         color={tooltipBgColor}
@@ -169,7 +169,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
       key={"path_" + idx + "_xyz"}
       pathRef={triggerRef}
       svgRef={containerRef}
-      tip={props.tooltipTextFunction && countryValueMap[isoCode] ? props.tooltipTextFunction(countryName, isoCode, countryValueMap[isoCode].toString(), valuePrefix, valueSuffix) : countryValueMap[isoCode] ? countryName + " " + valuePrefix + " " + countryValueMap[isoCode].toLocaleString() + " " + valueSuffix : ""}
+      tip={props.tooltipTextFunction && countryValueMap[isoCode] ? props.tooltipTextFunction(countryName, isoCode, countryValueMap[isoCode].toString(), valuePrefix ? valuePrefix : "", valueSuffix ? valueSuffix : "") : countryValueMap[isoCode] ? countryName + " " + valuePrefix + " " + countryValueMap[isoCode].toLocaleString() + " " + valueSuffix : ""}
       />
 
   return { "path": path, "highlightedMarkerOrTooltip": props.type === "marker" ? <g pointerEvents={"none"} key={"path" + idx + "ghi"}>{marker}{tooltip}</g> : tooltip }
