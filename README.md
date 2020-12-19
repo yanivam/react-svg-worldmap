@@ -12,8 +12,10 @@ const data =
       { country: "in", value: 1311559204 }, // india
     ]
 ...
-<WorldMap color="red" title="This is My Map" size="lg" data={data} />
+<WorldMap color="green" title="This is My Map" size="lg" data={data} />
 ~~~
+
+![alt text](https://github.com/yanivam/react-svg-worldmap/blob/dev/simple-example.jpg?raw=true)
 
 ## Why is it different? 
 Focus on simple and free. 
@@ -26,7 +28,7 @@ Focus on simple and free.
 
 ## Yet another package for world map...but why?
 
-It all started with a fun project that I was building and needed to draw simple yet beautiful world's map. Searching for solutions I found many potential solutions like MapBox and Google Maps, but they were "too smart" for what I needed. They needed to "call home" for the data, they supported tons of options I didn't need, and while they included react-integrations, they were not completely native to the react world. There was definitely something missing. And that's when react-world-countries-map started. 
+It all started with a fun project that I was building and needed to draw simple yet beautiful world's map. Searching for solutions I found many potential solutions like MapBox and Google Maps, but they were "too smart" for what I needed. They needed to "call home" for the data, they supported tons of options I didn't need, and while they included react-integrations, they were not completely native to the react world. There was definitely something missing. And that's when react-svg-worldmap started. 
 
 ## Install
 
@@ -38,7 +40,7 @@ $ npm install react-svg-worldmap --save
 
 ## Usage
 
-Explore the example folder for a simple case for an end-to-end react app using the react-world-countries-map. 
+Explore the example folder for a simple case for an end-to-end react app using the react-svg-worldmap. 
 
 Here is a simple example:
 
