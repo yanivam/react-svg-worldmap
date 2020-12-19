@@ -91,17 +91,17 @@ export const WorldMap: React.FC<IProps> = (props) => {
   //inits
   const width = responsify(size)
   const height = responsify(size) * CHeightRatio
-  const valuePrefix = props.valuePrefix ? "" : props.valuePrefix
-  const valueSuffix = props.valueSuffix ? "" : props.valueSuffix
-  const tooltipBgColor = props.tooltipBgColor ? "black" : props.tooltipBgColor
-  const tooltipTextColor = props.tooltipTextColor ? "white" : props.tooltipTextColor
-  const isFrame = props.frame ? false : props.frame
-  const backgroundColor = props.backgroundColor ? "white" : props.backgroundColor
-  const strokeOpacity = props.strokeOpacity ? 0.2 : props.strokeOpacity
-  const frameColor = props.frameColor ? "black" : props.frameColor
-  const borderColor = props.borderColor ? "black" : props.borderColor
+  const valuePrefix = (typeof (props.valuePrefix) === "undefined") ? "" : props.valuePrefix
+  const valueSuffix = (typeof (props.valueSuffix) === "undefined") ? "" : props.valueSuffix
+  const tooltipBgColor = (typeof (props.tooltipBgColor) === "undefined") ? "black" : props.tooltipBgColor
+  const tooltipTextColor = (typeof (props.tooltipTextColor) === "undefined") ? "white" : props.tooltipTextColor
+  const isFrame = (typeof (props.frame) === "undefined") ? false : props.frame
+  const backgroundColor = (typeof (props.backgroundColor) === "undefined") ? "white" : props.backgroundColor
+  const strokeOpacity = (typeof (props.strokeOpacity) === "undefined") ? 0.2 : props.strokeOpacity
+  const frameColor = (typeof (props.frameColor) === "undefined") ? "black" : props.frameColor
+  const borderColor = (typeof (props.borderColor) === "undefined") ? "black" : props.borderColor
   const frame = isFrame ? <rect x={0} y={0} width={"100%"} height={"100%"} stroke={frameColor} fill="none" /> : <path></path>
-  const title = props.title ? "" : <p>{props.title}</p>
+  const title = (typeof (props.title) === "undefined") ? "" : <p>{props.title}</p>
   const scale = 0.5 / 480 * width
   const transformPaths = "scale(" + scale.toString() + ") translate (0,240)"
 
@@ -150,7 +150,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
       onMouseOut={(event) => { event.currentTarget.style.strokeWidth = "1"; event.currentTarget.style.strokeOpacity = `${strokeOpacity}` }}
     />
 
-    const marker = countryValueMap[feature.I] ? <g pointerEvents={"none"} key={"path" + idx + "abc"}></g>
+    const marker = (typeof (countryValueMap[feature.I]) === "undefined") ? <g pointerEvents={"none"} key={"path" + idx + "abc"}></g>
     :
     <PathMarker 
         color={tooltipBgColor}
