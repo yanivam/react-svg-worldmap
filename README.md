@@ -15,7 +15,7 @@ const data =
 <WorldMap color="green" title="This is My Map" size="lg" data={data} />
 ~~~
 
-![alt text](https://github.com/yanivam/react-svg-worldmap/blob/dev/simple-example.jpg?raw=true)
+![simple example](https://github.com/yanivam/react-svg-worldmap/blob/dev/simple-example.jpg)
 
 ## Why is it different? 
 Focus on simple and free. 
