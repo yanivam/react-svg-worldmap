@@ -70,3 +70,8 @@
 
 * Contribution thanks to [GoncaloGarcia]: https://github.com/GoncaloGarcia
 * Allow setting background color and strokeOpacity as props
+
+## 1.0.39
+
+* Added README gif and fixed errors in README
+* Fixed errors in the localization example due to a mismatch of data and title

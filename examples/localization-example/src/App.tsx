@@ -55,7 +55,7 @@ function App() {
   const localizationCallback = (countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => {
     const localizedCountryName = localizedCountryDictionary.has(isoCode.toLocaleLowerCase()) ? localizedCountryDictionary.get(isoCode.toLocaleLowerCase()) : "Unknown"
     const numberValue = parseInt(value, 10)
-    const spanishTranlation = localizedCountryName + ": " + localizedNumber(numberValue, 2)
+    const spanishTranlation = localizedCountryName + ": " + (prefix ? prefix + " " : "") + localizedNumber(numberValue, 2) + (suffix ? suffix : "")
     return spanishTranlation
   }
 
