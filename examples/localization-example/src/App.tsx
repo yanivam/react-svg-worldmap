@@ -63,9 +63,10 @@ function App() {
     < div className="App" >
       < div className="Main">
         <WorldMap
-          title="Los diez países principales por PIB per cápita"
+          title="Los diez países principales por población"
           size="xl"
           data={data}
+          valueSuffix="personas"
           tooltipTextFunction={localizationCallback} />
       </div>
     </div>
