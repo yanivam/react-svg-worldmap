@@ -3,6 +3,8 @@
 
 A simple, compact and free React SVG world map.
 
+![simple example](https://raw.githubusercontent.com/yanivam/react-svg-worldmap/master/simple-example.gif)
+
 ~~~tsx
 import { WorldMap } from "react-svg-worldmap"
 ...
@@ -14,8 +16,6 @@ const data =
 ...
 <WorldMap color="green" title="This is My Map" size="lg" data={data} />
 ~~~
-
-![simple example](https://raw.githubusercontent.com/yanivam/react-svg-worldmap/master/simple-example.gif)
 
 ## Why is it different? 
 Focus on simple and free. 
