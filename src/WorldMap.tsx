@@ -43,7 +43,8 @@ const CSizes: { [key: string]: number } = {
   "sm": 240,
   "md": 336,
   "lg": 480,
-  "xl": 640
+  "xl": 640,
+  "xxl": 1200
 }
 
 const CHeightRatio = 3 / 4

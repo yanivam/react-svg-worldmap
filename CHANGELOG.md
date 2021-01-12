@@ -75,3 +75,8 @@
 
 * Added README gif and fixed errors in README
 * Fixed errors in the localization example due to a mismatch of data and title
+
+## 1.0.40
+
+* Updated tooltip to allow for multiline functionality
+* Added size xxl which supports 1200x1200 map sizes
