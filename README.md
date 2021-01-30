@@ -132,7 +132,7 @@ const clickAction = (event: React.MouseEvent<SVGElement, MouseEvent>, countryNam
 | Prop                | Type    | Description |
 | ------------------- | ------- | ----------- |
 | data                | Array   | Mandatory. Array of JSON records, each with country/value. |
-| size                | string  | The size of your map, either "sm", md", or "lg" |
+| size                | string  | The size of your map, either "sm", md", "lg", "xl", "xxl", or "resposive", read about responsive below. |
 | title               | string  | Any string for the title of your map |
 | color               | string  | Color for highlighted countries. A standard color string. E.g. "red" or "#ff0000" |
 | tooltipBgColor      | string  | Tooltip background color |
@@ -148,12 +148,17 @@ const clickAction = (event: React.MouseEvent<SVGElement, MouseEvent>, countryNam
 | styleFunction       | (context: any) => {}  | A callback function to customize styling of each country (see custom-style-example) |
 | tooltipTextFunction | (countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => {}  | A callback function to customize tooltip text (see localization-example) |
 
+## Responsive Size
+
+* ```size="responsive"``` When the size is set to responsive, the map size will be set automatically based on the dimensions of the window size. 
+
 ## Samples
 
 ### examples/simple-example
  * A simple example of the world map
  * 4 maps given two different data sets
  * Example of some simple features using the default styling
+ * Responsive size example showing how an example with responsive size looks
 
 
 ### examples/custom-style-example

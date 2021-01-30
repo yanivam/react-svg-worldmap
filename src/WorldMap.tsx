@@ -44,7 +44,8 @@ const CSizes: { [key: string]: number } = {
   "md": 336,
   "lg": 480,
   "xl": 640,
-  "xxl": 1200
+  "xxl": 1200,
+  "responsive": -1
 }
 
 const CHeightRatio = 3 / 4
@@ -72,6 +73,10 @@ export const WorldMap: React.FC<IProps> = (props) => {
   //adjust responsive size
   const responsify = (size: string) => {
     let realSize = size
+    if(size === "responsive") {
+      console.log(Math.min(window.innerHeight, window.innerWidth) * .75)
+      return Math.min(window.innerHeight, window.innerWidth) * .75
+    }
     while (CSizes[realSize] > windowWidth) {
       if (realSize == "sm") {
         return CSizes["sm"]
@@ -82,8 +87,11 @@ export const WorldMap: React.FC<IProps> = (props) => {
       else if (realSize === "lg") {
         realSize = "md"
       }
-      else {
+      else if (realSize === "xl") {
         realSize = "lg"
+      }
+      else if (realSize === "xxl") {
+        realSize = "xl"
       }
     }
     return CSizes[realSize]

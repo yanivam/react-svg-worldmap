@@ -80,3 +80,7 @@
 
 * Updated tooltip to allow for multiline functionality
 * Added size xxl which supports 1200x1200 map sizes
+
+## 1.0.41
+
+* Responsive size option for different sized layouts (mobile/desktop/tablet/etc...)
