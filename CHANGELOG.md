@@ -84,3 +84,8 @@
 ## 1.0.41
 
 * Responsive size option for different sized layouts (mobile/desktop/tablet/etc...)
+
+## 1.0.42
+
+* Deprecated marker functionality to fix improper highlight bug.
+* Erased console.log
