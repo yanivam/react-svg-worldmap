@@ -2,7 +2,6 @@ import React, { useState, useLayoutEffect } from "react"
 import { geoMercator, geoPath } from "d3-geo"
 import geoData from "./countries.geo"
 import { PathTooltip } from "react-path-tooltip"
-import { PathMarker } from "react-path-marker"
 
 const CDefaultColor = "#dddddd"
 
@@ -32,7 +31,7 @@ interface IProps {
   size?: string, // possile values are sm, md, lg
   frame?: boolean,
   frameColor?: string,
-  type?: string,
+  //type?: string, // depracated for the time being (reasoning in the README.md file)
   styleFunction?: (context: ICountryContext) => {},
   onClickFunction?: (event: React.MouseEvent<SVGElement, MouseEvent>, countryName: string, isoCode: string, value: string, prefix: string, suffix: string) => {},
   tooltipTextFunction?: (countryName: string, isoCode: string, value: string, prefix: string, suffix: string) => string,
@@ -74,7 +73,6 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const responsify = (size: string) => {
     let realSize = size
     if(size === "responsive") {
-      console.log(Math.min(window.innerHeight, window.innerWidth) * .75)
       return Math.min(window.innerHeight, window.innerWidth) * .75
     }
     while (CSizes[realSize] > windowWidth) {
@@ -142,11 +140,10 @@ export const WorldMap: React.FC<IProps> = (props) => {
   const pathsAndToolstips = geoData.features.map((feature, idx) => {
 
     const triggerRef = React.createRef<SVGPathElement>()
-    const isoCode = feature.I === "US_child_path" ? "US" : feature.I === "RU_child_path" ? "RU" : feature.I === "FR_child_path" ? "FR" : feature.I === "NO_child_path" ? "NO" : feature.I
-    const countryName = feature.I === "US_child_path" ? "United States" : feature.I === "RU_child_path" ? "Russia" : feature.I === "FR_child_path" ? "France" : feature.I === "NO_child_path" ? "Norway" : feature.N
+    const isoCode = feature.I
+    const countryName = feature.N
     const geoFeature : GeoJSON.Feature = {"type":"Feature", "properties":{"NAME": countryName,"ISO_A2":isoCode},"geometry":{"type":"MultiPolygon","coordinates":(feature.C as GeoJSON.Position[][][])}}
     const isHighlight = typeof (countryValueMap[isoCode]) != "undefined"
-    const markerRef = React.createRef<SVGCircleElement>()
     const style = props.styleFunction && isHighlight ? props.styleFunction({country: isoCode, countryValue: countryValueMap[isoCode], color: props.color ? props.color : CDefaultColor, minValue: min, maxValue: max}) : defaultCountryStyle({country: isoCode, countryValue: countryValueMap[isoCode], color: props.color ? props.color : CDefaultColor, minValue: min, maxValue: max})
 
     const path = <path
@@ -157,17 +154,6 @@ export const WorldMap: React.FC<IProps> = (props) => {
       onClick={(e) => {props.onClickFunction && countryValueMap[isoCode] ? props.onClickFunction(e, countryName, isoCode, countryValueMap[isoCode].toString(), valuePrefix ? valuePrefix : "", valueSuffix ? valueSuffix : "") : ()=>{}}}
       onMouseOver={(event) => { event.currentTarget.style.strokeWidth = "2"; event.currentTarget.style.strokeOpacity = "0.5" }}
       onMouseOut={(event) => { event.currentTarget.style.strokeWidth = "1"; event.currentTarget.style.strokeOpacity = `${strokeOpacity}` }}
-    />
-
-    const marker = (typeof (countryValueMap[feature.I]) === "undefined") ? <g pointerEvents={"none"} key={"path" + idx + "abc"}></g>
-    :
-    <PathMarker 
-        color={tooltipBgColor}
-        borderColor={borderColor}
-        key={"path_" + idx + "_abc"}
-        markerRef={markerRef}
-        pathRef={triggerRef}
-        svgRef={containerRef}
     />
 
     const tooltip = (!isHighlight) ? <g pointerEvents={"none"} key={"path" + idx + "xyz"}></g> :
@@ -181,7 +167,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
       tip={props.tooltipTextFunction && countryValueMap[isoCode] ? props.tooltipTextFunction(countryName, isoCode, countryValueMap[isoCode].toString(), valuePrefix ? valuePrefix : "", valueSuffix ? valueSuffix : "") : countryValueMap[isoCode] ? countryName + " " + valuePrefix + " " + countryValueMap[isoCode].toLocaleString() + " " + valueSuffix : ""}
       />
 
-  return { "path": path, "highlightedMarkerOrTooltip": props.type === "marker" ? <g pointerEvents={"none"} key={"path" + idx + "ghi"}>{marker}{tooltip}</g> : tooltip }
+  return { "path": path, "highlightedTooltip": tooltip }
   })
 
   // build paths
@@ -190,8 +176,8 @@ export const WorldMap: React.FC<IProps> = (props) => {
   })
 
   // build tooltips
-  const markersOrTooltips = pathsAndToolstips.map(entry => {
-    return entry.highlightedMarkerOrTooltip
+  const highlightedTooltips = pathsAndToolstips.map(entry => {
+    return entry.highlightedTooltip
   })
 
   // Render the SVG
@@ -203,7 +189,7 @@ export const WorldMap: React.FC<IProps> = (props) => {
         <g transform={transformPaths}>
           {paths}
         </g>
-        {markersOrTooltips}
+        {highlightedTooltips}
       </svg>
     </div>
   )

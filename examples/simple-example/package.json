@@ -2,23 +2,13 @@
   "name": "my-app",
   "version": "0.1.0",
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "@types/d3-geo": "^1.12.1",
-    "@types/jest": "^24.9.1",
-    "@types/node": "^12.19.15",
     "@types/react": "^16.14.2",
     "@types/react-dom": "^16.9.10",
-    "d3-geo": "^1.12.1",
-    "fibers": "^5.0.0",
-    "node-sass": "^4.14.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-path-tooltip": "^1.0.14",
     "react-scripts": "^3.4.4",
     "react-svg-worldmap": "file:../..",
-    "sass": "^1.32.5",
     "typescript": "^3.9.7"
   },
   "scripts": {

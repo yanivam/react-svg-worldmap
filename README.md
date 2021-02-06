@@ -144,7 +144,7 @@ const clickAction = (event: React.MouseEvent<SVGElement, MouseEvent>, countryNam
 | frame               | boolean | true/false for drawing a frame around the map |
 | frameColor          | string  | Frame color |
 | borderColor         | string  | Border color around each individual country. "black" by default |
-| type                | string  | Select type of map you want, either "tooltip" or "marker" |
+| :construction: type :construction:              | string  | Select type of map you want, either "tooltip" or "marker". :memo: This functionality not only complicated the code, but was infrequently used and needs to be rethought to make it better. For simplicity sake, I have deprecated this functionality for the time being pending on a more elegant solution. :memo: |
 | styleFunction       | (context: any) => {}  | A callback function to customize styling of each country (see custom-style-example) |
 | tooltipTextFunction | (countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => {}  | A callback function to customize tooltip text (see localization-example) |
 
