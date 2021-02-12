@@ -15,10 +15,10 @@
   "scripts": {
     "start": "tsdx watch",
     "minify": "terser --compress --mangle --output ./dist/react-svg-worldmap.min.esm.js -- ./dist/react-svg-worldmap.esm.js",
-    "build": "tsdx build --format esm && terser --compress --mangle --output ./dist/react-svg-worldmap.esm.js -- ./dist/react-svg-worldmap.esm.js",
+    "build": "tsdx build && terser --compress --mangle --output ./dist/react-svg-worldmap.esm.js -- ./dist/react-svg-worldmap.esm.js",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
-    "prepare": "tsdx build --format esm && terser --compress --mangle --output ./dist/react-svg-worldmap.esm.js -- ./dist/react-svg-worldmap.esm.js"
+    "prepare": "tsdx build && terser --compress --mangle --output ./dist/react-svg-worldmap.esm.js -- ./dist/react-svg-worldmap.esm.js"
   },
   "peerDependencies": {
     "react": ">=16",
