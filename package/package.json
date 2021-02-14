@@ -1,0 +1,59 @@
+{
+  "name": "react-svg-worldmap",
+  "version": "1.0.42",
+  "license": "MIT",
+  "displayName": "React Worldmap",
+  "description": "A pure react component to draw a map of world countries. Simple. Free.",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "minify": "terser --compress --mangle --output ./dist/WorldMap.js -- ./dist/WorldMap.js; terser --compress --mangle --output ./dist/countries.geo.js -- ./dist/countries.geo.js",
+    "prebuild": "rm -rf dist;eslint . --ext .tsx --fix",
+    "build": "tsc -p tsconfig.json;npm run minify",
+    "build:local": "npm run build;npm pack"
+  },
+  "peerDependencies": {
+    "react": ">=16",
+    "react-dom": ">=16.0.0"
+  },
+  "dependencies": {
+    "@types/d3-geo": "^1.12.1",
+    "@types/geojson": "^7946.0.7",
+    "@typescript-eslint/eslint-plugin": "^4.15.0",
+    "@typescript-eslint/parser": "^4.15.0",
+    "d3-geo": "^1.11.9",
+    "eslint": "^7.20.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "react-path-tooltip": "^1.0.13"
+  },
+  "authors": [
+    "yanivam (https://github.com/yanivam)"
+  ],
+  "keywords": [
+    "react",
+    "worldmap",
+    "world map",
+    "map",
+    "component",
+    "typescript",
+    "svg",
+    "countries"
+  ],
+  "module": "dist/react-svg-worldmap.esm.js",
+  "devDependencies": {
+    "@types/react": "^16.14.2",
+    "@types/react-dom": "^16.9.10",
+    "terser": "^5.3.3",
+    "tslib": "^1.14.1",
+    "typescript": "^3.8.3"
+  },
+  "bugs": "https://github.com/yanivam/react-svg-worldmap/issues",
+  "repository": "github:yanivam/react-svg-worldmap"
+}
