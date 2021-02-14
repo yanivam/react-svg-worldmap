@@ -1,9 +1,10 @@
 {
-  "include": ["src", "types"],
+  "include": ["src"],
   "compilerOptions": {
-    "module": "ESNext",
+    "target": "es5",
+    "module": "commonjs",
+    "outDir": "./dist",
     "allowSyntheticDefaultImports": true,
-    "lib": ["dom", "ESNext"], 
     "importHelpers": true, 
     "declaration": true, 
     "sourceMap": false,
@@ -14,7 +15,7 @@
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
-    "alwaysStrict": true,
+    "alwaysStrict": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,

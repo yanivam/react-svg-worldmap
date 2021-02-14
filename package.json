@@ -14,11 +14,13 @@
   },
   "scripts": {
     "start": "tsdx watch",
-    "minify": "terser --compress --mangle --output ./dist/react-svg-worldmap.min.esm.js -- ./dist/react-svg-worldmap.esm.js",
-    "build": "tsdx build --format esm && terser --compress --mangle --output ./dist/react-svg-worldmap.esm.js -- ./dist/react-svg-worldmap.esm.js",
+    "minify": "terser --compress --mangle --output ./dist/countries.geo.min.js -- ./dist/countries.geo.js",
+    "prebuild": "rm -rf dist;eslint . --ext .tsx --fix",
+    "build": "tsc -p tsconfig.json && terser --compress --mangle --output ./dist/countries.geo.min.js -- ./dist/countries.geo.js; rm -rf ./dist/countries.geo.js",
+    "old-build": "tsdx build --format esm && terser --compress --mangle --output ./dist/react-svg-worldmap.esm.js -- ./dist/react-svg-worldmap.esm.js",
     "test": "tsdx test --passWithNoTests",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build --format esm && terser --compress --mangle --output ./dist/react-svg-worldmap.esm.js -- ./dist/react-svg-worldmap.esm.js"
+    "old-lint": "tsdx lint",
+    "old-prepare": "tsdx build --format esm && terser --compress --mangle --output ./dist/react-svg-worldmap.esm.js -- ./dist/react-svg-worldmap.esm.js"
   },
   "peerDependencies": {
     "react": ">=16",
@@ -26,7 +28,13 @@
   },
   "dependencies": {
     "@types/d3-geo": "^1.12.1",
+    "@types/geojson": "^7946.0.7",
+    "@typescript-eslint/eslint-plugin": "^4.15.0",
+    "@typescript-eslint/parser": "^4.15.0",
     "d3-geo": "^1.11.9",
+    "eslint": "^7.20.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
     "react-path-tooltip": "^1.0.13"
   },
   "authors": [
