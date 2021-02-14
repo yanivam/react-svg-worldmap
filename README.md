@@ -5,6 +5,8 @@ A simple, compact and free React SVG world map.
 
 ![simple example](https://raw.githubusercontent.com/yanivam/react-svg-worldmap/master/simple-example.gif)
 
+## TS Usage
+
 ~~~tsx
 import { WorldMap } from "react-svg-worldmap"
 ...
@@ -15,6 +17,27 @@ const data =
     ]
 ...
 <WorldMap color="green" title="This is My Map" size="lg" data={data} />
+~~~
+
+## JS Usage
+
+~~~js
+import React, { Component } from 'react';
+const WorldMap = require('react-svg-worldmap').WorldMap;
+
+export default class SimpleJs extends Component {
+  render() {
+    ...
+    const data =
+      [
+        { "country": "cn", value: 1389618778 }, // china
+        { "country": "in", value: 1311559204 }, // india
+        
+      ]
+    ...
+    return <div id="root"><WorldMap color="green" title="This is My Map" size="lg" data={data} /></div>;
+  }
+}
 ~~~
 
 ## Why is it different? 
