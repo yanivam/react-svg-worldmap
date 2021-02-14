@@ -14,9 +14,9 @@
   },
   "scripts": {
     "start": "tsdx watch",
-    "minify": "terser --compress --mangle --output ./dist/countries.geo.min.js -- ./dist/countries.geo.js",
+    "minify": "terser --compress --mangle --output ./dist/countries.geo.js -- ./dist/countries.geo.js",
     "prebuild": "rm -rf dist;eslint . --ext .tsx --fix",
-    "build": "tsc -p tsconfig.json && terser --compress --mangle --output ./dist/countries.geo.min.js -- ./dist/countries.geo.js; rm -rf ./dist/countries.geo.js",
+    "build": "tsc -p tsconfig.json; mv ./dist/countries.geo.js ./dist/countries.geo.old.js; mv ./dist/WorldMap.js ./dist/WorldMap.old.js; terser --compress --mangle --output ./dist/countries.geo.js -- ./dist/countries.geo.old.js; rm -rf ./dist/countries.geo.old.js && terser --compress --mangle --output ./dist/WorldMap.js -- ./dist/WorldMap.old.js; rm -rf ./dist/WorldMap.old.js",
     "old-build": "tsdx build --format esm && terser --compress --mangle --output ./dist/react-svg-worldmap.esm.js -- ./dist/react-svg-worldmap.esm.js",
     "test": "tsdx test --passWithNoTests",
     "old-lint": "tsdx lint",
