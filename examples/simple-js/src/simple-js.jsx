@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+const React = require ('react');
 const WorldMap = require('react-svg-worldmap').WorldMap;
 
-export default class SimpleJs extends Component {
+export default class SimpleJs extends React.Component {
   render() {
     const data1 =
       [
@@ -15,7 +15,7 @@ export default class SimpleJs extends Component {
         { "country": "mx", value: 127318112 }   // mexico
       ]
     return <div id="root">
-      <WorldMap color="red" tooltipBgColor={"blue"} title="Top 10 Populous Countries Small Map" valueSuffix="people" size="sm" data={data1} frame={true} />
+      <WorldMap color="red" tooltipBgColor={"blue"} title="Top 10 Populous Countries" valueSuffix="people" size="lg" data={data1} frame={true} />
     </div>;
   }
 }
