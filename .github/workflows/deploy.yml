@@ -30,8 +30,12 @@ jobs:
       run: cd ./package && npm install
     
     # Build 
-    - name: Run install
-      run: cd ./package && npm install
+    - name: Run build
+      run: cd ./package && npm run build
+
+    # Copy readme 
+    - name: copy readme
+      run: cd ./package && cp ../README.md .
 
     # Publish
     - name: publish
