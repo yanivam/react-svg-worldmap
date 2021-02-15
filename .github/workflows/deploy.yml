@@ -25,12 +25,16 @@ jobs:
         node-version: 12
         registry-url: https://registry.npmjs.org/
 
-    # Run the install 
+    # Install 
     - name: Run install
-      run: npm install
+      run: cd ./package && npm install
     
-    # Publish to npm
+    # Build 
+    - name: Run install
+      run: cd ./package && npm install
+
+    # Publish
     - name: publish
-      run: npm publish --access public
+      run: cd ./package && npm publish --access public
       env:
         NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
