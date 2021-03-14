@@ -93,3 +93,8 @@
 ## 1.0.43
 
 * Restructured file system to enable JavaScript and TypeScript usage and ability (see README.md for usage in JS vs TS)
+
+## 1.1.0
+
+* Refactor build and dependency cleanup
+* Moved code to lib folder

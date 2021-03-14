@@ -5,7 +5,7 @@ A simple, compact and free React SVG world map.
 
 ![simple example](https://raw.githubusercontent.com/yanivam/react-svg-worldmap/master/simple-example.gif)
 
-## TS Usage
+## TypeScript Usage
 
 ~~~tsx
 import { WorldMap } from "react-svg-worldmap"
@@ -19,7 +19,7 @@ const data =
 <WorldMap color="green" title="This is My Map" size="lg" data={data} />
 ~~~
 
-## JS Usage
+## JavaScript Usage
 
 ~~~js
 import React, { Component } from 'react';

@@ -1,11 +1,8 @@
-/* eslint-disable import/no-unresolved */
-// eslint-disable-next-line no-use-before-define
 import * as React from 'react'
 import GeoJSON from 'geojson'
 import { geoMercator, geoPath } from 'd3-geo'
 import { PathTooltip } from 'react-path-tooltip'
 import geoData from './countries.geo'
-/* eslint-disable import/no-unresolved */
 const CDefaultColor = '#dddddd'
 
 interface IData {
@@ -35,15 +32,21 @@ interface IProps {
   frame?: boolean,
   frameColor?: string,
   // type?: string, // depracated for the time being (reasoning in the README.md file)
-  // eslint-disable-next-line no-unused-vars
-  styleFunction?: (context: ICountryContext) => {},
+
+  styleFunction?: (context: ICountryContext) => {
+
+  },
+
   onClickFunction?:
-  // eslint-disable-next-line no-unused-vars
+
   (event: React.MouseEvent<SVGElement, Event>, countryName: string,
-    // eslint-disable-next-line no-unused-vars
-    isoCode: string, value: string, prefix: string, suffix: string) => {},
+
+    isoCode: string, value: string, prefix: string, suffix: string) => {
+
+    },
+    
   tooltipTextFunction?:
-  // eslint-disable-next-line no-unused-vars
+
   (countryName: string, isoCode: string, value: string, prefix: string, suffix: string) => string,
   borderColor?: string
 }
@@ -59,7 +62,7 @@ const CSizes: { [key: string]: number } = {
 
 const CHeightRatio = 3 / 4
 
-export const WorldMap: React.FC<IProps> = (props) => {
+export const WorldMap: React.FC<IProps> = (props : IProps) => {
   // calculate window width
   const updateWindowWidth = () => {
     const [width, setWidth] = React.useState(0)
@@ -132,8 +135,8 @@ export const WorldMap: React.FC<IProps> = (props) => {
 
   // Calc min/max values and build country map for direct access
   const countryValueMap: { [key: string]: number } = {}
-  let max: number = -Infinity
-  let min: number = Infinity
+  let max = -Infinity
+  let min = Infinity
   props.data.forEach((entry) => {
     const key = entry.country.toUpperCase()
     const { value } = entry
@@ -176,9 +179,9 @@ export const WorldMap: React.FC<IProps> = (props) => {
           props.onClickFunction(e, countryName, isoCode, countryValueMap[isoCode].toString(), valuePrefix || '', valueSuffix || '')
         }
       }}
-      // eslint-disable-next-line no-param-reassign
+
       onMouseOver={(event) => { event.currentTarget.style.strokeWidth = '2'; event.currentTarget.style.strokeOpacity = '0.5' }}
-      // eslint-disable-next-line no-param-reassign
+
       onMouseOut={(event) => { event.currentTarget.style.strokeWidth = '1'; event.currentTarget.style.strokeOpacity = `${strokeOpacity}` }}
     />
 
