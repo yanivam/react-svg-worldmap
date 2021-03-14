@@ -27,18 +27,18 @@ jobs:
 
     # Install 
     - name: Run install
-      run: cd ./package && npm install
+      run: cd ./lib && npm install
     
     # Build 
     - name: Run build
-      run: cd ./package && npm run build
+      run: cd ./lib && npm run build
 
     # Copy readme 
     - name: copy readme
-      run: cd ./package && cp ../README.md .
+      run: cd ./lib && cp ../README.md .
 
     # Publish
     - name: publish
-      run: cd ./package && npm publish --access public
+      run: cd ./lib && npm publish --access public
       env:
         NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
