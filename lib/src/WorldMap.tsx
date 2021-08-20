@@ -33,7 +33,8 @@ interface IProps {
   size?: SizeOption,
   frame?: boolean,
   frameColor?: string,
-  // type?: string, // depracated for the time being (reasoning in the README.md file)
+  /** @deprecated */
+  type?: string, // depracated for the time being (reasoning in the README.md file)
 
   styleFunction?: (context: ICountryContext) => CSSProperties,
 
@@ -60,7 +61,7 @@ interface IProps {
     value: string,
     prefix: string,
     suffix: string,
-  ) => string,
+  ) => string | undefined,
   borderColor?: string
 }
 
@@ -182,6 +183,8 @@ export const WorldMap: React.FC<IProps> = (props : IProps) => {
       maxValue: max,
     })
 
+    const href = props.hrefFunction?.(countryName, isoCode, countryValueMap[isoCode].toString(), valuePrefix || '', valueSuffix || '')
+
     const path = <path
       key={`path${idx}`}
       ref={triggerRef}
@@ -192,9 +195,7 @@ export const WorldMap: React.FC<IProps> = (props : IProps) => {
           props.onClickFunction(e, countryName, isoCode, countryValueMap[isoCode].toString(), valuePrefix || '', valueSuffix || '')
         }
       }}
-      {...(props.hrefFunction ? {
-        href: props.hrefFunction(countryName, isoCode, countryValueMap[isoCode].toString(), valuePrefix || '', valueSuffix || '')
-      } : undefined)}
+      {...(href ? {href} : undefined)}
 
       onMouseOver={(event) => { event.currentTarget.style.strokeWidth = '2'; event.currentTarget.style.strokeOpacity = '0.5' }}
 
