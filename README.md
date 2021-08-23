@@ -155,7 +155,7 @@ const clickAction = (event: React.MouseEvent<SVGElement, MouseEvent>, countryNam
 | Prop                | Type    | Description |
 | ------------------- | ------- | ----------- |
 | data                | Array   | Mandatory. Array of JSON records, each with country/value. |
-| size                | string  | The size of your map, either "sm", md", "lg", "xl", "xxl", or "resposive", read about responsive below. |
+| size                | string  | The size of your map, either "sm", md", "lg", "xl", "xxl", or "responsive", read about responsive below. |
 | title               | string  | Any string for the title of your map |
 | color               | string  | Color for highlighted countries. A standard color string. E.g. "red" or "#ff0000" |
 | tooltipBgColor      | string  | Tooltip background color |
@@ -168,8 +168,9 @@ const clickAction = (event: React.MouseEvent<SVGElement, MouseEvent>, countryNam
 | frameColor          | string  | Frame color |
 | borderColor         | string  | Border color around each individual country. "black" by default |
 | :construction: type :construction:              | string  | Select type of map you want, either "tooltip" or "marker". :memo: This functionality not only complicated the code, but was infrequently used and needs to be rethought to make it better. For simplicity sake, I have deprecated this functionality for the time being pending on a more elegant solution. :memo: |
-| styleFunction       | (context: any) => {}  | A callback function to customize styling of each country (see custom-style-example) |
-| tooltipTextFunction | (countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => {}  | A callback function to customize tooltip text (see localization-example) |
+| styleFunction       | (context: any) => CSSProperties  | A callback function to customize styling of each country (see custom-style-example) |
+| hrefFunction       | (countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => string | undefined  | A callback function to bind an href link to each country (see links-example) |
+| tooltipTextFunction | (countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => string  | A callback function to customize tooltip text (see localization-example) |
 
 ## Responsive Size
 

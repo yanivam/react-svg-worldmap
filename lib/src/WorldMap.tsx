@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { CSSProperties } from 'react'
 import GeoJSON from 'geojson'
 import { geoMercator, geoPath } from 'd3-geo'
 import { PathTooltip } from 'react-path-tooltip'
@@ -18,40 +18,54 @@ interface ICountryContext {
   maxValue: number
 }
 
+type SizeOption = 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'responsive';
+
 interface IProps {
   data: IData[],
   title?: string,
   valuePrefix?: string,
   valueSuffix?: string,
   color?: string,
-  strokeOpacity?: number
+  strokeOpacity?: number,
   backgroundColor?: string,
   tooltipBgColor?: string,
   tooltipTextColor?: string,
-  size?: string, // possile values are sm, md, lg
+  size?: SizeOption,
   frame?: boolean,
   frameColor?: string,
-  // type?: string, // depracated for the time being (reasoning in the README.md file)
+  /** @deprecated */
+  type?: string, // depracated for the time being (reasoning in the README.md file)
 
-  styleFunction?: (context: ICountryContext) => {
+  styleFunction?: (context: ICountryContext) => CSSProperties,
 
-  },
-
-  onClickFunction?:
-
-  (event: React.MouseEvent<SVGElement, Event>, countryName: string,
-
-    isoCode: string, value: string, prefix: string, suffix: string) => {
-
-    },
+  onClickFunction?: (
+    event: React.MouseEvent<SVGElement, Event>,
+    countryName: string,
+    isoCode: string,
+    value: string,
+    prefix: string,
+    suffix: string,
+  ) => void,
     
-  tooltipTextFunction?:
+  tooltipTextFunction?: (
+    countryName: string,
+    isoCode: string,
+    value: string,
+    prefix: string,
+    suffix: string,
+  ) => string,
 
-  (countryName: string, isoCode: string, value: string, prefix: string, suffix: string) => string,
+  hrefFunction?: (
+    countryName: string,
+    isoCode: string,
+    value: string,
+    prefix: string,
+    suffix: string,
+  ) => string | undefined,
   borderColor?: string
 }
 
-const CSizes: { [key: string]: number } = {
+const CSizes: Record<SizeOption, number> = {
   sm: 240,
   md: 336,
   lg: 480,
@@ -82,7 +96,7 @@ export const WorldMap: React.FC<IProps> = (props : IProps) => {
   const size = typeof (props.size) !== 'undefined' ? props.size : 'sm'
 
   // adjust responsive size
-  const responsify = (sz: string) => {
+  const responsify = (sz: SizeOption) => {
     let realSize = sz
     if (sz === 'responsive') {
       return Math.min(window.innerHeight, window.innerWidth) * 0.75
@@ -169,6 +183,8 @@ export const WorldMap: React.FC<IProps> = (props : IProps) => {
       maxValue: max,
     })
 
+    const href = props.hrefFunction?.(countryName, isoCode, countryValueMap[isoCode].toString(), valuePrefix || '', valueSuffix || '')
+
     const path = <path
       key={`path${idx}`}
       ref={triggerRef}
@@ -179,6 +195,7 @@ export const WorldMap: React.FC<IProps> = (props : IProps) => {
           props.onClickFunction(e, countryName, isoCode, countryValueMap[isoCode].toString(), valuePrefix || '', valueSuffix || '')
         }
       }}
+      {...(href ? {href} : undefined)}
 
       onMouseOver={(event) => { event.currentTarget.style.strokeWidth = '2'; event.currentTarget.style.strokeOpacity = '0.5' }}
 
