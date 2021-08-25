@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "workspaces": [
+    "lib",
+    "website"
+  ],
+  "scripts": {
+    "build:package": "yarn workspace react-svg-worldmap build",
+    "build:website": "yarn workspace react-svg-worldmap-website build",
+    "build": "yarn build:package && yarn build:website",
+    "lint": "eslint --cache \"**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "eslint --fix \"**/*.{js,jsx,ts,tsx,json}\"",
+    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,json}\""
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.14",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-helmet": "^6.1.2",
+    "@types/react-router-dom": "^5.1.8",
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "@typescript-eslint/parser": "^4.17.0",
+    "eslint": "^7.22.0",
+    "eslint-plugin-react": "^7.22.0",
+    "prettier": "^2.2.1",
+    "tslib": "^1.14.1",
+    "typescript": "^3.8.3"
+  }
+}

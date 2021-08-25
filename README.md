@@ -168,7 +168,7 @@ const clickAction = (event: React.MouseEvent<SVGElement, MouseEvent>, countryNam
 | frameColor          | string  | Frame color |
 | borderColor         | string  | Border color around each individual country. "black" by default |
 | :construction: type :construction:              | string  | Select type of map you want, either "tooltip" or "marker". :memo: This functionality not only complicated the code, but was infrequently used and needs to be rethought to make it better. For simplicity sake, I have deprecated this functionality for the time being pending on a more elegant solution. :memo: |
-| styleFunction       | (context: any) => CSSProperties  | A callback function to customize styling of each country (see custom-style-example) |
+| styleFunction       | (context: CountryContext) => CSSProperties  | A callback function to customize styling of each country (see custom-style-example) |
 | hrefFunction       | (countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => string | undefined  | A callback function to bind an href link to each country (see links-example) |
 | tooltipTextFunction | (countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => string  | A callback function to customize tooltip text (see localization-example) |
 
@@ -176,37 +176,6 @@ const clickAction = (event: React.MouseEvent<SVGElement, MouseEvent>, countryNam
 
 * ```size="responsive"``` When the size is set to responsive, the map size will be set automatically based on the dimensions of the window size. 
 
-## Samples
-
-### examples/simple-example
- * A simple example of the world map
- * 4 maps given two different data sets
- * Example of some simple features using the default styling
- * Responsive size example showing how an example with responsive size looks
-
-
-### examples/custom-style-example
- * An example of a custom styling function
- * Context type must remain any so that you can use the inputs that I pass to you
- The inputs are as follows:
- 
- | Input             | Type    | Description |
- | ---------------- | ------- | ----------- |
- | country      | string | ISO value for each country |
- | countryValue | number | Value inputted for the specific country (this is the input data for the specific country) |
- | color        | string | The color that is inputted by the user for countries with values |
- | minValue     | number | The smallest value of the input data |
- | maxValue     | number | The largest value of the input data |
-
-
-### examples/localization-example
- * An example showing how to use the tooltipTextFunction to locolize tooltip texts. 
- * The function translates both country names and values to spanish. 
- * For example: 
- 
- | Data                                           | Localized text                      |
- | ---------------------------------------------- | ----------------------------------- |
- | ```  { "country": "us", value: 331883986 } ``` | "Estados Unidos: 3.32 mil millónes" |
- 
 ## License
+
 MIT
