@@ -5,7 +5,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/vsdark');
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'React Worldmap',
-  tagline: 'A pure react component to draw a map of world countries. Simple. Free.',
+  tagline:
+    'A pure react component to draw a map of world countries. Simple. Free.',
   url: 'https://yanivam.github.io',
   baseUrl: '/react-svg-worldmap/',
   onBrokenLinks: 'throw',
@@ -29,7 +30,7 @@ module.exports = {
             {to: '/examples/localization', label: 'Localization'},
             {to: '/examples/onclick', label: 'Onclick action'},
             {to: '/examples/links', label: 'Binding links'},
-          ]
+          ],
         },
         {
           href: 'https://github.com/yanivam/react-svg-worldmap',
@@ -54,7 +55,8 @@ module.exports = {
         docs: {
           path: '../docs',
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/yanivam/react-svg-worldmap/edit/main/docs/',
+          editUrl:
+            'https://github.com/yanivam/react-svg-worldmap/edit/main/docs/',
           routeBasePath: '/',
         },
         blog: false,

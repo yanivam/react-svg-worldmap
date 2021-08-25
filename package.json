@@ -10,7 +10,9 @@
     "build": "yarn build:package && yarn build:website",
     "lint": "eslint --cache \"**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint --fix \"**/*.{js,jsx,ts,tsx,json}\"",
-    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,json}\"",
+    "format": "yarn format:js && yarn format:docs",
+    "format:js": "prettier --write \"**/*.{js,jsx,ts,tsx,json}\"",
+    "format:docs": "prettier --write \"**/*.{md,mdx}\"",
     "prepare": "husky install"
   },
   "devDependencies": {

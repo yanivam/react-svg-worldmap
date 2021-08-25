@@ -7,29 +7,31 @@ A simple, compact and free React SVG world map.
 ## TypeScript Usage
 
 ```tsx
-import { WorldMap } from "react-svg-worldmap";
+import {WorldMap} from 'react-svg-worldmap';
 
 const data = [
-  { country: "cn", value: 1389618778 }, // china
-  { country: "in", value: 1311559204 }, // india
+  {country: 'cn', value: 1389618778}, // china
+  {country: 'in', value: 1311559204}, // india
 ];
 
 function Map() {
-  return <WorldMap color="green" title="This is My Map" size="lg" data={data} />;
+  return (
+    <WorldMap color="green" title="This is My Map" size="lg" data={data} />
+  );
 }
 ```
 
 ## JavaScript Usage
 
 ```js
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 const WorldMap = require('react-svg-worldmap').WorldMap;
 
 export default class SimpleJs extends Component {
   render() {
     const data = [
-      { "country": "cn", value: 1389618778 }, // china
-      { "country": "in", value: 1311559204 }, // india 
+      {country: 'cn', value: 1389618778}, // china
+      {country: 'in', value: 1311559204}, // india
     ];
     return (
       <div id="root">
@@ -40,19 +42,19 @@ export default class SimpleJs extends Component {
 }
 ```
 
-## Why is it different? 
+## Why is it different?
 
-Focus on simple and free. 
+Focus on simple and free.
 
-* Draw countries on a world map. 
-* Free - Really free with no limits. 
-* No registration - It is just a pure react component. 
-* No internet dependency - All the data is local, no calls to a back-end server. 
-* Easy to learn, easy to use, easy to customize. 
+- Draw countries on a world map.
+- Free - Really free with no limits.
+- No registration - It is just a pure react component.
+- No internet dependency - All the data is local, no calls to a back-end server.
+- Easy to learn, easy to use, easy to customize.
 
 ## Yet another package for world map...but why?
 
-It all started with a fun project that I was building and needed to draw simple yet beautiful world's map. Searching for solutions I found many potential solutions like MapBox and Google Maps, but they were "too smart" for what I needed. They needed to "call home" for the data, they supported tons of options I didn't need, and while they included react-integrations, they were not completely native to the react world. There was definitely something missing. And that's when react-svg-worldmap started. 
+It all started with a fun project that I was building and needed to draw simple yet beautiful world's map. Searching for solutions I found many potential solutions like MapBox and Google Maps, but they were "too smart" for what I needed. They needed to "call home" for the data, they supported tons of options I didn't need, and while they included react-integrations, they were not completely native to the react world. There was definitely something missing. And that's when react-svg-worldmap started.
 
 ## Install
 
@@ -64,32 +66,38 @@ $ npm install react-svg-worldmap --save
 
 ## Usage
 
-Explore the example folder for a simple case for an end-to-end react app using the react-svg-worldmap. 
+Explore the example folder for a simple case for an end-to-end react app using the react-svg-worldmap.
 
 Here is a simple example:
 
 ```tsx
-import React from "react"
-import "./App.css"
-import { WorldMap } from "react-svg-worldmap"
+import React from 'react';
+import './App.css';
+import {WorldMap} from 'react-svg-worldmap';
 
 function App() {
   const data = [
-    { country: "cn", value: 1389618778 }, // china
-    { country: "in", value: 1311559204 }, // india
-    { country: "us", value: 331883986 },  // united states
-    { country: "id", value: 264935824 },  // indonesia
-    { country: "pk", value: 210797836 },  // pakistan
-    { country: "br", value: 210301591 },  // brazil
-    { country: "ng", value: 208679114 },  // nigeria
-    { country: "bd", value: 161062905 },  // bangladesh
-    { country: "ru", value: 141944641 },  // russia
-    { country: "mx", value: 127318112 }   // mexico
-  ]
+    {country: 'cn', value: 1389618778}, // china
+    {country: 'in', value: 1311559204}, // india
+    {country: 'us', value: 331883986}, // united states
+    {country: 'id', value: 264935824}, // indonesia
+    {country: 'pk', value: 210797836}, // pakistan
+    {country: 'br', value: 210301591}, // brazil
+    {country: 'ng', value: 208679114}, // nigeria
+    {country: 'bd', value: 161062905}, // bangladesh
+    {country: 'ru', value: 141944641}, // russia
+    {country: 'mx', value: 127318112}, // mexico
+  ];
 
   return (
-    <div className="App" >
-       <WorldMap color="red" title="Top 10 Populous Countries" value-suffix="people" size="lg" data={data} />
+    <div className="App">
+      <WorldMap
+        color="red"
+        title="Top 10 Populous Countries"
+        value-suffix="people"
+        size="lg"
+        data={data}
+      />
     </div>
   );
 }
@@ -105,38 +113,46 @@ Example of valid data prop:
 
 ```tsx
 const data = [
-  { country: "cn", value: 1 }, // china
-  { country: "in", value: 2 }, // india
-  { country: "us", value: 3 }  // united states
+  {country: 'cn', value: 1}, // china
+  {country: 'in', value: 2}, // india
+  {country: 'us', value: 3}, // united states
 ];
 ```
 
 ### Custom Styling
 
-This is an optional more advanced customization option. When used, the developer has full control to define the color, opacity and any other style element of a country with data record. 
+This is an optional more advanced customization option. When used, the developer has full control to define the color, opacity and any other style element of a country with data record.
 
-This is done by passing your custom implementation of the `styleFunction`. The function recieves as input the country context that includes country,countryValue: colorm, minValue and maxValue, and returns a json object representing the style. 
+This is done by passing your custom implementation of the `styleFunction`. The function recieves as input the country context that includes country,countryValue: colorm, minValue and maxValue, and returns a json object representing the style.
 
-For example: 
+For example:
+
 ```tsx
 import {CountryContext} from 'react-svg-worldmap';
 
-const stylingFunction = ({countryValue, minValue, maxValue, country, color}: CountryContext) => {
-  const opacityLevel = 0.1 + (1.5 * (countryValue - minValue) / (maxValue - minValue));
+const stylingFunction = ({
+  countryValue,
+  minValue,
+  maxValue,
+  country,
+  color,
+}: CountryContext) => {
+  const opacityLevel =
+    0.1 + (1.5 * (countryValue - minValue)) / (maxValue - minValue);
   return {
-    fill: country === "US" ? "blue" : color, 
-    fillOpacity: opacityLevel, 
-    stroke: "green", 
-    strokeWidth: 1, 
-    strokeOpacity: 0.2, 
-    cursor: "pointer",
+    fill: country === 'US' ? 'blue' : color,
+    fillOpacity: opacityLevel,
+    stroke: 'green',
+    strokeWidth: 1,
+    strokeOpacity: 0.2,
+    cursor: 'pointer',
   };
-}
+};
 ```
 
 ### On Click Action
 
-This is an optional more advanced customization option. When used, the developer has full access to the click event, country name, iso code, value, prefix and suffix is given. 
+This is an optional more advanced customization option. When used, the developer has full access to the click event, country name, iso code, value, prefix and suffix is given.
 
 This is done by passing your custom implementation of the `onClickFunction`. The function takes in the following parameters:
 
@@ -147,39 +163,46 @@ This is done by passing your custom implementation of the `onClickFunction`. The
 5. `prefix?: string`
 6. `suffix?: string`
 
-For example: 
+For example:
 
 ```tsx
-const clickAction = (event: React.MouseEvent<SVGElement, MouseEvent>, countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => {
+const clickAction = (
+  event: React.MouseEvent<SVGElement, MouseEvent>,
+  countryName: string,
+  isoCode: string,
+  value: string,
+  prefix?: string,
+  suffix?: string,
+) => {
   // Your action on click that you want to perform see example in the examples folder called onclick-example
-}
+};
 ```
 
 ### Responsive Size
 
-* `size="responsive"` When the size is set to responsive, the map size will be set automatically based on the dimensions of the window size. 
+- `size="responsive"` When the size is set to responsive, the map size will be set automatically based on the dimensions of the window size.
 
 ### Optional Props
 
-| Prop                | Type    | Description |
-| ------------------- | ------- | ----------- |
-| data                | Array   | Mandatory. Array of JSON records, each with country/value. |
-| size                | string  | The size of your map, either "sm", md", "lg", "xl", "xxl", or "responsive", read about responsive below. |
-| title               | string  | Any string for the title of your map |
-| color               | string  | Color for highlighted countries. A standard color string. E.g. "red" or "#ff0000" |
-| tooltipBgColor      | string  | Tooltip background color |
-| tooltipTextColor    | string  | Tooltip text color |
-| valuePrefix         | string  | A string to prefix values in tooltips. E.g. "$" |
-| valueSuffix         | string  | A string to suffix values in tooltips. E.g. "USD" |
-| backgroundColor     | string  | Component background color |
-| strokeOpacity| string  | The stroke opacity of non selected countries |
-| frame               | boolean | true/false for drawing a frame around the map |
-| frameColor          | string  | Frame color |
-| borderColor         | string  | Border color around each individual country. "black" by default |
-| :construction: type :construction:              | string  | Select type of map you want, either "tooltip" or "marker". :memo: This functionality not only complicated the code, but was infrequently used and needs to be rethought to make it better. For simplicity sake, I have deprecated this functionality for the time being pending on a more elegant solution. :memo: |
-| styleFunction       | (context: CountryContext) => CSSProperties  | A callback function to customize styling of each country (see custom-style-example) |
-| hrefFunction       | (countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => string | undefined  | A callback function to bind an href link to each country (see links-example) |
-| tooltipTextFunction | (countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => string  | A callback function to customize tooltip text (see localization-example) |
+| Prop | Type | Description |
+| --- | --- | --- | --- |
+| data | Array | Mandatory. Array of JSON records, each with country/value. |
+| size | string | The size of your map, either "sm", md", "lg", "xl", "xxl", or "responsive", read about responsive below. |
+| title | string | Any string for the title of your map |
+| color | string | Color for highlighted countries. A standard color string. E.g. "red" or "#ff0000" |
+| tooltipBgColor | string | Tooltip background color |
+| tooltipTextColor | string | Tooltip text color |
+| valuePrefix | string | A string to prefix values in tooltips. E.g. "$" |
+| valueSuffix | string | A string to suffix values in tooltips. E.g. "USD" |
+| backgroundColor | string | Component background color |
+| strokeOpacity | string | The stroke opacity of non selected countries |
+| frame | boolean | true/false for drawing a frame around the map |
+| frameColor | string | Frame color |
+| borderColor | string | Border color around each individual country. "black" by default |
+| :construction: type :construction: | string | Select type of map you want, either "tooltip" or "marker". :memo: This functionality not only complicated the code, but was infrequently used and needs to be rethought to make it better. For simplicity sake, I have deprecated this functionality for the time being pending on a more elegant solution. :memo: |
+| styleFunction | (context: CountryContext) => CSSProperties | A callback function to customize styling of each country (see custom-style-example) |
+| hrefFunction | (countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => string | undefined | A callback function to bind an href link to each country (see links-example) |
+| tooltipTextFunction | (countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => string | A callback function to customize tooltip text (see localization-example) |
 
 ## License
 
