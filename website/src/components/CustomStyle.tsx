@@ -8,13 +8,17 @@ function App(): JSX.Element {
     {country: 'ru', value: 7}, // russia
   ];
 
-  const stylingFunction = (context: CountryContext) => {
+  const stylingFunction = ({
+    countryValue,
+    minValue,
+    maxValue,
+    country,
+    color,
+  }: CountryContext) => {
     const opacityLevel =
-      0.1 +
-      (1.5 * (context.countryValue - context.minValue)) /
-        (context.maxValue - context.minValue);
+      0.1 + (1.5 * (countryValue - minValue)) / (maxValue - minValue);
     return {
-      fill: context.country === 'US' ? 'blue' : context.color,
+      fill: country === 'US' ? 'blue' : color,
       fillOpacity: opacityLevel,
       stroke: 'green',
       strokeWidth: 1,

@@ -64,11 +64,11 @@ function App(): JSX.Element {
         data={data}
         onClickFunction={clickAction}
       />
-      <div>
-        <p>Country: {state.cName}</p>
-        <p>Iso Code: {state.iso}</p>
-        <p>GDP per capita: {state.val}</p>
-      </div>
+      <ul>
+        <li>Country: {state.cName}</li>
+        <li>ISO Code: {state.iso}</li>
+        <li>GDP per capita: {state.val}</li>
+      </ul>
     </>
   );
 }
