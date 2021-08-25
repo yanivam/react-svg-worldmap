@@ -12,21 +12,21 @@ This is done by passing your custom implementation of the `styleFunction`. The f
 
 For example: 
 
-~~~tsx
-import {CountryContext} from 'react-svg-worldmap';
+```tsx
+import { CountryContext } from 'react-svg-worldmap';
 
 const stylingFunction = ({countryValue, minValue, maxValue, country, color}: CountryContext) => {
-  const opacityLevel = 0.1 + (1.5 * (countryValue - minValue) / (maxValue - minValue))
+  const opacityLevel = 0.1 + (1.5 * (countryValue - minValue) / (maxValue - minValue));
   return {
     fill: country === "US" ? "blue" : color, 
     fillOpacity: opacityLevel, 
     stroke: "green", 
     strokeWidth: 1, 
     strokeOpacity: 0.2, 
-    cursor: "pointer" 
+    cursor: "pointer",
   };
 }
-~~~
+```
 
 ## Onclick Action
 
@@ -43,11 +43,11 @@ This is done by passing your custom implementation of the `onClickFunction`. The
 
 For example: 
 
-~~~tsx
+```tsx
 const clickAction = (event: React.MouseEvent<SVGElement, MouseEvent>, countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => {
   // Your action on click that you want to perform see example in the examples folder called onclick-example
 }
-~~~
+```
 
 ## Responsive Size
 
