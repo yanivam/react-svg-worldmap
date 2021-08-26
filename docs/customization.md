@@ -53,12 +53,12 @@ This is done by passing your custom implementation of the `onClickFunction`. The
 The `size` can be a number specifying the width of the map, in pixels. It can also be one of the following aliases:
 
 | Alias | Width |
-|---|---|
-| `sm` | 240 |
-| `md` | 336 |
-| `lg` | 480 |
-| `xl` | 640 |
-| `xxl` | 1200 |
+| ----- | ----- |
+| `sm`  | 240   |
+| `md`  | 336   |
+| `lg`  | 480   |
+| `xl`  | 640   |
+| `xxl` | 1200  |
 
 When the `size` is set to `responsive`, the map size will be set automatically based on the window size.
 
@@ -120,7 +120,6 @@ type tooltipTextFunctionType = (
   prefix?: string,
   suffix?: string,
 ) => string;
-
 
 type onClickFunctionType = (
   event: React.MouseEvent<SVGElement, MouseEvent>,

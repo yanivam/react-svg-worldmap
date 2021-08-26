@@ -119,8 +119,14 @@ export default function WorldMap(props: Props): JSX.Element {
       }
       return Math.min(window.innerHeight, window.innerWidth) * 0.75;
     }
+    if (typeof window === 'undefined') {
+      return sizeMap[sizeOption];
+    }
     // First size that fits window size
-    const fittingSize = Object.values(sizeMap).reverse().find((size) => size <= windowWidth) ?? sizeMap.sm;
+    const fittingSize =
+      Object.values(sizeMap)
+        .reverse()
+        .find((size) => size <= windowWidth) ?? sizeMap.sm;
     return Math.min(fittingSize, sizeMap[sizeOption]);
   };
 

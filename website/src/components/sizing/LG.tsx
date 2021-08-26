@@ -15,5 +15,5 @@ export default function App(): JSX.Element {
       data={populationData}
       frame={true}
     />
-  )
+  );
 }

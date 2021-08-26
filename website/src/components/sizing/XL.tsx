@@ -13,5 +13,5 @@ export default function App(): JSX.Element {
       data={GDPData}
       frame={true}
     />
-  )
+  );
 }
