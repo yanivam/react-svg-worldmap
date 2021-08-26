@@ -4,7 +4,7 @@ import {geoMercator, geoPath} from 'd3-geo';
 import {PathTooltip} from 'react-path-tooltip';
 import geoData from './countries.geo';
 
-export interface WorldMapData {
+export interface DataItem {
   country: string;
   value: number;
 }
@@ -18,7 +18,7 @@ export interface CountryContext {
 }
 
 export interface Props {
-  data: WorldMapData[];
+  data: DataItem[];
   title?: string;
   valuePrefix?: string;
   valueSuffix?: string;
@@ -294,13 +294,7 @@ export default function WorldMap(props: Props): JSX.Element {
   return (
     <figure
       className="worldmap__figure-container"
-      style={{
-        backgroundColor,
-        height: 'auto',
-        width: 'auto',
-        padding: 0,
-        margin: 10,
-      }}>
+      style={{backgroundColor}}>
       {title && (
         <figcaption className="worldmap__figure-caption">{title}</figcaption>
       )}
