@@ -48,21 +48,6 @@ This is done by passing your custom implementation of the `onClickFunction`. The
 5. `prefix?: string`
 6. `suffix?: string`
 
-For example:
-
-```tsx
-const clickAction = (
-  event: React.MouseEvent<SVGElement, MouseEvent>,
-  countryName: string,
-  isoCode: string,
-  value: string,
-  prefix?: string,
-  suffix?: string,
-) => {
-  // Your action on click that you want to perform see example in the examples folder called onclick-example
-};
-```
-
 ## Sizing
 
 The `size` can be a number specifying the width of the map, in pixels. It can also be one of the following aliases:
@@ -79,7 +64,7 @@ When the `size` is set to `responsive`, the map size will be set automatically b
 
 :::info
 
-The algorithm used is:
+The algorithm used in responsive sizing is:
 
 ```js
 const width = Math.min(window.innerHeight, window.innerWidth) * 0.75;
@@ -94,22 +79,23 @@ const width = Math.min(window.innerHeight, window.innerWidth) * 0.75;
 | Prop | Type | Description |
 | --- | --- | --- |
 | `data` | `Data[]` | Mandatory. Array of JSON records, each with country/value. |
-| `size` | `string` | The size of your map, either "sm", md", "lg", "xl", "xxl", or "responsive". |
-| `title` | `string` | Any string for the title of your map |
-| `color` | `string` | Color for highlighted countries. A standard color string. E.g. "red" or "#ff0000" |
-| `tooltipBgColor` | `string` | Tooltip background color |
-| `tooltipTextColor` | `string` | Tooltip text color |
+| `size` | `string | number` | The size of your map. See [Sizing](#sizing) for details. |
+| `title` | `string` | Any string for the title of your map. |
+| `color` | `string` | Color for highlighted countries. A standard color string. E.g. "red" or "#ff0000". |
+| `tooltipBgColor` | `string` | Tooltip background color. |
+| `tooltipTextColor` | `string` | Tooltip text color. |
 | `valuePrefix` | `string` | A string to prefix values in tooltips. E.g. "$" |
 | `valueSuffix` | `string` | A string to suffix values in tooltips. E.g. "USD" |
-| `backgroundColor` | `string` | Component background color |
-| `strokeOpacity` | `string` | The stroke opacity of non selected countries |
-| `frame` | `boolean` | true/false for drawing a frame around the map |
-| `frameColor` | `string` | Frame color |
-| `borderColor` | `string` | Border color around each individual country. "black" by default |
-| :construction: `type` :construction: | `string` | Select type of map you want, either "tooltip" or "marker". <br />:memo: This functionality not only complicated the code, but was infrequently used and needs to be rethought to make it better. For simplicity sake, I have deprecated this functionality for the time being pending on a more elegant solution. :memo: |
-| `styleFunction` | `(context: CountryContext) => React.CSSProperties` | A callback function to customize styling of each country (see custom-style-example) |
-| `hrefFunction` | See below | A callback function to bind an href link to each country (see links-example) |
-| `tooltipTextFunction` | See below | A callback function to customize tooltip text (see localization-example) |
+| `backgroundColor` | `string` | Component background color. |
+| `strokeOpacity` | `string` | The stroke opacity of non selected countries. |
+| `frame` | `boolean` | Should a frame be drawn around the map. |
+| `frameColor` | `string` | Frame color. |
+| `borderColor` | `string` | Border color around each individual country. |
+| :construction: `type` :construction: | `string` | Select type of map you want, either "tooltip" or "marker". <br />:memo: This functionality not only complicates the code, but is infrequently used and needs to be redesigned to make it better. For now it is deprecated and has no effect. :memo: |
+| `styleFunction` | `(context: CountryContext) => React.CSSProperties` | A callback function to customize styling of each country (see [Custom styles example](/examples/custom-style)) |
+| `hrefFunction` | See below | A callback function to bind an href link to each country (see [Href binding example](/examples/links)) |
+| `tooltipTextFunction` | See below | A callback function to customize tooltip text (see [Localization example]((/examples/localization))) |
+| `onClickFunction` | See below | A callback function to add custom onclick logic (see [Onclick action example]((/examples/onclick))) |
 
 </small>
 
@@ -134,4 +120,14 @@ type tooltipTextFunctionType = (
   prefix?: string,
   suffix?: string,
 ) => string;
+
+
+type onClickFunctionType = (
+  event: React.MouseEvent<SVGElement, MouseEvent>,
+  countryName: string,
+  isoCode: string,
+  value: string,
+  prefix?: string,
+  suffix?: string,
+) => void;
 ```
