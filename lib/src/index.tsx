@@ -4,8 +4,6 @@ import {geoMercator, geoPath} from 'd3-geo';
 import {PathTooltip} from 'react-path-tooltip';
 import geoData from './countries.geo';
 
-type SizeOption = 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'responsive';
-
 export interface WorldMapData {
   country: string;
   value: number;
@@ -29,7 +27,7 @@ export interface Props {
   backgroundColor?: string;
   tooltipBgColor?: string;
   tooltipTextColor?: string;
-  size?: SizeOption;
+  size?: SizeOption | 'responsive';
   frame?: boolean;
   frameColor?: string;
   /** @deprecated */
@@ -64,17 +62,18 @@ export interface Props {
   borderColor?: string;
 }
 
-const CSizes: Record<SizeOption, number> = {
+const sizeOptions = ['sm', 'md', 'lg', 'xl', 'xxl'] as const;
+type SizeOption = typeof sizeOptions[number];
+const sizeMap: Record<SizeOption, number> = {
   sm: 240,
   md: 336,
   lg: 480,
   xl: 640,
   xxl: 1200,
-  responsive: -1,
 };
-
-const CDefaultColor = '#dddddd';
-const CHeightRatio = 3 / 4;
+const defaultSize = 'md';
+const defaultColor = '#dddddd';
+const heightRatio = 3 / 4;
 
 export default function WorldMap(props: Props): JSX.Element {
   const {
@@ -82,12 +81,12 @@ export default function WorldMap(props: Props): JSX.Element {
     title,
     valuePrefix = '',
     valueSuffix = '',
-    color = CDefaultColor,
+    color = defaultColor,
     strokeOpacity = 0.2,
     backgroundColor = 'white',
     tooltipBgColor = 'black',
     tooltipTextColor = 'white',
-    size = 'sm',
+    size = defaultSize,
     frame: isFrame = false,
     frameColor = 'black',
     styleFunction,
@@ -98,7 +97,7 @@ export default function WorldMap(props: Props): JSX.Element {
   } = props;
   // calculate window width
   const updateWindowWidth = () => {
-    const [width, setWidth] = React.useState(0);
+    const [width, setWidth] = React.useState(sizeMap[defaultSize]);
     React.useLayoutEffect(() => {
       const updateWidth = () => {
         setWidth(window.innerWidth);
@@ -112,31 +111,21 @@ export default function WorldMap(props: Props): JSX.Element {
   const windowWidth = updateWindowWidth();
 
   // adjust responsive size
-  const responsify = (sz: SizeOption) => {
-    let realSize = sz;
-    if (sz === 'responsive') {
+  const responsify = (sizeOption: SizeOption | 'responsive') => {
+    if (sizeOption === 'responsive') {
+      // Make component work in SSR
+      if (typeof window === 'undefined') {
+        return sizeMap[defaultSize];
+      }
       return Math.min(window.innerHeight, window.innerWidth) * 0.75;
     }
-    while (CSizes[realSize] > windowWidth) {
-      if (realSize === 'sm') {
-        return CSizes.sm;
-      }
-      if (realSize === 'md') {
-        realSize = 'sm';
-      } else if (realSize === 'lg') {
-        realSize = 'md';
-      } else if (realSize === 'xl') {
-        realSize = 'lg';
-      } else if (realSize === 'xxl') {
-        realSize = 'xl';
-      }
-    }
-    return CSizes[realSize];
+    const realSize = Object.values(sizeMap).find(size => size <= windowWidth);
+    return realSize ?? sizeMap.sm;
   };
 
   // inits
   const width = responsify(size);
-  const height = responsify(size) * CHeightRatio;
+  const height = responsify(size) * heightRatio;
   const frame = isFrame ? (
     <rect
       x={0}
