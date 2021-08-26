@@ -58,7 +58,7 @@ export interface Props {
     value: string,
     prefix: string,
     suffix: string,
-  ) => string | undefined;
+  ) => {target: string, href: string} | string | undefined;
   borderColor?: string;
 }
 
@@ -243,7 +243,11 @@ export default function WorldMap(props: Props): JSX.Element {
     );
 
     if (href) {
-      path = <a href={href} target="_blank" rel="noreferrer">{path}</a>;
+      if (typeof href === 'string') {
+        path = <a href={href}>{path}</a>;
+      } else {
+        path = <a {...href}>{path}</a>;
+      }
     }
 
     let tip = '';
