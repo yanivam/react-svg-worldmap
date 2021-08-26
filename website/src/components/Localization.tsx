@@ -1,6 +1,6 @@
 import React from 'react';
 import WorldMap from 'react-svg-worldmap';
-import data from '../data/CountryData';
+import {populationData} from '../data/CountryData';
 
 // spanish translation of country names
 const localizedCountryDictionary: Map<string, string> = new Map([
@@ -56,16 +56,14 @@ const localizationCallback = (
   return spanishTranlation;
 };
 
-function App(): JSX.Element {
+export default function App(): JSX.Element {
   return (
     <WorldMap
       title="Los diez países principales por población"
-      size="xl"
-      data={data}
+      size="lg"
+      data={populationData}
       valueSuffix="personas"
       tooltipTextFunction={localizationCallback}
     />
   );
 }
-
-export default App;

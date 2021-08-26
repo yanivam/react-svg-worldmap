@@ -79,7 +79,7 @@ const width = Math.min(window.innerHeight, window.innerWidth) * 0.75;
 | Prop | Type | Description |
 | --- | --- | --- |
 | `data` | `Data[]` | Mandatory. Array of JSON records, each with country/value. |
-| `size` | `string | number` | The size of your map. See [Sizing](#sizing) for details. |
+| `size` | <code>string &#124; number</code> | The size of your map. See [Sizing](#sizing) for details, and see [Sizing example](/examples/sizing) |
 | `title` | `string` | Any string for the title of your map. |
 | `color` | `string` | Color for highlighted countries. A standard color string. E.g. "red" or "#ff0000". |
 | `tooltipBgColor` | `string` | Tooltip background color. |
@@ -94,8 +94,8 @@ const width = Math.min(window.innerHeight, window.innerWidth) * 0.75;
 | :construction: `type` :construction: | `string` | Select type of map you want, either "tooltip" or "marker". <br />:memo: This functionality not only complicates the code, but is infrequently used and needs to be redesigned to make it better. For now it is deprecated and has no effect. :memo: |
 | `styleFunction` | `(context: CountryContext) => React.CSSProperties` | A callback function to customize styling of each country (see [Custom styles example](/examples/custom-style)) |
 | `hrefFunction` | See below | A callback function to bind an href link to each country (see [Href binding example](/examples/links)) |
-| `tooltipTextFunction` | See below | A callback function to customize tooltip text (see [Localization example]((/examples/localization))) |
-| `onClickFunction` | See below | A callback function to add custom onclick logic (see [Onclick action example]((/examples/onclick))) |
+| `tooltipTextFunction` | See below | A callback function to customize tooltip text (see [Localization example](/examples/localization)) |
+| `onClickFunction` | See below | A callback function to add custom onclick logic (see [Onclick action example](/examples/onclick)) |
 
 </small>
 

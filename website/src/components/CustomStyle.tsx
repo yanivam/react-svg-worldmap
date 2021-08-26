@@ -26,7 +26,7 @@ const stylingFunction = ({
   };
 };
 
-function App(): JSX.Element {
+export default function App(): JSX.Element {
   return (
     <WorldMap
       color={'red'}
@@ -40,5 +40,3 @@ function App(): JSX.Element {
     />
   );
 }
-
-export default App;

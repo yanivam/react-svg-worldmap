@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # Examples
 
-## [examples/simple](/examples/simple)
+## [examples/sizing](/examples/sizing)
 
 - A simple example of the world map
 - 4 maps given two different data sets

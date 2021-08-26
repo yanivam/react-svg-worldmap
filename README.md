@@ -32,8 +32,8 @@ Here is a simple example:
 
 ```tsx
 import React from 'react';
+import WorldMap from 'react-svg-worldmap';
 import './App.css';
-import {WorldMap} from 'react-svg-worldmap';
 
 function App() {
   const data = [
