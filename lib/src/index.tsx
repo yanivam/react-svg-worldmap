@@ -27,7 +27,7 @@ export interface Props {
   backgroundColor?: string;
   tooltipBgColor?: string;
   tooltipTextColor?: string;
-  size?: SizeOption | 'responsive';
+  size?: SizeOption | 'responsive' | number;
   frame?: boolean;
   frameColor?: string;
   /** @deprecated */
@@ -58,7 +58,7 @@ export interface Props {
     value: string,
     prefix: string,
     suffix: string,
-  ) => string | undefined;
+  ) => {target: string, href: string} | string | undefined;
   borderColor?: string;
 }
 
@@ -71,7 +71,7 @@ const sizeMap: Record<SizeOption, number> = {
   xl: 640,
   xxl: 1200,
 };
-const defaultSize = 'md';
+const defaultSize = 'xl';
 const defaultColor = '#dddddd';
 const heightRatio = 3 / 4;
 
@@ -119,13 +119,20 @@ export default function WorldMap(props: Props): JSX.Element {
       }
       return Math.min(window.innerHeight, window.innerWidth) * 0.75;
     }
-    const realSize = Object.values(sizeMap).find(size => size <= windowWidth);
-    return realSize ?? sizeMap.sm;
+    if (typeof window === 'undefined') {
+      return sizeMap[sizeOption];
+    }
+    // First size that fits window size
+    const fittingSize =
+      Object.values(sizeMap)
+        .reverse()
+        .find((size) => size <= windowWidth) ?? sizeMap.sm;
+    return Math.min(fittingSize, sizeMap[sizeOption]);
   };
 
   // inits
-  const width = responsify(size);
-  const height = responsify(size) * heightRatio;
+  const width = typeof size === 'number' ? size : responsify(size);
+  const height = width * heightRatio;
   const frame = isFrame ? (
     <rect
       x={0}
@@ -236,7 +243,11 @@ export default function WorldMap(props: Props): JSX.Element {
     );
 
     if (href) {
-      path = <a href={href}>{path}</a>;
+      if (typeof href === 'string') {
+        path = <a href={href}>{path}</a>;
+      } else {
+        path = <a {...href}>{path}</a>;
+      }
     }
 
     let tip = '';

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import WorldMap from 'react-svg-worldmap';
-import data from '../data/CountryData';
+import {populationData} from '../data/CountryData';
 
 // E.g. format the number 1000000 to "1 thousand"
 const formattedNumber = (num: number, digits: number) => {
@@ -20,7 +20,7 @@ const formattedNumber = (num: number, digits: number) => {
   }
 };
 
-function App(): JSX.Element {
+export default function App(): JSX.Element {
   const [state, setState] = useState({
     cName: 'Select Country',
     iso: '',
@@ -50,8 +50,7 @@ function App(): JSX.Element {
     <>
       <WorldMap
         title="The ten highest GDP per capita countries"
-        size="xl"
-        data={data}
+        data={populationData}
         onClickFunction={clickAction}
       />
       <ul>
@@ -62,5 +61,3 @@ function App(): JSX.Element {
     </>
   );
 }
-
-export default App;

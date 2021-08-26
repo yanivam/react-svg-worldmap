@@ -25,7 +25,7 @@ module.exports = {
           type: 'dropdown',
           label: 'Examples',
           items: [
-            {to: '/examples/simple', label: 'Simple'},
+            {to: '/examples/sizing', label: 'Sizing'},
             {to: '/examples/custom-style', label: 'Custom styles'},
             {to: '/examples/localization', label: 'Localization'},
             {to: '/examples/onclick', label: 'Onclick action'},

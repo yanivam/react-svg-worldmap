@@ -26,19 +26,16 @@ const stylingFunction = ({
   };
 };
 
-function App(): JSX.Element {
+export default function App(): JSX.Element {
   return (
     <WorldMap
       color={'red'}
       tooltipBgColor={'#D3D3D3'}
       title="Custom Styles Map"
       valueSuffix="points"
-      size="lg"
       data={data}
       frame={true}
       styleFunction={stylingFunction}
     />
   );
 }
-
-export default App;

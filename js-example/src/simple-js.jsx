@@ -20,7 +20,7 @@ export default class SimpleJs extends React.Component {
           tooltipBgColor={'blue'}
           title="Top 10 Populous Countries"
           valueSuffix="people"
-          size="lg"
+          size="xl"
           data={data1}
           frame={true}
         />
