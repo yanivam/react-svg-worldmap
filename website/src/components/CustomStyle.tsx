@@ -33,7 +33,6 @@ export default function App(): JSX.Element {
       tooltipBgColor={'#D3D3D3'}
       title="Custom Styles Map"
       valueSuffix="points"
-      size="lg"
       data={data}
       frame={true}
       styleFunction={stylingFunction}

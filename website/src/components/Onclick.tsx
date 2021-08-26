@@ -50,7 +50,6 @@ export default function App(): JSX.Element {
     <>
       <WorldMap
         title="The ten highest GDP per capita countries"
-        size="lg"
         data={populationData}
         onClickFunction={clickAction}
       />

@@ -60,7 +60,6 @@ export default function App(): JSX.Element {
   return (
     <WorldMap
       title="Los diez países principales por población"
-      size="lg"
       data={populationData}
       valueSuffix="personas"
       tooltipTextFunction={localizationCallback}

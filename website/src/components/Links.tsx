@@ -9,7 +9,6 @@ export default function App(): JSX.Element {
   return (
     <WorldMap
       title="The ten highest GDP per capita countries"
-      size="lg"
       data={populationData}
       hrefFunction={getHref}
     />

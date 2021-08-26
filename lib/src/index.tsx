@@ -71,7 +71,7 @@ const sizeMap: Record<SizeOption, number> = {
   xl: 640,
   xxl: 1200,
 };
-const defaultSize = 'md';
+const defaultSize = 'xl';
 const defaultColor = '#dddddd';
 const heightRatio = 3 / 4;
 
@@ -243,7 +243,7 @@ export default function WorldMap(props: Props): JSX.Element {
     );
 
     if (href) {
-      path = <a href={href}>{path}</a>;
+      path = <a href={href} target="_blank" rel="noreferrer">{path}</a>;
     }
 
     let tip = '';
