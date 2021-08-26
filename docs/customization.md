@@ -8,7 +8,7 @@ sidebar_position: 3
 
 This is an optional more advanced customization option. When used, the developer has full control to define the color, opacity and any other style element of a country with data record.
 
-This is done by passing your custom implementation of the `styleFunction`. The function recieves as input the country context that includes country,countryValue: colorm, minValue and maxValue, and returns a json object representing the style.
+This is done by passing your custom implementation of the `styleFunction`. The function recieves as input the country context that includes `country`, `countryValue`, `color`, `minValue` and `maxValue`, and returns a React `CSSProperties` object.
 
 For example:
 
@@ -111,7 +111,7 @@ type hrefFunctionType = (
   value: string,
   prefix?: string,
   suffix?: string,
-) => {target: string, href: string} | string | undefined;
+) => {target: string; href: string} | string | undefined;
 
 type tooltipTextFunctionType = (
   countryName: string,

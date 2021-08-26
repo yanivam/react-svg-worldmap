@@ -58,7 +58,7 @@ export interface Props {
     value: string,
     prefix: string,
     suffix: string,
-  ) => {target: string, href: string} | string | undefined;
+  ) => {target: string; href: string} | string | undefined;
   borderColor?: string;
 }
 
@@ -244,9 +244,9 @@ export default function WorldMap(props: Props): JSX.Element {
 
     if (href) {
       if (typeof href === 'string') {
-        path = <a href={href}>{path}</a>;
+        path = <a href={href} key={`path${idx}`}>{path}</a>;
       } else {
-        path = <a {...href}>{path}</a>;
+        path = <a key={`path${idx}`} {...href}>{path}</a>;
       }
     }
 
@@ -292,21 +292,24 @@ export default function WorldMap(props: Props): JSX.Element {
 
   // Render the SVG
   return (
-    <div
+    <figure
+      className="worldmap__figure-container"
       style={{
         backgroundColor,
         height: 'auto',
         width: 'auto',
-        padding: '0px',
-        margin: '0px',
+        padding: 0,
+        margin: 10,
       }}>
-      {title && <p>{title}</p>}
+      {title && (
+        <figcaption className="worldmap__figure-caption">{title}</figcaption>
+      )}
       <svg ref={containerRef} height={`${height}px`} width={`${width}px`}>
         {frame}
         <g transform={transformPaths}>{paths}</g>
         {highlightedTooltips}
       </svg>
-    </div>
+    </figure>
   );
 }
 
