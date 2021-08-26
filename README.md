@@ -4,44 +4,6 @@ A simple, compact and free React SVG world map.
 
 ![simple example](https://raw.githubusercontent.com/yanivam/react-svg-worldmap/master/simple-example.gif)
 
-## TypeScript Usage
-
-```tsx
-import {WorldMap} from 'react-svg-worldmap';
-
-const data = [
-  {country: 'cn', value: 1389618778}, // china
-  {country: 'in', value: 1311559204}, // india
-];
-
-function Map() {
-  return (
-    <WorldMap color="green" title="This is My Map" size="lg" data={data} />
-  );
-}
-```
-
-## JavaScript Usage
-
-```js
-import React, {Component} from 'react';
-const WorldMap = require('react-svg-worldmap').WorldMap;
-
-export default class SimpleJs extends Component {
-  render() {
-    const data = [
-      {country: 'cn', value: 1389618778}, // china
-      {country: 'in', value: 1311559204}, // india
-    ];
-    return (
-      <div id="root">
-        <WorldMap color="green" title="This is My Map" size="lg" data={data} />
-      </div>
-    );
-  }
-}
-```
-
 ## Why is it different?
 
 Focus on simple and free.
@@ -65,8 +27,6 @@ $ npm install react-svg-worldmap --save
 ```
 
 ## Usage
-
-Explore the example folder for a simple case for an end-to-end react app using the react-svg-worldmap.
 
 Here is a simple example:
 
@@ -103,106 +63,7 @@ function App() {
 }
 ```
 
-## Customization
-
-### Data
-
-The only mandatory prop. Data contains an array of country/value objects, with values for countries that you have values for, (countries without a value will be blank). The country code is a 2 character string representing the country ([ISO alpha-2] (https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)) and value is a number.
-
-Example of valid data prop:
-
-```tsx
-const data = [
-  {country: 'cn', value: 1}, // china
-  {country: 'in', value: 2}, // india
-  {country: 'us', value: 3}, // united states
-];
-```
-
-### Custom Styling
-
-This is an optional more advanced customization option. When used, the developer has full control to define the color, opacity and any other style element of a country with data record.
-
-This is done by passing your custom implementation of the `styleFunction`. The function recieves as input the country context that includes country,countryValue: colorm, minValue and maxValue, and returns a json object representing the style.
-
-For example:
-
-```tsx
-import {CountryContext} from 'react-svg-worldmap';
-
-const stylingFunction = ({
-  countryValue,
-  minValue,
-  maxValue,
-  country,
-  color,
-}: CountryContext) => {
-  const opacityLevel =
-    0.1 + (1.5 * (countryValue - minValue)) / (maxValue - minValue);
-  return {
-    fill: country === 'US' ? 'blue' : color,
-    fillOpacity: opacityLevel,
-    stroke: 'green',
-    strokeWidth: 1,
-    strokeOpacity: 0.2,
-    cursor: 'pointer',
-  };
-};
-```
-
-### On Click Action
-
-This is an optional more advanced customization option. When used, the developer has full access to the click event, country name, iso code, value, prefix and suffix is given.
-
-This is done by passing your custom implementation of the `onClickFunction`. The function takes in the following parameters:
-
-1. `event: React.MouseEvent<SVGElement, MouseEvent>`
-2. `countryName: string`
-3. `isoCode: string`
-4. `value: string`
-5. `prefix?: string`
-6. `suffix?: string`
-
-For example:
-
-```tsx
-const clickAction = (
-  event: React.MouseEvent<SVGElement, MouseEvent>,
-  countryName: string,
-  isoCode: string,
-  value: string,
-  prefix?: string,
-  suffix?: string,
-) => {
-  // Your action on click that you want to perform see example in the examples folder called onclick-example
-};
-```
-
-### Responsive Size
-
-- `size="responsive"` When the size is set to responsive, the map size will be set automatically based on the dimensions of the window size.
-
-### Optional Props
-
-| Prop | Type | Description |
-| --- | --- | --- | --- |
-| data | Array | Mandatory. Array of JSON records, each with country/value. |
-| size | string | The size of your map, either "sm", md", "lg", "xl", "xxl", or "responsive", read about responsive below. |
-| title | string | Any string for the title of your map |
-| color | string | Color for highlighted countries. A standard color string. E.g. "red" or "#ff0000" |
-| tooltipBgColor | string | Tooltip background color |
-| tooltipTextColor | string | Tooltip text color |
-| valuePrefix | string | A string to prefix values in tooltips. E.g. "$" |
-| valueSuffix | string | A string to suffix values in tooltips. E.g. "USD" |
-| backgroundColor | string | Component background color |
-| strokeOpacity | string | The stroke opacity of non selected countries |
-| frame | boolean | true/false for drawing a frame around the map |
-| frameColor | string | Frame color |
-| borderColor | string | Border color around each individual country. "black" by default |
-| :construction: type :construction: | string | Select type of map you want, either "tooltip" or "marker". :memo: This functionality not only complicated the code, but was infrequently used and needs to be rethought to make it better. For simplicity sake, I have deprecated this functionality for the time being pending on a more elegant solution. :memo: |
-| styleFunction | (context: CountryContext) => CSSProperties | A callback function to customize styling of each country (see custom-style-example) |
-| hrefFunction | (countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => string | undefined | A callback function to bind an href link to each country (see links-example) |
-| tooltipTextFunction | (countryName: string, isoCode: string, value: string, prefix?: string, suffix?: string) => string | A callback function to customize tooltip text (see localization-example) |
+For exhaustive documentation on props and customization options, visit the website at https://yanivam.github.io/react-svg-worldmap.
 
 ## License
 

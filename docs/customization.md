@@ -63,9 +63,29 @@ const clickAction = (
 };
 ```
 
-## Responsive Size
+## Sizing
 
-- `size="responsive"` When the size is set to responsive, the map size will be set automatically based on the dimensions of the window size.
+The `size` can be a number specifying the width of the map, in pixels. It can also be one of the following aliases:
+
+| Alias | Width |
+|---|---|
+| `sm` | 240 |
+| `md` | 336 |
+| `lg` | 480 |
+| `xl` | 640 |
+| `xxl` | 1200 |
+
+When the `size` is set to `responsive`, the map size will be set automatically based on the window size.
+
+:::info
+
+The algorithm used is:
+
+```js
+const width = Math.min(window.innerHeight, window.innerWidth) * 0.75;
+```
+
+:::
 
 ## Props
 

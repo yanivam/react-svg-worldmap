@@ -27,7 +27,7 @@ export interface Props {
   backgroundColor?: string;
   tooltipBgColor?: string;
   tooltipTextColor?: string;
-  size?: SizeOption | 'responsive';
+  size?: SizeOption | 'responsive' | number;
   frame?: boolean;
   frameColor?: string;
   /** @deprecated */
@@ -124,8 +124,8 @@ export default function WorldMap(props: Props): JSX.Element {
   };
 
   // inits
-  const width = responsify(size);
-  const height = responsify(size) * heightRatio;
+  const width = typeof size === 'number' ? size : responsify(size);
+  const height = width * heightRatio;
   const frame = isFrame ? (
     <rect
       x={0}
