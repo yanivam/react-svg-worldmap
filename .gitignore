@@ -2,9 +2,7 @@ node_modules/
 dist/
 bin/
 .firebase/
-yarn.lock
 **/.DS_Store
-package-lock.json
 **/log
 **/logs
 **/*.log
