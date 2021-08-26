@@ -1,4 +1,4 @@
-name: Publish GH Pages
+name: Publish package
 
 on:
   push:
@@ -6,10 +6,9 @@ on:
       - main
 
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
+
     steps:
       - uses: actions/checkout@v2
 
@@ -29,14 +28,13 @@ jobs:
           key: ${{ runner.os }}-website-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-website-
-
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-      - name: Build website
-        run: yarn build
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.ref == 'refs/heads/master' }}
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./website/build
+        run: yarn install
+      - name: Build package
+        run: yarn build:package
+      - name: Copy README
+        run: cp ./README.md ./lib
+      - name: Publish to NPM
+        run: cd ./lib && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

@@ -1,3 +1,4 @@
+/* prettier-ignore */
 /* eslint-disable max-len */
 export default {
   features: [

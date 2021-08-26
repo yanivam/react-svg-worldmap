@@ -1,0 +1,42 @@
+{
+  "private": true,
+  "workspaces": [
+    "lib",
+    "website"
+  ],
+  "scripts": {
+    "build:package": "yarn workspace react-svg-worldmap build",
+    "build:website": "yarn workspace website build",
+    "build": "yarn build:package && yarn build:website",
+    "lint": "eslint --cache \"**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "eslint --fix \"**/*.{js,jsx,ts,tsx,json}\"",
+    "format": "yarn format:js && yarn format:docs",
+    "format:js": "prettier --write \"**/*.{js,jsx,ts,tsx,json}\"",
+    "format:docs": "prettier --write \"**/*.{md,mdx}\"",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.14",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-helmet": "^6.1.2",
+    "@types/react-router-dom": "^5.1.8",
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "@typescript-eslint/parser": "^4.17.0",
+    "eslint": "^7.22.0",
+    "eslint-plugin-react": "^7.22.0",
+    "husky": "^7.0.2",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.2.1",
+    "tslib": "^1.14.1",
+    "typescript": "^3.8.3"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{md,mdx}": [
+      "prettier --write"
+    ]
+  }
+}
