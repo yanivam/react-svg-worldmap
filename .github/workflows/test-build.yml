@@ -31,9 +31,6 @@ jobs:
             ${{ runner.os }}-website-
 
       - name: Install dependencies
-        run: |
-          yarn install --frozen-lockfile
-          ls node_modules/prism-react-renderer
-          ls node_modules/prism-react-renderer/themes
+        run: yarn install --frozen-lockfile
       - name: Build website
         run: yarn build
