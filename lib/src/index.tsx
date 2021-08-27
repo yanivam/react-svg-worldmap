@@ -5,15 +5,15 @@ import {PathTooltip} from 'react-path-tooltip';
 import geoData from './countries.geo';
 
 const isoCodes = geoData.features.map(({I}) => I);
-export type isoCode = typeof isoCodes[number];
+export type ISOCode = typeof isoCodes[number];
 
 export interface DataItem {
-  country: isoCode;
+  country: ISOCode;
   value: number;
 }
 
 export interface CountryContext {
-  country: isoCode;
+  country: ISOCode;
   countryValue: number;
   color: string;
   minValue: number;
@@ -41,7 +41,7 @@ export interface Props {
   onClickFunction?: (
     event: React.MouseEvent<SVGElement, Event>,
     countryName: string,
-    isoCode: isoCode,
+    isoCode: ISOCode,
     value: string,
     prefix: string,
     suffix: string,
@@ -49,7 +49,7 @@ export interface Props {
 
   tooltipTextFunction?: (
     countryName: string,
-    isoCode: isoCode,
+    isoCode: ISOCode,
     value: string,
     prefix: string,
     suffix: string,
@@ -57,7 +57,7 @@ export interface Props {
 
   hrefFunction?: (
     countryName: string,
-    isoCode: isoCode,
+    isoCode: ISOCode,
     value: string,
     prefix: string,
     suffix: string,
