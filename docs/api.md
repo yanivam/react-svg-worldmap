@@ -6,6 +6,7 @@ sidebar_position: 4
 
 ## Export members
 
+- `isoCode`: the ISO code available to name countries.
 - `DataItem`: the type for each country's value to be passed in the `data` prop.
 - `CountryContext`: the context of each country's style, to be used in custom styling.
 - `Props`: the props type for the `WorldMap` component.
@@ -40,13 +41,13 @@ sidebar_position: 4
 
 ```ts
 type DataItem = {
-  country: string;
+  country: isoCode;
   value: number;
 };
 
 type hrefFunctionType = (
   countryName: string,
-  isoCode: string,
+  isoCode: isoCode,
   value: string,
   prefix?: string,
   suffix?: string,
@@ -54,7 +55,7 @@ type hrefFunctionType = (
 
 type tooltipTextFunctionType = (
   countryName: string,
-  isoCode: string,
+  isoCode: isoCode,
   value: string,
   prefix?: string,
   suffix?: string,
@@ -63,7 +64,7 @@ type tooltipTextFunctionType = (
 type onClickFunctionType = (
   event: React.MouseEvent<SVGElement, MouseEvent>,
   countryName: string,
-  isoCode: string,
+  isoCode: isoCode,
   value: string,
   prefix?: string,
   suffix?: string,

@@ -4,13 +4,16 @@ import {geoMercator, geoPath} from 'd3-geo';
 import {PathTooltip} from 'react-path-tooltip';
 import geoData from './countries.geo';
 
+const isoCodes = geoData.features.map(({I}) => I);
+export type isoCode = typeof isoCodes[number];
+
 export interface DataItem {
-  country: string;
+  country: isoCode;
   value: number;
 }
 
 export interface CountryContext {
-  country: string;
+  country: isoCode;
   countryValue: number;
   color: string;
   minValue: number;
@@ -38,7 +41,7 @@ export interface Props {
   onClickFunction?: (
     event: React.MouseEvent<SVGElement, Event>,
     countryName: string,
-    isoCode: string,
+    isoCode: isoCode,
     value: string,
     prefix: string,
     suffix: string,
@@ -46,7 +49,7 @@ export interface Props {
 
   tooltipTextFunction?: (
     countryName: string,
-    isoCode: string,
+    isoCode: isoCode,
     value: string,
     prefix: string,
     suffix: string,
@@ -54,7 +57,7 @@ export interface Props {
 
   hrefFunction?: (
     countryName: string,
-    isoCode: string,
+    isoCode: isoCode,
     value: string,
     prefix: string,
     suffix: string,
@@ -191,7 +194,7 @@ export default function WorldMap(props: Props): JSX.Element {
       properties: {NAME: countryName, ISO_A2: isoCode},
       geometry: {
         type: 'MultiPolygon',
-        coordinates: feature.C as GeoJSON.Position[][][],
+        coordinates: feature.C as unknown as GeoJSON.Position[][][],
       },
     };
     const isHighlight = typeof countryValueMap[isoCode] !== 'undefined';
