@@ -14,7 +14,9 @@ const stylingFunction = ({
   maxValue,
   color,
 }: CountryContext) => {
-  const opacityLevel = countryValue ? 0.1 + (1.5 * (countryValue - minValue)) / (maxValue - minValue) : 0;
+  const opacityLevel = countryValue
+    ? 0.1 + (1.5 * (countryValue - minValue)) / (maxValue - minValue)
+    : 0;
   return {
     fill: countryCode === 'US' ? 'blue' : color,
     fillOpacity: opacityLevel,

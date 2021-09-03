@@ -2,7 +2,9 @@ import type {ComponentProps} from 'react';
 import geoData from './countries.geo';
 
 const isoCodes = geoData.features.map(({I}) => I);
-export type ISOCode = typeof isoCodes[number] | Lowercase<typeof isoCodes[number]>;
+export type ISOCode =
+  | typeof isoCodes[number]
+  | Lowercase<typeof isoCodes[number]>;
 export type SizeOption = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
 export interface DataItem {

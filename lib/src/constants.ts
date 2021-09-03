@@ -16,8 +16,9 @@ export const defaultCountryStyle =
   (stroke: string, strokeOpacity: number) =>
   (context: CountryContext): CSSProperties => {
     const {countryValue, minValue, maxValue, color} = context;
-    const opacityLevel = countryValue ?
-      0.2 + 0.6 * ((countryValue - minValue) / (maxValue - minValue)) : 0;
+    const opacityLevel = countryValue
+      ? 0.2 + 0.6 * ((countryValue - minValue) / (maxValue - minValue))
+      : 0;
     const style = {
       fill: color,
       fillOpacity: opacityLevel,

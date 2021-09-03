@@ -93,7 +93,9 @@ export default function WorldMap(props: Props): JSX.Element {
       hrefFunction?.(context),
     );
     const tooltip = drawTooltip(
-      typeof countryValueMap[isoCode] === 'undefined' ? undefined : tooltipTextFunction(context),
+      typeof countryValueMap[isoCode] === 'undefined'
+        ? undefined
+        : tooltipTextFunction(context),
       tooltipBgColor,
       tooltipTextColor,
       idx,

@@ -18,7 +18,7 @@ sidebar_position: 4
 <small>
 
 | Prop | Type | Description |
-| --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | `data` | `Data` | Mandatory. Array of JSON records, each with country/value. |
 | `size` | <code>string &#124; number</code> | The size of your map. See [Sizing](#sizing) for details, and see [Sizing example](/examples/sizing) |
 | `title` | `string` | Any string for the title of your map. |
@@ -55,5 +55,5 @@ type CountryContext = {
   maxValue: number;
   prefix: string;
   suffix: string;
-}
+};
 ```
