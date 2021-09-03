@@ -1,7 +1,7 @@
 import React from 'react';
-import WorldMap, {CountryContext} from 'react-svg-worldmap';
+import WorldMap, {CountryContext, Data} from 'react-svg-worldmap';
 
-const data = [
+const data: Data = [
   {country: 'cn', value: 5}, // china
   {country: 'us', value: 10}, // united states
   {country: 'ru', value: 7}, // russia
@@ -9,15 +9,16 @@ const data = [
 
 const stylingFunction = ({
   countryValue,
+  countryCode,
   minValue,
   maxValue,
-  country,
   color,
 }: CountryContext) => {
-  const opacityLevel =
-    0.1 + (1.5 * (countryValue - minValue)) / (maxValue - minValue);
+  const opacityLevel = countryValue
+    ? 0.1 + (1.5 * (countryValue - minValue)) / (maxValue - minValue)
+    : 0;
   return {
-    fill: country === 'US' ? 'blue' : color,
+    fill: countryCode === 'US' ? 'blue' : color,
     fillOpacity: opacityLevel,
     stroke: 'green',
     strokeWidth: 1,

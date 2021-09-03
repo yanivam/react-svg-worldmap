@@ -1,5 +1,5 @@
 import React from 'react';
-import WorldMap from 'react-svg-worldmap';
+import WorldMap, {CountryContext} from 'react-svg-worldmap';
 import {populationData} from '../data/CountryData';
 
 // spanish translation of country names
@@ -34,24 +34,22 @@ const localizedNumber = (num: number, digits: number) => {
 };
 
 // localization callback
-const localizationCallback = (
-  countryName: string,
-  isoCode: string,
-  value: string,
-  prefix?: string,
-  suffix?: string,
-) => {
+const getLocalizedText = ({
+  countryCode,
+  countryValue,
+  prefix,
+  suffix,
+}: CountryContext) => {
   const localizedCountryName = localizedCountryDictionary.has(
-    isoCode.toLocaleLowerCase(),
+    countryCode.toLocaleLowerCase(),
   )
-    ? localizedCountryDictionary.get(isoCode.toLocaleLowerCase())
+    ? localizedCountryDictionary.get(countryCode.toLocaleLowerCase())
     : 'Unknown';
-  const numberValue = parseInt(value, 10);
   const spanishTranlation =
     localizedCountryName +
     ': ' +
     (prefix ? prefix + ' ' : '') +
-    localizedNumber(numberValue, 2) +
+    localizedNumber(countryValue, 2) +
     (suffix ? suffix : '');
   return spanishTranlation;
 };
@@ -62,7 +60,7 @@ export default function App(): JSX.Element {
       title="Los diez países principales por población"
       data={populationData}
       valueSuffix="personas"
-      tooltipTextFunction={localizationCallback}
+      tooltipTextFunction={getLocalizedText}
     />
   );
 }

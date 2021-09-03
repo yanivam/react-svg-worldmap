@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import WorldMap from 'react-svg-worldmap';
+import WorldMap, {CountryContext} from 'react-svg-worldmap';
 import {populationData} from '../data/CountryData';
 
 // E.g. format the number 1000000 to "1 thousand"
@@ -29,18 +29,15 @@ export default function App(): JSX.Element {
     suff: '',
   });
 
-  const clickAction = (
-    event: React.MouseEvent<SVGElement, MouseEvent>,
-    countryName: string,
-    isoCode: string,
-    value: string,
-  ) => {
-    const numberValue = parseInt(value, 10);
-    const fNumber = formattedNumber(numberValue, 2);
+  const clickAction = ({
+    countryName,
+    countryCode,
+    countryValue,
+  }: CountryContext) => {
     setState({
       cName: countryName,
-      iso: isoCode,
-      val: fNumber,
+      iso: countryCode,
+      val: formattedNumber(countryValue, 2),
       pre: '',
       suff: '',
     });

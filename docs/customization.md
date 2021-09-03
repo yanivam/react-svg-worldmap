@@ -8,7 +8,7 @@ sidebar_position: 3
 
 This is an optional more advanced customization option. When used, the developer has full control to define the color, opacity and any other style element of a country with data record.
 
-This is done by passing your custom implementation of the `styleFunction`. The function recieves as input the country context that includes `country`, `countryValue`, `color`, `minValue` and `maxValue`, and returns a React `CSSProperties` object.
+This is done by passing your custom implementation of the `styleFunction`. The function recieves as input the country context that includes `country`, `countryValue`, `color`, `minValue` and `maxValue`, and returns a React `CSSProperties` object. Note that `countryValue` can be undefined, for which case you may need to handle the styling differently.
 
 For example:
 
@@ -22,8 +22,9 @@ const stylingFunction = ({
   country,
   color,
 }: CountryContext) => {
-  const opacityLevel =
-    0.1 + (1.5 * (countryValue - minValue)) / (maxValue - minValue);
+  const opacityLevel = countryValue
+    ? 0.1 + (1.5 * (countryValue - minValue)) / (maxValue - minValue)
+    : 0;
   return {
     fill: country === 'US' ? 'blue' : color,
     fillOpacity: opacityLevel,
@@ -34,19 +35,6 @@ const stylingFunction = ({
   };
 };
 ```
-
-## Onclick Action
-
-This is an optional more advanced customization option. When used, the developer has full access to the click event, country name, iso code, value, prefix and suffix is given.
-
-This is done by passing your custom implementation of the `onClickFunction`. The function takes in the following parameters:
-
-1. `event: React.MouseEvent<SVGElement, MouseEvent>`
-2. `countryName: string`
-3. `isoCode: string`
-4. `value: string`
-5. `prefix?: string`
-6. `suffix?: string`
 
 ## Sizing
 
