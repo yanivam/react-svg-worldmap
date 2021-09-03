@@ -8,7 +8,8 @@ sidebar_position: 4
 
 - `ISOCode`: the ISO code available to name countries.
 - `DataItem`: the type for each country's value to be passed in the `data` prop.
-- `CountryContext`: the context of each country's style, to be used in custom styling.
+- `Data`: it's just `DataItem[]`, for more convenience.
+- `CountryContext`: the context in rendering each country, to be used in customization callbacks.
 - `Props`: the props type for the `WorldMap` component.
 - `WorldMap`: available both as named and default export. The actual component to be rendered.
 
@@ -18,7 +19,7 @@ sidebar_position: 4
 
 | Prop | Type | Description |
 | --- | --- | --- |
-| `data` | `DataItem[]` | Mandatory. Array of JSON records, each with country/value. |
+| `data` | `Data` | Mandatory. Array of JSON records, each with country/value. |
 | `size` | <code>string &#124; number</code> | The size of your map. See [Sizing](#sizing) for details, and see [Sizing example](/examples/sizing) |
 | `title` | `string` | Any string for the title of your map. |
 | `color` | `string` | Color for highlighted countries. A standard color string. E.g. "red" or "#ff0000". |
@@ -33,9 +34,9 @@ sidebar_position: 4
 | `borderColor` | `string` | Border color around each individual country. |
 | :construction: `type` :construction: | `string` | Select type of map you want, either "tooltip" or "marker". <br />:memo: This functionality not only complicates the code, but is infrequently used and needs to be redesigned to make it better. For now it is deprecated and has no effect. :memo: |
 | `styleFunction` | `(context: CountryContext) => React.CSSProperties` | A callback function to customize styling of each country (see [Custom styles example](/examples/custom-style)) |
-| `hrefFunction` | See below | A callback function to bind an href link to each country. The return can be the target URL as a string or an object specifying both the `href` and `target` properties. (see [Href binding example](/examples/links)) |
-| `tooltipTextFunction` | See below | A callback function to customize tooltip text (see [Localization example](/examples/localization)) |
-| `onClickFunction` | See below | A callback function to add custom onclick logic (see [Onclick action example](/examples/onclick)) |
+| `hrefFunction` | `(context: CountryContext) => object | string | undefined` | A callback function to bind an href link to each country. The return can be the target URL as a string or an object specifying props passed to the anchor element (e.g. `href` and `target`). (see [Href binding example](/examples/links)) |
+| `tooltipTextFunction` | `(context: CountryContext) => string` | A callback function to customize tooltip text (see [Localization example](/examples/localization)) |
+| `onClickFunction` | `(context: CountryContext & {event: React.MouseEvent}) => void` | A callback function to add custom onclick logic (see [Onclick action example](/examples/onclick)) |
 
 </small>
 
@@ -46,7 +47,7 @@ type DataItem = {
 };
 
 type CountryContext = {
-  country: ISOCode;
+  countryCode: ISOCode;
   countryName: string;
   countryValue: number | undefined;
   color: string;
@@ -55,29 +56,4 @@ type CountryContext = {
   prefix: string;
   suffix: string;
 }
-
-type hrefFunctionType = (
-  countryName: string,
-  isoCode: ISOCode,
-  value: string,
-  prefix?: string,
-  suffix?: string,
-) => {target: string; href: string} | string | undefined;
-
-type tooltipTextFunctionType = (
-  countryName: string,
-  isoCode: ISOCode,
-  value: string,
-  prefix?: string,
-  suffix?: string,
-) => string;
-
-type onClickFunctionType = (
-  event: React.MouseEvent<SVGElement, MouseEvent>,
-  countryName: string,
-  isoCode: ISOCode,
-  value: string,
-  prefix?: string,
-  suffix?: string,
-) => void;
 ```

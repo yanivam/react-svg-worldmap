@@ -15,12 +15,12 @@ export const sizeMap: Record<SizeOption, number> = {
 export const defaultCountryStyle =
   (stroke: string, strokeOpacity: number) =>
   (context: CountryContext): CSSProperties => {
-    const {countryValue = 0, minValue, maxValue} = context;
-    const opacityLevel =
-      0.2 + 0.6 * ((countryValue - minValue) / (maxValue - minValue));
+    const {countryValue, minValue, maxValue, color} = context;
+    const opacityLevel = countryValue ?
+      0.2 + 0.6 * ((countryValue - minValue) / (maxValue - minValue)) : 0;
     const style = {
-      fill: context.color,
-      fillOpacity: countryValue === 0 ? countryValue : opacityLevel,
+      fill: color,
+      fillOpacity: opacityLevel,
       stroke,
       strokeWidth: 1,
       strokeOpacity,
