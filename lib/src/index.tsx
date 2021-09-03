@@ -45,11 +45,7 @@ export default function WorldMap(props: Props): JSX.Element {
   const containerRef = React.createRef<SVGSVGElement>();
 
   // Calc min/max values and build country map for direct access
-  const countryValueMap: Record<string, number> = {};
-  data.forEach((entry) => {
-    const {country, value} = entry;
-    countryValueMap[country.toUpperCase()] = value;
-  });
+  const countryValueMap = Object.fromEntries(data.map(({country, value}) => [country, value]));
   const minValue = Math.min(...data.map(({value}) => value));
   const maxValue = Math.max(...data.map(({value}) => value));
 
