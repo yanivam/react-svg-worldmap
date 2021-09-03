@@ -50,8 +50,6 @@ export default function WorldMap(props: Props): JSX.Element {
     const {country, value} = entry;
     countryValueMap[country.toUpperCase()] = value;
   });
-  const min = Math.min(...data.map(({value}) => value));
-  const max = Math.max(...data.map(({value}) => value));
 
   // Build a path & a tooltip for each country
   const projection = geoMercator();
@@ -75,8 +73,8 @@ export default function WorldMap(props: Props): JSX.Element {
       countryValue: countryValueMap[isoCode],
       countryName,
       color,
-      minValue: min,
-      maxValue: max,
+      minValue: Math.min(...data.map(({value}) => value)),
+      maxValue: Math.max(...data.map(({value}) => value)),
       prefix: valuePrefix,
       suffix: valueSuffix,
     };
@@ -93,7 +91,7 @@ export default function WorldMap(props: Props): JSX.Element {
       hrefFunction?.(context),
     );
     const tooltip = drawTooltip(
-      typeof countryValueMap[isoCode] === 'undefined'
+      typeof context.countryValue === 'undefined'
         ? undefined
         : tooltipTextFunction(context),
       tooltipBgColor,
