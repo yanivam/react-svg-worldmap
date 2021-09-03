@@ -17,7 +17,7 @@ export type Data = DataItem[];
 export interface CountryContext {
   countryCode: ISOCode;
   countryName: string;
-  countryValue: number | undefined;
+  countryValue?: number;
   color: string;
   minValue: number;
   maxValue: number;
