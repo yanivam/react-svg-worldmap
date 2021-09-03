@@ -1,4 +1,6 @@
-const populationData = [
+import type {Data} from 'react-svg-worldmap';
+
+const populationData: Data = [
   {country: 'cn', value: 1389618778}, // china
   {country: 'in', value: 1311559204}, // india
   {country: 'us', value: 331883986}, // united states
@@ -9,7 +11,7 @@ const populationData = [
   {country: 'mx', value: 127318112}, // mexico
 ];
 
-const GDPData = [
+const GDPData: Data = [
   {country: 'cn', value: 9770.8}, // china
   {country: 'in', value: 2010.0}, // india
   {country: 'us', value: 62794.6}, // united states

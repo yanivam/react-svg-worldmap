@@ -45,6 +45,17 @@ type DataItem = {
   value: number;
 };
 
+type CountryContext = {
+  country: ISOCode;
+  countryName: string;
+  countryValue: number | undefined;
+  color: string;
+  minValue: number;
+  maxValue: number;
+  prefix: string;
+  suffix: string;
+}
+
 type hrefFunctionType = (
   countryName: string,
   isoCode: ISOCode,

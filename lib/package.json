@@ -5,7 +5,7 @@
   "displayName": "React Worldmap",
   "description": "A pure react component to draw a map of world countries. Simple. Free.",
   "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -13,9 +13,7 @@
     "node": ">=10"
   },
   "scripts": {
-    "minify": "terser --compress --mangle --output ./dist/index.js -- ./dist/index.js && terser --compress --mangle --output ./dist/countries.geo.js -- ./dist/countries.geo.js",
-    "prebuild": "rm -rf dist;eslint . --ext .tsx --fix",
-    "build": "tsc -p tsconfig.json && yarn minify",
+    "build": "tsc",
     "build:local": "yarn build && npm pack"
   },
   "peerDependencies": {
@@ -28,8 +26,7 @@
   },
   "devDependencies": {
     "@types/d3-geo": "^1.12.1",
-    "@types/geojson": "^7946.0.7",
-    "terser": "^5.3.3"
+    "@types/geojson": "^7946.0.7"
   },
   "authors": [
     "yanivam (https://github.com/yanivam)"
