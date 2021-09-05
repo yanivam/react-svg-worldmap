@@ -69,3 +69,13 @@ export function drawTooltip(
     <g pointerEvents={'none'} key={`path${idx}xyz`}></g>
   );
 }
+
+export function drawTextLabel(
+  label: string,
+  idx: number,
+  props: ComponentProps<'text'>,
+): JSX.Element {
+  return (
+    <text {...props} key={`text_${idx}`}>{label}</text>
+  );
+}

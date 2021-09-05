@@ -38,6 +38,7 @@ sidebar_position: 4
 | `hrefFunction` | <code>(context: CountryContext) => object &#124; string &#124; undefined</code> | A callback function to bind an href link to each country. The return can be the target URL as a string or an object specifying props passed to the anchor element (e.g. `href` and `target`). (see [Href binding example](/examples/links)) |
 | `tooltipTextFunction` | `(context: CountryContext) => string` | A callback function to customize tooltip text (see [Localization example](/examples/localization)) |
 | `onClickFunction` | `(context: CountryContext & {event: React.MouseEvent}) => void` | A callback function to add custom onclick logic (see [Onclick action example](/examples/onclick)) |
+| `textLabelFunction` | `(mapWidth: number) => ({label: string} & TextProps)[]` | A callback function to draw text labels on the map (see [Text labels example](/examples/text-labels)) |
 
 </small>
 
