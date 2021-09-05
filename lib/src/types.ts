@@ -53,4 +53,6 @@ export interface Props {
   hrefFunction?: (
     context: CountryContext,
   ) => ComponentProps<'a'> | string | undefined;
+
+  textLabelFunction?: (width: number) => ({label: string} & ComponentProps<'text'>)[];
 }

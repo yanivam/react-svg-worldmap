@@ -11,7 +11,7 @@ import {
   defaultTooltip,
 } from './constants';
 import {useWindowWidth, responsify} from './utils';
-import {drawFrame, drawRegion, drawTooltip} from './draw';
+import {drawFrame, drawRegion, drawTextLabel, drawTooltip} from './draw';
 
 export * from './types';
 
@@ -34,6 +34,7 @@ export default function WorldMap(props: Props): JSX.Element {
     tooltipTextFunction = defaultTooltip,
     onClickFunction,
     hrefFunction,
+    textLabelFunction = () => [],
   } = props;
   const windowWidth = useWindowWidth();
 
@@ -45,7 +46,7 @@ export default function WorldMap(props: Props): JSX.Element {
   const containerRef = React.createRef<SVGSVGElement>();
 
   // Calc min/max values and build country map for direct access
-  const countryValueMap = Object.fromEntries(data.map(({country, value}) => [country, value]));
+  const countryValueMap = Object.fromEntries(data.map(({country, value}) => [country.toUpperCase(), value]));
   const minValue = Math.min(...data.map(({value}) => value));
   const maxValue = Math.max(...data.map(({value}) => value));
 
@@ -55,7 +56,7 @@ export default function WorldMap(props: Props): JSX.Element {
 
   const frame = drawFrame(isFrame, frameColor);
 
-  const pathsAndToolstips = geoData.features.map((feature, idx) => {
+  const regions = geoData.features.map((feature, idx) => {
     const triggerRef = React.createRef<SVGPathElement>();
     const {I: isoCode, N: countryName, C: coordinates} = feature;
     const geoFeature: GeoJSON.Feature = {
@@ -103,12 +104,14 @@ export default function WorldMap(props: Props): JSX.Element {
   });
 
   // build paths
-  const paths = pathsAndToolstips.map((entry) => entry.path);
+  const regionPaths = regions.map((entry) => entry.path);
 
   // build tooltips
-  const highlightedTooltips = pathsAndToolstips.map(
+  const regionTooltips = regions.map(
     (entry) => entry.highlightedTooltip,
   );
+
+  const textLabelNodes = textLabelFunction(width).map(({label, ...props}, idx) => drawTextLabel(label, idx, props));
 
   // Render the SVG
   return (
@@ -118,8 +121,9 @@ export default function WorldMap(props: Props): JSX.Element {
       )}
       <svg ref={containerRef} height={`${height}px`} width={`${width}px`}>
         {frame}
-        <g transform={`scale(${scale}) translate (0,240)`}>{paths}</g>
-        {highlightedTooltips}
+        <g transform={`scale(${scale}) translate (0,240)`}>{regionPaths}</g>
+        <g>{textLabelNodes}</g>
+        {regionTooltips}
       </svg>
     </figure>
   );

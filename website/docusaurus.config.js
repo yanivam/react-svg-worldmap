@@ -30,6 +30,7 @@ module.exports = {
             {to: '/examples/localization', label: 'Localization'},
             {to: '/examples/onclick', label: 'Onclick action'},
             {to: '/examples/links', label: 'Binding links'},
+            {to: '/examples/text-labels', label: 'Text labels'},
           ],
         },
         {
