@@ -11,11 +11,7 @@ const createTextLabels = (width: number) => {
   ];
   if (width < 550) {
     labels.forEach((label) => {
-      if (typeof label.style === 'undefined') {
-        label.style = {fontSize: '70%'};
-      } else {
-        label.style.fontSize = '70%';
-      }
+      label.style = {...label.style, fontSize: '70%'};
     });
   }
   return labels;
