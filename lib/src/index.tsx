@@ -11,7 +11,11 @@ import {
   defaultTooltip,
 } from './constants';
 import {useWindowWidth, responsify} from './utils';
-import {drawFrame, drawRegion, drawTextLabel, drawTooltip} from './draw';
+import {drawTooltip} from './draw';
+import Frame from './components/Frame';
+import Region from './components/Region';
+import TextLabel from './components/TextLabel';
+// import Tooltip from './components/Tooltip';
 
 export * from './types';
 
@@ -27,9 +31,10 @@ export default function WorldMap(props: Props): JSX.Element {
     tooltipBgColor = 'black',
     tooltipTextColor = 'white',
     size = defaultSize,
-    frame: isFrame = false,
+    frame = false,
     frameColor = 'black',
     borderColor = 'black',
+    richInteraction = false,
     styleFunction = defaultCountryStyle(borderColor, strokeOpacity),
     tooltipTextFunction = defaultTooltip,
     onClickFunction,
@@ -41,20 +46,22 @@ export default function WorldMap(props: Props): JSX.Element {
   // inits
   const width = typeof size === 'number' ? size : responsify(size, windowWidth);
   const height = width * heightRatio;
-  const scale = width / 960;
+  const [scale, setScale] = React.useState(1);
+  const [translateX, setTranslateX] = React.useState(0);
+  const [translateY, setTranslateY] = React.useState(0);
 
   const containerRef = React.createRef<SVGSVGElement>();
 
   // Calc min/max values and build country map for direct access
-  const countryValueMap = Object.fromEntries(data.map(({country, value}) => [country.toUpperCase(), value]));
+  const countryValueMap = Object.fromEntries(
+    data.map(({country, value}) => [country.toUpperCase(), value]),
+  );
   const minValue = Math.min(...data.map(({value}) => value));
   const maxValue = Math.max(...data.map(({value}) => value));
 
   // Build a path & a tooltip for each country
   const projection = geoMercator();
   const pathGenerator = geoPath().projection(projection);
-
-  const frame = drawFrame(isFrame, frameColor);
 
   const regions = geoData.features.map((feature, idx) => {
     const triggerRef = React.createRef<SVGPathElement>();
@@ -78,16 +85,16 @@ export default function WorldMap(props: Props): JSX.Element {
       suffix: valueSuffix,
     };
 
-    const path = drawRegion(
-      {
-        ref: triggerRef,
-        d: pathGenerator(geoFeature)!,
-        style: styleFunction(context),
-        onClick: (event) => onClickFunction?.({...context, event}),
-        strokeOpacity,
-      },
-      idx,
-      hrefFunction?.(context),
+    const path = (
+      <Region
+        ref={triggerRef}
+        d={pathGenerator(geoFeature)!}
+        style={styleFunction(context)}
+        onClick={(event) => onClickFunction?.({...context, event})}
+        strokeOpacity={strokeOpacity}
+        href={hrefFunction?.(context)}
+        key={`path${idx}`}
+      />
     );
     const tooltip = drawTooltip(
       typeof context.countryValue === 'undefined'
@@ -107,11 +114,28 @@ export default function WorldMap(props: Props): JSX.Element {
   const regionPaths = regions.map((entry) => entry.path);
 
   // build tooltips
-  const regionTooltips = regions.map(
-    (entry) => entry.highlightedTooltip,
-  );
+  const regionTooltips = regions.map((entry) => entry.highlightedTooltip);
 
-  const textLabelNodes = textLabelFunction(width).map(({label, ...props}, idx) => drawTextLabel(label, idx, props));
+  const eventHandlers = {
+    onMouseDown(e: React.MouseEvent) {
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    onDoubleClick(e: React.MouseEvent) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      if (scale === 4) {
+        setTranslateX(0);
+        setTranslateY(0);
+        setScale(1);
+      } else {
+        setTranslateX(2 * translateX - x);
+        setTranslateY(2 * translateY - y);
+        setScale(scale * 2);
+      }
+    },
+  };
 
   // Render the SVG
   return (
@@ -119,10 +143,24 @@ export default function WorldMap(props: Props): JSX.Element {
       {title && (
         <figcaption className="worldmap__figure-caption">{title}</figcaption>
       )}
-      <svg ref={containerRef} height={`${height}px`} width={`${width}px`}>
-        {frame}
-        <g transform={`scale(${scale}) translate (0,240)`}>{regionPaths}</g>
-        <g>{textLabelNodes}</g>
+      <svg
+        ref={containerRef}
+        height={`${height}px`}
+        width={`${width}px`}
+        {...(richInteraction ? eventHandlers : undefined)}>
+        {frame && <Frame color={frameColor} />}
+        <g
+          transform={`translate(${translateX}, ${translateY}) scale(${
+            (width / 960) * scale
+          }) translate(0, 240)`}
+          style={{transition: 'all 0.2s'}}>
+          {regionPaths}
+        </g>
+        <g>
+          {textLabelFunction(width).map((props, idx) => (
+            <TextLabel {...props} key={`text_${idx}`} />
+          ))}
+        </g>
         {regionTooltips}
       </svg>
     </figure>

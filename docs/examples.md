@@ -54,3 +54,8 @@ sidebar_position: 5
 - The callback receives `mapWidth`, the current map width, as the parameter, and responsively draws text labels onto the SVG.
 - Besides the `label`, any other keys will be passed as props to the `text` element.
 - This example labels the four oceans responsively, coloring the Arctic ocean in another color.
+
+## [examples/rich-interaction](/examples/rich-interaction)
+
+- An example showing how a map with rich interactions enabled is like.
+- Try double-clicking on the map!

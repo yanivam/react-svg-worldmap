@@ -39,8 +39,9 @@ export interface Props {
   frame?: boolean;
   frameColor?: string;
   borderColor?: string;
+  richInteraction?: boolean;
   /** @deprecated */
-  type?: string; // depracated for the time being (reasoning in the README.md file)
+  type?: string; // deprecated for the time being (reasoning in the README.md file)
 
   styleFunction?: (context: CountryContext) => React.CSSProperties;
 
@@ -54,5 +55,7 @@ export interface Props {
     context: CountryContext,
   ) => ComponentProps<'a'> | string | undefined;
 
-  textLabelFunction?: (width: number) => ({label: string} & ComponentProps<'text'>)[];
+  textLabelFunction?: (
+    width: number,
+  ) => ({label: string} & ComponentProps<'text'>)[];
 }

@@ -31,6 +31,7 @@ module.exports = {
             {to: '/examples/onclick', label: 'Onclick action'},
             {to: '/examples/links', label: 'Binding links'},
             {to: '/examples/text-labels', label: 'Text labels'},
+            {to: '/examples/rich-interaction', label: 'Rich interactions'},
           ],
         },
         {

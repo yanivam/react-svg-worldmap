@@ -15,7 +15,7 @@ const createTextLabels = (width: number) => {
     });
   }
   return labels;
-}
+};
 
 export default function App(): JSX.Element {
   return (

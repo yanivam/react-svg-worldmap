@@ -59,3 +59,15 @@ const width = Math.min(window.innerHeight, window.innerWidth) * 0.75;
 ```
 
 :::
+
+## Rich interactions
+
+This cool UI feature would cause a few events to be captured inside the SVG graphics. Current interactions include:
+
+- Double-clicking causes the map to zoom in twice, then restore its original scale.
+
+TODO:
+
+- Vertical-scrolling causes the map to zoom in and out.
+- Draggable when zoomed in.
+- Separate scale slider and zoom button components.
