@@ -60,6 +60,9 @@ module.exports = {
           editUrl:
             'https://github.com/yanivam/react-svg-worldmap/edit/main/docs/',
           routeBasePath: '/',
+          remarkPlugins: [
+            [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
+          ],
         },
         blog: false,
         theme: {

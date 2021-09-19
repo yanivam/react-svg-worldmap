@@ -8,6 +8,7 @@
     "build:package": "yarn workspace react-svg-worldmap build",
     "build:website": "yarn workspace website build",
     "build": "yarn build:package && yarn build:website",
+    "start:website": "yarn workspace website start",
     "lint": "eslint --cache \"**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint --fix \"**/*.{js,jsx,ts,tsx,json}\"",
     "format": "yarn format:js && yarn format:docs",

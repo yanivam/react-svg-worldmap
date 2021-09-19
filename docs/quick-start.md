@@ -8,8 +8,8 @@ sidebar_position: 2
 
 In order to install, run the following command:
 
-```
-$ npm install react-svg-worldmap --save
+```bash npm2yarn
+npm install react-svg-worldmap --save
 ```
 
 ## Usage
