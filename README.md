@@ -4,6 +4,12 @@ A simple, compact and free React SVG world map.
 
 ![simple example](https://raw.githubusercontent.com/yanivam/react-svg-worldmap/master/simple-example.gif)
 
+## Documentation & Examples
+
+We use GitHub pages to provide documentation with ample of live examples. 
+
+Give it a try at [yanivam.github.io/react-svg-worldmap](https://yanivam.github.io/react-svg-worldmap).
+
 ## Why is it different?
 
 Focus on simple and free.
@@ -62,8 +68,6 @@ function App() {
   );
 }
 ```
-
-For exhaustive documentation on props and customization options, visit the website at https://yanivam.github.io/react-svg-worldmap.
 
 ## License
 
