@@ -100,3 +100,13 @@
 
 - Refactor build and dependency cleanup
 - Moved code to lib folder
+
+## 2.0.0-alpah.0
+
+- Move examples and documnetation to Website on Github pages
+- Changed master to main
+- New feature: testLabelFunction callback
+- New feature: double-click to zoom map
+- New feature: Export isoCode type
+- New feature: Optional numeric value for 'size'
+- New feature: SSR-compatible rendering
