@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React, {useLayoutEffect} from 'react';
 import {sizeMap, defaultSize} from './constants';
 import type {SizeOption} from './types';
 
 // calculate window width
 export function useWindowWidth(): number {
   const [width, setWidth] = React.useState(sizeMap[defaultSize]);
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     const updateWidth = () => {
       setWidth(window.innerWidth);
     };

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import type {RefObject} from 'react';
 import {PathTooltip} from 'react-path-tooltip';
 

@@ -27,6 +27,6 @@
     },
     "jsx": "react",
     "removeComments": true,
-    "esModuleInterop": false
+    "esModuleInterop": true
   }
 }

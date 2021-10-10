@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import type {ComponentProps, ForwardedRef} from 'react';
 
 export interface Props extends Omit<ComponentProps<'path'>, 'href'> {
