@@ -56,7 +56,6 @@ module.exports = {
       {
         docs: {
           path: '../docs',
-          sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
             'https://github.com/yanivam/react-svg-worldmap/edit/main/docs/',
           routeBasePath: '/',

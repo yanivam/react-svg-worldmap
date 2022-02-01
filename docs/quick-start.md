@@ -53,13 +53,13 @@ function App() {
 
 The only mandatory prop is `data`, which contains an array of country/value objects, with values for countries that you have values for. (Countries without a value will be blank.) The country code is a 2 character string representing the country ([ISO alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)) and value is a number.
 
-## JavaScript Usage
+## Class components
 
-```js
+```jsx
 import React, {Component} from 'react';
-const WorldMap = require('react-svg-worldmap');
+import WorldMap from 'react-svg-worldmap';
 
-export default class SimpleJs extends Component {
+export default class App extends Component {
   render() {
     // ...
     const data = [
