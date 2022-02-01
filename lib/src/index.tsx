@@ -145,7 +145,8 @@ export default function WorldMap(props: Props): JSX.Element {
       )}
       <svg
         ref={containerRef}
-        viewBox={`0 0 ${width} ${height}`}
+        height={`${height}px`}
+        width={`${width}px`}
         {...(richInteraction ? eventHandlers : undefined)}
       >
         {frame && <Frame color={frameColor} />}
