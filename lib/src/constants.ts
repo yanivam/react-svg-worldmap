@@ -20,8 +20,10 @@ export const defaultCountryStyle =
       ? 0.2 + 0.6 * ((countryValue - minValue) / (maxValue - minValue))
       : 0;
     
-    if (isNan(opacityLevel)) {
-      opacityLevel = 0.8
+    // If there's only one value, the calculation would be dividing by zero.
+    // We adjust it to the maximum value.
+    if (Number.isNaN(opacityLevel)) {
+      opacityLevel = 0.8;
     }
     
     const style = {
