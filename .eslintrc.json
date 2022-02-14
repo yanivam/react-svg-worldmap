@@ -1,4 +1,17 @@
 {
   "root": true,
-  "extends": ["jc"]
+  "extends": ["jc"],
+  "rules": {
+    "import/no-unresolved": [
+      "error",
+      {
+        "ignore": [
+          "^@theme/*",
+          "^@docusaurus/*",
+          "^@site/*",
+          "^!!raw-loader!/*"
+        ]
+      }
+    ]
+  }
 }
