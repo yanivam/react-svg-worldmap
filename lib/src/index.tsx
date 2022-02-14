@@ -76,7 +76,7 @@ export default function WorldMap(props: Props): JSX.Element {
     [onClickFunction],
   );
 
-  const regions = geoData.features.map((feature, idx) => {
+  const regions = geoData.features.map((feature) => {
     const triggerRef = createRef<SVGPathElement>();
     const { I: isoCode, N: countryName, C: coordinates } = feature;
     const geoFeature: GeoJSON.Feature = {
@@ -115,7 +115,6 @@ export default function WorldMap(props: Props): JSX.Element {
         : tooltipTextFunction(context),
       tooltipBgColor,
       tooltipTextColor,
-      idx,
       triggerRef,
       containerRef,
     );

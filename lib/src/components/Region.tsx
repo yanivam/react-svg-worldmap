@@ -6,21 +6,27 @@ export interface Props extends Omit<ComponentProps<"path">, "href"> {
   href?: ComponentProps<"a"> | string;
 }
 
-function onMouseOver(event: React.MouseEvent<SVGPathElement>) {
-  event.currentTarget.style.strokeWidth = "2";
-  event.currentTarget.style.strokeOpacity = "0.5";
+function onMouseOver(strokeOpacity: number) {
+  return (event: React.MouseEvent<SVGPathElement>) => {
+    event.currentTarget.style.strokeWidth = "2";
+    event.currentTarget.style.strokeOpacity = String(
+      Math.min(strokeOpacity + 0.3, 1),
+    );
+  };
 }
 
-function onMouseOut(event: React.MouseEvent<SVGPathElement>) {
-  event.currentTarget.style.strokeWidth = "2";
-  event.currentTarget.style.strokeOpacity = "0.5";
+function onMouseOut(strokeOpacity: number) {
+  return (event: React.MouseEvent<SVGPathElement>) => {
+    event.currentTarget.style.strokeWidth = "1";
+    event.currentTarget.style.strokeOpacity = String(strokeOpacity);
+  };
 }
 
 function Region({ href, ...props }: Props, ref: ForwardedRef<SVGPathElement>) {
   const path = (
     <path
-      onMouseOver={onMouseOver}
-      onMouseOut={onMouseOut}
+      onMouseOver={onMouseOver(Number(props.strokeOpacity))}
+      onMouseOut={onMouseOut(Number(props.strokeOpacity))}
       ref={ref}
       {...props}
     />
