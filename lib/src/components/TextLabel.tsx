@@ -1,10 +1,10 @@
-import React from 'react';
-import type {ComponentProps} from 'react';
+import React from "react";
+import type { ComponentProps } from "react";
 
-export interface Props extends ComponentProps<'text'> {
+export interface Props extends ComponentProps<"text"> {
   label: string;
 }
 
-export default function TextLabel({label, ...props}: Props): JSX.Element {
+export default function TextLabel({ label, ...props }: Props): JSX.Element {
   return <text {...props}>{label}</text>;
 }

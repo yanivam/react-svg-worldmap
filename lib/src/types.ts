@@ -1,11 +1,11 @@
-import type {ComponentProps} from 'react';
-import geoData from './countries.geo';
+import type React from "react";
+import geoData from "./countries.geo";
 
-const isoCodes = geoData.features.map(({I}) => I);
+const isoCodes = geoData.features.map(({ I }) => I);
 export type ISOCode =
   | typeof isoCodes[number]
   | Lowercase<typeof isoCodes[number]>;
-export type SizeOption = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+export type SizeOption = "sm" | "md" | "lg" | "xl" | "xxl";
 
 export interface DataItem {
   country: ISOCode;
@@ -35,7 +35,7 @@ export interface Props {
   backgroundColor?: string;
   tooltipBgColor?: string;
   tooltipTextColor?: string;
-  size?: SizeOption | 'responsive' | number;
+  size?: SizeOption | "responsive" | number;
   frame?: boolean;
   frameColor?: string;
   borderColor?: string;
@@ -46,16 +46,16 @@ export interface Props {
   styleFunction?: (context: CountryContext) => React.CSSProperties;
 
   onClickFunction?: (
-    context: CountryContext & {event: React.MouseEvent<SVGElement, Event>},
+    context: CountryContext & { event: React.MouseEvent<SVGElement, Event> },
   ) => void;
 
   tooltipTextFunction?: (context: CountryContext) => string;
 
   hrefFunction?: (
     context: CountryContext,
-  ) => ComponentProps<'a'> | string | undefined;
+  ) => React.ComponentProps<"a"> | string | undefined;
 
   textLabelFunction?: (
     width: number,
-  ) => ({label: string} & ComponentProps<'text'>)[];
+  ) => ({ label: string } & React.ComponentProps<"text">)[];
 }

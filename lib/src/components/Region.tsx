@@ -1,34 +1,35 @@
-import React from 'react';
-import type {ComponentProps, ForwardedRef} from 'react';
+import React from "react";
+import type { ComponentProps, ForwardedRef } from "react";
 
-export interface Props extends Omit<ComponentProps<'path'>, 'href'> {
+export interface Props extends Omit<ComponentProps<"path">, "href"> {
   strokeOpacity: string | number;
-  href?: ComponentProps<'a'> | string;
+  href?: ComponentProps<"a"> | string;
 }
 
-const Region = React.forwardRef(function Region(
-  {href, ...props}: Props,
-  ref: ForwardedRef<SVGPathElement>,
-) {
+function onMouseOver(event: React.MouseEvent<SVGPathElement>) {
+  event.currentTarget.style.strokeWidth = "2";
+  event.currentTarget.style.strokeOpacity = "0.5";
+}
+
+function onMouseOut(event: React.MouseEvent<SVGPathElement>) {
+  event.currentTarget.style.strokeWidth = "2";
+  event.currentTarget.style.strokeOpacity = "0.5";
+}
+
+function Region({ href, ...props }: Props, ref: ForwardedRef<SVGPathElement>) {
   const path = (
     <path
-      onMouseOver={(event) => {
-        event.currentTarget.style.strokeWidth = '2';
-        event.currentTarget.style.strokeOpacity = '0.5';
-      }}
-      onMouseOut={(event) => {
-        event.currentTarget.style.strokeWidth = '1';
-        event.currentTarget.style.strokeOpacity = `${props.strokeOpacity}`;
-      }}
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
       ref={ref}
       {...props}
     />
   );
 
-  if (href) {
-    return <a {...(typeof href === 'string' ? {href} : href)}>{path}</a>;
-  }
-  return path;
-});
+  if (href)
+    return <a {...(typeof href === "string" ? { href } : href)}>{path}</a>;
 
-export default Region;
+  return path;
+}
+
+export default React.forwardRef(Region);

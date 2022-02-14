@@ -16,10 +16,6 @@
     "build": "tsc",
     "build:local": "yarn build && npm pack"
   },
-  "peerDependencies": {
-    "react": ">=16",
-    "react-dom": ">=16.0.0"
-  },
   "dependencies": {
     "d3-geo": "^1.11.9",
     "react-path-tooltip": "^1.0.17"
@@ -27,6 +23,10 @@
   "devDependencies": {
     "@types/d3-geo": "^1.12.1",
     "@types/geojson": "^7946.0.7"
+  },
+  "peerDependencies": {
+    "react": ">=16",
+    "react-dom": ">=16.0.0"
   },
   "authors": [
     "yanivam (https://github.com/yanivam)"
@@ -41,7 +41,6 @@
     "svg",
     "countries"
   ],
-  "module": "dist/react-svg-worldmap.esm.js",
   "bugs": "https://github.com/yanivam/react-svg-worldmap/issues",
   "repository": "github:yanivam/react-svg-worldmap"
 }

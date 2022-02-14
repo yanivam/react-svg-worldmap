@@ -44,7 +44,7 @@ sidebar_position: 4
 </small>
 
 ```ts
-type SizeOption = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+type SizeOption = "sm" | "md" | "lg" | "xl" | "xxl";
 
 type DataItem = {
   country: ISOCode;

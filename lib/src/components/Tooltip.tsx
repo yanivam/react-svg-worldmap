@@ -1,6 +1,6 @@
-import React from 'react';
-import type {RefObject} from 'react';
-import {PathTooltip} from 'react-path-tooltip';
+import React from "react";
+import type { RefObject } from "react";
+import { PathTooltip } from "react-path-tooltip";
 
 export interface Props {
   tip?: string;
@@ -11,7 +11,7 @@ export interface Props {
 }
 
 // TODO: need React.forwardRef to handle this
-export function Tooltip({tip, ...props}: Props) {
+export function Tooltip({ tip, ...props }: Props): JSX.Element | null {
   return tip ? <PathTooltip fontSize={12} tip={tip} {...props} /> : null;
 }
 

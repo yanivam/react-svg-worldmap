@@ -1,39 +1,46 @@
-import React, {useState, createRef} from 'react';
-import GeoJSON from 'geojson';
-import {geoMercator, geoPath} from 'd3-geo';
-import geoData from './countries.geo';
-import type {Props, CountryContext} from './types';
+import React, { useState, createRef } from "react";
+import type GeoJSON from "geojson";
+import { geoMercator, geoPath } from "d3-geo";
+import geoData from "./countries.geo";
+import type { Props, CountryContext } from "./types";
 import {
   defaultColor,
   defaultSize,
   heightRatio,
   defaultCountryStyle,
   defaultTooltip,
-} from './constants';
-import {useWindowWidth, responsify} from './utils';
-import {drawTooltip} from './draw';
-import Frame from './components/Frame';
-import Region from './components/Region';
-import TextLabel from './components/TextLabel';
+} from "./constants";
+import { useWindowWidth, responsify } from "./utils";
+import { drawTooltip } from "./draw";
+import Frame from "./components/Frame";
+import Region from "./components/Region";
+import TextLabel from "./components/TextLabel";
 // import Tooltip from './components/Tooltip';
 
-export * from './types';
+export type {
+  ISOCode,
+  SizeOption,
+  DataItem,
+  Data,
+  CountryContext,
+  Props,
+} from "./types";
 
 export default function WorldMap(props: Props): JSX.Element {
   const {
     data,
     title,
-    valuePrefix = '',
-    valueSuffix = '',
+    valuePrefix = "",
+    valueSuffix = "",
     color = defaultColor,
     strokeOpacity = 0.2,
-    backgroundColor = 'white',
-    tooltipBgColor = 'black',
-    tooltipTextColor = 'white',
+    backgroundColor = "white",
+    tooltipBgColor = "black",
+    tooltipTextColor = "white",
     size = defaultSize,
     frame = false,
-    frameColor = 'black',
-    borderColor = 'black',
+    frameColor = "black",
+    borderColor = "black",
     richInteraction = false,
     styleFunction = defaultCountryStyle(borderColor, strokeOpacity),
     tooltipTextFunction = defaultTooltip,
@@ -44,7 +51,7 @@ export default function WorldMap(props: Props): JSX.Element {
   const windowWidth = useWindowWidth();
 
   // inits
-  const width = typeof size === 'number' ? size : responsify(size, windowWidth);
+  const width = typeof size === "number" ? size : responsify(size, windowWidth);
   const height = width * heightRatio;
   const [scale, setScale] = useState(1);
   const [translateX, setTranslateX] = useState(0);
@@ -54,23 +61,29 @@ export default function WorldMap(props: Props): JSX.Element {
 
   // Calc min/max values and build country map for direct access
   const countryValueMap = Object.fromEntries(
-    data.map(({country, value}) => [country.toUpperCase(), value]),
+    data.map(({ country, value }) => [country.toUpperCase(), value]),
   );
-  const minValue = Math.min(...data.map(({value}) => value));
-  const maxValue = Math.max(...data.map(({value}) => value));
+  const minValue = Math.min(...data.map(({ value }) => value));
+  const maxValue = Math.max(...data.map(({ value }) => value));
 
   // Build a path & a tooltip for each country
   const projection = geoMercator();
   const pathGenerator = geoPath().projection(projection);
 
+  const onClick = React.useCallback(
+    (context: CountryContext) => (event: React.MouseEvent<SVGElement>) =>
+      onClickFunction?.({ ...context, event }),
+    [onClickFunction],
+  );
+
   const regions = geoData.features.map((feature, idx) => {
     const triggerRef = createRef<SVGPathElement>();
-    const {I: isoCode, N: countryName, C: coordinates} = feature;
+    const { I: isoCode, N: countryName, C: coordinates } = feature;
     const geoFeature: GeoJSON.Feature = {
-      type: 'Feature',
-      properties: {NAME: countryName, ISO_A2: isoCode},
+      type: "Feature",
+      properties: { NAME: countryName, ISO_A2: isoCode },
       geometry: {
-        type: 'MultiPolygon',
+        type: "MultiPolygon",
         coordinates: coordinates as unknown as GeoJSON.Position[][][],
       },
     };
@@ -90,14 +103,14 @@ export default function WorldMap(props: Props): JSX.Element {
         ref={triggerRef}
         d={pathGenerator(geoFeature)!}
         style={styleFunction(context)}
-        onClick={(event) => onClickFunction?.({...context, event})}
+        onClick={onClick(context)}
         strokeOpacity={strokeOpacity}
         href={hrefFunction?.(context)}
-        key={`path${idx}`}
+        key={countryName}
       />
     );
     const tooltip = drawTooltip(
-      typeof context.countryValue === 'undefined'
+      typeof context.countryValue === "undefined"
         ? undefined
         : tooltipTextFunction(context),
       tooltipBgColor,
@@ -107,7 +120,7 @@ export default function WorldMap(props: Props): JSX.Element {
       containerRef,
     );
 
-    return {path, highlightedTooltip: tooltip};
+    return { path, highlightedTooltip: tooltip };
   });
 
   // build paths
@@ -139,7 +152,7 @@ export default function WorldMap(props: Props): JSX.Element {
 
   // Render the SVG
   return (
-    <figure className="worldmap__figure-container" style={{backgroundColor}}>
+    <figure className="worldmap__figure-container" style={{ backgroundColor }}>
       {title && (
         <figcaption className="worldmap__figure-caption">{title}</figcaption>
       )}
@@ -147,20 +160,18 @@ export default function WorldMap(props: Props): JSX.Element {
         ref={containerRef}
         height={`${height}px`}
         width={`${width}px`}
-        {...(richInteraction ? eventHandlers : undefined)}
-      >
+        {...(richInteraction ? eventHandlers : undefined)}>
         {frame && <Frame color={frameColor} />}
         <g
           transform={`translate(${translateX}, ${translateY}) scale(${
             (width / 960) * scale
           }) translate(0, 240)`}
-          style={{transition: 'all 0.2s'}}
-        >
+          style={{ transition: "all 0.2s" }}>
           {regionPaths}
         </g>
         <g>
-          {textLabelFunction(width).map((props, idx) => (
-            <TextLabel {...props} key={`text_${idx}`} />
+          {textLabelFunction(width).map((labelProps) => (
+            <TextLabel {...labelProps} key={labelProps.label} />
           ))}
         </g>
         {regionTooltips}
@@ -169,4 +180,4 @@ export default function WorldMap(props: Props): JSX.Element {
   );
 }
 
-export {WorldMap};
+export { WorldMap };

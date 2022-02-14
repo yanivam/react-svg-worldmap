@@ -1,8 +1,8 @@
-import type {CSSProperties} from 'react';
-import type {SizeOption, CountryContext} from './types';
+import type { CSSProperties } from "react";
+import type { SizeOption, CountryContext } from "./types";
 
-export const defaultSize = 'xl';
-export const defaultColor = '#dddddd';
+export const defaultSize = "xl";
+export const defaultColor = "#dddddd";
 export const heightRatio = 3 / 4;
 export const sizeMap: Record<SizeOption, number> = {
   sm: 240,
@@ -15,29 +15,27 @@ export const sizeMap: Record<SizeOption, number> = {
 export const defaultCountryStyle =
   (stroke: string, strokeOpacity: number) =>
   (context: CountryContext): CSSProperties => {
-    const {countryValue, minValue, maxValue, color} = context;
+    const { countryValue, minValue, maxValue, color } = context;
     let opacityLevel = countryValue
       ? 0.2 + 0.6 * ((countryValue - minValue) / (maxValue - minValue))
       : 0;
-    
+
     // If there's only one value, the calculation would be dividing by zero.
     // We adjust it to the maximum value.
-    if (Number.isNaN(opacityLevel)) {
-      opacityLevel = 0.8;
-    }
-    
+    if (Number.isNaN(opacityLevel)) opacityLevel = 0.8;
+
     const style = {
       fill: color,
       fillOpacity: opacityLevel,
       stroke,
       strokeWidth: 1,
       strokeOpacity,
-      cursor: 'pointer',
+      cursor: "pointer",
     };
     return style;
   };
 
 export const defaultTooltip = (context: CountryContext): string => {
-  const {countryName, countryValue, prefix, suffix} = context;
+  const { countryName, countryValue, prefix, suffix } = context;
   return `${countryName} ${prefix} ${countryValue!.toLocaleString()} ${suffix}`;
 };

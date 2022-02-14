@@ -13,7 +13,7 @@ This is done by passing your custom implementation of the `styleFunction`. The f
 For example:
 
 ```tsx
-import {CountryContext} from 'react-svg-worldmap';
+import { CountryContext } from "react-svg-worldmap";
 
 const stylingFunction = ({
   countryValue,
@@ -26,12 +26,12 @@ const stylingFunction = ({
     ? 0.1 + (1.5 * (countryValue - minValue)) / (maxValue - minValue)
     : 0;
   return {
-    fill: country === 'US' ? 'blue' : color,
+    fill: country === "US" ? "blue" : color,
     fillOpacity: opacityLevel,
-    stroke: 'green',
+    stroke: "green",
     strokeWidth: 1,
     strokeOpacity: 0.2,
-    cursor: 'pointer',
+    cursor: "pointer",
   };
 };
 ```
