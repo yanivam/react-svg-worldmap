@@ -1,11 +1,21 @@
-import React, { useLayoutEffect } from "react";
+import { useState, useLayoutEffect, useEffect } from "react";
 import { sizeMap, defaultSize } from "./constants";
 import type { SizeOption } from "./types";
 
+/**
+ * This hook is like useLayoutEffect, but without the SSR warning
+ * It seems hacky but it's used in many React libs (Redux, Formik...)
+ * Also mentioned here: https://github.com/facebook/react/issues/16956
+ * It is useful when you need to update a ref as soon as possible after a React
+ * render (before `useEffect`)
+ */
+export const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
 // calculate window width
 export function useWindowWidth(): number {
-  const [width, setWidth] = React.useState(sizeMap[defaultSize]);
-  useLayoutEffect(() => {
+  const [width, setWidth] = useState(sizeMap[defaultSize]);
+  useIsomorphicLayoutEffect(() => {
     const updateWidth = () => {
       setWidth(window.innerWidth);
     };
