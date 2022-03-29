@@ -12,6 +12,7 @@ sidebar_position: 4
 - `Data`: it's just `DataItem[]`, for more convenience.
 - `CountryContext`: the context in rendering each country, to be used in customization callbacks.
 - `Props`: the props type for the `WorldMap` component.
+- `Countries`: the list of countries (namde + code) available in the library
 - `WorldMap`: available both as named and default export. The actual component to be rendered.
 
 ## Props

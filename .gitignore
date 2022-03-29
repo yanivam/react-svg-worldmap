@@ -27,3 +27,4 @@ coverage
 .env.test
 .cache
 .cache/
+.yarn
