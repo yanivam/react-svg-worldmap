@@ -179,9 +179,6 @@ export default function WorldMap(props: Props): JSX.Element {
   );
 }
 
-const countries = geoData.features.map((g) => ({
-  name: g.N,
-  code: g.I,
-}));
+const regions = geoData.features.map((g) => ({ name: g.N, code: g.I }));
 
-export { WorldMap, countries };
+export { WorldMap, regions };
