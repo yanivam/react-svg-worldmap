@@ -1,7 +1,1 @@
-{
-  "arrowParens": "always",
-  "bracketSameLine": true,
-  "printWidth": 80,
-  "proseWrap": "never",
-  "trailingComma": "all"
-}
+"prettier-config-jc"
