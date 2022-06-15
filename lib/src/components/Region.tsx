@@ -3,7 +3,7 @@ import type { ComponentProps, ForwardedRef } from "react";
 
 export interface Props extends Omit<ComponentProps<"path">, "href"> {
   strokeOpacity: string | number;
-  href?: ComponentProps<"a"> | string;
+  href?: ComponentProps<"a"> | string | undefined;
 }
 
 function onMouseOver(strokeOpacity: number) {

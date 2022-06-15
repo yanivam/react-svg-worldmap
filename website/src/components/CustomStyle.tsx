@@ -3,9 +3,9 @@ import type { CountryContext, Data } from "react-svg-worldmap";
 import WorldMap from "react-svg-worldmap";
 
 const data: Data = [
-  { country: "cn", value: 5 }, // china
-  { country: "us", value: 10 }, // united states
-  { country: "ru", value: 7 }, // russia
+  { country: "cn", value: 5 }, // China
+  { country: "us", value: 10 }, // United States
+  { country: "ru", value: 7 }, // Russia
 ];
 
 const stylingFunction = ({

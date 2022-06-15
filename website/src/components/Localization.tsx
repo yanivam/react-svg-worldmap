@@ -3,19 +3,19 @@ import type { CountryContext } from "react-svg-worldmap";
 import WorldMap from "react-svg-worldmap";
 import { populationData } from "../data/CountryData";
 
-// spanish translation of country names
+// Spanish translation of country names
 const localizedCountryDictionary: Map<string, string> = new Map([
-  ["br", "Brasil"], // brazil
-  ["cn", "China"], // china
-  ["id", "Indonesia"], // indonesia
-  ["in", "India"], // india
-  ["mx", "México"], // mexico
-  ["ng", "Nigeria"], // nigeria
-  ["ru", "Rusia"], // russia
-  ["us", "Estados Unidos"], // united states
+  ["br", "Brasil"], // Brazil
+  ["cn", "China"], // China
+  ["id", "Indonesia"], // Indonesia
+  ["in", "India"], // India
+  ["mx", "México"], // Mexico
+  ["ng", "Nigeria"], // Nigeria
+  ["ru", "Rusia"], // Russia
+  ["us", "Estados Unidos"], // United States
 ]);
 
-// Spanish number formating for thusdands, milions, and billions
+// Spanish number formatting for thousands, millions, and billions
 // E.g. translate the number 1000000 to "1 millónes"
 const localizedNumber = (num: number, digits: number) => {
   const si = [
@@ -35,7 +35,7 @@ const localizedNumber = (num: number, digits: number) => {
   return undefined;
 };
 
-// localization callback
+// Localization callback
 const getLocalizedText = ({
   countryCode,
   countryValue,

@@ -12,7 +12,7 @@ import type { SizeOption } from "./types";
 export const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-// calculate window width
+// Calculate window width
 export function useWindowWidth(): number {
   const [width, setWidth] = useState(sizeMap[defaultSize]);
   useIsomorphicLayoutEffect(() => {
@@ -26,7 +26,7 @@ export function useWindowWidth(): number {
   return width;
 }
 
-// adjust responsive size
+// Adjust responsive size
 export function responsify(
   sizeOption: SizeOption | "responsive",
   windowWidth: number,

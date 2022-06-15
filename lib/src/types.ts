@@ -17,7 +17,7 @@ export type Data = DataItem[];
 export interface CountryContext {
   countryCode: ISOCode;
   countryName: string;
-  countryValue?: number;
+  countryValue?: number | undefined;
   color: string;
   minValue: number;
   maxValue: number;
@@ -41,7 +41,7 @@ export interface Props {
   borderColor?: string;
   richInteraction?: boolean;
   /** @deprecated */
-  type?: string; // deprecated for the time being (reasoning in the README.md file)
+  type?: string; // Deprecated for the time being (reasoning in the README.md file)
 
   styleFunction?: (context: CountryContext) => React.CSSProperties;
 

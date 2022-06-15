@@ -15,7 +15,7 @@ import { drawTooltip } from "./draw";
 import Frame from "./components/Frame";
 import Region from "./components/Region";
 import TextLabel from "./components/TextLabel";
-// import Tooltip from './components/Tooltip';
+// Import Tooltip from './components/Tooltip';
 
 export type {
   ISOCode,
@@ -50,7 +50,7 @@ export default function WorldMap(props: Props): JSX.Element {
   } = props;
   const windowWidth = useWindowWidth();
 
-  // inits
+  // Inits
   const width = typeof size === "number" ? size : responsify(size, windowWidth);
   const height = width * heightRatio;
   const [scale, setScale] = useState(1);
@@ -122,10 +122,10 @@ export default function WorldMap(props: Props): JSX.Element {
     return { path, highlightedTooltip: tooltip };
   });
 
-  // build paths
+  // Build paths
   const regionPaths = regions.map((entry) => entry.path);
 
-  // build tooltips
+  // Build tooltips
   const regionTooltips = regions.map((entry) => entry.highlightedTooltip);
 
   const eventHandlers = {

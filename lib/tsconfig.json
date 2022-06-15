@@ -1,28 +1,11 @@
 {
+  "extends": "tsconfig-jc",
   "include": ["src"],
   "compilerOptions": {
-    "target": "es2015",
-    "module": "esnext",
-    "outDir": "./dist",
-    "allowSyntheticDefaultImports": true,
-    "importHelpers": true,
-    "declaration": true,
-    "sourceMap": false,
-    "rootDir": "./src",
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictPropertyInitialization": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
     "jsx": "react",
-    "removeComments": true,
-    "esModuleInterop": true
+    "module": "commonjs",
+    "target": "esnext",
+    "rootDir": "./src",
+    "outDir": "./dist"
   }
 }
