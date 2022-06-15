@@ -63,8 +63,13 @@ export default function WorldMap(props: Props): JSX.Element {
   const countryValueMap = Object.fromEntries(
     data.map(({ country, value }) => [country.toUpperCase(), value]),
   );
-  const minValue = Math.min(...data.map(({ value }) => value));
-  const maxValue = Math.max(...data.map(({ value }) => value));
+
+  let minValue = 0;
+  let maxValue = 0;
+  if (typeof data[0].value === "number") {
+    minValue = Math.min(...data.map(({ value }) => value as number));
+    maxValue = Math.max(...data.map(({ value }) => value as number));
+  }
 
   // Build a path & a tooltip for each country
   const projection = geoMercator();

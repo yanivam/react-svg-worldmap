@@ -9,7 +9,7 @@ export type SizeOption = "sm" | "md" | "lg" | "xl" | "xxl";
 
 export interface DataItem {
   country: ISOCode;
-  value: number;
+  value: number | string;
 }
 
 export type Data = DataItem[];
@@ -17,7 +17,7 @@ export type Data = DataItem[];
 export interface CountryContext {
   countryCode: ISOCode;
   countryName: string;
-  countryValue?: number | undefined;
+  countryValue?: number | string | undefined;
   color: string;
   minValue: number;
   maxValue: number;
