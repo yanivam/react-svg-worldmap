@@ -66,7 +66,7 @@ export default function WorldMap(props: Props): JSX.Element {
 
   let minValue = 0;
   let maxValue = 0;
-  if (typeof data[0].value === "number") {
+  if (data.every(({ value }) => typeof value === "number")) {
     minValue = Math.min(...data.map(({ value }) => value as number));
     maxValue = Math.max(...data.map(({ value }) => value as number));
   }

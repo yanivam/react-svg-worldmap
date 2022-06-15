@@ -18,10 +18,12 @@ export const defaultCountryStyle =
     const { countryValue, minValue, maxValue, color } = context;
 
     let opacityLevel = 0;
-    if (typeof countryValue === "number")
+    if (typeof countryValue === "number") {
       opacityLevel =
         0.2 + 0.6 * ((countryValue - minValue) / (maxValue - minValue));
-    else if (typeof countryValue === "string") opacityLevel = 0.8;
+    } else if (typeof countryValue === "string") {
+      opacityLevel = 0.8;
+    }
 
     // If there's only one value, the calculation would be dividing by zero.
     // We adjust it to the maximum value.
