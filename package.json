@@ -11,6 +11,8 @@
     "start:website": "yarn workspace website start",
     "lint": "eslint --cache \"**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier --write .",
+    "format-check": "prettier --list-different .",
+    "typecheck": "yarn workspace website typecheck",
     "spellcheck": "cspell \"**\" --no-progress",
     "prepare": "husky install"
   },
@@ -20,7 +22,7 @@
     "@typescript-eslint/parser": "^5.28.0",
     "cspell": "^6.1.2",
     "eslint": "^8.17.0",
-    "eslint-config-jc": "^2.3.0",
+    "eslint-config-jc": "^2.3.2",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.30.0",
@@ -30,7 +32,6 @@
     "prettier": "^2.7.0",
     "prettier-config-jc": "^2.3.0",
     "tsconfig-jc": "^2.3.0",
-    "tslib": "^2.4.0",
     "typescript": "^4.7.3"
   }
 }

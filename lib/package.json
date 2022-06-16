@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "d3-geo": "^1.11.9",
-    "react-path-tooltip": "^1.0.17"
+    "react-path-tooltip": "^1.0.17",
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@types/d3-geo": "^1.12.1",

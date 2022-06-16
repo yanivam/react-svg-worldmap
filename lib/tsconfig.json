@@ -6,6 +6,8 @@
     "module": "commonjs",
     "target": "esnext",
     "rootDir": "./src",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "importHelpers": true,
+    "noEmitHelpers": true
   }
 }

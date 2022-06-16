@@ -4,7 +4,8 @@ import WorldMap from "react-svg-worldmap";
 import { populationData } from "../data/CountryData";
 
 // E.g. format the number 1000000 to "1 thousand"
-const formattedNumber = (num: number, digits: number) => {
+function formattedNumber(num: number | undefined, digits: number) {
+  if (typeof num === "undefined") return "";
   const si = [
     { value: 1, symbol: "" },
     { value: 1e3, symbol: " thousand " },
@@ -13,14 +14,14 @@ const formattedNumber = (num: number, digits: number) => {
   ];
   const rx = /\.0+$|(?<number>\.[0-9]*[1-9])0+$/;
   for (let i = si.length - 1; i > 0; i--) {
-    if (num >= si[i].value) {
+    if (num >= si[i]!.value) {
       return (
-        (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol
+        (num / si[i]!.value).toFixed(digits).replace(rx, "$1") + si[i]!.symbol
       );
     }
   }
-  return undefined;
-};
+  return "";
+}
 
 export default function App(): JSX.Element {
   const [state, setState] = useState({

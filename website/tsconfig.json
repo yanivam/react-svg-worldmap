@@ -1,12 +1,14 @@
 {
-  // This file is not used in compilation. It is here just for a nice editor experience.
-  "extends": "@tsconfig/docusaurus/tsconfig.json",
+  "extends": "tsconfig-jc",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@site/*": ["./*"]
     },
-    "skipLibCheck": true
+    "jsx": "react-native",
+    "noEmit": true,
+    "skipLibCheck": true,
+    "exactOptionalPropertyTypes": true
   },
-  "include": ["src/"]
+  "include": ["src/", "docusaurus.config.js"]
 }

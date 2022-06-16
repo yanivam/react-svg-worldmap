@@ -4,7 +4,7 @@ import WorldMap from "react-svg-worldmap";
 import { populationData } from "../data/CountryData";
 
 // Spanish translation of country names
-const localizedCountryDictionary: Map<string, string> = new Map([
+const localizedCountryDictionary = new Map<string, string>([
   ["br", "Brasil"], // Brazil
   ["cn", "China"], // China
   ["id", "Indonesia"], // Indonesia
@@ -17,7 +17,8 @@ const localizedCountryDictionary: Map<string, string> = new Map([
 
 // Spanish number formatting for thousands, millions, and billions
 // E.g. translate the number 1000000 to "1 millónes"
-const localizedNumber = (num: number, digits: number) => {
+function localizedNumber(num: number | undefined, digits: number) {
+  if (typeof num === "undefined") return "";
   const si = [
     { value: 1, symbol: "" },
     { value: 1e3, symbol: " miles " },
@@ -26,14 +27,14 @@ const localizedNumber = (num: number, digits: number) => {
   ];
   const rx = /\.0+$|(?<number>\.[0-9]*[1-9])0+$/;
   for (let i = si.length - 1; i > 0; i--) {
-    if (num >= si[i].value) {
+    if (num >= si[i]!.value) {
       return (
-        (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol
+        (num / si[i]!.value).toFixed(digits).replace(rx, "$1") + si[i]!.symbol
       );
     }
   }
-  return undefined;
-};
+  return "";
+}
 
 // Localization callback
 const getLocalizedText = ({
@@ -45,7 +46,7 @@ const getLocalizedText = ({
   const localizedCountryName = localizedCountryDictionary.has(
     countryCode.toLocaleLowerCase(),
   )
-    ? localizedCountryDictionary.get(countryCode.toLocaleLowerCase())
+    ? localizedCountryDictionary.get(countryCode.toLocaleLowerCase())!
     : "Unknown";
   const spanishTranslation = `${localizedCountryName}: ${
     prefix ? `${prefix} ` : ""

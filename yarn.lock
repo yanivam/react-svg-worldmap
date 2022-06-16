@@ -4207,10 +4207,10 @@ escape-string-regexp@^4.0.0:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
-eslint-config-jc@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-jc/-/eslint-config-jc-2.3.0.tgz#8b738c9011250b8e4254812226a4eab257aa6d73"
-  integrity sha512-vlzUV/S8KQML4bF6rJKziMKaF1h5dkuEBSH9iZCMFacLaI8RZS+DyxmZJyePr3U8akXv+gyDXnx4w+KN9saqeA==
+eslint-config-jc@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.npmmirror.com/eslint-config-jc/-/eslint-config-jc-2.3.2.tgz#da3b0ff904b8c3bbb5b09808b3bc75e4bf292f69"
+  integrity sha512-pXv1ezsU+1uVpUZ9eUOApXf0saDwJxrqJjt8zPpHvEmPSjbvEsLNT2dr+iDOXLbllB1rhnqEo7+18K9KG+g/wA==
   dependencies:
     eslint-config-prettier "^8.5.0"
 

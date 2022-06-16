@@ -25,6 +25,7 @@ jobs:
 
       - name: Lint
         run: |
-          yarn prettier --list-different .
+          yarn format-check
+          yarn typecheck
           yarn lint
           yarn spellcheck
