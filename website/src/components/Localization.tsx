@@ -47,10 +47,10 @@ const getLocalizedText = ({
   )
     ? localizedCountryDictionary.get(countryCode.toLocaleLowerCase())
     : "Unknown";
-  const spanishTranlation = `${localizedCountryName}: ${
+  const spanishTranslation = `${localizedCountryName}: ${
     prefix ? `${prefix} ` : ""
   }${localizedNumber(countryValue, 2)}${suffix ? suffix : ""}`;
-  return spanishTranlation;
+  return spanishTranslation;
 };
 
 export default function App(): JSX.Element {

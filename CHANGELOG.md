@@ -32,11 +32,11 @@
 
 ## 1.0.29
 
-- Reduce the size of the countries.geo.json by limiting number preceision to 3 digits
+- Reduce the size of the countries.geo.json by limiting number precision to 3 digits
 
 ## 1.0.30
 
-- Tried to reduce the size of countries.geo.json even more by changing the structure of the file and adding the extra properties programatically.
+- Tried to reduce the size of countries.geo.json even more by changing the structure of the file and adding the extra properties programmatically.
 - Changed names so they have spaces in between multiple words ex. UnitedStates -> United States
 
 ## 1.0.31
@@ -101,9 +101,9 @@
 - Refactor build and dependency cleanup
 - Moved code to lib folder
 
-## 2.0.0-alpah.0
+## 2.0.0-alpha.0
 
-- Move examples and documnetation to Website on Github pages
+- Move examples and documentation to Website on Github pages
 - Changed master to main
 - New feature: testLabelFunction callback
 - New feature: double-click to zoom map

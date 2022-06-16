@@ -27,8 +27,6 @@ export default function App(): JSX.Element {
     cName: "Select Country",
     iso: "",
     val: "",
-    pre: "",
-    suff: "",
   });
 
   const clickAction = React.useCallback(
@@ -37,11 +35,9 @@ export default function App(): JSX.Element {
         cName: countryName,
         iso: countryCode,
         val: formattedNumber(countryValue, 2),
-        pre: "",
-        suff: "",
       });
     },
-    [setState],
+    [],
   );
 
   return (

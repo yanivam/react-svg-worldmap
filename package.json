@@ -11,12 +11,14 @@
     "start:website": "yarn workspace website start",
     "lint": "eslint --cache \"**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier --write .",
+    "spellcheck": "cspell \"**\" --no-progress",
     "prepare": "husky install"
   },
   "devDependencies": {
     "@types/react": "^18.0.12",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "@typescript-eslint/parser": "^5.28.0",
+    "cspell": "^6.1.2",
     "eslint": "^8.17.0",
     "eslint-config-jc": "^2.3.0",
     "eslint-plugin-import": "^2.26.0",

@@ -1,0 +1,19 @@
+{
+  "version": "0.2",
+  "gitignoreRoot": ".",
+  "useGitignore": true,
+  "dictionaries": ["typescript", "project-words"],
+  "dictionaryDefinitions": [
+    {
+      "name": "project-words",
+      "path": "./project-words.txt",
+      "noSuggest": true
+    }
+  ],
+  "ignorePaths": [
+    "package.json",
+    "yarn.lock",
+    "project-words.txt",
+    "lib/src/countries.geo.ts"
+  ]
+}

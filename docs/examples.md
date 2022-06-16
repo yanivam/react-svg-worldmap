@@ -30,7 +30,7 @@ sidebar_position: 5
 
 ## [examples/localization](/examples/localization)
 
-- An example showing how to use the `tooltipTextFunction` to locolize tooltip texts.
+- An example showing how to use the `tooltipTextFunction` to localize tooltip texts.
 - The function translates both country names and values to Spanish.
 - For example:
 

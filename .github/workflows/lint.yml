@@ -1,12 +1,15 @@
-name: Publish GH Pages
+name: Lint
 
 on:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
 
 jobs:
-  deploy:
+  lint:
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
@@ -19,11 +22,9 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Build website
-        run: yarn build
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./website/build
+      - name: Lint
+        run: |
+          yarn prettier --list-different .
+          yarn lint
+          yarn spellcheck
