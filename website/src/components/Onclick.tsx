@@ -6,19 +6,18 @@ import { populationData } from "../data/CountryData";
 // E.g. format the number 1000000 to "1 thousand"
 function formattedNumber(num: number | undefined, digits: number) {
   if (typeof num === "undefined") return "";
-  const si = [
-    { value: 1, symbol: "" },
-    { value: 1e3, symbol: " thousand " },
-    { value: 1e6, symbol: " million " },
-    { value: 1e9, symbol: " billion " },
-  ];
-  const rx = /\.0+$|(?<number>\.[0-9]*[1-9])0+$/;
-  for (let i = si.length - 1; i > 0; i--) {
-    if (num >= si[i]!.value) {
-      return (
-        (num / si[i]!.value).toFixed(digits).replace(rx, "$1") + si[i]!.symbol
-      );
-    }
+  const magnitude = [
+    { value: 1e9, text: " billion " },
+    { value: 1e6, text: " million " },
+    { value: 1e3, text: " thousand " },
+    { value: 1, text: "" },
+  ].find((magnitude) => num >= magnitude.value);
+  if (magnitude) {
+    return (
+      (num / magnitude.value)
+        .toFixed(digits)
+        .replace(/\.0+$|(?<number>\.[0-9]*[1-9])0+$/, "$1") + magnitude.text
+    );
   }
   return "";
 }

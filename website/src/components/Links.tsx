@@ -4,7 +4,7 @@ import WorldMap from "react-svg-worldmap";
 import { populationData } from "../data/CountryData";
 
 const getHref = ({ countryName }: CountryContext) => ({
-  href: `https://en.wikipedia.org/wiki/${countryName.replace(/\s/g, "%20")}`,
+  href: `https://en.wikipedia.org/wiki/${encodeURIComponent(countryName)}`,
   target: "_blank",
 });
 

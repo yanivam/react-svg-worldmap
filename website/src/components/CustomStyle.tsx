@@ -8,25 +8,22 @@ const data: Data = [
   { country: "ru", value: 7 }, // Russia
 ];
 
-const stylingFunction = ({
+const getStyle = ({
   countryValue,
   countryCode,
   minValue,
   maxValue,
   color,
-}: CountryContext) => {
-  const opacityLevel = countryValue
+}: CountryContext) => ({
+  fill: countryCode === "US" ? "blue" : color,
+  fillOpacity: countryValue
     ? 0.1 + (1.5 * (countryValue - minValue)) / (maxValue - minValue)
-    : 0;
-  return {
-    fill: countryCode === "US" ? "blue" : color,
-    fillOpacity: opacityLevel,
-    stroke: "green",
-    strokeWidth: 1,
-    strokeOpacity: 0.2,
-    cursor: "pointer",
-  };
-};
+    : 0,
+  stroke: "green",
+  strokeWidth: 1,
+  strokeOpacity: 0.2,
+  cursor: "pointer",
+});
 
 export default function App(): JSX.Element {
   return (
@@ -37,7 +34,7 @@ export default function App(): JSX.Element {
       valueSuffix="points"
       data={data}
       frame
-      styleFunction={stylingFunction}
+      styleFunction={getStyle}
     />
   );
 }

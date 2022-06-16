@@ -17,42 +17,33 @@ const localizedCountryDictionary = new Map<string, string>([
 
 // Spanish number formatting for thousands, millions, and billions
 // E.g. translate the number 1000000 to "1 millónes"
-function localizedNumber(num: number | undefined, digits: number) {
+function localizeNumber(num: number | undefined, digits: number) {
   if (typeof num === "undefined") return "";
-  const si = [
-    { value: 1, symbol: "" },
-    { value: 1e3, symbol: " miles " },
-    { value: 1e6, symbol: " millónes " },
-    { value: 1e9, symbol: " mil millónes " },
-  ];
-  const rx = /\.0+$|(?<number>\.[0-9]*[1-9])0+$/;
-  for (let i = si.length - 1; i > 0; i--) {
-    if (num >= si[i]!.value) {
-      return (
-        (num / si[i]!.value).toFixed(digits).replace(rx, "$1") + si[i]!.symbol
-      );
-    }
+  const magnitude = [
+    { value: 1e9, text: " mil millónes " },
+    { value: 1e6, text: " millónes " },
+    { value: 1e3, text: " miles " },
+    { value: 1, text: "" },
+  ].find((magnitude) => num >= magnitude.value);
+  if (magnitude) {
+    return (
+      (num / magnitude.value)
+        .toFixed(digits)
+        .replace(/\.0+$|(?<number>\.[0-9]*[1-9])0+$/, "$1") + magnitude.text
+    );
   }
   return "";
 }
 
-// Localization callback
 const getLocalizedText = ({
   countryCode,
   countryValue,
   prefix,
   suffix,
-}: CountryContext) => {
-  const localizedCountryName = localizedCountryDictionary.has(
-    countryCode.toLocaleLowerCase(),
-  )
-    ? localizedCountryDictionary.get(countryCode.toLocaleLowerCase())!
-    : "Unknown";
-  const spanishTranslation = `${localizedCountryName}: ${
-    prefix ? `${prefix} ` : ""
-  }${localizedNumber(countryValue, 2)}${suffix ? suffix : ""}`;
-  return spanishTranslation;
-};
+}: CountryContext) =>
+  `${
+    localizedCountryDictionary.get(countryCode.toLocaleLowerCase()) ?? "Unknown"
+  }: ${prefix}${localizeNumber(countryValue, 2)}${suffix}`;
 
 export default function App(): JSX.Element {
   return (
