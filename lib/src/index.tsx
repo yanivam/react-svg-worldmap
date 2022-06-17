@@ -2,7 +2,7 @@ import React, { useState, createRef } from "react";
 import type GeoJSON from "geojson";
 import { geoMercator, geoPath } from "d3-geo";
 import geoData from "./countries.geo";
-import type { Props, CountryContext } from "./types";
+import type { Props, CountryContext, DataItem } from "./types";
 import {
   defaultColor,
   defaultSize,
@@ -25,6 +25,10 @@ export type {
   CountryContext,
   Props,
 } from "./types";
+
+function toValue({ value }: DataItem): number {
+  return typeof value === 'string' ? 0 : value;
+}
 
 export default function WorldMap(props: Props): JSX.Element {
   const {
@@ -64,12 +68,8 @@ export default function WorldMap(props: Props): JSX.Element {
     data.map(({ country, value }) => [country.toUpperCase(), value]),
   );
 
-  let minValue = 0;
-  let maxValue = 0;
-  if (data.every(({ value }) => typeof value === "number")) {
-    minValue = Math.min(...data.map(({ value }) => value as number));
-    maxValue = Math.max(...data.map(({ value }) => value as number));
-  }
+  const minValue = Math.min(...data.map(toValue));
+  const maxValue = Math.max(...data.map(toValue));
 
   // Build a path & a tooltip for each country
   const projection = geoMercator();
