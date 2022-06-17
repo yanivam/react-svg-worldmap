@@ -18,7 +18,11 @@ export const defaultCountryStyle =
     const { countryValue, minValue, maxValue, color } = context;
 
     const calculatedValue =
-      typeof countryValue === "string" ? minValue : countryValue;
+      // TODO bug in TS-ESLint; report this
+       
+      typeof countryValue === "string"
+        ? minValue
+        : (countryValue );
     let opacityLevel =
       calculatedValue !== undefined
         ? 0.2 + 0.6 * ((calculatedValue - minValue) / (maxValue - minValue))
