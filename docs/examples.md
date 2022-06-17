@@ -64,5 +64,5 @@ sidebar_position: 5
 
 - Some users do not have a need to display numeric values.
 - This is an example showing how each data value can have a string value.
-- The same thing can be accomplished with `tooptipTextFunction`, by hiding the number value and adding your string to the Country value (see [localization](/examples/localization)), but this will make that user experience easier.
+- The same thing can be accomplished with `tooltipTextFunction`, by hiding the number value and adding your string to the Country value (see [localization](/examples/localization)), but this will make that user experience easier.
 - If you are using both string and number values together, string will be treated as `minValue`.
