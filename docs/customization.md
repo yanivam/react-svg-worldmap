@@ -8,7 +8,9 @@ sidebar_position: 3
 
 This is an optional more advanced customization option. When used, the developer has full control to define the color, opacity and any other style element of a country with data record.
 
-This is done by passing your custom implementation of the `styleFunction`. The function receives as input the country context that includes `country`, `countryValue`, `color`, `minValue` and `maxValue`, and returns a React `CSSProperties` object. Note that `countryValue` can be undefined, for which case you may need to handle the styling differently.
+This is done by passing your custom implementation of the `styleFunction`.
+The function receives as input the country context that includes `country`, `countryValue`, `color`, `minValue` and `maxValue`, and returns a React `CSSProperties` object.
+Note that `countryValue` can be a number, string, or undefined, for which case you may need to handle the styling differently.
 
 For example:
 
@@ -22,9 +24,13 @@ const stylingFunction = ({
   country,
   color,
 }: CountryContext) => {
-  const opacityLevel = countryValue
-    ? 0.1 + (1.5 * (countryValue - minValue)) / (maxValue - minValue)
-    : 0;
+  let opacityLevel = 0;
+  if (typeof countryValue === "number") {
+    opacityLevel =
+      0.1 + (1.5 * (countryValue - minValue)) / (maxValue - minValue);
+  } else if (typeof countryValue === "string") {
+    opacityLevel = 0.8;
+  }
   return {
     fill: country === "US" ? "blue" : color,
     fillOpacity: opacityLevel,
