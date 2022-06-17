@@ -14,13 +14,15 @@ export const sizeMap: Record<SizeOption, number> = {
 
 export const defaultCountryStyle =
   (stroke: string, strokeOpacity: number) =>
-  (context: CountryContext): CSSProperties => {
+  <T extends string | number>(context: CountryContext<T>): CSSProperties => {
     const { countryValue, minValue, maxValue, color } = context;
 
-    const calculatedValue = typeof countryValue === "string" ? minValue : countryValue;
-    let opacityLevel = calculatedValue !== undefined 
-      ? 0.2 + 0.6 * ((calculatedValue - minValue) / (maxValue - minValue))
-      : 0;
+    const calculatedValue =
+      typeof countryValue === "string" ? minValue : countryValue;
+    let opacityLevel =
+      calculatedValue !== undefined
+        ? 0.2 + 0.6 * ((calculatedValue - minValue) / (maxValue - minValue))
+        : 0;
 
     // If there's only one value, the calculation would be dividing by zero.
     // We adjust it to the maximum value.
@@ -37,7 +39,9 @@ export const defaultCountryStyle =
     return style;
   };
 
-export const defaultTooltip = (context: CountryContext): string => {
+export const defaultTooltip = <T extends string | number>(
+  context: CountryContext<T>,
+): string => {
   const { countryName, countryValue, prefix, suffix } = context;
   return `${countryName} ${prefix} ${countryValue!.toLocaleString()} ${suffix}`;
 };

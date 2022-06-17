@@ -1,8 +1,8 @@
 import React from "react";
-import WorldMap from "react-svg-worldmap";
+import WorldMap, { type Data } from "react-svg-worldmap";
 
 export default function App(): JSX.Element {
-  const data = [
+  const data: Data<string> = [
     { country: "cn", value: "🇨🇳" }, // China
     { country: "in", value: "🇮🇳" }, // India
   ];

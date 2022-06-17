@@ -26,11 +26,13 @@ export type {
   Props,
 } from "./types";
 
-function toValue({ value }: DataItem): number {
-  return typeof value === 'string' ? 0 : value;
+function toValue({ value }: DataItem<string | number>): number {
+  return typeof value === "string" ? 0 : value;
 }
 
-export default function WorldMap(props: Props): JSX.Element {
+export default function WorldMap<T extends number | string>(
+  props: Props<T>,
+): JSX.Element {
   const {
     data,
     title,
@@ -76,7 +78,7 @@ export default function WorldMap(props: Props): JSX.Element {
   const pathGenerator = geoPath().projection(projection);
 
   const onClick = React.useCallback(
-    (context: CountryContext) => (event: React.MouseEvent<SVGElement>) =>
+    (context: CountryContext<T>) => (event: React.MouseEvent<SVGElement>) =>
       onClickFunction?.({ ...context, event }),
     [onClickFunction],
   );
@@ -92,7 +94,7 @@ export default function WorldMap(props: Props): JSX.Element {
         coordinates: coordinates as unknown as GeoJSON.Position[][][],
       },
     };
-    const context: CountryContext = {
+    const context: CountryContext<T> = {
       countryCode: isoCode,
       countryValue: countryValueMap[isoCode],
       countryName,

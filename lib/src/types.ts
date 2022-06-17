@@ -7,17 +7,17 @@ export type ISOCode =
   | Lowercase<typeof isoCodes[number]>;
 export type SizeOption = "sm" | "md" | "lg" | "xl" | "xxl";
 
-export interface DataItem {
+export interface DataItem<T extends string | number = number> {
   country: ISOCode;
-  value: number | string;
+  value: T;
 }
 
-export type Data = DataItem[];
+export type Data<T extends string | number = number> = DataItem<T>[];
 
-export interface CountryContext {
+export interface CountryContext<T extends string | number = number> {
   countryCode: ISOCode;
   countryName: string;
-  countryValue?: number | string | undefined;
+  countryValue?: T | undefined;
   color: string;
   minValue: number;
   maxValue: number;
@@ -25,8 +25,8 @@ export interface CountryContext {
   suffix: string;
 }
 
-export interface Props {
-  data: DataItem[];
+export interface Props<T extends string | number = number> {
+  data: DataItem<T>[];
   title?: string;
   valuePrefix?: string;
   valueSuffix?: string;
@@ -43,16 +43,16 @@ export interface Props {
   /** @deprecated */
   type?: string; // Deprecated for the time being (reasoning in the README.md file)
 
-  styleFunction?: (context: CountryContext) => React.CSSProperties;
+  styleFunction?: (context: CountryContext<T>) => React.CSSProperties;
 
   onClickFunction?: (
-    context: CountryContext & { event: React.MouseEvent<SVGElement, Event> },
+    context: CountryContext<T> & { event: React.MouseEvent<SVGElement, Event> },
   ) => void;
 
-  tooltipTextFunction?: (context: CountryContext) => string;
+  tooltipTextFunction?: (context: CountryContext<T>) => string;
 
   hrefFunction?: (
-    context: CountryContext,
+    context: CountryContext<T>,
   ) => React.ComponentProps<"a"> | string | undefined;
 
   textLabelFunction?: (
