@@ -2168,10 +2168,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/d3-geo@^1.12.1":
-  version "1.12.3"
-  resolved "https://registry.yarnpkg.com/@types/d3-geo/-/d3-geo-1.12.3.tgz#512ebe735cb1cdf5f87ad59608416e2e9e868c5a"
-  integrity sha512-yZbPb7/5DyL/pXkeOmZ7L5ySpuGr4H48t1cuALjnJy5sXQqmSSAYBiwa6Ya/XpWKX2rJqGDDubmh3nOaopOpeA==
+"@types/d3-geo@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@types/d3-geo/-/d3-geo-3.0.2.tgz#e7ec5f484c159b2c404c42d260e6d99d99f45d9a"
+  integrity sha512-DbqK7MLYA8LpyHQfv6Klz0426bQEf7bRTvhMy44sNGVyZoWn//B0c+Qbeg8Osi2Obdc9BLLXYAKpyWege2/7LQ==
   dependencies:
     "@types/geojson" "*"
 
@@ -3779,24 +3779,12 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.0.tgz#4ddcac3718d787cf9df0d1b7d15033925c8f29f2"
   integrity sha512-uX1KG+x9h5hIJsaKR9xHUeUraxf8IODOwq9JLNPq6BwB04a/xgpq3rcx47l5BZu5zBPlgD342tdke3Hom/nJRA==
 
-d3-array@1:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-1.2.4.tgz#635ce4d5eea759f6f605863dbcfc30edc737f71f"
-  integrity sha512-KHW6M86R+FUPYGb3R5XiYjXPq7VzwxZ22buHhAEVG5ztoEcZZMLov530mmccaqA1GghZArjQV46fuc8kUqhhHw==
-
 "d3-array@2.5.0 - 3":
   version "3.1.6"
   resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-3.1.6.tgz#0342c835925826f49b4d16eb7027aec334ffc97d"
   integrity sha512-DCbBBNuKOeiR9h04ySRBMW52TFVc91O9wJziuyXw6Ztmy8D3oZbmCkOO3UHKC7ceNJsN2Mavo9+vwV8EAEUXzA==
   dependencies:
     internmap "1 - 2"
-
-d3-geo@^1.11.9:
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/d3-geo/-/d3-geo-1.12.1.tgz#7fc2ab7414b72e59fbcbd603e80d9adc029b035f"
-  integrity sha512-XG4d1c/UJSEX9NfU02KwBL6BYPj8YKHxgBEw5om2ZnTRSbIcego6dhHwcxuSR3clxh0EpE38os1DVPOmnYtTPg==
-  dependencies:
-    d3-array "1"
 
 d3-geo@^3.0.1:
   version "3.0.1"
@@ -4209,7 +4197,7 @@ escape-string-regexp@^4.0.0:
 
 eslint-config-jc@^2.3.2:
   version "2.3.2"
-  resolved "https://registry.npmmirror.com/eslint-config-jc/-/eslint-config-jc-2.3.2.tgz#da3b0ff904b8c3bbb5b09808b3bc75e4bf292f69"
+  resolved "https://registry.yarnpkg.com/eslint-config-jc/-/eslint-config-jc-2.3.2.tgz#da3b0ff904b8c3bbb5b09808b3bc75e4bf292f69"
   integrity sha512-pXv1ezsU+1uVpUZ9eUOApXf0saDwJxrqJjt8zPpHvEmPSjbvEsLNT2dr+iDOXLbllB1rhnqEo7+18K9KG+g/wA==
   dependencies:
     eslint-config-prettier "^8.5.0"
@@ -7363,14 +7351,6 @@ react-router@5.3.3, react-router@^5.3.3:
     react-is "^16.6.0"
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
-
-react-svg-worldmap@^2.0.0-alpha.1:
-  version "2.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/react-svg-worldmap/-/react-svg-worldmap-2.0.0-alpha.1.tgz#81dbeb7fe8ba4f9a4442cab63ac25b5523cb311b"
-  integrity sha512-WzAo6PJsGCAgi8v+YKnTrKmlympdbrXEDdMXPgiyZtJ/C+Sb5zGNgaPjmSxK7SAVT+fMmPtE3uPxrtjuyxADCg==
-  dependencies:
-    d3-geo "^3.0.1"
-    react-path-tooltip "^1.0.17"
 
 react-textarea-autosize@^8.3.2:
   version "8.3.4"
