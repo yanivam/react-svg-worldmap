@@ -23,7 +23,7 @@ const stylingFunction = ({
   color,
 }: CountryContext) => {
   const calculatedValue = typeof countryValue === "string" ? minValue : countryValue;
-  const opacityLevel = countryValue !== undefined
+  const opacityLevel = countryValue !== undefined 
     ? 0.1 + (1.5 * (countryValue - minValue)) / (maxValue - minValue)
     : 0;
   return {
