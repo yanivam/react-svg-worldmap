@@ -47,6 +47,8 @@ export default function WorldMap(props: Props): JSX.Element {
     onClickFunction,
     hrefFunction,
     textLabelFunction = () => [],
+    style = {},
+    svgStyle = {},
   } = props;
   const windowWidth = useWindowWidth();
 
@@ -151,7 +153,9 @@ export default function WorldMap(props: Props): JSX.Element {
 
   // Render the SVG
   return (
-    <figure className="worldmap__figure-container" style={{ backgroundColor }}>
+    <figure
+      className="worldmap__figure-container"
+      style={{ ...style, backgroundColor }}>
       {title && (
         <figcaption className="worldmap__figure-caption">{title}</figcaption>
       )}
@@ -159,6 +163,7 @@ export default function WorldMap(props: Props): JSX.Element {
         ref={containerRef}
         height={`${height}px`}
         width={`${width}px`}
+        style={svgStyle}
         {...(richInteraction ? eventHandlers : undefined)}>
         {frame && <Frame color={frameColor} />}
         <g

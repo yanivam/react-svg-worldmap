@@ -40,6 +40,8 @@ export interface Props {
   frameColor?: string;
   borderColor?: string;
   richInteraction?: boolean;
+  style?: React.CSSProperties;
+  svgStyle?: React.CSSProperties;
   /** @deprecated */
   type?: string; // Deprecated for the time being (reasoning in the README.md file)
 

@@ -36,6 +36,8 @@ sidebar_position: 4
 | `borderColor` | `string` | Border color around each individual country. |
 | `richInteraction` | `boolean` | WHen turned on, double clicks would cause the map to rescale. (Other cool features to come) |
 | :construction: `type` :construction: | `string` | Select type of map you want, either "tooltip" or "marker". <br />:memo: This functionality not only complicates the code, but is infrequently used and needs to be redesigned to make it better. For now it is deprecated and has no effect. :memo: |
+| `style` | `React.CSSProperties` | styles passed directly to the `figure` wrapping component. |
+| `svgStyle` | `React.CSSProperties` | styles passed directly to the `svg` component. |
 | `styleFunction` | `(context: CountryContext) => React.CSSProperties` | A callback function to customize styling of each country (see [Custom styles example](/examples/custom-style)) |
 | `hrefFunction` | <code>(context: CountryContext) => object &#124; string &#124; undefined</code> | A callback function to bind an href link to each country. The return can be the target URL as a string or an object specifying props passed to the anchor element (e.g. `href` and `target`). (see [Href binding example](/examples/links)) |
 | `tooltipTextFunction` | `(context: CountryContext) => string` | A callback function to customize tooltip text (see [Localization example](/examples/localization)) |
