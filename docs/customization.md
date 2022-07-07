@@ -26,7 +26,7 @@ const stylingFunction = ({
     typeof countryValue === "string" ? minValue : countryValue;
   const opacityLevel =
     calculatedValue !== undefined
-      ? 0.1 + (1.5 * (countryValue - minValue)) / (maxValue - minValue)
+      ? 0.1 + (1.5 * (calculatedValue - minValue)) / (maxValue - minValue)
       : 0;
   return {
     fill: country === "US" ? "blue" : color,
