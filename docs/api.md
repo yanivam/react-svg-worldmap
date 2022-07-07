@@ -49,13 +49,13 @@ type SizeOption = "sm" | "md" | "lg" | "xl" | "xxl";
 
 type DataItem = {
   country: ISOCode;
-  value: number;
+  value: number | string;
 };
 
 type CountryContext = {
   countryCode: ISOCode;
   countryName: string;
-  countryValue: number | undefined;
+  countryValue: number | string | undefined;
   color: string;
   minValue: number;
   maxValue: number;

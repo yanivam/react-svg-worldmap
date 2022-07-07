@@ -2,7 +2,7 @@ import React, { useState, createRef } from "react";
 import type GeoJSON from "geojson";
 import { geoMercator, geoPath } from "d3-geo";
 import geoData from "./countries.geo";
-import type { Props, CountryContext } from "./types";
+import type { Props, CountryContext, DataItem } from "./types";
 import {
   defaultColor,
   defaultSize,
@@ -26,7 +26,13 @@ export type {
   Props,
 } from "./types";
 
-export default function WorldMap(props: Props): JSX.Element {
+function toValue({ value }: DataItem<string | number>): number {
+  return typeof value === "string" ? 0 : value;
+}
+
+export default function WorldMap<T extends number | string>(
+  props: Props<T>,
+): JSX.Element {
   const {
     data,
     title,
@@ -63,15 +69,16 @@ export default function WorldMap(props: Props): JSX.Element {
   const countryValueMap = Object.fromEntries(
     data.map(({ country, value }) => [country.toUpperCase(), value]),
   );
-  const minValue = Math.min(...data.map(({ value }) => value));
-  const maxValue = Math.max(...data.map(({ value }) => value));
+
+  const minValue = Math.min(...data.map(toValue));
+  const maxValue = Math.max(...data.map(toValue));
 
   // Build a path & a tooltip for each country
   const projection = geoMercator();
   const pathGenerator = geoPath().projection(projection);
 
   const onClick = React.useCallback(
-    (context: CountryContext) => (event: React.MouseEvent<SVGElement>) =>
+    (context: CountryContext<T>) => (event: React.MouseEvent<SVGElement>) =>
       onClickFunction?.({ ...context, event }),
     [onClickFunction],
   );
@@ -87,7 +94,7 @@ export default function WorldMap(props: Props): JSX.Element {
         coordinates: coordinates as unknown as GeoJSON.Position[][][],
       },
     };
-    const context: CountryContext = {
+    const context: CountryContext<T> = {
       countryCode: isoCode,
       countryValue: countryValueMap[isoCode],
       countryName,
