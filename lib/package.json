@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@types/d3-geo": "^3.0.2",
-    "@types/geojson": "^7946.0.7"
+    "@types/geojson": "^7946.0.10"
   },
   "peerDependencies": {
     "react": ">=16",
