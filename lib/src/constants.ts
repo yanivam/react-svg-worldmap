@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import type { SizeOption, CountryContext } from "./types";
+import type { SizeOption, CountryContext } from "./types.js";
 
 export const defaultSize = "xl";
 export const defaultColor = "#dddddd";

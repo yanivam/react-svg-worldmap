@@ -1,10 +1,10 @@
 import type React from "react";
-import geoData from "./countries.geo";
+import geoData from "./countries.geo.js";
 
 const isoCodes = geoData.features.map(({ I }) => I);
 export type ISOCode =
-  | typeof isoCodes[number]
-  | Lowercase<typeof isoCodes[number]>;
+  | (typeof isoCodes)[number]
+  | Lowercase<(typeof isoCodes)[number]>;
 export type SizeOption = "sm" | "md" | "lg" | "xl" | "xxl";
 
 export interface DataItem<T extends string | number = number> {

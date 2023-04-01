@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import type { CountryContext, Data } from "react-svg-worldmap";
 import WorldMap from "react-svg-worldmap";
 

@@ -1,4 +1,5 @@
-import React, { type ComponentType } from "react";
+import * as React from "react";
+import { type ComponentType } from "react";
 import Layout from "@theme/Layout";
 import CodeBlock from "@theme/CodeBlock";
 import Tabs from "@theme/Tabs";
@@ -13,14 +14,14 @@ const Maps = Object.fromEntries(
     // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-member-access
     require(`@site/src/components/sizing/${size}`).default,
   ]),
-) as { [size in typeof sizes[number]]: ComponentType };
+) as { [size in (typeof sizes)[number]]: ComponentType };
 const Sources = Object.fromEntries(
   sizes.map((size) => [
     size,
     // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-member-access
     require(`!!raw-loader!@site/src/components/sizing/${size}`).default,
   ]),
-) as { [size in typeof sizes[number]]: string };
+) as { [size in (typeof sizes)[number]]: string };
 
 export default function Sizing(): JSX.Element {
   return (

@@ -1,5 +1,5 @@
 import type { RefObject } from "react";
-import React from "react";
+import * as React from "react";
 import { PathTooltip } from "react-path-tooltip";
 
 export function drawTooltip(

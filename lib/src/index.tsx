@@ -1,20 +1,21 @@
-import React, { useState, createRef } from "react";
+import * as React from "react";
+import { useState, createRef } from "react";
 import type GeoJSON from "geojson";
 import { geoMercator, geoPath } from "d3-geo";
-import geoData from "./countries.geo";
-import type { Props, CountryContext, DataItem } from "./types";
+import geoData from "./countries.geo.js";
+import type { Props, CountryContext, DataItem } from "./types.js";
 import {
   defaultColor,
   defaultSize,
   heightRatio,
   defaultCountryStyle,
   defaultTooltip,
-} from "./constants";
-import { useWindowWidth, responsify } from "./utils";
-import { drawTooltip } from "./draw";
-import Frame from "./components/Frame";
-import Region from "./components/Region";
-import TextLabel from "./components/TextLabel";
+} from "./constants.js";
+import { useWindowWidth, responsify } from "./utils.js";
+import { drawTooltip } from "./draw.js";
+import Frame from "./components/Frame.js";
+import Region from "./components/Region.js";
+import TextLabel from "./components/TextLabel.js";
 // Import Tooltip from './components/Tooltip';
 
 export type {
@@ -24,7 +25,7 @@ export type {
   Data,
   CountryContext,
   Props,
-} from "./types";
+} from "./types.js";
 
 function toValue({ value }: DataItem<string | number>): number {
   return typeof value === "string" ? 0 : value;

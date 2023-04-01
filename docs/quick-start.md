@@ -19,7 +19,7 @@ Explore the example folder for a simple case for an end-to-end react app using t
 Here is a simple example:
 
 ```tsx
-import React from "react";
+import * as React from "react";
 import "./App.css";
 import WorldMap from "react-svg-worldmap";
 
@@ -56,7 +56,8 @@ The only mandatory prop is `data`, which contains an array of country/value obje
 ## Class components
 
 ```jsx
-import React, { Component } from "react";
+import * as React from "react";
+import { Component } from "react";
 import WorldMap from "react-svg-worldmap";
 
 export default class App extends Component {

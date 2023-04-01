@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import Layout from "@theme/Layout";
 import CodeBlock from "@theme/CodeBlock";
 

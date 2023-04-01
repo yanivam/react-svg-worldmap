@@ -1,6 +1,6 @@
 import { useState, useLayoutEffect, useEffect } from "react";
-import { sizeMap, defaultSize } from "./constants";
-import type { SizeOption } from "./types";
+import { sizeMap, defaultSize } from "./constants.js";
+import type { SizeOption } from "./types.js";
 
 /**
  * This hook is like useLayoutEffect, but without the SSR warning
