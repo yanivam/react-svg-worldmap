@@ -37,7 +37,7 @@ $ npm install react-svg-worldmap --save
 Here is a simple example:
 
 ```tsx
-import React from "react";
+import * as React from "react";
 import WorldMap from "react-svg-worldmap";
 import "./App.css";
 

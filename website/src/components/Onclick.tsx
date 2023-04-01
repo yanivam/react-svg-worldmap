@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import * as React from "react";
+import { useState } from "react";
 import type { CountryContext } from "react-svg-worldmap";
 import WorldMap from "react-svg-worldmap";
 import { populationData } from "../data/CountryData";

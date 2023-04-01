@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import WorldMap, { type Data } from "react-svg-worldmap";
 
 export default function App(): JSX.Element {

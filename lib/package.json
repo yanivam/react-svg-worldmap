@@ -4,13 +4,14 @@
   "license": "MIT",
   "displayName": "React Worldmap",
   "description": "A pure react component to draw a map of world countries. Simple. Free.",
-  "main": "dist/index.js",
+  "exports": "./index.js",
+  "type": "module",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "engines": {
-    "node": ">=10"
+    "node": ">=14.16"
   },
   "scripts": {
     "build": "tsc",

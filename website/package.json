@@ -22,11 +22,13 @@
     "raw-loader": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-svg-worldmap": "^2.0.0-alpha.1"
+    "react-path-tooltip": "^1.0.17",
+    "react-svg-worldmap": "^2.0.0-alpha.3"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^2.0.0-rc.1",
-    "@tsconfig/docusaurus": "^1.0.6"
+    "@tsconfig/docusaurus": "^1.0.6",
+    "react-svg-worldmap": "^2.0.0-alpha.3"
   },
   "browserslist": {
     "production": [
