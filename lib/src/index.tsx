@@ -44,6 +44,7 @@ export default function WorldMap<T extends number | string>(
     backgroundColor = "white",
     tooltipBgColor = "black",
     tooltipTextColor = "white",
+    rtl = false,
     size = defaultSize,
     frame = false,
     frameColor = "black",
@@ -123,6 +124,7 @@ export default function WorldMap<T extends number | string>(
         : tooltipTextFunction(context),
       tooltipBgColor,
       tooltipTextColor,
+      rtl,
       triggerRef,
       containerRef,
     );

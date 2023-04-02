@@ -24,6 +24,10 @@ Focus on simple and free.
 
 It all started with a fun project that I was building and needed to draw simple yet beautiful world's map. Searching for solutions I found many potential solutions like MapBox and Google Maps, but they were "too smart" for what I needed. They needed to "call home" for the data, they supported tons of options I didn't need, and while they included react-integrations, they were not completely native to the react world. There was definitely something missing. And that's when react-svg-worldmap started.
 
+## Where are we getting the data for the world map?
+
+We have sourced our data from Natural Earth, a community-driven initiative aimed at creating visually appealing and high-quality maps using cartography or GIS software for small-scale projects. Our use of open source tools in creating this map data is not intended to express any political views, but rather to fulfill the requirements of this project.
+
 ## Install
 
 In order to install, run the following command:

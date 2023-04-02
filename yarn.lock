@@ -4052,9 +4052,9 @@ csso@^4.2.0:
     css-tree "^1.1.2"
 
 csstype@^3.0.2:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.1.tgz#841b532c45c758ee546a11d5bd7b7b473c8c30b9"
-  integrity sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.2.tgz#1d4bf9d572f11c14031f0436e1c10bc1f571f50b"
+  integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
 d3-array@^2.5.0:
   version "2.12.1"
@@ -7698,9 +7698,14 @@ react-loadable-ssr-addon-v5-slorber@^1.0.1:
     "@babel/runtime" "^7.10.3"
 
 react-path-tooltip@^1.0.17:
-  version "1.0.17"
-  resolved "https://registry.yarnpkg.com/react-path-tooltip/-/react-path-tooltip-1.0.17.tgz#2f04042e4c85b4ae56beb4711b8eb87f2c798251"
-  integrity sha512-3zZU6I0kDL5mm0ixSPhrYBGh//AN7s/rQWkJkOJkYgidEADehr7L6qnXWCJzwTGe+Vi5gJpJh3VhLNxpdIVDwA==
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/react-path-tooltip/-/react-path-tooltip-1.0.21.tgz#40b8e01b3dd9faaa6cfe567f6c1874c09b3ec1d0"
+  integrity sha512-J/O9Ar/i7b4LykM02kXj2iTk1SO7dHhfHHI3DukeeVBJUMYaiCnFPEGe5PKMaiaK2heLC4tO44ceMPOJAlMmZg==
+
+react-path-tooltip@^1.0.24:
+  version "1.0.24"
+  resolved "https://registry.yarnpkg.com/react-path-tooltip/-/react-path-tooltip-1.0.24.tgz#4f0cab8764b3af6b831602f2eee03277cca6f57c"
+  integrity sha512-fH5c/aAzY0bzX7p+cDXHW1rS5UCmX9ts+UTEziZfUP2AdzZ3zhsbJP4USvdVnzw/mjyyJsywiAvE1SZzsZU22A==
 
 react-router-config@^5.1.1:
   version "5.1.1"
@@ -8852,9 +8857,9 @@ typescript@^4.7.4:
   integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
 
 ua-parser-js@^0.7.30:
-  version "0.7.34"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.34.tgz#afb439e2e3e394bdc90080acb661a39c685b67d7"
-  integrity sha512-cJMeh/eOILyGu0ejgTKB95yKT3zOenSe9UGE3vj6WfiOwgGYnmATUsnDixMFvdU+rNMvWih83hrUP8VwhF9yXQ==
+  version "0.7.35"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.35.tgz#8bda4827be4f0b1dda91699a29499575a1f1d307"
+  integrity sha512-veRf7dawaj9xaWEu9HoTVn5Pggtc/qj+kqTOFvNiN1l0YdxwC1kvel57UCjThjGa3BHBihE8/UJAHI+uQHmd/g==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"

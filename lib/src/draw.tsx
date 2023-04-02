@@ -6,6 +6,7 @@ export function drawTooltip(
   tip: string | undefined,
   tooltipBgColor: string,
   tooltipTextColor: string,
+  rtl: boolean,
   triggerRef: RefObject<SVGElement>,
   containerRef: RefObject<SVGSVGElement>,
 ): JSX.Element | null {
@@ -17,6 +18,7 @@ export function drawTooltip(
       key={tip}
       pathRef={triggerRef}
       svgRef={containerRef}
+      rtl={rtl}
       tip={tip}
     />
   ) : null;
