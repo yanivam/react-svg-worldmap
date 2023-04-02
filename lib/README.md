@@ -26,7 +26,7 @@ It all started with a fun project that I was building and needed to draw simple 
 
 ## Where are we getting the data for the world map?
 
-We have sourced our data from Natural Earth, a community-driven initiative aimed at creating visually appealing and high-quality maps using cartography or GIS software for small-scale projects. Our use of open source tools in creating this map data is not intended to express any political views, but rather to fulfill the requirements of this project.
+We have sourced our data from Natural Earth, a community-driven initiative aimed at creating visually appealing and high-quality maps using cartography or GIS software for small-scale projects. Our use of open source tools in creating this map data is not intended to express any political views, but rather to fulfill the requirements of this project. Link to the data: [https://www.naturalearthdata.com/downloads/110m-physical-vectors/110m-land/](https://www.naturalearthdata.com/downloads/110m-physical-vectors/110m-land/)
 
 ## Install
 

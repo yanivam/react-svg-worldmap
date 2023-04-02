@@ -1474,12 +1474,12 @@
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@cspell/dict-svelte/-/dict-svelte-1.0.2.tgz#0c866b08a7a6b33bbc1a3bdbe6a1b484ca15cdaa"
   integrity sha512-rPJmnn/GsDs0btNvrRBciOhngKV98yZ9SHmg8qI6HLS8hZKvcXc0LMsf9LLuMK1TmS2+WQFAan6qeqg6bBxL2Q==
-
+  
 "@cspell/dict-swift@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@cspell/dict-swift/-/dict-swift-2.0.1.tgz#06ec86e52e9630c441d3c19605657457e33d7bb6"
   integrity sha512-gxrCMUOndOk7xZFmXNtkCEeroZRnS2VbeaIPiymGRHj5H+qfTAzAKxtv7jJbVA3YYvEzWcVE2oKDP4wcbhIERw==
-  
+
 "@cspell/dict-typescript@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@cspell/dict-typescript/-/dict-typescript-3.1.1.tgz#25a9c241fa79c032f907db21b0aaf7c7baee6cc3"
@@ -1738,16 +1738,6 @@
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@docusaurus/plugin-google-gtag/-/plugin-google-gtag-2.4.0.tgz#a8efda476f971410dfb3aab1cfe1f0f7d269adc5"
   integrity sha512-adj/70DANaQs2+TF/nRdMezDXFAV/O/pjAbUgmKBlyOTq5qoMe0Tk4muvQIwWUmiUQxFJe+sKlZGM771ownyOg==
-  dependencies:
-    "@docusaurus/core" "2.4.0"
-    "@docusaurus/types" "2.4.0"
-    "@docusaurus/utils-validation" "2.4.0"
-    tslib "^2.4.0"
-
-"@docusaurus/plugin-google-tag-manager@2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@docusaurus/plugin-google-tag-manager/-/plugin-google-tag-manager-2.4.0.tgz#9a94324ac496835fc34e233cc60441df4e04dfdd"
-  integrity sha512-E66uGcYs4l7yitmp/8kMEVQftFPwV9iC62ORh47Veqzs6ExwnhzBkJmwDnwIysHBF1vlxnzET0Fl2LfL5fRR3A==
   dependencies:
     "@docusaurus/core" "2.4.0"
     "@docusaurus/types" "2.4.0"
