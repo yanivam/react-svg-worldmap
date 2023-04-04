@@ -7702,10 +7702,10 @@ react-path-tooltip@^1.0.17:
   resolved "https://registry.yarnpkg.com/react-path-tooltip/-/react-path-tooltip-1.0.21.tgz#40b8e01b3dd9faaa6cfe567f6c1874c09b3ec1d0"
   integrity sha512-J/O9Ar/i7b4LykM02kXj2iTk1SO7dHhfHHI3DukeeVBJUMYaiCnFPEGe5PKMaiaK2heLC4tO44ceMPOJAlMmZg==
 
-react-path-tooltip@^1.0.24:
-  version "1.0.24"
-  resolved "https://registry.yarnpkg.com/react-path-tooltip/-/react-path-tooltip-1.0.24.tgz#4f0cab8764b3af6b831602f2eee03277cca6f57c"
-  integrity sha512-fH5c/aAzY0bzX7p+cDXHW1rS5UCmX9ts+UTEziZfUP2AdzZ3zhsbJP4USvdVnzw/mjyyJsywiAvE1SZzsZU22A==
+react-path-tooltip@^1.0.25:
+  version "1.0.25"
+  resolved "https://registry.yarnpkg.com/react-path-tooltip/-/react-path-tooltip-1.0.25.tgz#5734bc5523d10b33d17ac307f0502e1acf8034bb"
+  integrity sha512-wT1+mDi10aFyP3nyRCz3ixcwWGPIeCb3QOPHFYC+kIzaQUPk82Lrm3TsDn2k24n8FdUbbsxpfL8iwIddzaG5LQ==
 
 react-router-config@^5.1.1:
   version "5.1.1"
