@@ -36,7 +36,7 @@ export interface Props<T extends string | number = number> {
   tooltipBgColor?: string;
   tooltipTextColor?: string;
   rtl?: boolean;
-  size?: SizeOption | "responsive" | number;
+  size?: SizeOption | "responsive" | "responsive-100" | number;
   frame?: boolean;
   frameColor?: string;
   borderColor?: string;

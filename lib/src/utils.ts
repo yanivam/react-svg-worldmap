@@ -28,9 +28,15 @@ export function useWindowWidth(): number {
 
 // Adjust responsive size
 export function responsify(
-  sizeOption: SizeOption | "responsive",
+  sizeOption: SizeOption | "responsive" | "responsive-100",
   windowWidth: number,
 ): number {
+  if (sizeOption === "responsive-100") {
+    // Make component work in SSR
+    if (typeof window === "undefined") return sizeMap[defaultSize];
+
+    return window.innerWidth;
+  }
   if (sizeOption === "responsive") {
     // Make component work in SSR
     if (typeof window === "undefined") return sizeMap[defaultSize];
