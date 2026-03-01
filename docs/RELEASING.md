@@ -41,8 +41,11 @@ Release is triggered from **Actions → “Release” → Run workflow**. It doe
    - When ready to release: run **`yarn version`** at the repo root. This consumes changesets, bumps `lib/package.json`, and updates `lib/CHANGELOG.md`.
    - Commit and push the version and changelog to `main`.
 
-2. **Secrets**
-   - **NPM_TOKEN**: npm access token with permission to publish. Set in **Settings → Secrets and variables → Actions**.
+2. **npm Trusted Publishing (one-time setup)**
+   - Publishing uses [Trusted Publishing](https://docs.npmjs.com/trusted-publishers) (OIDC). No long-lived token or 2FA code needed in CI.
+   - On [npm](https://www.npmjs.com/) → your package **react-svg-worldmap** → **Packages** → **react-svg-worldmap** → **Settings** → **Trusted publishing** → **Add trusted publisher** → **GitHub Actions**.
+   - Set **Workflow filename** to exactly: **`release.yml`** (must match `.github/workflows/release.yml`). Save.
+   - (Optional) Under **Publishing access**, you can set “Require two-factor authentication and disallow tokens” so only this workflow can publish.
 
 ---
 
