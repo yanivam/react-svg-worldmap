@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import type { CountryContext } from "react-svg-worldmap";
 import WorldMap from "react-svg-worldmap";
-import { populationData } from "../data/CountryData";
+import { populationData } from "../data/CountryData.js";
 
 // E.g. format the number 1000000 to "1 thousand"
 function formattedNumber(num: number | undefined, digits: number) {

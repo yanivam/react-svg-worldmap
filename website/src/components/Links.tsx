@@ -1,7 +1,7 @@
 import * as React from "react";
 import type { CountryContext } from "react-svg-worldmap";
 import WorldMap from "react-svg-worldmap";
-import { populationData } from "../data/CountryData";
+import { populationData } from "../data/CountryData.js";
 
 const getHref = ({ countryName }: CountryContext) => ({
   href: `https://en.wikipedia.org/wiki/${encodeURIComponent(countryName)}`,
