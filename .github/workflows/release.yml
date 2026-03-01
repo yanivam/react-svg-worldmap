@@ -64,8 +64,13 @@ jobs:
       - name: Copy README into lib
         run: cp ./README.md ./lib
 
+      - name: Install npm for Trusted Publishing (OIDC)
+        run: npm install -g npm@latest
+
       - name: Publish to npm
         run: cd ./lib && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ""
 
   # Step 3: Create GitHub Release (only if publish ran and succeeded)
   github-release:
