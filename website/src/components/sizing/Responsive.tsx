@@ -1,6 +1,6 @@
 import * as React from "react";
 import WorldMap from "react-svg-worldmap";
-import { GDPData } from "../../data/CountryData.js";
+import { GDPData } from "../../data/CountryData";
 
 export default function App(): JSX.Element {
   return (

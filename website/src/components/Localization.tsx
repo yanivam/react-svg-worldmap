@@ -1,7 +1,7 @@
 import * as React from "react";
 import type { CountryContext } from "react-svg-worldmap";
 import WorldMap from "react-svg-worldmap";
-import { populationData } from "../data/CountryData.js";
+import { populationData } from "../data/CountryData";
 
 // Spanish translation of country names
 const localizedCountryDictionary = new Map<string, string>([
