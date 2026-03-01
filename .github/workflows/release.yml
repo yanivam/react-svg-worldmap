@@ -24,12 +24,16 @@ jobs:
     with:
       node_version: "20"
 
-  # Step 2: Publish to npm (only if not dry run and validate passed)
+  # Step 2: Publish to npm via Trusted Publishing (OIDC). No NPM_TOKEN needed.
+  # Configure on npm: Package → Settings → Trusted Publisher → GitHub Actions → workflow filename: release.yml
   publish:
     name: Publish to npm
     needs: validate
     if: ${{ !inputs.dry_run }}
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Required for npm Trusted Publishing (OIDC)
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,7 +41,8 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
           cache: yarn
 
       - name: Install dependencies
@@ -59,24 +64,8 @@ jobs:
       - name: Copy README into lib
         run: cp ./README.md ./lib
 
-      - name: Ensure NPM_TOKEN is set
-        run: |
-          if [ -z "$NPM_TOKEN" ]; then
-            echo "::error::NPM_TOKEN secret is not set. Add it in repo Settings → Secrets and variables → Actions (name exactly NPM_TOKEN)."
-            exit 1
-          fi
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Set npm auth
-        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ./.npmrc
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: Publish to npm
         run: cd ./lib && npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   # Step 3: Create GitHub Release (only if publish ran and succeeded)
   github-release:
