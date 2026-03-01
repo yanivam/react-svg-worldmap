@@ -1,34 +1,44 @@
 import * as React from "react";
+import { useState } from "react";
 import type { ComponentProps, ForwardedRef } from "react";
 
 export interface Props extends Omit<ComponentProps<"path">, "href"> {
   strokeOpacity: string | number;
   href?: ComponentProps<"a"> | string | undefined;
+  regionClassName?: string;
 }
 
-function onMouseOver(strokeOpacity: number) {
-  return (event: React.MouseEvent<SVGPathElement>) => {
-    event.currentTarget.style.strokeWidth = "2";
-    event.currentTarget.style.strokeOpacity = String(
-      Math.min(strokeOpacity + 0.3, 1),
-    );
-  };
-}
+const HOVER_CLASS = "worldmap__region--hover";
 
-function onMouseOut(strokeOpacity: number) {
-  return (event: React.MouseEvent<SVGPathElement>) => {
-    event.currentTarget.style.strokeWidth = "1";
-    event.currentTarget.style.strokeOpacity = String(strokeOpacity);
-  };
-}
+function Region(
+  { href, regionClassName, className, ...pathProps }: Props,
+  ref: ForwardedRef<SVGPathElement>,
+) {
+  const [hover, setHover] = useState(false);
+  const strokeOpacity = Number(pathProps.strokeOpacity);
 
-function Region({ href, ...props }: Props, ref: ForwardedRef<SVGPathElement>) {
+  const pathClassName = [className, regionClassName, hover && HOVER_CLASS]
+    .filter(Boolean)
+    .join(" ");
+
+  const hoverStyle =
+    !regionClassName && hover
+      ? {
+          strokeWidth: 2,
+          strokeOpacity: Math.min(strokeOpacity + 0.3, 1),
+        }
+      : undefined;
+
   const path = (
     <path
-      onMouseOver={onMouseOver(Number(props.strokeOpacity))}
-      onMouseOut={onMouseOut(Number(props.strokeOpacity))}
       ref={ref}
-      {...props}
+      className={pathClassName || undefined}
+      onMouseOver={() => setHover(true)}
+      onMouseOut={() => setHover(false)}
+      {...pathProps}
+      style={
+        hoverStyle ? { ...pathProps.style, ...hoverStyle } : pathProps.style
+      }
     />
   );
 

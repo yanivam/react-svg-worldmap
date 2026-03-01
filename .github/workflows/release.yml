@@ -1,0 +1,97 @@
+# Release: manual only. Run from Actions → "Release" → Run workflow.
+# Step 1: Validate (build + smoke + website). Step 2: Publish to npm. Step 3: GitHub Release.
+# Use "Dry run" to run only step 1.
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (validate only, no publish)"
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  # Step 1: Same build/test as CI (must pass before publish)
+  validate:
+    name: Validate (build + smoke + website)
+    uses: ./.github/workflows/build-and-test.yml
+    with:
+      node_version: "20"
+
+  # Step 2: Publish to npm (only if not dry run and validate passed)
+  publish:
+    name: Publish to npm
+    needs: validate
+    if: ${{ !inputs.dry_run }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build package
+        run: yarn build:package
+
+      - name: Check version not already published
+        id: version-check
+        run: |
+          VERSION=$(node -p "require('./lib/package.json').version")
+          if npm view react-svg-worldmap@$VERSION version 2>/dev/null; then
+            echo "::error::Version $VERSION is already published. Run 'yarn version' and commit, or choose a different version."
+            exit 1
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Copy README into lib
+        run: cp ./README.md ./lib
+
+      - name: Publish to npm
+        run: cd ./lib && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  # Step 3: Create GitHub Release (only if publish ran and succeeded)
+  github-release:
+    name: GitHub Release
+    needs: publish
+    if: ${{ !inputs.dry_run && needs.publish.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get version
+        id: version
+        run: echo "version=$(node -p "require('./lib/package.json').version")" >> $GITHUB_OUTPUT
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Summary when dry run (so the run doesn’t look “empty”)
+  dry-run-summary:
+    name: Dry run summary
+    needs: validate
+    if: ${{ inputs.dry_run }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "## Dry run complete" >> $GITHUB_STEP_SUMMARY
+          echo "Validate passed. No publish or release step ran."

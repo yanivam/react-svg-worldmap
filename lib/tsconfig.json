@@ -1,14 +1,15 @@
 {
   "extends": "tsconfig-jc",
-  "include": ["src"],
+  "include": ["src", "tsup.config.ts"],
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
     "jsx": "react",
-    "module": "commonjs",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "target": "esnext",
-    "rootDir": "./src",
+    "rootDir": ".",
     "outDir": "./dist",
     "importHelpers": true,
     "noEmitHelpers": true

@@ -26,3 +26,5 @@ coverage
 .env
 .env.test
 .cache
+.tmp-smoke
+yarn.lock

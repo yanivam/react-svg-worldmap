@@ -3,6 +3,6 @@ module.exports = {
   extends: ["jc", "jc/typescript-typecheck"],
   parserOptions: {
     tsconfigRootDir: __dirname,
-    project: ["./*/tsconfig.json"],
+    project: ["./lib/tsconfig.eslint.json", "./website/tsconfig.json"],
   },
 };

@@ -1,0 +1,44 @@
+# Reusable: build package, pack + smoke test, build website.
+# Used by CI (PR) and by Release (validate step).
+name: Build and test
+
+on:
+  workflow_call:
+    inputs:
+      node_version:
+        description: "Node.js version"
+        required: false
+        default: "20"
+        type: string
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version }}
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build package
+        run: yarn build:package
+
+      - name: Pack and smoke test
+        run: |
+          cd lib && npm pack && cd ..
+          mkdir -p .tmp-smoke && cd .tmp-smoke
+          npm init -y
+          npm install ../lib/react-svg-worldmap-*.tgz react react-dom --save
+          cp ../lib/scripts/smoke-cjs.cjs ../lib/scripts/smoke-esm.mjs .
+          node smoke-cjs.cjs
+          node smoke-esm.mjs
+
+      - name: Build website
+        run: yarn build:website

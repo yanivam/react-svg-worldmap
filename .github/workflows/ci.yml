@@ -1,0 +1,61 @@
+# CI on pull requests: build/test on multiple Node versions, lint, changeset status.
+# Each job can be re-run independently in the Actions UI.
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Step 1: Build package, pack + smoke, build website (same as release validate)
+  test:
+    name: "Test (Node ${{ matrix.node_version }})"
+    uses: ./.github/workflows/build-and-test.yml
+    with:
+      node_version: ${{ matrix.node_version }}
+    strategy:
+      matrix:
+        node_version: ["18", "20", "22"]
+
+  # Step 2: Lint (format, types, eslint, spellcheck)
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build package (for typecheck)
+        run: yarn build:package
+      - name: Format check
+        run: yarn format-check
+      - name: Typecheck
+        run: yarn typecheck
+      - name: Lint
+        run: yarn lint
+      - name: Spellcheck
+        run: yarn spellcheck
+
+  # Step 3: Show changeset status (informational; does not fail the workflow)
+  changeset-status:
+    name: Changeset status
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Changeset status
+        run: yarn changeset status --since=origin/main || true
