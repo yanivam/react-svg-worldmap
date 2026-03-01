@@ -33,7 +33,7 @@ jobs:
       - name: Pack and smoke test
         run: |
           cd lib && npm pack && cd ..
-          mkdir -p .tmp-smoke && cd .tmp-smoke
+          mkdir -p tmp-smoke && cd tmp-smoke
           npm init -y
           npm install ../lib/react-svg-worldmap-*.tgz react react-dom --save
           cp ../lib/scripts/smoke-cjs.cjs ../lib/scripts/smoke-esm.mjs .
