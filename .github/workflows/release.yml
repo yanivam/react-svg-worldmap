@@ -59,10 +59,14 @@ jobs:
       - name: Copy README into lib
         run: cp ./README.md ./lib
 
+      - name: Set npm auth
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ./lib/.npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Publish to npm
         run: cd ./lib && npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   # Step 3: Create GitHub Release (only if publish ran and succeeded)
   github-release:

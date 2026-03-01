@@ -66,5 +66,8 @@
     "countries"
   ],
   "bugs": "https://github.com/yanivam/react-svg-worldmap/issues",
-  "repository": "github:yanivam/react-svg-worldmap"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yanivam/react-svg-worldmap.git"
+  }
 }
