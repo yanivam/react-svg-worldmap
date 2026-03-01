@@ -36,8 +36,17 @@ export interface Props<T extends string | number = number> {
   tooltipBgColor?: string;
   tooltipTextColor?: string;
   rtl?: boolean;
+  /**
+   * - number: exact pixel width
+   * - "responsive": fit container width (with max from viewport)
+   * - "sm" | "md" | "lg" | "xl" | "xxl": preset cap, shrinks if smaller
+   */
   size?: SizeOption | "responsive" | number;
   frame?: boolean;
+  /** Optional class for the wrapper div (for CSP or custom layout). */
+  containerClassName?: string;
+  /** Optional class for each region path (for CSP or custom styling). */
+  regionClassName?: string;
   frameColor?: string;
   borderColor?: string;
   richInteraction?: boolean;

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, createRef } from "react";
+import { useState, useRef } from "react";
 import type GeoJSON from "geojson";
 import { geoMercator, geoPath } from "d3-geo";
 import geoData from "./countries.geo.js";
@@ -11,7 +11,7 @@ import {
   defaultCountryStyle,
   defaultTooltip,
 } from "./constants.js";
-import { useWindowWidth, responsify } from "./utils.js";
+import { useWindowWidth, useContainerWidth, responsify } from "./utils.js";
 import { drawTooltip } from "./draw.js";
 import Frame from "./components/Frame.js";
 import Region from "./components/Region.js";
@@ -55,17 +55,30 @@ export default function WorldMap<T extends number | string>(
     onClickFunction,
     hrefFunction,
     textLabelFunction = () => [],
+    containerClassName,
+    regionClassName,
   } = props;
+  const [wrapperEl, setWrapperEl] = useState<HTMLDivElement | null>(null);
+  const containerRef = useRef<SVGSVGElement>(null);
+  const containerWidth = useContainerWidth(wrapperEl);
   const windowWidth = useWindowWidth();
+  const effectiveWidth = containerWidth ?? windowWidth;
 
   // Inits
-  const width = typeof size === "number" ? size : responsify(size, windowWidth);
+  const width =
+    typeof size === "number" ? size : responsify(size, effectiveWidth);
   const height = width * heightRatio;
   const [scale, setScale] = useState(1);
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
 
-  const containerRef = createRef<SVGSVGElement>();
+  // Stable refs per region for tooltips (avoids ref identity churn)
+  const triggerRefs = useRef<Array<{ current: SVGPathElement | null }>>([]);
+  if (triggerRefs.current.length !== geoData.features.length) {
+    triggerRefs.current = geoData.features.map(
+      (_, i) => triggerRefs.current[i] ?? { current: null },
+    );
+  }
 
   // Calc min/max values and build country map for direct access
   const countryValueMap = Object.fromEntries(
@@ -85,8 +98,8 @@ export default function WorldMap<T extends number | string>(
     [onClickFunction],
   );
 
-  const regions = geoData.features.map((feature) => {
-    const triggerRef = createRef<SVGPathElement>();
+  const regions = geoData.features.map((feature, i) => {
+    const triggerRef = triggerRefs.current[i]!;
     const { I: isoCode, N: countryName, C: coordinates } = feature;
     const geoFeature: GeoJSON.Feature = {
       type: "Feature",
@@ -116,17 +129,24 @@ export default function WorldMap<T extends number | string>(
         strokeOpacity={strokeOpacity}
         href={hrefFunction?.(context)}
         key={countryName}
+        {...(regionClassName != null ? { regionClassName } : {})}
       />
     );
-    const tooltip = drawTooltip(
+    const tooltipContent =
       typeof context.countryValue === "undefined"
         ? undefined
-        : tooltipTextFunction(context),
-      tooltipBgColor,
-      tooltipTextColor,
-      rtl,
-      triggerRef,
-      containerRef,
+        : tooltipTextFunction(context);
+    const tooltip = (
+      <React.Fragment key={`tooltip-${isoCode}`}>
+        {drawTooltip(
+          tooltipContent,
+          tooltipBgColor,
+          tooltipTextColor,
+          rtl,
+          triggerRef,
+          containerRef,
+        )}
+      </React.Fragment>
     );
 
     return { path, highlightedTooltip: tooltip };
@@ -159,33 +179,40 @@ export default function WorldMap<T extends number | string>(
     },
   };
 
-  // Render the SVG
+  // Render the SVG (wrapper div for ResizeObserver container sizing)
   return (
-    <figure className="worldmap__figure-container" style={{ backgroundColor }}>
-      {title && (
-        <figcaption className="worldmap__figure-caption">{title}</figcaption>
-      )}
-      <svg
-        ref={containerRef}
-        height={`${height}px`}
-        width={`${width}px`}
-        {...(richInteraction ? eventHandlers : undefined)}>
-        {frame && <Frame color={frameColor} />}
-        <g
-          transform={`translate(${translateX}, ${translateY}) scale(${
-            (width / 960) * scale
-          }) translate(0, 240)`}
-          style={{ transition: "all 0.2s" }}>
-          {regionPaths}
-        </g>
-        <g>
-          {textLabelFunction(width).map((labelProps) => (
-            <TextLabel {...labelProps} key={labelProps.label} />
-          ))}
-        </g>
-        {regionTooltips}
-      </svg>
-    </figure>
+    <div
+      ref={setWrapperEl}
+      className={containerClassName ?? "worldmap__wrapper"}
+      style={{ width: "100%", minHeight: 0 }}>
+      <figure
+        className="worldmap__figure-container"
+        style={{ backgroundColor }}>
+        {title && (
+          <figcaption className="worldmap__figure-caption">{title}</figcaption>
+        )}
+        <svg
+          ref={containerRef}
+          height={`${height}px`}
+          width={`${width}px`}
+          {...(richInteraction ? eventHandlers : undefined)}>
+          {frame && <Frame color={frameColor} />}
+          <g
+            transform={`translate(${translateX}, ${translateY}) scale(${
+              (width / 960) * scale
+            }) translate(0, 240)`}
+            style={{ transition: "all 0.2s" }}>
+            {regionPaths}
+          </g>
+          <g>
+            {textLabelFunction(width).map((labelProps) => (
+              <TextLabel {...labelProps} key={labelProps.label} />
+            ))}
+          </g>
+          {regionTooltips}
+        </svg>
+      </figure>
+    </div>
   );
 }
 
