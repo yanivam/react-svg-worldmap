@@ -20,3 +20,5 @@ typecheck
 unidos
 worldmap
 yanivam
+npmjs
+npmrc
