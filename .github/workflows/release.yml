@@ -69,8 +69,6 @@ jobs:
 
       - name: Publish to npm
         run: cd ./lib && npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ""
 
   # Step 3: Create GitHub Release (only if publish ran and succeeded)
   github-release:
