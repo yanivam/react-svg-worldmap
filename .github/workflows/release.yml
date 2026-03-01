@@ -59,14 +59,24 @@ jobs:
       - name: Copy README into lib
         run: cp ./README.md ./lib
 
-      - name: Set npm auth
+      - name: Ensure NPM_TOKEN is set
         run: |
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ./lib/.npmrc
+          if [ -z "$NPM_TOKEN" ]; then
+            echo "::error::NPM_TOKEN secret is not set. Add it in repo Settings → Secrets and variables → Actions (name exactly NPM_TOKEN)."
+            exit 1
+          fi
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Set npm auth
+        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ./lib/.npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish to npm
         run: cd ./lib && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   # Step 3: Create GitHub Release (only if publish ran and succeeded)
   github-release:
