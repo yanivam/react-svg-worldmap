@@ -6,6 +6,7 @@ lcov
 méxico
 millónes
 países
+peaceiris
 pids
 población
 principales
