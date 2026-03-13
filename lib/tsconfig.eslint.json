@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["src", "tsup.config.ts"],
+  "include": ["src", "tsup.config.ts", "vitest.config.ts", "scripts"],
   "compilerOptions": {
     "noEmit": true
   }

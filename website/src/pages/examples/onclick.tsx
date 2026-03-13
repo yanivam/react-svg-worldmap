@@ -9,12 +9,12 @@ import styles from "./styles.module.css";
 export default function OnClick(): JSX.Element {
   return (
     <Layout title="Onclick action example">
-      <div className={styles.main}>
+      <main id="main-content" className={styles.main}>
         <Map />
         <div className={styles.code}>
           <CodeBlock className="language-tsx">{Source}</CodeBlock>
         </div>
-      </div>
+      </main>
     </Layout>
   );
 }

@@ -64,7 +64,7 @@ function App() {
       <WorldMap
         color="red"
         title="Top 10 Populous Countries"
-        value-suffix="people"
+        valueSuffix="people"
         size="lg"
         data={data}
       />
@@ -72,6 +72,10 @@ function App() {
   );
 }
 ```
+
+## Contributing
+
+See the [repository README](https://github.com/yanivam/react-svg-worldmap#development) for instructions on building the package and running the examples site locally.
 
 ## License
 

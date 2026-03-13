@@ -2,8 +2,9 @@ import * as React from "react";
 import { useState, useRef } from "react";
 import type GeoJSON from "geojson";
 import { geoMercator, geoPath } from "d3-geo";
-import geoData from "./countries.geo.js";
-import type { Props, CountryContext, DataItem } from "./types.js";
+import { feature as topoFeature } from "topojson-client";
+import topoData from "./countries.topo.js";
+import type { Props, CountryContext, DataItem, ISOCode } from "./types.js";
 import {
   defaultColor,
   defaultSize,
@@ -16,7 +17,6 @@ import { drawTooltip } from "./draw.js";
 import Frame from "./components/Frame.js";
 import Region from "./components/Region.js";
 import TextLabel from "./components/TextLabel.js";
-// Import Tooltip from './components/Tooltip';
 
 export type {
   ISOCode,
@@ -26,6 +26,18 @@ export type {
   CountryContext,
   Props,
 } from "./types.js";
+
+// Decode the TopoJSON topology once at module load time.
+// `feature()` returns a GeoJSON FeatureCollection; each feature's
+// properties carries { N: countryName, I: isoCode } as set during encoding.
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
+const geoFeatures = (
+  topoFeature(
+    topoData,
+    topoData.objects.countries,
+  ) as unknown as GeoJSON.FeatureCollection
+).features as Array<GeoJSON.Feature & { properties: { N: string; I: string } }>;
+/* eslint-enable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 
 function toValue({ value }: DataItem<string | number>): number {
   return typeof value === "string" ? 0 : value;
@@ -50,7 +62,7 @@ export default function WorldMap<T extends number | string>(
     frameColor = "black",
     borderColor = "black",
     richInteraction = false,
-    styleFunction = defaultCountryStyle(borderColor, strokeOpacity),
+    styleFunction: styleFunctionProp,
     tooltipTextFunction = defaultTooltip,
     onClickFunction,
     hrefFunction,
@@ -60,9 +72,20 @@ export default function WorldMap<T extends number | string>(
   } = props;
   const [wrapperEl, setWrapperEl] = useState<HTMLDivElement | null>(null);
   const containerRef = useRef<SVGSVGElement>(null);
+  // Stable id for aria-labelledby — initialised once and persists for the
+  // lifetime of the component instance (safe without useId / React 18).
+  const titleId = useRef(
+    `worldmap-title-${Math.random().toString(36).slice(2, 9)}`,
+  ).current;
   const containerWidth = useContainerWidth(wrapperEl);
   const windowWidth = useWindowWidth();
   const effectiveWidth = containerWidth ?? windowWidth;
+
+  const defaultStyle = React.useMemo(
+    () => defaultCountryStyle(borderColor, strokeOpacity),
+    [borderColor, strokeOpacity],
+  );
+  const styleFunction = styleFunctionProp ?? defaultStyle;
 
   // Inits
   const width =
@@ -74,8 +97,8 @@ export default function WorldMap<T extends number | string>(
 
   // Stable refs per region for tooltips (avoids ref identity churn)
   const triggerRefs = useRef<Array<{ current: SVGPathElement | null }>>([]);
-  if (triggerRefs.current.length !== geoData.features.length) {
-    triggerRefs.current = geoData.features.map(
+  if (triggerRefs.current.length !== geoFeatures.length) {
+    triggerRefs.current = geoFeatures.map(
       (_, i) => triggerRefs.current[i] ?? { current: null },
     );
   }
@@ -85,32 +108,19 @@ export default function WorldMap<T extends number | string>(
     data.map(({ country, value }) => [country.toUpperCase(), value]),
   );
 
-  const minValue = Math.min(...data.map(toValue));
-  const maxValue = Math.max(...data.map(toValue));
+  const numericValues = data.map(toValue);
+  const minValue = numericValues.length > 0 ? Math.min(...numericValues) : 0;
+  const maxValue = numericValues.length > 0 ? Math.max(...numericValues) : 0;
 
   // Build a path & a tooltip for each country
   const projection = geoMercator();
   const pathGenerator = geoPath().projection(projection);
 
-  const onClick = React.useCallback(
-    (context: CountryContext<T>) => (event: React.MouseEvent<SVGElement>) =>
-      onClickFunction?.({ ...context, event }),
-    [onClickFunction],
-  );
-
-  const regions = geoData.features.map((feature, i) => {
+  const regionElements = geoFeatures.map((geoFeature, i) => {
     const triggerRef = triggerRefs.current[i]!;
-    const { I: isoCode, N: countryName, C: coordinates } = feature;
-    const geoFeature: GeoJSON.Feature = {
-      type: "Feature",
-      properties: { NAME: countryName, ISO_A2: isoCode },
-      geometry: {
-        type: "MultiPolygon",
-        coordinates: coordinates as unknown as GeoJSON.Position[][][],
-      },
-    };
+    const { N: countryName, I: isoCode } = geoFeature.properties;
     const context: CountryContext<T> = {
-      countryCode: isoCode,
+      countryCode: isoCode as ISOCode,
       countryValue: countryValueMap[isoCode],
       countryName,
       color,
@@ -120,22 +130,33 @@ export default function WorldMap<T extends number | string>(
       suffix: valueSuffix,
     };
 
+    // Resolve href and interactivity once so they can be used for both the
+    // Region props and to decide whether keyboard / ARIA support is needed.
+    const resolvedHref = hrefFunction?.(context);
+    const isInteractive = Boolean(onClickFunction ?? resolvedHref);
+    // Tooltip text doubles as the SVG <title> to give a text alternative for
+    // colour-coded data values (WCAG 1.1.1, 1.4.1).
+    const tooltipContent =
+      typeof context.countryValue === "undefined"
+        ? undefined
+        : tooltipTextFunction(context);
+    const svgTitle = tooltipContent ?? countryName;
+
     const path = (
       <Region
         ref={triggerRef}
         d={pathGenerator(geoFeature)!}
         style={styleFunction(context)}
-        onClick={onClick(context)}
+        onClick={(event) => onClickFunction?.({ ...context, event })}
         strokeOpacity={strokeOpacity}
-        href={hrefFunction?.(context)}
+        href={resolvedHref}
         key={countryName}
+        countryName={countryName}
+        svgTitle={svgTitle}
+        isInteractive={isInteractive}
         {...(regionClassName != null ? { regionClassName } : {})}
       />
     );
-    const tooltipContent =
-      typeof context.countryValue === "undefined"
-        ? undefined
-        : tooltipTextFunction(context);
     const tooltip = (
       <React.Fragment key={`tooltip-${isoCode}`}>
         {drawTooltip(
@@ -153,14 +174,19 @@ export default function WorldMap<T extends number | string>(
   });
 
   // Build paths
-  const regionPaths = regions.map((entry) => entry.path);
+  const regionPaths = regionElements.map((entry) => entry.path);
 
   // Build tooltips
-  const regionTooltips = regions.map((entry) => entry.highlightedTooltip);
+  const regionTooltips = regionElements.map(
+    (entry) => entry.highlightedTooltip,
+  );
 
   const eventHandlers = {
     onMouseDown(e: React.MouseEvent) {
-      e.preventDefault();
+      // Only suppress default on multi-click (≥2) to prevent text-selection
+      // during double-click zoom. Single clicks must still move focus normally
+      // so keyboard users aren't locked out (WCAG 2.1.1).
+      if (e.detail > 1) e.preventDefault();
       e.stopPropagation();
     },
     onDoubleClick(e: React.MouseEvent) {
@@ -177,6 +203,24 @@ export default function WorldMap<T extends number | string>(
         setScale(scale * 2);
       }
     },
+    // Keyboard equivalents for double-click zoom (WCAG 2.1.1).
+    // + / =  → zoom in to the centre of the map
+    // - / _  → reset zoom
+    onKeyDown(e: React.KeyboardEvent<SVGSVGElement>) {
+      if (e.key === "+" || e.key === "=") {
+        e.preventDefault();
+        if (scale < 4) {
+          setTranslateX(2 * translateX - width / 2);
+          setTranslateY(2 * translateY - height / 2);
+          setScale(scale * 2);
+        }
+      } else if (e.key === "-" || e.key === "_") {
+        e.preventDefault();
+        setTranslateX(0);
+        setTranslateY(0);
+        setScale(1);
+      }
+    },
   };
 
   // Render the SVG (wrapper div for ResizeObserver container sizing)
@@ -189,10 +233,22 @@ export default function WorldMap<T extends number | string>(
         className="worldmap__figure-container"
         style={{ backgroundColor }}>
         {title && (
-          <figcaption className="worldmap__figure-caption">{title}</figcaption>
+          <figcaption id={titleId} className="worldmap__figure-caption">
+            {title}
+          </figcaption>
         )}
         <svg
           ref={containerRef}
+          // Role="img" + aria-labelledby/aria-label give the SVG an accessible
+          // name so screen readers announce it as a labelled graphic rather
+          // than traversing every path element individually (WCAG 1.1.1).
+          role="img"
+          aria-labelledby={title ? titleId : undefined}
+          aria-label={!title ? "World map" : undefined}
+          // Make the SVG focusable when richInteraction is on so keyboard
+          // users can reach the zoom controls (WCAG 2.1.1).
+          tabIndex={richInteraction ? 0 : undefined}
+          aria-keyshortcuts={richInteraction ? "+ -" : undefined}
           height={`${height}px`}
           width={`${width}px`}
           {...(richInteraction ? eventHandlers : undefined)}>
@@ -216,6 +272,9 @@ export default function WorldMap<T extends number | string>(
   );
 }
 
-const regions = geoData.features.map((g) => ({ name: g.N, code: g.I }));
+const regions = geoFeatures.map((f) => ({
+  name: f.properties.N,
+  code: f.properties.I,
+}));
 
 export { WorldMap, regions };

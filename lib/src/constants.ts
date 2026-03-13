@@ -50,5 +50,7 @@ export const defaultTooltip = <T extends string | number>(
   context: CountryContext<T>,
 ): string => {
   const { countryName, countryValue, prefix, suffix } = context;
-  return `${countryName} ${prefix} ${countryValue!.toLocaleString()} ${suffix}`;
+  return [countryName, prefix, countryValue!.toLocaleString(), suffix]
+    .filter((part) => part !== "")
+    .join(" ");
 };

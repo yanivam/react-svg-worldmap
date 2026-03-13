@@ -26,10 +26,8 @@ It all started with a fun project that I was building and needed to draw simple 
 
 ## Install
 
-In order to install, run the following command:
-
 ```
-$ npm install react-svg-worldmap --save
+npm install react-svg-worldmap --save
 ```
 
 ## Usage
@@ -60,7 +58,7 @@ function App() {
       <WorldMap
         color="red"
         title="Top 10 Populous Countries"
-        value-suffix="people"
+        valueSuffix="people"
         size="lg"
         data={data}
       />
@@ -68,6 +66,73 @@ function App() {
   );
 }
 ```
+
+## Development
+
+This repo is a Yarn workspace with two packages: `lib` (the component) and `website` (the Docusaurus examples site).
+
+### Prerequisites
+
+- Node ≥ 18
+- Yarn
+
+```
+yarn install
+```
+
+### 1. Building the package
+
+Builds the library and outputs CJS + ESM bundles to `lib/dist/`:
+
+```
+yarn build:package
+```
+
+To build and pack a local `.tgz` for testing in another project (run from `lib/`):
+
+```
+cd lib
+yarn build:local
+```
+
+### 2. Running the examples site
+
+The website imports the library from `lib/dist/`, so build the package first.
+
+```
+yarn build:package
+yarn start:website
+```
+
+The dev server starts at `http://localhost:3000`.
+
+### 3. Building the full site for deployment
+
+```
+yarn build
+```
+
+This runs `build:package` then `build:website` in sequence.
+
+## Accessibility
+
+The component is designed to be WCAG 2.2 AA compliant at the component level:
+
+- The root `<svg>` is annotated with `role="img"` and `aria-labelledby` pointing to an embedded `<title>` element.
+- Each country region SVG element carries its own `<title>` with the country name and value.
+- The component ships no decorative elements without `aria-hidden`.
+
+### Responsibilities of the consuming application
+
+Because `<WorldMap>` is a self-contained SVG widget — not a full page — the following page-level landmarks must be provided by the host application:
+
+| Requirement | WCAG criterion | What to do |
+| --- | --- | --- |
+| Skip link | 2.4.1 Bypass Blocks | Add a visually-hidden `<a href="#main-content">Skip to main content</a>` as the first focusable element in your page shell |
+| `<main>` landmark | 1.3.1 Info and Relationships | Wrap the primary page content in `<main id="main-content">` |
+| `<nav>` landmark | 1.3.1 Info and Relationships | Wrap your site navigation in `<nav aria-label="Main">` |
+
+The examples site (`website/`) demonstrates all three: `website/src/theme/Root.tsx` injects the skip link app-wide, and every example page wraps its content in `<main id="main-content">`.
 
 ## License
 

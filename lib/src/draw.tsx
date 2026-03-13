@@ -15,7 +15,6 @@ export function drawTooltip(
       fontSize={12}
       bgColor={tooltipBgColor}
       textColor={tooltipTextColor}
-      key={tip}
       pathRef={triggerRef}
       svgRef={containerRef}
       rtl={rtl}

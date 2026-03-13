@@ -1,3 +1,28 @@
+/* ── Skip-to-main link (WCAG 2.4.1 – Bypass Blocks) ──────────────────────── */
+/* Visually hidden by default; revealed on keyboard focus so sighted keyboard
+   users can skip past the repeated navbar on every page. */
+.skip-to-main {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  padding: 0.6rem 1.2rem;
+  background: var(--ifm-color-primary-darkest);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  z-index: 9999;
+  border-radius: 0 0 4px 0;
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+
+.skip-to-main:focus {
+  top: 0;
+  outline: 3px solid var(--ifm-color-primary-lightest);
+  outline-offset: 2px;
+}
+
+/* ── Theme ────────────────────────────────────────────────────────────────── */
 :root {
   --ifm-color-primary: #08827e;
   --ifm-color-primary-dark: #077571;
