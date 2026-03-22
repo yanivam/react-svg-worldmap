@@ -1,8 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import { responsify, useWindowWidth, useContainerWidth } from "../utils.js";
-import { sizeMap , sizeBreakpoints } from "../constants.js";
-
+import { sizeMap, sizeBreakpoints } from "../constants.js";
 
 // ── responsify ────────────────────────────────────────────────────────────────
 
@@ -186,7 +185,7 @@ describe("useContainerWidth", () => {
     );
     expect(result.current).toBe(320);
 
-    rerender({ element: null });
+    rerender();
     expect(result.current).toBeNull();
   });
 });

@@ -15,9 +15,7 @@ import type React from "react";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-const makeCtx = (
-  overrides: Partial<CountryContext> = {},
-): CountryContext => ({
+const makeCtx = (overrides: Partial<CountryContext> = {}): CountryContext => ({
   countryCode: "US" as ISOCode,
   countryName: "United States",
   color: "#dddddd",
