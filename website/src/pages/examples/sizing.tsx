@@ -26,7 +26,7 @@ const Sources = Object.fromEntries(
 export default function Sizing(): JSX.Element {
   return (
     <Layout title="Sizing examples">
-      <div className={styles.main}>
+      <main id="main-content" className={styles.main}>
         <Tabs
           values={sizes.map((size) => ({
             label: size,
@@ -49,7 +49,7 @@ export default function Sizing(): JSX.Element {
             );
           })}
         </Tabs>
-      </div>
+      </main>
     </Layout>
   );
 }

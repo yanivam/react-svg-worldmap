@@ -42,13 +42,25 @@ export function useContainerWidth(
       setWidth(null);
       return undefined;
     }
+    // Defer the state update to the next animation frame to avoid the
+    // "ResizeObserver loop completed with undelivered notifications" warning.
+    // Without this, the callback fires → React re-renders → SVG resizes →
+    // ResizeObserver fires again in the same frame → browser warning.
+    let rafId = 0;
     const ro = new ResizeObserver((entries) => {
       const entry = entries[0];
-      if (entry) setWidth(entry.contentRect.width);
+      if (entry) {
+        rafId = requestAnimationFrame(() => {
+          setWidth(entry.contentRect.width);
+        });
+      }
     });
     ro.observe(containerEl);
     setWidth(containerEl.getBoundingClientRect().width);
-    return () => ro.disconnect();
+    return () => {
+      cancelAnimationFrame(rafId);
+      ro.disconnect();
+    };
   }, [containerEl]);
 
   return width;
@@ -59,10 +71,11 @@ export function useContainerWidth(
  * Uses deterministic sorted breakpoints (not object key order).
  */
 function largestFittingWidth(availableWidth: number): number {
-  const fitting =
+  return (
     sizeBreakpoints.filter((s) => s <= availableWidth).pop() ??
-    sizeBreakpoints[0];
-  return fitting ?? sizeMap[defaultSize]; // Fallback to default size if no fitting breakpoint is found
+    sizeBreakpoints[0] ??
+    sizeMap[defaultSize]
+  );
 }
 
 // Adjust responsive size (container-first when containerWidth is provided)

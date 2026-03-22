@@ -16,6 +16,8 @@
     "format-check": "prettier --list-different .",
     "typecheck": "yarn workspace website typecheck",
     "spellcheck": "cspell \"**\" --no-progress",
+    "test": "yarn workspace react-svg-worldmap test",
+    "test:coverage": "yarn workspace react-svg-worldmap test:coverage",
     "prepare": "husky install"
   },
   "devDependencies": {
