@@ -1,6 +1,16 @@
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
+  root: __dirname,
+  esbuild: {
+    tsconfigRaw: {
+      compilerOptions: {
+        jsx: "react",
+        module: "esnext",
+        target: "esnext",
+      },
+    },
+  },
   test: {
     environment: "jsdom",
     // Globals: true makes expect/describe/it/vi available without imports —

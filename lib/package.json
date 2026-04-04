@@ -23,9 +23,9 @@
     "build": "tsup && node scripts/inline-sourcemaps.cjs",
     "build:local": "yarn build && npm pack",
     "generate:readme": "node scripts/generate-readme.mjs",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test": "ESBUILD_LOG_LEVEL=silent vitest run",
+    "test:watch": "ESBUILD_LOG_LEVEL=silent vitest",
+    "test:coverage": "ESBUILD_LOG_LEVEL=silent vitest run --coverage"
   },
   "exports": {
     ".": {
