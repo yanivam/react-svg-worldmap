@@ -24,6 +24,12 @@ Focus on simple and free.
 
 It all started with a fun project that I was building and needed to draw simple yet beautiful world's map. Searching for solutions I found many potential solutions like MapBox and Google Maps, but they were "too smart" for what I needed. They needed to "call home" for the data, they supported tons of options I didn't need, and while they included react-integrations, they were not completely native to the react world. There was definitely something missing. And that's when react-svg-worldmap started.
 
+## Map Data Policy
+
+The default map bundled with `react-svg-worldmap` is a small-scale thematic visualization for charts and dashboards. It is not presented as a legal or authoritative boundary reference.
+
+The repo's map data policy now separates neutral naming guidance, cartographic geometry, and dispute handling. See [`docs/map-data-policy.md`](docs/map-data-policy.md) for the source hierarchy and the review process for disputed or recognition-sensitive cases.
+
 ## Install
 
 ```

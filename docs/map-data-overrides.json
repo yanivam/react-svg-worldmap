@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "defaultRepresentation": "coarse-neutral",
+  "sourceHierarchy": [
+    "UNSD M49",
+    "UNTERM",
+    "Natural Earth Admin 0 Countries",
+    "Maintainer overrides register"
+  ],
+  "cases": [
+    {
+      "id": "western-sahara",
+      "mode": "maintainer-review-required",
+      "notes": "Keep representation explicitly reviewable because sovereignty remains disputed."
+    },
+    {
+      "id": "kosovo",
+      "mode": "maintainer-review-required",
+      "notes": "Review naming and depiction together rather than silently adopting a single recognition model."
+    },
+    {
+      "id": "crimea",
+      "mode": "coarse-neutral",
+      "notes": "Avoid presenting the small-scale default map as a legal or diplomatic boundary determination."
+    },
+    {
+      "id": "palestine",
+      "mode": "name-policy",
+      "notes": "Treat terminology and classification as the primary policy surface and document any geometry review."
+    },
+    {
+      "id": "taiwan",
+      "mode": "name-policy",
+      "notes": "Handle naming and classification explicitly and review geometry changes before release."
+    },
+    {
+      "id": "northern-cyprus",
+      "mode": "maintainer-review-required",
+      "notes": "Do not change depiction silently because representation is recognition-sensitive."
+    }
+  ]
+}

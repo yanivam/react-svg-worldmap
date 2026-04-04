@@ -24,9 +24,21 @@ Focus on simple and free.
 
 It all started with a fun project that I was building and needed to draw simple yet beautiful world's map. Searching for solutions I found many potential solutions like MapBox and Google Maps, but they were "too smart" for what I needed. They needed to "call home" for the data, they supported tons of options I didn't need, and while they included react-integrations, they were not completely native to the react world. There was definitely something missing. And that's when react-svg-worldmap started.
 
-## Where are we getting the data for the world map?
+## Map Data Policy
 
-We have sourced our data from Natural Earth, a community-driven initiative aimed at creating visually appealing and high-quality maps using cartography or GIS software for small-scale projects. Our use of open source tools in creating this map data is not intended to express any political views, but rather to fulfill the requirements of this project. Link to the data: [https://www.naturalearthdata.com/downloads/110m-physical-vectors/110m-land/](https://www.naturalearthdata.com/downloads/110m-physical-vectors/110m-land/)
+The default map in `react-svg-worldmap` is a small-scale thematic visualization. It is intended for charts and dashboards, not for legal, administrative, or diplomatic boundary determination.
+
+Instead of treating one raw dataset as authoritative for every geopolitical question, the project uses a source hierarchy:
+
+1. `UNSD M49` and `UNTERM` for neutral naming, codes, and terminology
+2. `Natural Earth Admin 0 Countries` for the bundled small-scale geometry
+3. A repo-maintained overrides register for disputed or recognition-sensitive cases
+
+This project does not aim to express political positions through its bundled map. When a territory is disputed or politically sensitive, maintainers prefer documented review and coarse small-scale representation over silent or over-precise boundary claims.
+
+For the maintainer-facing policy and the current sensitive-case register, see [`docs/map-data-policy.md`](../docs/map-data-policy.md) and [`docs/map-data-overrides.json`](../docs/map-data-overrides.json).
+
+Natural Earth reference: [https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-0-countries/](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-0-countries/)
 
 ## Install
 
