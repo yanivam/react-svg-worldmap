@@ -25,7 +25,7 @@ Jobs run in parallel. You can re-run any single job from the Actions run page.
 | Job | Purpose |
 | --- | --- |
 | **Validate (build + smoke + website)** | Calls “Build and test” with Node 20. Must pass before publish. |
-| **Publish to npm** | Runs only if not dry run: version check → copy README → `npm publish`. |
+| **Publish to npm** | Runs only if not dry run: version check → verify package README → `npm publish`. |
 | **GitHub Release** | Runs only after publish: create release and tag. |
 | **Dry run summary** | Runs only when dry run is checked; adds a short summary. |
 
@@ -40,6 +40,7 @@ Release is triggered from **Actions → “Release” → Run workflow**. It doe
    - In PRs that change the library, run `yarn changeset`, choose bump type, add a summary.
    - When ready to release: run **`yarn version`** at the repo root. This consumes changesets, bumps `lib/package.json`, and updates `lib/CHANGELOG.md`.
    - Commit and push the version and changelog to `main`.
+   - The npm package publishes `lib/README.md`, so update that file when package-facing documentation changes.
 
 2. **npm Trusted Publishing (one-time setup)**
    - Publishing uses [Trusted Publishing](https://docs.npmjs.com/trusted-publishers) (OIDC). No long-lived token or 2FA code needed in CI.

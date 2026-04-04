@@ -62,8 +62,8 @@ jobs:
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Copy README into lib
-        run: cp ./README.md ./lib
+      - name: Verify package README
+        run: test -f ./lib/README.md
 
       - name: Install npm for Trusted Publishing (OIDC)
         run: npm install -g npm@latest

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+- Establish a neutral map data policy for the default world map, including a documented source hierarchy, a sensitive-case overrides register, and updated package documentation for npm consumers.
+
 ## 1.0.22
 
 - On hover - add highlight to border of current country by making the stroke 2 instead of 1.

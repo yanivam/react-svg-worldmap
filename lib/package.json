@@ -9,6 +9,7 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
+    "README.md",
     "dist/index.js",
     "dist/index.cjs",
     "dist/index.d.ts",
