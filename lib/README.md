@@ -42,11 +42,18 @@ Natural Earth reference: [https://www.naturalearthdata.com/downloads/10m-cultura
 
 ## Install
 
-In order to install, run the following command:
+### Minimum requirements
+
+- React `>=16.8`
+- `react-dom >=16.8` for browser-rendered apps
+
+### Install command
 
 ```
 $ npm install react-svg-worldmap --save
 ```
+
+This package ships ESM, CJS, and TypeScript declaration files.
 
 ## Usage
 
@@ -84,6 +91,11 @@ function App() {
   );
 }
 ```
+
+## Notes
+
+- Country codes use ISO 3166-1 alpha-2 values such as `us`, `fr`, and `jp`.
+- The default map is bundled locally with the package; it does not fetch map geometry from a remote API at runtime.
 
 ## Contributing
 

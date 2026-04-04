@@ -32,6 +32,13 @@ The repo's map data policy now separates neutral naming guidance, cartographic g
 
 ## Install
 
+### Package requirements
+
+- React `>=16.8`
+- `react-dom >=16.8` when your app renders in the browser
+
+### Install command
+
 ```
 npm install react-svg-worldmap --save
 ```
@@ -79,7 +86,7 @@ This repo is a Yarn workspace with two packages: `lib` (the component) and `webs
 
 ### Prerequisites
 
-- Node ≥ 18
+- Node >= 18
 - Yarn
 
 ```
@@ -119,6 +126,11 @@ yarn build
 ```
 
 This runs `build:package` then `build:website` in sequence.
+
+### Notes
+
+- The npm package publishes the package README from `lib/README.md`.
+- The bundled package ships ESM, CJS, and TypeScript declaration files from `lib/dist/`.
 
 ## Accessibility
 
