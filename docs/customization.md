@@ -51,8 +51,7 @@ The `size` can be a number specifying the width of the map, in pixels. It can al
 | `xl`  | 640   |
 | `xxl` | 1200  |
 
-When the `size` is set to `responsive`, the map width grows and shrinks continuously with the available space.
-In practice, that means the width is capped by both:
+When the `size` is set to `responsive`, the map width grows and shrinks continuously with the available space. In practice, that means the width is capped by both:
 
 - the measured container width, when the map is rendered inside a container
 - `75%` of the smaller viewport dimension
