@@ -55,6 +55,58 @@ The recent history follows a Keep a Changelog style. Older `1.x` entries are pre
 - Finalized the v2 release workflow, including trusted publishing / OIDC-based npm release automation.
 - Fixed responsive sizing behavior, tooltip click handling, and smoke-test packaging issues as part of the stabilization work for `2.0.0`.
 
+## 2.0.0-beta.1
+
+### Added
+
+- Smoke-test coverage for packaged CJS and ESM consumption paths.
+- Release workflow improvements around validation and package publishing.
+
+### Changed
+
+- Fixed responsive sizing thresholds and `ResizeObserver`-driven resizing behavior as part of the v2 stabilization work.
+- Improved tooltip click handling and CSP-friendlier styling during the pre-stable v2 hardening cycle.
+
+## 2.0.0-alpha.1
+
+### Added
+
+- Support for string-valued map data.
+- Exported region list support and stronger type-aware linting.
+
+### Changed
+
+- Upgraded dependencies and continued the move toward a cleaner v2 development toolchain.
+- Simplified examples and improved linting, spellcheck, and CI coverage for the evolving v2 codebase.
+
+## 2.0.0-alpha.0
+
+### Added
+
+- The initial v2 alpha release series with the new website-based documentation direction.
+- `textLabelFunction` callback support.
+- Double-click zoom interactions.
+- Exported ISO code typing.
+- Optional numeric `size` values.
+- SSR-compatible rendering improvements.
+
+### Changed
+
+- Moved examples and documentation to the website hosted on GitHub Pages.
+- Renamed the default branch from `master` to `main`.
+
+## 2.0 prerelease series
+
+Between the first `2.0.0-alpha` cut and the final `2.0.0` release, the project went through several additional untagged prerelease iterations that focused on:
+
+- repo restructuring and the move to the current workspace layout
+- API cleanup and file splitting
+- website and documentation rebuilds
+- module format fixes for CJS / ESM consumers
+- packaging, smoke-test, and release automation stabilization
+- responsive sizing, tooltip interaction, and import-path fixes
+- dependency upgrades, linting, spellcheck, and general release hardening
+
 ## Legacy Releases
 
 ### 1.1.0
