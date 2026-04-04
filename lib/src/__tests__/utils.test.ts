@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import { responsify, useWindowWidth, useContainerWidth } from "../utils.js";
-import { sizeMap, sizeBreakpoints } from "../constants.js";
+import { sizeMap } from "../constants.js";
 
 // ── responsify ────────────────────────────────────────────────────────────────
 
@@ -27,19 +27,16 @@ describe("responsify", () => {
       expect(responsify("xxl", 1300)).toBe(sizeMap.xxl); // 1200
     });
 
-    it("caps to the largest fitting breakpoint when container is narrower than requested (xl in 300px container)", () => {
-      // Largest breakpoint ≤ 300 is 240 (sm); xl (640) is capped to 240
-      expect(responsify("xl", 300)).toBe(240);
+    it("shrinks continuously when the container is narrower than the preset cap", () => {
+      expect(responsify("xl", 300)).toBe(300);
     });
 
-    it("caps to the largest fitting breakpoint for md in a 250px container", () => {
-      // Largest breakpoint ≤ 250 is 240 (sm)
-      expect(responsify("md", 250)).toBe(240);
+    it("returns the available width for smaller containers instead of snapping to a breakpoint", () => {
+      expect(responsify("md", 250)).toBe(250);
     });
 
-    it("returns the sm breakpoint even when the container is very narrow (100px)", () => {
-      // Smallest breakpoint is 240; if container < 240 the fallback is the first breakpoint
-      expect(responsify("xl", 100)).toBe(sizeBreakpoints[0]);
+    it("does not overflow very narrow containers", () => {
+      expect(responsify("xl", 100)).toBe(100);
     });
   });
 

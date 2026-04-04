@@ -22,7 +22,7 @@ sidebar_position: 4
 | Prop | Type | Description |
 | --- | --- | --- |
 | `data` | `Data` | Mandatory. Array of JSON records, each with country/value. |
-| `size` | <code>SizeOption &#124; 'responsive' &#124; number</code> | The size of your map. See [Sizing](#sizing) for details, and see [Sizing example](/examples/sizing) |
+| `size` | <code>SizeOption &#124; 'responsive' &#124; number</code> | The size of your map. `responsive` mode scales smoothly with the available width, up to a viewport-based cap. See [Sizing](#sizing) for details, and see [Sizing example](/examples/sizing) |
 | `title` | `string` | Any string for the title of your map. |
 | `color` | `string` | Color for highlighted countries. A standard color string. E.g. "red" or "#ff0000". |
 | `tooltipBgColor` | `string` | Tooltip background color. |

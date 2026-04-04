@@ -72,11 +72,6 @@ export default function WorldMap<T extends number | string>(
   } = props;
   const [wrapperEl, setWrapperEl] = useState<HTMLDivElement | null>(null);
   const containerRef = useRef<SVGSVGElement>(null);
-  // Stable id for aria-labelledby — initialised once and persists for the
-  // lifetime of the component instance (safe without useId / React 18).
-  const titleId = useRef(
-    `worldmap-title-${Math.random().toString(36).slice(2, 9)}`,
-  ).current;
   const containerWidth = useContainerWidth(wrapperEl);
   const windowWidth = useWindowWidth();
   const effectiveWidth = containerWidth ?? windowWidth;
@@ -233,18 +228,14 @@ export default function WorldMap<T extends number | string>(
         className="worldmap__figure-container"
         style={{ backgroundColor }}>
         {title && (
-          <figcaption id={titleId} className="worldmap__figure-caption">
-            {title}
-          </figcaption>
+          <figcaption className="worldmap__figure-caption">{title}</figcaption>
         )}
         <svg
           ref={containerRef}
-          // Role="img" + aria-labelledby/aria-label give the SVG an accessible
-          // name so screen readers announce it as a labelled graphic rather
-          // than traversing every path element individually (WCAG 1.1.1).
+          // A direct aria-label avoids SSR hydration mismatches from generated
+          // ids while still giving the SVG an accessible name (WCAG 1.1.1).
           role="img"
-          aria-labelledby={title ? titleId : undefined}
-          aria-label={!title ? "World map" : undefined}
+          aria-label={title ?? "World map"}
           // Make the SVG focusable when richInteraction is on so keyboard
           // users can reach the zoom controls (WCAG 2.1.1).
           tabIndex={richInteraction ? 0 : undefined}

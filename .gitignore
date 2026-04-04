@@ -1,8 +1,10 @@
 node_modules/
 dist/
+build/
 bin/
 .firebase/
 **/.DS_Store
+Thumbs.db
 **/log
 **/logs
 **/*.log
@@ -25,8 +27,15 @@ coverage
 *.tgz
 .env
 .env.test
+.env.local
+.env.*.local
 .cache
-yarn.lock
 tmp-smoke
 .tmp-smoke
+.docusaurus/
+.cache-loader/
+.idea/
+.vscode/
+*.swp
+*.swo
 .claude

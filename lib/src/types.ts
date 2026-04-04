@@ -41,7 +41,7 @@ export interface Props<T extends string | number = number> {
   rtl?: boolean;
   /**
    * - number: exact pixel width
-   * - "responsive": fit container width (with max from viewport)
+   * - "responsive": fit available/container width, capped by viewport
    * - "sm" | "md" | "lg" | "xl" | "xxl": preset cap, shrinks if smaller
    */
   size?: SizeOption | "responsive" | number;

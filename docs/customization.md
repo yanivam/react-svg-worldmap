@@ -51,14 +51,23 @@ The `size` can be a number specifying the width of the map, in pixels. It can al
 | `xl`  | 640   |
 | `xxl` | 1200  |
 
-When the `size` is set to `responsive`, the map size will be set automatically based on the window size.
+When the `size` is set to `responsive`, the map width grows and shrinks continuously with the available space.
+In practice, that means the width is capped by both:
+
+- the measured container width, when the map is rendered inside a container
+- `75%` of the smaller viewport dimension
+
+So `responsive` mode is smooth, but it intentionally stops growing once it hits that viewport-based cap.
 
 :::info
 
 The algorithm used in responsive sizing is:
 
 ```js
-const width = Math.min(window.innerHeight, window.innerWidth) * 0.75;
+const width = Math.min(
+  availableWidth,
+  Math.min(window.innerHeight, window.innerWidth) * 0.75,
+);
 ```
 
 :::

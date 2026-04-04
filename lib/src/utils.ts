@@ -1,5 +1,5 @@
 import { useState, useLayoutEffect, useEffect } from "react";
-import { sizeMap, defaultSize, sizeBreakpoints } from "./constants.js";
+import { sizeMap, defaultSize } from "./constants.js";
 import type { SizeOption } from "./types.js";
 
 /**
@@ -66,18 +66,6 @@ export function useContainerWidth(
   return width;
 }
 
-/**
- * Pick the largest breakpoint <= available width, then cap by preset if given.
- * Uses deterministic sorted breakpoints (not object key order).
- */
-function largestFittingWidth(availableWidth: number): number {
-  return (
-    sizeBreakpoints.filter((s) => s <= availableWidth).pop() ??
-    sizeBreakpoints[0] ??
-    sizeMap[defaultSize]
-  );
-}
-
 // Adjust responsive size (container-first when containerWidth is provided)
 export function responsify(
   sizeOption: SizeOption | "responsive",
@@ -92,6 +80,5 @@ export function responsify(
   }
   if (typeof window === "undefined") return sizeMap[sizeOption];
 
-  const fittingSize = largestFittingWidth(availableWidth);
-  return Math.min(fittingSize, sizeMap[sizeOption]);
+  return Math.min(availableWidth, sizeMap[sizeOption]);
 }

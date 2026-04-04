@@ -76,14 +76,11 @@ describe("WorldMap — title and accessibility", () => {
     expect(container.querySelector('svg[role="img"]')).not.toBeNull();
   });
 
-  it("SVG aria-labelledby points to the figcaption id when title is provided", () => {
+  it("SVG uses the title text as its aria-label when title is provided", () => {
     const { container } = render(<WorldMap data={DATA} title="My Map" />);
     const svg = container.querySelector("svg")!;
-    const labelId = svg.getAttribute("aria-labelledby");
-    expect(labelId).not.toBeNull();
-    const labelEl = container.querySelector(`#${labelId}`);
-    expect(labelEl).not.toBeNull();
-    expect(labelEl!.textContent).toBe("My Map");
+    expect(svg.getAttribute("aria-label")).toBe("My Map");
+    expect(svg.getAttribute("aria-labelledby")).toBeNull();
   });
 
   it('SVG has aria-label="World map" when no title prop is provided', () => {
