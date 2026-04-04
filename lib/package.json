@@ -22,6 +22,7 @@
   "scripts": {
     "build": "tsup && node scripts/inline-sourcemaps.cjs",
     "build:local": "yarn build && npm pack",
+    "generate:readme": "node scripts/generate-readme.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"

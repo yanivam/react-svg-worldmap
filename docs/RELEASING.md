@@ -38,9 +38,10 @@ Release is triggered from **Actions → “Release” → Run workflow**. It doe
 1. **Changelog and version**
 
    - In PRs that change the library, run `yarn changeset`, choose bump type, add a summary.
+   - Run `yarn generate:readme` whenever package-facing README content changes.
    - When ready to release: run **`yarn version`** at the repo root. This consumes changesets, bumps `lib/package.json`, and updates `lib/CHANGELOG.md`.
    - Commit and push the version and changelog to `main`.
-   - The npm package publishes `lib/README.md`, so update that file when package-facing documentation changes.
+   - The npm package publishes `lib/README.md`, which is generated from the marked npm section in `README.md`.
 
 2. **npm Trusted Publishing (one-time setup)**
    - Publishing uses [Trusted Publishing](https://docs.npmjs.com/trusted-publishers) (OIDC). No long-lived token or 2FA code needed in CI.
