@@ -1,3 +1,9 @@
+# react-svg-worldmap [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![npm version](https://img.shields.io/npm/v/react-svg-worldmap.svg?style=flat)](https://www.npmjs.com/package/react-svg-worldmap) [![CI](https://github.com/yanivam/react-svg-worldmap/actions/workflows/ci.yml/badge.svg)](https://github.com/yanivam/react-svg-worldmap/actions/workflows/ci.yml)
+
+A lightweight React component for rendering a bundled SVG world map for charts, dashboards, and thematic data visualizations.
+
+![simple example](https://raw.githubusercontent.com/yanivam/react-svg-worldmap/master/simple-example.gif)
+
 ## Overview
 
 `react-svg-worldmap` is designed for teams that want a simple client-side world map without a hosted map service, API dependency, or heavyweight geographic stack. The package ships a bundled map and exposes a small React API for coloring countries, attaching interactions, and rendering values.
@@ -8,6 +14,7 @@
 - Small API surface focused on thematic data visualization
 - Works with standard React applications without a map platform dependency
 - Ships ESM, CJS, and TypeScript declaration files
+- CI enforces automated tests and `>90%` coverage
 
 ## Documentation & Examples
 

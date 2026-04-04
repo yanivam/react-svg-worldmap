@@ -23,6 +23,7 @@ jobs:
     uses: ./.github/workflows/build-and-test.yml
     with:
       node_version: "20"
+      run_coverage: true
 
   # Step 2: Publish to npm via Trusted Publishing (OIDC). No NPM_TOKEN needed.
   # Configure on npm: Package → Settings → Trusted Publisher → GitHub Actions → workflow filename: release.yml

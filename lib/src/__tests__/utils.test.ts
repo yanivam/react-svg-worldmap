@@ -182,7 +182,61 @@ describe("useContainerWidth", () => {
     );
     expect(result.current).toBe(320);
 
-    rerender();
+    rerender({ element: null });
     expect(result.current).toBeNull();
+  });
+
+  it("updates width from the ResizeObserver callback", () => {
+    const el = document.createElement("div");
+    vi.spyOn(el, "getBoundingClientRect").mockReturnValue({
+      width: 320,
+    } as DOMRect);
+
+    const requestAnimationFrameSpy = vi
+      .spyOn(window, "requestAnimationFrame")
+      .mockImplementation((cb: FrameRequestCallback) => {
+        cb(0);
+        return 7;
+      });
+
+    const { result } = renderHook(() => useContainerWidth(el));
+    const observerCallback = vi.mocked(global.ResizeObserver).mock
+      .calls[0]?.[0];
+
+    if (typeof observerCallback !== "function") 
+      throw new Error("ResizeObserver callback was not captured");
+    
+
+    act(() => {
+      observerCallback([{ contentRect: { width: 640 } }], {});
+    });
+
+    expect(result.current).toBe(640);
+    requestAnimationFrameSpy.mockRestore();
+  });
+
+  it("ignores ResizeObserver updates with no entries", () => {
+    const el = document.createElement("div");
+    vi.spyOn(el, "getBoundingClientRect").mockReturnValue({
+      width: 320,
+    } as DOMRect);
+
+    const requestAnimationFrameSpy = vi.spyOn(window, "requestAnimationFrame");
+
+    const { result } = renderHook(() => useContainerWidth(el));
+    const observerCallback = vi.mocked(global.ResizeObserver).mock
+      .calls[0]?.[0];
+
+    if (typeof observerCallback !== "function") 
+      throw new Error("ResizeObserver callback was not captured");
+    
+
+    act(() => {
+      observerCallback([], {});
+    });
+
+    expect(result.current).toBe(320);
+    expect(requestAnimationFrameSpy).not.toHaveBeenCalled();
+    requestAnimationFrameSpy.mockRestore();
   });
 });

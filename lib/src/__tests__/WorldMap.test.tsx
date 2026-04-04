@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import * as React from "react";
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
@@ -159,6 +159,37 @@ describe("WorldMap — size", () => {
 // ── richInteraction ───────────────────────────────────────────────────────────
 
 describe("WorldMap — richInteraction", () => {
+  it("stops propagation on mouse down and only prevents default for multi-clicks", () => {
+    const { container } = render(
+      <WorldMap data={DATA} size={400} richInteraction />,
+    );
+    const svg = container.querySelector("svg")!;
+
+    const single = new MouseEvent("mousedown", {
+      bubbles: true,
+      cancelable: true,
+      detail: 1,
+    });
+    const singleStop = vi.spyOn(single, "stopPropagation");
+    const singlePrevent = vi.spyOn(single, "preventDefault");
+    svg.dispatchEvent(single);
+
+    expect(singleStop).toHaveBeenCalledTimes(1);
+    expect(singlePrevent).not.toHaveBeenCalled();
+
+    const multi = new MouseEvent("mousedown", {
+      bubbles: true,
+      cancelable: true,
+      detail: 2,
+    });
+    const multiStop = vi.spyOn(multi, "stopPropagation");
+    const multiPrevent = vi.spyOn(multi, "preventDefault");
+    svg.dispatchEvent(multi);
+
+    expect(multiStop).toHaveBeenCalledTimes(1);
+    expect(multiPrevent).toHaveBeenCalledTimes(1);
+  });
+
   it("makes the SVG focusable (tabIndex=0) when richInteraction=true", () => {
     const { container } = render(<WorldMap data={DATA} richInteraction />);
     expect(container.querySelector("svg")!.getAttribute("tabindex")).toBe("0");
@@ -232,6 +263,37 @@ describe("WorldMap — richInteraction", () => {
     expect(container.querySelector("svg > g")!.getAttribute("transform")).toBe(
       at4x,
     );
+  });
+
+  it("zooms around the pointer on double click and resets on a later double click at 4x", () => {
+    const { container } = render(
+      <WorldMap data={DATA} size={400} richInteraction />,
+    );
+    const svg = container.querySelector("svg")!;
+    const g = container.querySelector("svg > g")!;
+    const getBoundingClientRect = vi
+      .spyOn(svg, "getBoundingClientRect")
+      .mockReturnValue({
+        left: 10,
+        top: 20,
+        width: 400,
+        height: 300,
+      } as DOMRect);
+
+    const original = g.getAttribute("transform");
+
+    fireEvent.doubleClick(svg, { clientX: 110, clientY: 120 });
+    const zoomed = g.getAttribute("transform");
+    expect(zoomed).not.toBe(original);
+
+    fireEvent.doubleClick(svg, { clientX: 110, clientY: 120 });
+    const at4x = g.getAttribute("transform");
+    expect(at4x).not.toBe(original);
+
+    fireEvent.doubleClick(svg, { clientX: 110, clientY: 120 });
+    expect(g.getAttribute("transform")).toBe(original);
+
+    getBoundingClientRect.mockRestore();
   });
 });
 

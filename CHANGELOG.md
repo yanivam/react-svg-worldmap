@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Establish a neutral map data policy for the default world map, including a documented source hierarchy, a sensitive-case overrides register, and updated package documentation for npm consumers.
+- Expand unit test coverage above 90% and enforce tests plus coverage in CI.
 
 ## 1.0.22
 

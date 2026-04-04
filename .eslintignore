@@ -2,3 +2,5 @@ dist
 node_modules
 build
 .docusaurus
+coverage
+lib/coverage

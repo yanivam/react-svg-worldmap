@@ -10,6 +10,11 @@ on:
         required: false
         default: "20"
         type: string
+      run_coverage:
+        description: "Run unit tests with coverage instead of the plain test suite"
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   build-and-test:
@@ -29,6 +34,14 @@ jobs:
 
       - name: Build package
         run: yarn build:package
+
+      - name: Run unit tests
+        run: |
+          if [ "${{ inputs.run_coverage }}" = "true" ]; then
+            yarn test:coverage
+          else
+            yarn test
+          fi
 
       - name: Pack and smoke test
         run: |
