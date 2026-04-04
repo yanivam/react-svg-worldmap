@@ -6,8 +6,9 @@ import userEvent from "@testing-library/user-event";
 
 import WorldMap from "../index.js";
 
-// Mock react-path-tooltip — it relies on browser layout APIs (getBoundingClientRect
-// measurements for tooltip positioning) that are not meaningful in jsdom.
+// Mock react-path-tooltip. It relies on browser layout APIs
+// (getBoundingClientRect measurements for tooltip positioning)
+// that are not meaningful in jsdom.
 vi.mock("react-path-tooltip", () => ({
   PathTooltip: () => null,
 }));
@@ -17,7 +18,7 @@ const DATA = [
   { country: "cn", value: 200 },
 ] as const;
 
-// ── Basic rendering ───────────────────────────────────────────────────────────
+// ── Basic rendering ──────────────────────────────────────────────────────────
 
 describe("WorldMap — rendering", () => {
   it("renders without crashing with minimal props", () => {
@@ -58,7 +59,7 @@ describe("WorldMap — rendering", () => {
   });
 });
 
-// ── Title & accessibility ─────────────────────────────────────────────────────
+// ── Title & accessibility ────────────────────────────────────────────────────
 
 describe("WorldMap — title and accessibility", () => {
   it("renders a <figcaption> containing the title text", () => {
@@ -108,7 +109,7 @@ describe("WorldMap — title and accessibility", () => {
   });
 });
 
-// ── Frame prop ────────────────────────────────────────────────────────────────
+// ── Frame prop ───────────────────────────────────────────────────────────────
 
 describe("WorldMap — frame", () => {
   it("renders a <rect> when frame=true", () => {
@@ -131,7 +132,7 @@ describe("WorldMap — frame", () => {
   });
 });
 
-// ── Size prop ─────────────────────────────────────────────────────────────────
+// ── Size prop ────────────────────────────────────────────────────────────────
 
 describe("WorldMap — size", () => {
   it("accepts a numeric size and sets exact SVG width/height", () => {
@@ -156,7 +157,7 @@ describe("WorldMap — size", () => {
   });
 });
 
-// ── richInteraction ───────────────────────────────────────────────────────────
+// ── richInteraction ──────────────────────────────────────────────────────────
 
 describe("WorldMap — richInteraction", () => {
   it("stops propagation on mouse down and only prevents default for multi-clicks", () => {
@@ -297,7 +298,7 @@ describe("WorldMap — richInteraction", () => {
   });
 });
 
-// ── Click handler ─────────────────────────────────────────────────────────────
+// ── Click handler ────────────────────────────────────────────────────────────
 
 describe("WorldMap — onClickFunction", () => {
   it("is called when a country path is clicked", async () => {
@@ -330,28 +331,30 @@ describe("WorldMap — onClickFunction", () => {
   });
 });
 
-// ── Text labels ───────────────────────────────────────────────────────────────
+// ── Text labels ──────────────────────────────────────────────────────────────
 
 describe("WorldMap — textLabelFunction", () => {
+  const northAmericaLabel = () => [{ label: "North America", x: 100, y: 100 }];
+  const noLabels = () => [];
+
   it("renders <text> elements when textLabelFunction returns labels", () => {
     const { container } = render(
-      <WorldMap
-        data={DATA}
-        textLabelFunction={() => [{ label: "North America", x: 100, y: 100 }]}
-      />,
+      // eslint-disable-next-line react/jsx-no-bind -- This prop is the subject under test.
+      <WorldMap data={DATA} textLabelFunction={northAmericaLabel} />,
     );
     expect(container.querySelector("text")?.textContent).toBe("North America");
   });
 
   it("renders nothing extra when textLabelFunction returns an empty array", () => {
     const { container } = render(
-      <WorldMap data={DATA} textLabelFunction={() => []} />,
+      // eslint-disable-next-line react/jsx-no-bind -- This prop is the subject under test.
+      <WorldMap data={DATA} textLabelFunction={noLabels} />,
     );
     expect(container.querySelector("text")).toBeNull();
   });
 });
 
-// ── Edge cases ────────────────────────────────────────────────────────────────
+// ── Edge cases ───────────────────────────────────────────────────────────────
 
 describe("WorldMap — edge cases", () => {
   it("renders with empty data without throwing", () => {

@@ -136,13 +136,19 @@ export default function WorldMap<T extends number | string>(
         ? undefined
         : tooltipTextFunction(context);
     const svgTitle = tooltipContent ?? countryName;
+    const handleRegionClick =
+      onClickFunction == null
+        ? undefined
+        : (event: React.MouseEvent<SVGPathElement>) =>
+            onClickFunction({ ...context, event });
 
     const path = (
       <Region
         ref={triggerRef}
         d={pathGenerator(geoFeature)!}
         style={styleFunction(context)}
-        onClick={(event) => onClickFunction?.({ ...context, event })}
+        // eslint-disable-next-line react/jsx-no-bind -- Region expects a callback prop.
+        onClick={handleRegionClick}
         strokeOpacity={strokeOpacity}
         href={resolvedHref}
         key={countryName}

@@ -3,7 +3,7 @@ import { renderHook, act } from "@testing-library/react";
 import { responsify, useWindowWidth, useContainerWidth } from "../utils.js";
 import { sizeMap } from "../constants.js";
 
-// ── responsify ────────────────────────────────────────────────────────────────
+// ── responsify ───────────────────────────────────────────────────────────────
 
 describe("responsify", () => {
   describe("named size presets", () => {
@@ -60,13 +60,14 @@ describe("responsify", () => {
     });
 
     it("caps to 75% of the min viewport dimension when availableWidth exceeds it", () => {
-      // Min(innerHeight, innerWidth) = 768; 75% = 576; availableWidth 800 > 576 → result = 576
+      // Min(innerHeight, innerWidth) = 768; 75% = 576;
+      // availableWidth 800 > 576, so the result is 576.
       expect(responsify("responsive", 800)).toBeCloseTo(576);
     });
   });
 });
 
-// ── useWindowWidth ────────────────────────────────────────────────────────────
+// ── useWindowWidth ───────────────────────────────────────────────────────────
 
 describe("useWindowWidth", () => {
   beforeEach(() => {
@@ -110,15 +111,17 @@ describe("useWindowWidth", () => {
       });
       window.dispatchEvent(new Event("resize"));
     });
-    // The hook result is frozen after unmount — we just verify no error was thrown
+    // The hook result is frozen after unmount.
+    // We just verify no error was thrown.
     expect(result.current).toBeDefined();
   });
 });
 
-// ── useContainerWidth ─────────────────────────────────────────────────────────
+// ── useContainerWidth ────────────────────────────────────────────────────────
 
 describe("useContainerWidth", () => {
-  // The global ResizeObserver stub is set up in setup.ts. Reset mocks between tests.
+  // The global ResizeObserver stub is set up in setup.ts.
+  // Reset mocks between tests.
   beforeEach(() => {
     vi.mocked(global.ResizeObserver).mockClear();
   });
@@ -203,9 +206,8 @@ describe("useContainerWidth", () => {
     const observerCallback = vi.mocked(global.ResizeObserver).mock
       .calls[0]?.[0];
 
-    if (typeof observerCallback !== "function") 
+    if (typeof observerCallback !== "function")
       throw new Error("ResizeObserver callback was not captured");
-    
 
     act(() => {
       observerCallback([{ contentRect: { width: 640 } }], {});
@@ -227,9 +229,8 @@ describe("useContainerWidth", () => {
     const observerCallback = vi.mocked(global.ResizeObserver).mock
       .calls[0]?.[0];
 
-    if (typeof observerCallback !== "function") 
+    if (typeof observerCallback !== "function")
       throw new Error("ResizeObserver callback was not captured");
-    
 
     act(() => {
       observerCallback([], {});

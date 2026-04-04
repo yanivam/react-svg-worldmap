@@ -17,7 +17,7 @@ const BASE = {
   svgTitle: "United States: 100 people",
 } as const;
 
-// ── Basic rendering ───────────────────────────────────────────────────────────
+// ── Basic rendering ──────────────────────────────────────────────────────────
 
 describe("Region — rendering", () => {
   it("renders a <path> element", () => {
@@ -51,7 +51,7 @@ describe("Region — rendering", () => {
   });
 });
 
-// ── Interactivity & ARIA ──────────────────────────────────────────────────────
+// ── Interactivity & ARIA ─────────────────────────────────────────────────────
 
 describe("Region — interactivity", () => {
   it("has no role or tabIndex by default (non-interactive)", () => {
@@ -91,7 +91,7 @@ describe("Region — interactivity", () => {
   });
 });
 
-// ── Keyboard interaction ──────────────────────────────────────────────────────
+// ── Keyboard interaction ─────────────────────────────────────────────────────
 
 describe("Region — keyboard", () => {
   it("fires onClick when Enter is pressed on an interactive region", async () => {
@@ -134,7 +134,7 @@ describe("Region — keyboard", () => {
   });
 });
 
-// ── Hover state ───────────────────────────────────────────────────────────────
+// ── Hover state ──────────────────────────────────────────────────────────────
 
 describe("Region — hover", () => {
   it("adds the hover class on mouseOver", () => {
@@ -196,7 +196,7 @@ describe("Region — hover", () => {
   });
 });
 
-// ── href (link) rendering ─────────────────────────────────────────────────────
+// ── href (link) rendering ────────────────────────────────────────────────────
 
 describe("Region — href", () => {
   it("wraps the path in an <a> when a string href is provided", () => {
