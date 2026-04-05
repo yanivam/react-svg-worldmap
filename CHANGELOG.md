@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The recent history follows a Keep a Changelog style. Older `1.x` entries are preserved below as legacy release notes.
 
-## Unreleased
+## 2.0.2 - 2026-04-05
 
 ### Added
 
