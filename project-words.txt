@@ -12,8 +12,16 @@ initialised
 initialises
 lcov
 Leste
+maintainership
+maxdepth
 méxico
 millónes
+npmjs
+npmrc
+OIDC
+UNSD
+UNTERM
+agentic
 países
 peaceiris
 pids
@@ -35,6 +43,3 @@ vitest
 WCAG
 worldmap
 yanivam
-npmjs
-npmrc
-OIDC

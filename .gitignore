@@ -39,3 +39,4 @@ tmp-smoke
 *.swp
 *.swo
 .claude
+.worktrees/

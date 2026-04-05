@@ -1,6 +1,6 @@
 {
   "name": "react-svg-worldmap",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "license": "MIT",
   "displayName": "React Worldmap",
   "description": "A pure react component to draw a map of world countries. Simple. Free.",
@@ -9,6 +9,7 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
+    "README.md",
     "dist/index.js",
     "dist/index.cjs",
     "dist/index.d.ts",
@@ -21,9 +22,10 @@
   "scripts": {
     "build": "tsup && node scripts/inline-sourcemaps.cjs",
     "build:local": "yarn build && npm pack",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "generate:readme": "node scripts/generate-readme.mjs",
+    "test": "ESBUILD_LOG_LEVEL=silent vitest run",
+    "test:watch": "ESBUILD_LOG_LEVEL=silent vitest",
+    "test:coverage": "ESBUILD_LOG_LEVEL=silent vitest run --coverage"
   },
   "exports": {
     ".": {

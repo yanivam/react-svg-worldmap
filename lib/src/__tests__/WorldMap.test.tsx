@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import * as React from "react";
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
@@ -6,8 +6,9 @@ import userEvent from "@testing-library/user-event";
 
 import WorldMap from "../index.js";
 
-// Mock react-path-tooltip — it relies on browser layout APIs (getBoundingClientRect
-// measurements for tooltip positioning) that are not meaningful in jsdom.
+// Mock react-path-tooltip. It relies on browser layout APIs
+// (getBoundingClientRect measurements for tooltip positioning)
+// that are not meaningful in jsdom.
 vi.mock("react-path-tooltip", () => ({
   PathTooltip: () => null,
 }));
@@ -17,7 +18,7 @@ const DATA = [
   { country: "cn", value: 200 },
 ] as const;
 
-// ── Basic rendering ───────────────────────────────────────────────────────────
+// ── Basic rendering ──────────────────────────────────────────────────────────
 
 describe("WorldMap — rendering", () => {
   it("renders without crashing with minimal props", () => {
@@ -58,7 +59,7 @@ describe("WorldMap — rendering", () => {
   });
 });
 
-// ── Title & accessibility ─────────────────────────────────────────────────────
+// ── Title & accessibility ────────────────────────────────────────────────────
 
 describe("WorldMap — title and accessibility", () => {
   it("renders a <figcaption> containing the title text", () => {
@@ -108,7 +109,7 @@ describe("WorldMap — title and accessibility", () => {
   });
 });
 
-// ── Frame prop ────────────────────────────────────────────────────────────────
+// ── Frame prop ───────────────────────────────────────────────────────────────
 
 describe("WorldMap — frame", () => {
   it("renders a <rect> when frame=true", () => {
@@ -131,7 +132,7 @@ describe("WorldMap — frame", () => {
   });
 });
 
-// ── Size prop ─────────────────────────────────────────────────────────────────
+// ── Size prop ────────────────────────────────────────────────────────────────
 
 describe("WorldMap — size", () => {
   it("accepts a numeric size and sets exact SVG width/height", () => {
@@ -156,9 +157,40 @@ describe("WorldMap — size", () => {
   });
 });
 
-// ── richInteraction ───────────────────────────────────────────────────────────
+// ── richInteraction ──────────────────────────────────────────────────────────
 
 describe("WorldMap — richInteraction", () => {
+  it("stops propagation on mouse down and only prevents default for multi-clicks", () => {
+    const { container } = render(
+      <WorldMap data={DATA} size={400} richInteraction />,
+    );
+    const svg = container.querySelector("svg")!;
+
+    const single = new MouseEvent("mousedown", {
+      bubbles: true,
+      cancelable: true,
+      detail: 1,
+    });
+    const singleStop = vi.spyOn(single, "stopPropagation");
+    const singlePrevent = vi.spyOn(single, "preventDefault");
+    svg.dispatchEvent(single);
+
+    expect(singleStop).toHaveBeenCalledTimes(1);
+    expect(singlePrevent).not.toHaveBeenCalled();
+
+    const multi = new MouseEvent("mousedown", {
+      bubbles: true,
+      cancelable: true,
+      detail: 2,
+    });
+    const multiStop = vi.spyOn(multi, "stopPropagation");
+    const multiPrevent = vi.spyOn(multi, "preventDefault");
+    svg.dispatchEvent(multi);
+
+    expect(multiStop).toHaveBeenCalledTimes(1);
+    expect(multiPrevent).toHaveBeenCalledTimes(1);
+  });
+
   it("makes the SVG focusable (tabIndex=0) when richInteraction=true", () => {
     const { container } = render(<WorldMap data={DATA} richInteraction />);
     expect(container.querySelector("svg")!.getAttribute("tabindex")).toBe("0");
@@ -233,9 +265,40 @@ describe("WorldMap — richInteraction", () => {
       at4x,
     );
   });
+
+  it("zooms around the pointer on double click and resets on a later double click at 4x", () => {
+    const { container } = render(
+      <WorldMap data={DATA} size={400} richInteraction />,
+    );
+    const svg = container.querySelector("svg")!;
+    const g = container.querySelector("svg > g")!;
+    const getBoundingClientRect = vi
+      .spyOn(svg, "getBoundingClientRect")
+      .mockReturnValue({
+        left: 10,
+        top: 20,
+        width: 400,
+        height: 300,
+      } as DOMRect);
+
+    const original = g.getAttribute("transform");
+
+    fireEvent.doubleClick(svg, { clientX: 110, clientY: 120 });
+    const zoomed = g.getAttribute("transform");
+    expect(zoomed).not.toBe(original);
+
+    fireEvent.doubleClick(svg, { clientX: 110, clientY: 120 });
+    const at4x = g.getAttribute("transform");
+    expect(at4x).not.toBe(original);
+
+    fireEvent.doubleClick(svg, { clientX: 110, clientY: 120 });
+    expect(g.getAttribute("transform")).toBe(original);
+
+    getBoundingClientRect.mockRestore();
+  });
 });
 
-// ── Click handler ─────────────────────────────────────────────────────────────
+// ── Click handler ────────────────────────────────────────────────────────────
 
 describe("WorldMap — onClickFunction", () => {
   it("is called when a country path is clicked", async () => {
@@ -268,28 +331,30 @@ describe("WorldMap — onClickFunction", () => {
   });
 });
 
-// ── Text labels ───────────────────────────────────────────────────────────────
+// ── Text labels ──────────────────────────────────────────────────────────────
 
 describe("WorldMap — textLabelFunction", () => {
+  const northAmericaLabel = () => [{ label: "North America", x: 100, y: 100 }];
+  const noLabels = () => [];
+
   it("renders <text> elements when textLabelFunction returns labels", () => {
     const { container } = render(
-      <WorldMap
-        data={DATA}
-        textLabelFunction={() => [{ label: "North America", x: 100, y: 100 }]}
-      />,
+      // eslint-disable-next-line react/jsx-no-bind -- This prop is the subject under test.
+      <WorldMap data={DATA} textLabelFunction={northAmericaLabel} />,
     );
     expect(container.querySelector("text")?.textContent).toBe("North America");
   });
 
   it("renders nothing extra when textLabelFunction returns an empty array", () => {
     const { container } = render(
-      <WorldMap data={DATA} textLabelFunction={() => []} />,
+      // eslint-disable-next-line react/jsx-no-bind -- This prop is the subject under test.
+      <WorldMap data={DATA} textLabelFunction={noLabels} />,
     );
     expect(container.querySelector("text")).toBeNull();
   });
 });
 
-// ── Edge cases ────────────────────────────────────────────────────────────────
+// ── Edge cases ───────────────────────────────────────────────────────────────
 
 describe("WorldMap — edge cases", () => {
   it("renders with empty data without throwing", () => {

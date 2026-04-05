@@ -8,7 +8,7 @@ function Svg({ children }: { children: React.ReactNode }) {
   return <svg>{children}</svg>;
 }
 
-// ── Frame ─────────────────────────────────────────────────────────────────────
+// ── Frame ────────────────────────────────────────────────────────────────────
 
 describe("Frame", () => {
   it("renders a <rect> element", () => {
@@ -41,7 +41,7 @@ describe("Frame", () => {
   });
 });
 
-// ── TextLabel ─────────────────────────────────────────────────────────────────
+// ── TextLabel ────────────────────────────────────────────────────────────────
 
 describe("TextLabel", () => {
   it("renders a <text> element", () => {

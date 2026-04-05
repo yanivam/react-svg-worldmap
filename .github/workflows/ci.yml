@@ -18,11 +18,19 @@ jobs:
     uses: ./.github/workflows/build-and-test.yml
     with:
       node_version: ${{ matrix.node_version }}
+      run_coverage: false
     strategy:
       matrix:
         node_version: ["18", "20", "22"]
 
-  # Step 2: Lint (format, types, eslint, spellcheck)
+  coverage:
+    name: Coverage
+    uses: ./.github/workflows/build-and-test.yml
+    with:
+      node_version: "20"
+      run_coverage: true
+
+  # Step 3: Lint (format, types, eslint, spellcheck)
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -36,6 +44,10 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Build package (for typecheck)
         run: yarn build:package
+      - name: Generate package README
+        run: yarn generate:readme
+      - name: Verify generated files are committed
+        run: git diff --exit-code -- README.md lib/README.md
       - name: Format check
         run: yarn format-check
       - name: Typecheck
@@ -45,7 +57,7 @@ jobs:
       - name: Spellcheck
         run: yarn spellcheck
 
-  # Step 3: Show changeset status (informational; does not fail the workflow)
+  # Step 4: Show changeset status (informational; does not fail the workflow)
   changeset-status:
     name: Changeset status
     runs-on: ubuntu-latest
