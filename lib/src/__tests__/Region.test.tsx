@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import * as React from "react";
 import { describe, it, expect, vi } from "vitest";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Region from "../components/Region.js";
 
@@ -17,7 +17,7 @@ const BASE = {
   svgTitle: "United States: 100 people",
 } as const;
 
-// ── Basic rendering ───────────────────────────────────────────────────────────
+// ── Basic rendering ──────────────────────────────────────────────────────────
 
 describe("Region — rendering", () => {
   it("renders a <path> element", () => {
@@ -51,7 +51,7 @@ describe("Region — rendering", () => {
   });
 });
 
-// ── Interactivity & ARIA ──────────────────────────────────────────────────────
+// ── Interactivity & ARIA ─────────────────────────────────────────────────────
 
 describe("Region — interactivity", () => {
   it("has no role or tabIndex by default (non-interactive)", () => {
@@ -91,7 +91,7 @@ describe("Region — interactivity", () => {
   });
 });
 
-// ── Keyboard interaction ──────────────────────────────────────────────────────
+// ── Keyboard interaction ─────────────────────────────────────────────────────
 
 describe("Region — keyboard", () => {
   it("fires onClick when Enter is pressed on an interactive region", async () => {
@@ -102,7 +102,9 @@ describe("Region — keyboard", () => {
       { wrapper: Svg },
     );
     const path = container.querySelector("path")!;
-    path.focus();
+    act(() => {
+      path.focus();
+    });
     await user.keyboard("{Enter}");
     expect(onClick).toHaveBeenCalledTimes(1);
   });
@@ -115,7 +117,9 @@ describe("Region — keyboard", () => {
       { wrapper: Svg },
     );
     const path = container.querySelector("path")!;
-    path.focus();
+    act(() => {
+      path.focus();
+    });
     await user.keyboard(" ");
     expect(onClick).toHaveBeenCalledTimes(1);
   });
@@ -128,13 +132,15 @@ describe("Region — keyboard", () => {
       { wrapper: Svg },
     );
     const path = container.querySelector("path")!;
-    path.focus();
+    act(() => {
+      path.focus();
+    });
     await user.keyboard("{Enter}");
     expect(onClick).not.toHaveBeenCalled();
   });
 });
 
-// ── Hover state ───────────────────────────────────────────────────────────────
+// ── Hover state ──────────────────────────────────────────────────────────────
 
 describe("Region — hover", () => {
   it("adds the hover class on mouseOver", () => {
@@ -194,9 +200,40 @@ describe("Region — hover", () => {
     // Inline strokeWidth override is suppressed when consumer owns the styling.
     expect(path.style.strokeWidth).toBe("");
   });
+
+  it("does not dispatch synthetic mouse events during pointer hover", () => {
+    const { container } = render(<Region {...BASE} />, { wrapper: Svg });
+    const path = container.querySelector("path")!;
+    const dispatchEventSpy = vi.spyOn(path, "dispatchEvent");
+
+    fireEvent.mouseOver(path);
+
+    expect(dispatchEventSpy).toHaveBeenCalledTimes(1);
+    expect((dispatchEventSpy.mock.calls[0]?.[0] as MouseEvent).type).toBe(
+      "mouseover",
+    );
+  });
+
+  it("dispatches tooltip bridge events once when focus comes from the keyboard", () => {
+    const { container } = render(
+      <Region {...BASE} isInteractive onClick={vi.fn()} />,
+      { wrapper: Svg },
+    );
+    const path = container.querySelector("path")!;
+    const dispatchEventSpy = vi.spyOn(path, "dispatchEvent");
+
+    fireEvent.focus(path);
+
+    expect(dispatchEventSpy).toHaveBeenCalledTimes(4);
+    expect(
+      dispatchEventSpy.mock.calls
+        .map(([event]) => event.type)
+        .filter((type) => type.startsWith("mouse")),
+    ).toEqual(["mouseover", "mouseenter"]);
+  });
 });
 
-// ── href (link) rendering ─────────────────────────────────────────────────────
+// ── href (link) rendering ────────────────────────────────────────────────────
 
 describe("Region — href", () => {
   it("wraps the path in an <a> when a string href is provided", () => {

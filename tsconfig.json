@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig-jc",
+  "extends": "./node_modules/tsconfig-jc/tsconfig.json",
   "compilerOptions": {
     "allowJs": true,
     "noEmit": true

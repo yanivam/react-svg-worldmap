@@ -67,6 +67,14 @@ function Region(
 
   const showHover = () => {
     setHover(true);
+  };
+
+  const hideHover = () => {
+    setHover(false);
+  };
+
+  const showFocusHover = () => {
+    setHover(true);
     // Fire both bubbling mouseover and non-bubbling mouseenter so that
     // react-path-tooltip shows its popup when the element gains keyboard focus.
     localRef.current?.dispatchEvent(
@@ -77,7 +85,7 @@ function Region(
     );
   };
 
-  const hideHover = () => {
+  const hideFocusHover = () => {
     setHover(false);
     localRef.current?.dispatchEvent(
       new MouseEvent("mouseout", { bubbles: true }),
@@ -115,8 +123,8 @@ function Region(
       // accidentally overridden by the consumer.
       onMouseOver={showHover}
       onMouseOut={hideHover}
-      onFocus={showHover}
-      onBlur={hideHover}>
+      onFocus={showFocusHover}
+      onBlur={hideFocusHover}>
       {/* SVG <title> provides a text alternative for the colour-coded value
           (WCAG 1.1.1) and a native tooltip visible on hover/focus (WCAG 1.4.13). */}
       {svgTitle != null && <title>{svgTitle}</title>}

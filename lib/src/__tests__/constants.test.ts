@@ -10,10 +10,11 @@ import {
 } from "../constants.js";
 import type { CountryContext, ISOCode } from "../types.js";
 
-// Satisfy the TS import for React.CSSProperties used in the string-value test above
+// Satisfy the TS import for React.CSSProperties used
+// in the string-value test below.
 import type React from "react";
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// ── Helpers ──────────────────────────────────────────────────────────────────
 
 const makeCtx = (overrides: Partial<CountryContext> = {}): CountryContext => ({
   countryCode: "US" as ISOCode,
@@ -26,7 +27,7 @@ const makeCtx = (overrides: Partial<CountryContext> = {}): CountryContext => ({
   ...overrides,
 });
 
-// ── Global constants ──────────────────────────────────────────────────────────
+// ── Global constants ─────────────────────────────────────────────────────────
 
 describe("module constants", () => {
   it("defaultSize is xl", () => {
@@ -42,7 +43,7 @@ describe("module constants", () => {
   });
 });
 
-// ── sizeMap ───────────────────────────────────────────────────────────────────
+// ── sizeMap ──────────────────────────────────────────────────────────────────
 
 describe("sizeMap", () => {
   it("has the expected pixel widths for every preset", () => {
@@ -54,7 +55,7 @@ describe("sizeMap", () => {
   });
 });
 
-// ── sizeBreakpoints ───────────────────────────────────────────────────────────
+// ── sizeBreakpoints ──────────────────────────────────────────────────────────
 
 describe("sizeBreakpoints", () => {
   it("is sorted in ascending order", () => {
@@ -67,7 +68,7 @@ describe("sizeBreakpoints", () => {
   });
 });
 
-// ── defaultCountryStyle ───────────────────────────────────────────────────────
+// ── defaultCountryStyle ──────────────────────────────────────────────────────
 
 describe("defaultCountryStyle", () => {
   const style = defaultCountryStyle("black", 0.2);
@@ -146,7 +147,7 @@ describe("defaultCountryStyle", () => {
   });
 });
 
-// ── defaultTooltip ────────────────────────────────────────────────────────────
+// ── defaultTooltip ───────────────────────────────────────────────────────────
 
 describe("defaultTooltip", () => {
   it("returns country name and value separated by a space", () => {
