@@ -256,7 +256,7 @@ git commit -m "feat: add regions workspace and detail provider contracts"
 - Modify: `regions/src/providers/createRegionsDetailProvider.ts`
 - Test: `regions/src/__tests__/coverage.test.ts`
 
-- [ ] **Step 1: Add a starter normalized data source**
+- [x] **Step 1: Add a starter normalized data source**
 
 Create `regions/src/data/regions.ts` around a normalized export shape:
 
@@ -274,7 +274,7 @@ export const regionCollections: Record<string, RegionCollectionRecord> = {
 
 Use a real generated dataset for the actual implementation, but keep the runtime API shape exactly like this. Keep the phase 1 dataset limited to region boundaries and English names only; capitals and largest-city metadata remain phase 2.
 
-- [ ] **Step 2: Implement the provider helper**
+- [x] **Step 2: Implement the provider helper**
 
 Create `regions/src/providers/createRegionsDetailProvider.ts`:
 
@@ -352,7 +352,7 @@ export interface DetailProvider {
 }
 ```
 
-- [ ] **Step 3: Export coverage helpers**
+- [x] **Step 3: Export coverage helpers**
 
 Implement `regions/src/coverage.ts` with:
 
@@ -364,7 +364,7 @@ export const supportedRegionCountryCodes = Object.freeze(
 );
 ```
 
-- [ ] **Step 4: Add package tests for coverage and provider behavior**
+- [x] **Step 4: Add package tests for coverage and provider behavior**
 
 Create `regions/src/__tests__/coverage.test.ts` with:
 
@@ -390,13 +390,13 @@ describe("regions package coverage", () => {
 });
 ```
 
-- [ ] **Step 5: Run the regions package build and tests**
+- [x] **Step 5: Run the regions package build and tests**
 
 Run: `yarn workspace @react-svg-worldmap/regions build` Expected: `dist/index.js`, `dist/index.cjs`, and type declarations are created
 
 Run: `yarn workspace @react-svg-worldmap/regions test` Expected: both coverage/provider tests pass
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add regions
