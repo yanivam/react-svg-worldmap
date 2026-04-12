@@ -376,6 +376,55 @@ describe("WorldMap — edge cases", () => {
     );
   });
 
+  it("requests region details after selecting a country in regions mode", async () => {
+    const user = userEvent.setup();
+    const loadRegions = vi.fn().mockResolvedValue({
+      status: "ready",
+      layer: "regions",
+      detailLevel: "regions",
+      collection: {
+        countryCode: "US",
+        englishCountryName: "United States",
+        regions: [],
+      },
+    });
+    const provider = {
+      supports: () => true,
+      loadRegions,
+    };
+
+    render(
+      <WorldMap data={DATA} detailLevel="regions" detailProvider={provider} />,
+    );
+
+    await user.click(screen.getByLabelText("United States"));
+
+    expect(loadRegions).toHaveBeenCalledWith("US");
+  });
+
+  it("does not request region details before a country is selected", () => {
+    const loadRegions = vi.fn().mockResolvedValue({
+      status: "ready",
+      layer: "regions",
+      detailLevel: "regions",
+      collection: {
+        countryCode: "US",
+        englishCountryName: "United States",
+        regions: [],
+      },
+    });
+    const provider = {
+      supports: () => true,
+      loadRegions,
+    };
+
+    render(
+      <WorldMap data={DATA} detailLevel="regions" detailProvider={provider} />,
+    );
+
+    expect(loadRegions).not.toHaveBeenCalled();
+  });
+
   it("renders with a single data point (handles single-value range)", () => {
     expect(() =>
       render(<WorldMap data={[{ country: "us", value: 50 }]} />),

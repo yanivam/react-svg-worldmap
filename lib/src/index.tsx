@@ -5,7 +5,9 @@ import { geoMercator, geoPath } from "d3-geo";
 import { feature as topoFeature } from "topojson-client";
 import topoData from "./countries.topo.js";
 import type { Props, CountryContext, DataItem, ISOCode } from "./types.js";
-import { createMissingDetailProviderWarning } from "./detail/createMissingDetailProviderWarning.js";
+import { getEffectiveDetailLevel } from "./detail/getEffectiveDetailLevel.js";
+import { useDetailCollection } from "./detail/useDetailCollection.js";
+import { useDrilldownState } from "./detail/useDrilldownState.js";
 import {
   defaultColor,
   defaultSize,
@@ -74,6 +76,7 @@ export default function WorldMap<T extends number | string>(
     regionClassName,
     detailLevel = "countries",
     detailProvider,
+    regionNameTranslations,
   } = props;
   const [wrapperEl, setWrapperEl] = useState<HTMLDivElement | null>(null);
   const containerRef = useRef<SVGSVGElement>(null);
@@ -86,14 +89,17 @@ export default function WorldMap<T extends number | string>(
     [borderColor, strokeOpacity],
   );
   const styleFunction = styleFunctionProp ?? defaultStyle;
-
-  React.useEffect(() => {
-    const warning = createMissingDetailProviderWarning(detailLevel);
-    if (detailLevel === "regions" && !detailProvider && warning) 
-       
-      console.warn(warning);
-    
-  }, [detailLevel, detailProvider]);
+  const effectiveDetailLevel = getEffectiveDetailLevel(
+    detailLevel,
+    detailProvider,
+  );
+  const drilldown = useDrilldownState();
+  useDetailCollection(
+    drilldown.activeCountryCode,
+    detailProvider,
+    effectiveDetailLevel === "regions",
+  );
+  void regionNameTranslations;
 
   // Inits
   const width =
@@ -141,7 +147,10 @@ export default function WorldMap<T extends number | string>(
     // Resolve href and interactivity once so they can be used for both the
     // Region props and to decide whether keyboard / ARIA support is needed.
     const resolvedHref = hrefFunction?.(context);
-    const isInteractive = Boolean(onClickFunction ?? resolvedHref);
+    const canDrillDown = effectiveDetailLevel === "regions";
+    const isInteractive = Boolean(
+      onClickFunction ?? resolvedHref ?? canDrillDown,
+    );
     // Tooltip text doubles as the SVG <title> to give a text alternative for
     // colour-coded data values (WCAG 1.1.1, 1.4.1).
     const tooltipContent =
@@ -149,11 +158,13 @@ export default function WorldMap<T extends number | string>(
         ? undefined
         : tooltipTextFunction(context);
     const svgTitle = tooltipContent ?? countryName;
-    const handleRegionClick =
-      onClickFunction == null
-        ? undefined
-        : (event: React.MouseEvent<SVGPathElement>) =>
-            onClickFunction({ ...context, event });
+    const handleRegionClick = (event: React.MouseEvent<SVGPathElement>) => {
+      if (canDrillDown) 
+        drilldown.enterCountry(isoCode as ISOCode);
+      
+
+      onClickFunction?.({ ...context, event });
+    };
 
     const path = (
       <Region

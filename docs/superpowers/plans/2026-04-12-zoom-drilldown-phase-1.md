@@ -414,7 +414,7 @@ git commit -m "feat: add package-backed regions detail provider"
 - Modify: `lib/src/__tests__/WorldMap.test.tsx`
 - Test: `lib/src/__tests__/WorldMap.test.tsx`
 
-- [ ] **Step 1: Add the detail-level fallback helper**
+- [x] **Step 1: Add the detail-level fallback helper**
 
 Create `lib/src/detail/getEffectiveDetailLevel.ts`:
 
@@ -434,7 +434,7 @@ export function getEffectiveDetailLevel(
 }
 ```
 
-- [ ] **Step 2: Add an async hook for loading region detail**
+- [x] **Step 2: Add an async hook for loading region detail**
 
 Create `lib/src/detail/useDetailCollection.ts`:
 
@@ -475,7 +475,7 @@ export function useDetailCollection(
 }
 ```
 
-- [ ] **Step 3: Add the drill-down state hook**
+- [x] **Step 3: Add the drill-down state hook**
 
 Create `lib/src/detail/useDrilldownState.ts` with explicit world-to-country behavior:
 
@@ -500,7 +500,7 @@ export function useDrilldownState() {
 }
 ```
 
-- [ ] **Step 4: Integrate `detailLevel` into `lib/src/index.tsx` without changing default output**
+- [x] **Step 4: Integrate `detailLevel` into `lib/src/index.tsx` without changing default output**
 
 Update the component signature to read:
 
@@ -530,7 +530,7 @@ const detailResult = useDetailCollection(
 
 Do not replace the current country rendering yet. In this task, only wire the state, fallback, and async loading model.
 
-- [ ] **Step 5: Add tests for fallback and async loading**
+- [x] **Step 5: Add tests for fallback and async loading**
 
 Add to `lib/src/__tests__/WorldMap.test.tsx`:
 
@@ -562,11 +562,11 @@ it("requests region details after selecting a country in regions mode", async ()
 });
 ```
 
-- [ ] **Step 6: Run targeted tests**
+- [x] **Step 6: Run targeted tests**
 
 Run: `yarn workspace react-svg-worldmap test` Expected: the new detail-level and async-loading tests pass alongside the existing world-map tests
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add lib/src/index.tsx lib/src/detail lib/src/__tests__/WorldMap.test.tsx
