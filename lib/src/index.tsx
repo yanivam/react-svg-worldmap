@@ -18,8 +18,11 @@ import {
 import { useWindowWidth, useContainerWidth, responsify } from "./utils.js";
 import { drawTooltip } from "./draw.js";
 import Frame from "./components/Frame.js";
+import LiveAnnouncer from "./components/LiveAnnouncer.js";
 import Region from "./components/Region.js";
 import TextLabel from "./components/TextLabel.js";
+import VisibleRegionList from "./components/VisibleRegionList.js";
+import ZoomControls from "./components/ZoomControls.js";
 
 export type {
   ISOCode,
@@ -94,12 +97,24 @@ export default function WorldMap<T extends number | string>(
     detailProvider,
   );
   const drilldown = useDrilldownState();
-  useDetailCollection(
+  const detailResult = useDetailCollection(
     drilldown.activeCountryCode,
     detailProvider,
     effectiveDetailLevel === "regions",
   );
   void regionNameTranslations;
+  const visibleRegions =
+    detailResult.status === "ready" && detailResult.collection
+      ? detailResult.collection.regions
+      : [];
+  const firstDataCountryCode =
+    data.length > 0 ? (data[0]!.country.toUpperCase() as ISOCode) : null;
+  const firstDataCountryName =
+    firstDataCountryCode == null
+      ? null
+      : geoFeatures.find(
+          (feature) => feature.properties.I === firstDataCountryCode,
+        )?.properties.N ?? null;
 
   // Inits
   const width =
@@ -160,7 +175,7 @@ export default function WorldMap<T extends number | string>(
     const svgTitle = tooltipContent ?? countryName;
     const handleRegionClick = (event: React.MouseEvent<SVGPathElement>) => {
       if (canDrillDown) 
-        drilldown.enterCountry(isoCode as ISOCode);
+        drilldown.enterCountry(isoCode as ISOCode, countryName);
       
 
       onClickFunction?.({ ...context, event });
@@ -247,6 +262,27 @@ export default function WorldMap<T extends number | string>(
       }
     },
   };
+  const handleZoomIn = () => {
+    if (drilldown.activeCountryCode && drilldown.activeCountryName) {
+      drilldown.enterCountry(
+        drilldown.activeCountryCode,
+        drilldown.activeCountryName,
+      );
+      return;
+    }
+
+    if (firstDataCountryCode && firstDataCountryName) 
+      drilldown.enterCountry(firstDataCountryCode, firstDataCountryName);
+    
+  };
+  const handleZoomReset = () => {
+    drilldown.reset();
+  };
+  const liveAnnouncementMessage =
+    drilldown.activeCountryName == null
+      ? "Showing world map"
+      : `Zoomed into ${drilldown.activeCountryName}`;
+  const handleVisibleRegionSelect = () => {};
 
   // Render the SVG (wrapper div for ResizeObserver container sizing)
   return (
@@ -254,6 +290,25 @@ export default function WorldMap<T extends number | string>(
       ref={setWrapperEl}
       className={containerClassName ?? "worldmap__wrapper"}
       style={{ width: "100%", minHeight: 0 }}>
+      {effectiveDetailLevel === "regions" && (
+        <>
+          {/* eslint-disable react/jsx-no-bind -- Stable local handlers are used for task 5 controls. */}
+          <ZoomControls
+            canDrillIn
+            canGoBack={drilldown.canGoBack}
+            onZoomIn={handleZoomIn}
+            onZoomOut={handleZoomReset}
+            onBack={handleZoomReset}
+            onReset={handleZoomReset}
+          />
+          <LiveAnnouncer message={liveAnnouncementMessage} />
+          <VisibleRegionList
+            regions={visibleRegions}
+            onSelect={handleVisibleRegionSelect}
+          />
+          {/* eslint-enable react/jsx-no-bind */}
+        </>
+      )}
       <figure
         className="worldmap__figure-container"
         style={{ backgroundColor }}>

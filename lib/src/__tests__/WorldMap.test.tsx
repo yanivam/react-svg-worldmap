@@ -425,6 +425,54 @@ describe("WorldMap — edge cases", () => {
     expect(loadRegions).not.toHaveBeenCalled();
   });
 
+  it("renders zoom controls in regions mode", () => {
+    const provider = {
+      supports: () => true,
+      loadRegions: vi.fn().mockResolvedValue({
+        status: "ready",
+        layer: "regions",
+        detailLevel: "regions",
+        collection: {
+          countryCode: "US",
+          englishCountryName: "United States",
+          regions: [],
+        },
+      }),
+    };
+
+    render(
+      <WorldMap data={DATA} detailLevel="regions" detailProvider={provider} />,
+    );
+
+    expect(screen.getByRole("button", { name: "Zoom in" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
+  });
+
+  it("announces drill-down state changes", async () => {
+    const user = userEvent.setup();
+    const provider = {
+      supports: () => true,
+      loadRegions: vi.fn().mockResolvedValue({
+        status: "ready",
+        layer: "regions",
+        detailLevel: "regions",
+        collection: {
+          countryCode: "US",
+          englishCountryName: "United States",
+          regions: [],
+        },
+      }),
+    };
+
+    render(
+      <WorldMap data={DATA} detailLevel="regions" detailProvider={provider} />,
+    );
+
+    await user.click(screen.getByLabelText("United States"));
+
+    expect(screen.getByText(/Zoomed into/)).toBeInTheDocument();
+  });
+
   it("renders with a single data point (handles single-value range)", () => {
     expect(() =>
       render(<WorldMap data={[{ country: "us", value: 50 }]} />),

@@ -585,7 +585,7 @@ git commit -m "feat: add drill-down state and detail loading flow"
 - Modify: `lib/src/__tests__/WorldMap.test.tsx`
 - Modify: `lib/src/__tests__/Region.test.tsx`
 
-- [ ] **Step 1: Add accessible zoom controls**
+- [x] **Step 1: Add accessible zoom controls**
 
 Create `lib/src/components/ZoomControls.tsx`:
 
@@ -624,7 +624,7 @@ export default function ZoomControls(props: ZoomControlsProps) {
 }
 ```
 
-- [ ] **Step 2: Add the visible-region list**
+- [x] **Step 2: Add the visible-region list**
 
 Create `lib/src/components/VisibleRegionList.tsx`:
 
@@ -658,7 +658,7 @@ export default function VisibleRegionList({
 }
 ```
 
-- [ ] **Step 3: Add live announcements**
+- [x] **Step 3: Add live announcements**
 
 Create `lib/src/components/LiveAnnouncer.tsx`:
 
@@ -683,7 +683,7 @@ export default function LiveAnnouncer({ message }: { message: string }) {
 }
 ```
 
-- [ ] **Step 4: Integrate controls and announcements into `WorldMap`**
+- [x] **Step 4: Integrate controls and announcements into `WorldMap`**
 
 Update `lib/src/index.tsx` so that:
 
@@ -707,7 +707,7 @@ Update `lib/src/index.tsx` so that:
 
 Replace the temporary `"US"` stub during implementation with the selected country context from the current region interaction.
 
-- [ ] **Step 5: Keep region paths keyboard-operable when they act as drill-down triggers**
+- [x] **Step 5: Keep region paths keyboard-operable when they act as drill-down triggers**
 
 Modify `lib/src/components/Region.tsx` so the existing button-like behavior is reused for drill-down mode and stays compatible with:
 
@@ -719,7 +719,7 @@ const isInteractive = Boolean(
 
 Do not create a second keyboard interaction path for countries; reuse the existing `role="button"` + `Enter`/`Space` activation behavior.
 
-- [ ] **Step 6: Add tests for controls and live-region behavior**
+- [x] **Step 6: Add tests for controls and live-region behavior**
 
 Add to `lib/src/__tests__/WorldMap.test.tsx`:
 
@@ -741,11 +741,11 @@ it("announces drill-down state changes", async () => {
 });
 ```
 
-- [ ] **Step 7: Run accessibility-facing tests**
+- [x] **Step 7: Run accessibility-facing tests**
 
 Run: `yarn workspace react-svg-worldmap test` Expected: the control, keyboard, and announcer tests pass without regressing current accessibility coverage
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add lib/src/components lib/src/index.tsx lib/src/__tests__/WorldMap.test.tsx lib/src/__tests__/Region.test.tsx
