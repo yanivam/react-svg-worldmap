@@ -5,6 +5,7 @@ import { geoMercator, geoPath } from "d3-geo";
 import { feature as topoFeature } from "topojson-client";
 import topoData from "./countries.topo.js";
 import type { Props, CountryContext, DataItem, ISOCode } from "./types.js";
+import { createMissingDetailProviderWarning } from "./detail/createMissingDetailProviderWarning.js";
 import {
   defaultColor,
   defaultSize,
@@ -24,8 +25,10 @@ export type {
   DataItem,
   Data,
   CountryContext,
+  RegionNameTranslations,
   Props,
 } from "./types.js";
+export type { DetailLevel, DetailProvider } from "./detail/types.js";
 
 // Decode the TopoJSON topology once at module load time.
 // `feature()` returns a GeoJSON FeatureCollection; each feature's
@@ -69,6 +72,8 @@ export default function WorldMap<T extends number | string>(
     textLabelFunction = () => [],
     containerClassName,
     regionClassName,
+    detailLevel = "countries",
+    detailProvider,
   } = props;
   const [wrapperEl, setWrapperEl] = useState<HTMLDivElement | null>(null);
   const containerRef = useRef<SVGSVGElement>(null);
@@ -81,6 +86,14 @@ export default function WorldMap<T extends number | string>(
     [borderColor, strokeOpacity],
   );
   const styleFunction = styleFunctionProp ?? defaultStyle;
+
+  React.useEffect(() => {
+    const warning = createMissingDetailProviderWarning(detailLevel);
+    if (detailLevel === "regions" && !detailProvider && warning) 
+       
+      console.warn(warning);
+    
+  }, [detailLevel, detailProvider]);
 
   // Inits
   const width =

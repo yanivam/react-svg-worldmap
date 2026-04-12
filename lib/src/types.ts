@@ -1,4 +1,5 @@
 import type React from "react";
+import type { DetailLevel, DetailProvider } from "./detail/types.js";
 
 // ISO 3166-1 alpha-2 codes for every country in the world map.
 // Kept as a const tuple so that `ISOCode` is a precise string-literal union
@@ -26,6 +27,10 @@ export interface CountryContext<T extends string | number = number> {
   maxValue: number;
   prefix: string;
   suffix: string;
+}
+
+export interface RegionNameTranslations {
+  [countryCode: string]: Record<string, string>;
 }
 
 export interface Props<T extends string | number = number> {
@@ -69,4 +74,7 @@ export interface Props<T extends string | number = number> {
   textLabelFunction?: (
     width: number,
   ) => ({ label: string } & React.ComponentProps<"text">)[];
+  detailLevel?: DetailLevel;
+  detailProvider?: DetailProvider;
+  regionNameTranslations?: RegionNameTranslations;
 }

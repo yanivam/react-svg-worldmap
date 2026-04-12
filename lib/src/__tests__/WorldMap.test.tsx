@@ -361,6 +361,21 @@ describe("WorldMap — edge cases", () => {
     expect(() => render(<WorldMap data={[]} />)).not.toThrow();
   });
 
+  it("defaults detailLevel to countries when omitted", () => {
+    render(<WorldMap data={[]} />);
+    expect(screen.getByRole("img")).toHaveAttribute("aria-label", "World map");
+  });
+
+  it("warns and falls back safely when detailLevel=regions is provided without a provider", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    expect(() =>
+      render(<WorldMap data={[]} detailLevel="regions" />),
+    ).not.toThrow();
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining('Falling back to detailLevel="countries"'),
+    );
+  });
+
   it("renders with a single data point (handles single-value range)", () => {
     expect(() =>
       render(<WorldMap data={[{ country: "us", value: 50 }]} />),

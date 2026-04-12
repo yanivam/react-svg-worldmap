@@ -84,7 +84,8 @@
     "component",
     "typescript",
     "svg",
-    "countries"
+    "countries",
+    "regions"
   ],
   "bugs": "https://github.com/yanivam/react-svg-worldmap/issues",
   "repository": {
