@@ -2,7 +2,9 @@ bbox
 Burkina
 colour
 Darussalam
+decluttering
 diez
+drilldown
 eslintcache
 estados
 Eswatini
@@ -25,6 +27,7 @@ agentic
 países
 peaceiris
 pids
+Pluggable
 población
 principales
 Rica

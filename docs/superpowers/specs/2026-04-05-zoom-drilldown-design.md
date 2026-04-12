@@ -1,8 +1,6 @@
 # Zoom Drill-Down Design
 
-Date: 2026-04-05
-Status: Draft for review
-Branch: `codex/zoom-drilldown-architecture`
+Date: 2026-04-05 Status: Draft for review Branch: `codex/zoom-drilldown-architecture`
 
 ## Summary
 
@@ -31,6 +29,16 @@ The first iteration focuses on interactive exploration only. Users should be abl
 - Requiring remote fetching or hosted services for core drill-down functionality.
 - Solving all custom data-provider use cases in the first iteration.
 - Adding free-pan/free-zoom as the primary interaction mode.
+
+## Updated Phase 1 Decisions
+
+- Use `detailLevel` instead of `precision`.
+- Default to `detailLevel="countries"` for backward compatibility.
+- Treat `detailLevel="regions"` as opt-in.
+- If regions detail is requested but the regions package/provider is unavailable, fall back to countries and log a console warning.
+- Keep capitals and largest cities out of phase 1.
+- Include collision-aware default labels in phase 1.
+- Show region labels only after drill-down into a country.
 
 ## User Experience
 
@@ -258,6 +266,21 @@ These are directional estimates only and should be validated later:
 - global regions package: materially larger than core, but still manageable as a separate optional install
 
 The design assumes that splitting detailed geography out of the core package is the primary protection against unacceptable bundle growth.
+
+## Labeling Inspirations
+
+Phase 1 borrows these ideas:
+
+- progressive disclosure by zoom and scope
+- collision avoidance
+- stable label visibility
+- priority ordering with country labels ahead of region labels
+
+Phase 1 does not attempt:
+
+- curved labels
+- dense city labeling
+- continuous tile-map behavior
 
 ## Deferred Work
 
