@@ -762,7 +762,7 @@ git commit -m "feat: add accessible drill-down controls"
 - Modify: `lib/src/__tests__/WorldMap.test.tsx`
 - Modify: `lib/src/__tests__/utils.test.ts`
 
-- [ ] **Step 1: Add a viewport helper for country drill-down**
+- [x] **Step 1: Add a viewport helper for country drill-down**
 
 Create `lib/src/detail/getCountryViewport.ts`:
 
@@ -787,7 +787,7 @@ export function getCountryViewport(
 }
 ```
 
-- [ ] **Step 2: Add a projection helper for region features**
+- [x] **Step 2: Add a projection helper for region features**
 
 Create `lib/src/detail/projectRegionFeatures.ts`:
 
@@ -803,7 +803,7 @@ export function projectRegionFeatures(collection: RegionCollectionRecord) {
 }
 ```
 
-- [ ] **Step 3: Render region paths only after drill-down succeeds**
+- [x] **Step 3: Render region paths only after drill-down succeeds**
 
 Update `lib/src/index.tsx` so the render path follows:
 
@@ -821,13 +821,13 @@ effectiveDetailLevel === "regions" &&
   detailResult.status === "ready";
 ```
 
-- [ ] **Step 4: Synchronize the visible-region list with the rendered region set**
+- [x] **Step 4: Synchronize the visible-region list with the rendered region set**
 
 Use the same `regionDetail?.regions` array as the single source of truth for both SVG region rendering and `VisibleRegionList`.
 
 Do not derive one list from screen state and the other from raw provider data. Both should read from the same normalized collection to avoid naming or order drift.
 
-- [ ] **Step 5: Add tests for drill-down rendering**
+- [x] **Step 5: Add tests for drill-down rendering**
 
 Add to `lib/src/__tests__/WorldMap.test.tsx`:
 
@@ -866,11 +866,11 @@ it("keeps the world map visible when region detail is unavailable", async () => 
 });
 ```
 
-- [ ] **Step 6: Run regression tests**
+- [x] **Step 6: Run regression tests**
 
 Run: `yarn workspace react-svg-worldmap test` Expected: existing country rendering tests still pass and the new synchronized region rendering tests pass
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add lib/src/detail lib/src/index.tsx lib/src/__tests__/WorldMap.test.tsx lib/src/__tests__/utils.test.ts

@@ -473,6 +473,83 @@ describe("WorldMap — edge cases", () => {
     expect(screen.getByText(/Zoomed into/)).toBeInTheDocument();
   });
 
+  it("renders a visible-region list after ready region detail loads", async () => {
+    const user = userEvent.setup();
+    const providerWithRegions = {
+      supports: () => true,
+      loadRegions: vi.fn().mockResolvedValue({
+        status: "ready",
+        layer: "regions",
+        detailLevel: "regions",
+        collection: {
+          countryCode: "US",
+          englishCountryName: "United States",
+          regions: [
+            {
+              id: "CA",
+              countryCode: "US",
+              labels: { englishName: "California" },
+              path: "M0 0L10 0L10 10L0 10Z",
+              bounds: [
+                [0, 0],
+                [10, 10],
+              ],
+            },
+          ],
+        },
+      }),
+    };
+
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        detailLevel="regions"
+        detailProvider={providerWithRegions}
+      />,
+    );
+
+    await user.click(screen.getByLabelText("United States"));
+
+    expect(
+      await screen.findByRole("region", { name: "Visible regions" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "California" }),
+    ).toBeInTheDocument();
+    expect(
+      Array.from(container.querySelectorAll("path > title")).some(
+        (title) => title.textContent === "California",
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps the world map visible when region detail is unavailable", async () => {
+    const user = userEvent.setup();
+    const providerUnavailable = {
+      supports: () => true,
+      loadRegions: vi.fn().mockResolvedValue({
+        status: "unavailable",
+        layer: "regions",
+        detailLevel: "regions",
+      }),
+    };
+
+    render(
+      <WorldMap
+        data={DATA}
+        detailLevel="regions"
+        detailProvider={providerUnavailable}
+      />,
+    );
+
+    await user.click(screen.getByLabelText("China"));
+
+    expect(screen.getByRole("img")).toHaveAttribute(
+      "aria-label",
+      expect.stringContaining("World map"),
+    );
+  });
+
   it("renders with a single data point (handles single-value range)", () => {
     expect(() =>
       render(<WorldMap data={[{ country: "us", value: 50 }]} />),

@@ -6,6 +6,8 @@ import { feature as topoFeature } from "topojson-client";
 import topoData from "./countries.topo.js";
 import type { Props, CountryContext, DataItem, ISOCode } from "./types.js";
 import { getEffectiveDetailLevel } from "./detail/getEffectiveDetailLevel.js";
+import { getCountryViewport } from "./detail/getCountryViewport.js";
+import { projectRegionFeatures } from "./detail/projectRegionFeatures.js";
 import { useDetailCollection } from "./detail/useDetailCollection.js";
 import { useDrilldownState } from "./detail/useDrilldownState.js";
 import {
@@ -103,10 +105,12 @@ export default function WorldMap<T extends number | string>(
     effectiveDetailLevel === "regions",
   );
   void regionNameTranslations;
-  const visibleRegions =
-    detailResult.status === "ready" && detailResult.collection
-      ? detailResult.collection.regions
-      : [];
+  const regionDetail =
+    detailResult.status === "ready" ? detailResult.collection : undefined;
+  const visibleRegions = regionDetail?.regions ?? [];
+  const renderedRegionFeatures = regionDetail
+    ? projectRegionFeatures(regionDetail)
+    : [];
   const firstDataCountryCode =
     data.length > 0 ? (data[0]!.country.toUpperCase() as ISOCode) : null;
   const firstDataCountryName =
@@ -123,6 +127,16 @@ export default function WorldMap<T extends number | string>(
   const [scale, setScale] = useState(1);
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
+
+  React.useEffect(() => {
+    const firstRegionBounds = regionDetail?.regions[0]?.bounds;
+    if (!firstRegionBounds) return;
+
+    const viewport = getCountryViewport(firstRegionBounds);
+    setScale(viewport.scale);
+    setTranslateX(viewport.translateX);
+    setTranslateY(viewport.translateY);
+  }, [regionDetail]);
 
   // Stable refs per region for tooltips (avoids ref identity churn)
   const triggerRefs = useRef<Array<{ current: SVGPathElement | null }>>([]);
@@ -174,9 +188,7 @@ export default function WorldMap<T extends number | string>(
         : tooltipTextFunction(context);
     const svgTitle = tooltipContent ?? countryName;
     const handleRegionClick = (event: React.MouseEvent<SVGPathElement>) => {
-      if (canDrillDown) 
-        drilldown.enterCountry(isoCode as ISOCode, countryName);
-      
+      if (canDrillDown) drilldown.enterCountry(isoCode as ISOCode, countryName);
 
       onClickFunction?.({ ...context, event });
     };
@@ -215,6 +227,21 @@ export default function WorldMap<T extends number | string>(
 
   // Build paths
   const regionPaths = regionElements.map((entry) => entry.path);
+  const detailRegionPaths = renderedRegionFeatures.map((region) => (
+    <Region
+      d={region.path}
+      style={{
+        fill: "transparent",
+        stroke: borderColor,
+        strokeWidth: 1,
+      }}
+      strokeOpacity={strokeOpacity}
+      key={`detail-${region.id}`}
+      countryName={region.label}
+      svgTitle={region.label}
+      isInteractive={false}
+    />
+  ));
 
   // Build tooltips
   const regionTooltips = regionElements.map(
@@ -271,9 +298,8 @@ export default function WorldMap<T extends number | string>(
       return;
     }
 
-    if (firstDataCountryCode && firstDataCountryName) 
+    if (firstDataCountryCode && firstDataCountryName)
       drilldown.enterCountry(firstDataCountryCode, firstDataCountryName);
-    
   };
   const handleZoomReset = () => {
     drilldown.reset();
@@ -335,6 +361,10 @@ export default function WorldMap<T extends number | string>(
             }) translate(0, 240)`}
             style={{ transition: "all 0.2s" }}>
             {regionPaths}
+            {effectiveDetailLevel === "regions" &&
+              drilldown.activeCountryCode != null &&
+              detailResult.status === "ready" &&
+              detailRegionPaths}
           </g>
           <g>
             {textLabelFunction(width).map((labelProps) => (
