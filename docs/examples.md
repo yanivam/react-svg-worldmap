@@ -60,6 +60,18 @@ sidebar_position: 5
 - An example showing how a map with rich interactions enabled is like.
 - Try double-clicking on the map!
 
+## [examples/regions-drilldown](/examples/regions-drilldown)
+
+- An example showing how to enable `detailLevel="regions"` with the optional regions provider.
+- Includes the default zoom controls, live announcements, and visible-region list.
+- Demonstrates that region detail is layered on top of the bundled world map rather than replacing it.
+
+Default labels are collision-aware and priority-based:
+
+- country labels at world level
+- region labels only after drill-down
+- English fallback when provided translations are incomplete for the active region layer
+
 ## [examples/string-value](/examples/string-value)
 
 - Some users do not have a need to display numeric values.

@@ -41,8 +41,18 @@ sidebar_position: 4
 | `tooltipTextFunction` | `(context: CountryContext) => string` | A callback function to customize tooltip text (see [Localization example](/examples/localization)) |
 | `onClickFunction` | `(context: CountryContext & {event: React.MouseEvent}) => void` | A callback function to add custom onclick logic (see [Onclick action example](/examples/onclick)) |
 | `textLabelFunction` | `(mapWidth: number) => ({label: string} & TextProps)[]` | A callback function to draw text labels on the map (see [Text labels example](/examples/text-labels)) |
+| `detailLevel` | `"countries" \| "regions"` | Controls the detail mode. `"countries"` is the default world-map behavior. `"regions"` enables drill-down when a regions provider is supplied. |
+| `detailProvider` | `DetailProvider` | Optional provider used when `detailLevel="regions"` to load region boundaries and metadata for the selected country. |
+| `regionNameTranslations` | `Record<string, Record<string, string>>` | Optional region-label translations keyed by country code and region id. If the active layer translations are incomplete, region labels fall back to English. |
 
 </small>
+
+### `detailLevel`
+
+- `"countries"`: default, current world-map behavior
+- `"regions"`: enables drill-down when a regions provider is supplied
+
+If `detailLevel="regions"` is used without an available provider, the component falls back to `"countries"` and logs a warning.
 
 ```ts
 type SizeOption = "sm" | "md" | "lg" | "xl" | "xxl";

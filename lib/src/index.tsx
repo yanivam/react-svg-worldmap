@@ -294,14 +294,16 @@ export default function WorldMap<T extends number | string>(
     visibleRegions.every(
       (region) =>
         typeof activeRegionTranslations[region.id] === "string" &&
-        activeRegionTranslations[region.id].length > 0,
+        activeRegionTranslations[region.id]!.length > 0,
     );
   const defaultCandidates = getDefaultLabels({
     countryCandidates: countryLabelCandidates,
     regionCandidates:
       drilldown.activeCountryCode == null ? [] : regionLabelCandidates,
-    regionTranslations: activeRegionTranslations,
     hasCompleteRegionTranslations,
+    ...(activeRegionTranslations
+      ? { regionTranslations: activeRegionTranslations }
+      : {}),
   });
   const automaticLabels = placeLabels(defaultCandidates, scale).map(
     (label) => ({

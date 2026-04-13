@@ -94,6 +94,15 @@ Source attribution and policy details:
 - The default map is bundled locally with the package.
 - The component does not fetch map geometry from a remote API at runtime.
 
+## Drill-Down Detail Levels
+
+### `detailLevel`
+
+- `"countries"`: default, current world-map behavior
+- `"regions"`: enables drill-down when a regions provider is supplied
+
+If `detailLevel="regions"` is used without an available provider, the component falls back to `"countries"` and logs a warning.
+
 ## Accessibility
 
 The component is designed to be WCAG 2.2 AA compliant at the component level:

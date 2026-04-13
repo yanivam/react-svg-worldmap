@@ -16,3 +16,9 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.exampleNote {
+  max-width: 900px;
+  margin: 1rem auto 0;
+  text-align: left;
+}

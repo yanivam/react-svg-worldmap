@@ -58,10 +58,23 @@ declare module "react-svg-worldmap" {
     textLabelFunction?: (
       width: number,
     ) => ({ label: string } & React.ComponentProps<"text">)[];
+    detailLevel?: "countries" | "regions";
+    detailProvider?: {
+      supports: (countryCode: string) => boolean;
+      loadRegions: (countryCode: string) => Promise<unknown>;
+    };
+    regionNameTranslations?: Record<string, Record<string, string>>;
   }
 
   function WorldMap<T extends string | number = number>(
     props: Props<T>,
   ): React.JSX.Element;
   export default WorldMap;
+}
+
+declare module "@react-svg-worldmap/regions/dist/index.cjs" {
+  export function createRegionsDetailProvider(): {
+    supports: (countryCode: string) => boolean;
+    loadRegions: (countryCode: string) => Promise<unknown>;
+  };
 }
