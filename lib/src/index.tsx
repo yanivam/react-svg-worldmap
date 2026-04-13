@@ -10,6 +10,9 @@ import { getCountryViewport } from "./detail/getCountryViewport.js";
 import { projectRegionFeatures } from "./detail/projectRegionFeatures.js";
 import { useDetailCollection } from "./detail/useDetailCollection.js";
 import { useDrilldownState } from "./detail/useDrilldownState.js";
+import { getDefaultLabels } from "./labels/getDefaultLabels.js";
+import { placeLabels } from "./labels/placeLabels.js";
+import type { LabelCandidate } from "./labels/types.js";
 import {
   defaultColor,
   defaultSize,
@@ -53,6 +56,8 @@ function toValue({ value }: DataItem<string | number>): number {
   return typeof value === "string" ? 0 : value;
 }
 
+const defaultTextLabelFunction = () => [];
+
 export default function WorldMap<T extends number | string>(
   props: Props<T>,
 ): JSX.Element {
@@ -76,7 +81,7 @@ export default function WorldMap<T extends number | string>(
     tooltipTextFunction = defaultTooltip,
     onClickFunction,
     hrefFunction,
-    textLabelFunction = () => [],
+    textLabelFunction = defaultTextLabelFunction,
     containerClassName,
     regionClassName,
     detailLevel = "countries",
@@ -247,6 +252,72 @@ export default function WorldMap<T extends number | string>(
   const regionTooltips = regionElements.map(
     (entry) => entry.highlightedTooltip,
   );
+  const countryLabelCandidates: LabelCandidate[] = geoFeatures
+    .map((geoFeature) => {
+      const [x, y] = pathGenerator.centroid(geoFeature);
+
+      return {
+        id: geoFeature.properties.I,
+        text: geoFeature.properties.N,
+        x,
+        y,
+        priority: 10,
+        layer: "country" as const,
+        minScale: 1,
+      };
+    })
+    .filter(
+      (candidate) =>
+        Number.isFinite(candidate.x) && Number.isFinite(candidate.y),
+    );
+  const activeRegionTranslations =
+    drilldown.activeCountryCode == null
+      ? undefined
+      : regionNameTranslations?.[drilldown.activeCountryCode];
+  const regionLabelCandidates: LabelCandidate[] = visibleRegions
+    .map((region) => ({
+      id: region.id,
+      text: region.labels.englishName,
+      x: region.centroid?.[0] ?? 0,
+      y: region.centroid?.[1] ?? 0,
+      priority: 5,
+      layer: "region" as const,
+      minScale: 1,
+    }))
+    .filter(
+      (candidate) =>
+        Number.isFinite(candidate.x) && Number.isFinite(candidate.y),
+    );
+  const hasCompleteRegionTranslations =
+    activeRegionTranslations != null &&
+    visibleRegions.length > 0 &&
+    visibleRegions.every(
+      (region) =>
+        typeof activeRegionTranslations[region.id] === "string" &&
+        activeRegionTranslations[region.id].length > 0,
+    );
+  const defaultCandidates = getDefaultLabels({
+    countryCandidates: countryLabelCandidates,
+    regionCandidates:
+      drilldown.activeCountryCode == null ? [] : regionLabelCandidates,
+    regionTranslations: activeRegionTranslations,
+    hasCompleteRegionTranslations,
+  });
+  const automaticLabels = placeLabels(defaultCandidates, scale).map(
+    (label) => ({
+      label: label.text,
+      x: label.x,
+      y: label.y,
+      fontSize: 12,
+      textAnchor: "middle" as const,
+      fill: "#333333",
+      "aria-hidden": true,
+    }),
+  );
+  const renderedLabels =
+    textLabelFunction === defaultTextLabelFunction
+      ? automaticLabels
+      : textLabelFunction(width);
 
   const eventHandlers = {
     onMouseDown(e: React.MouseEvent) {
@@ -367,7 +438,7 @@ export default function WorldMap<T extends number | string>(
               detailRegionPaths}
           </g>
           <g>
-            {textLabelFunction(width).map((labelProps) => (
+            {renderedLabels.map((labelProps) => (
               <TextLabel {...labelProps} key={labelProps.label} />
             ))}
           </g>

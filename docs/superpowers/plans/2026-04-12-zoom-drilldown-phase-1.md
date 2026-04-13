@@ -890,7 +890,7 @@ git commit -m "feat: render region detail after drill-down"
 - Modify: `lib/src/__tests__/WorldMap.test.tsx`
 - Create: `lib/src/__tests__/labels.test.ts`
 
-- [ ] **Step 1: Define label priorities and candidate records**
+- [x] **Step 1: Define label priorities and candidate records**
 
 Create `lib/src/labels/types.ts`:
 
@@ -913,7 +913,7 @@ export interface PlacedLabel extends LabelCandidate {
 }
 ```
 
-- [ ] **Step 2: Add deterministic text measurement and greedy collision placement**
+- [x] **Step 2: Add deterministic text measurement and greedy collision placement**
 
 Create `lib/src/labels/measureLabel.ts`:
 
@@ -954,7 +954,7 @@ export function placeLabels(
 }
 ```
 
-- [ ] **Step 3: Build phase 1 default-label generation with translation fallback**
+- [x] **Step 3: Build phase 1 default-label generation with translation fallback**
 
 Create `lib/src/labels/getDefaultLabels.ts`:
 
@@ -980,7 +980,7 @@ export function getDefaultLabels(args: {
 }
 ```
 
-- [ ] **Step 4: Integrate automatic labels ahead of `textLabelFunction` overrides**
+- [x] **Step 4: Integrate automatic labels ahead of `textLabelFunction` overrides**
 
 Update `lib/src/index.tsx` so the component computes automatic labels when the consumer has not provided `textLabelFunction`, and keep the current custom label escape hatch:
 
@@ -994,7 +994,7 @@ const renderedLabels =
 
 Country labels should appear at world level. Region labels should only be added to `defaultCandidates` after a successful drill-down into one country.
 
-- [ ] **Step 5: Add tests for label placement and translation fallback**
+- [x] **Step 5: Add tests for label placement and translation fallback**
 
 Create `lib/src/__tests__/labels.test.ts`:
 
@@ -1049,11 +1049,11 @@ it("falls back to English region labels when translations are partial", async ()
 });
 ```
 
-- [ ] **Step 6: Run the label-focused tests**
+- [x] **Step 6: Run the label-focused tests**
 
 Run: `yarn workspace react-svg-worldmap test` Expected: label placement tests pass and current `textLabelFunction` behavior remains intact
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add lib/src/labels lib/src/index.tsx lib/src/components/TextLabel.tsx lib/src/__tests__/labels.test.ts lib/src/__tests__/WorldMap.test.tsx

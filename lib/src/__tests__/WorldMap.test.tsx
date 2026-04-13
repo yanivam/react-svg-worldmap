@@ -550,6 +550,52 @@ describe("WorldMap — edge cases", () => {
     );
   });
 
+  it("falls back to English region labels when translations are partial", async () => {
+    const user = userEvent.setup();
+    const providerWithRegions = {
+      supports: () => true,
+      loadRegions: vi.fn().mockResolvedValue({
+        status: "ready",
+        layer: "regions",
+        detailLevel: "regions",
+        collection: {
+          countryCode: "US",
+          englishCountryName: "United States",
+          regions: [
+            {
+              id: "CA",
+              countryCode: "US",
+              labels: { englishName: "California" },
+              path: "M0 0L10 0L10 10L0 10Z",
+            },
+            {
+              id: "TX",
+              countryCode: "US",
+              labels: { englishName: "Texas" },
+              path: "M20 20L30 20L30 30L20 30Z",
+            },
+          ],
+        },
+      }),
+    };
+
+    render(
+      <WorldMap
+        data={DATA}
+        detailLevel="regions"
+        detailProvider={providerWithRegions}
+        regionNameTranslations={{ US: { CA: "California" } }}
+      />,
+    );
+
+    await user.click(screen.getByLabelText("United States"));
+
+    expect(
+      await screen.findByRole("button", { name: "California" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Texas" })).toBeInTheDocument();
+  });
+
   it("renders with a single data point (handles single-value range)", () => {
     expect(() =>
       render(<WorldMap data={[{ country: "us", value: 50 }]} />),
