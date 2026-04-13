@@ -14,10 +14,13 @@ export default function RegionsDrilldown(): JSX.Element {
   return (
     <WorldMap
       data={data}
-      title="Regions drill-down"
+      title="Regions showcase"
       detailLevel="regions"
       detailProvider={provider}
-      size="responsive"
+      initialDrilldownCountryCode="US"
+      showLabels
+      frame
+      size="xl"
     />
   );
 }

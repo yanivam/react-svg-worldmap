@@ -4,6 +4,22 @@ sidebar_position: 5
 
 # Examples
 
+## [examples/regions-drilldown](/examples/regions-drilldown)
+
+- A featured example showing the optional regions package as a polished first-run experience.
+- Opens in `xl` size and starts in region detail so you can immediately inspect the additional geometry.
+- Uses a Google-style accessible `+` / `-` zoom control in the bottom-right corner.
+- Includes live announcements and the visible-region list.
+- Explicitly enables `showLabels`; labels are otherwise off by default for backward compatibility.
+
+When labels are enabled, they are collision-aware and priority-based:
+
+- country labels at world level
+- region labels only after drill-down
+- English fallback when provided translations are incomplete for the active region layer
+
+TODO: expose zoom-control placement and styling customization options in a future release.
+
 ## [examples/sizing](/examples/sizing)
 
 - A simple example of the world map
@@ -59,18 +75,6 @@ sidebar_position: 5
 
 - An example showing how a map with rich interactions enabled is like.
 - Try double-clicking on the map!
-
-## [examples/regions-drilldown](/examples/regions-drilldown)
-
-- An example showing how to enable `detailLevel="regions"` with the optional regions provider.
-- Includes the default zoom controls, live announcements, and visible-region list.
-- Demonstrates that region detail is layered on top of the bundled world map rather than replacing it.
-
-Default labels are collision-aware and priority-based:
-
-- country labels at world level
-- region labels only after drill-down
-- English fallback when provided translations are incomplete for the active region layer
 
 ## [examples/string-value](/examples/string-value)
 

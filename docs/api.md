@@ -44,6 +44,8 @@ sidebar_position: 4
 | `detailLevel` | `"countries" \| "regions"` | Controls the detail mode. `"countries"` is the default world-map behavior. `"regions"` enables drill-down when a regions provider is supplied. |
 | `detailProvider` | `DetailProvider` | Optional provider used when `detailLevel="regions"` to load region boundaries and metadata for the selected country. |
 | `regionNameTranslations` | `Record<string, Record<string, string>>` | Optional region-label translations keyed by country code and region id. If the active layer translations are incomplete, region labels fall back to English. |
+| `showLabels` | `boolean` | Optional automatic label toggle. Defaults to `false` for backward compatibility. When enabled, labels are filtered aggressively to the current visible layer and viewport. |
+| `initialDrilldownCountryCode` | `ISOCode` | Optional initial country focus for regions mode examples and guided drill-down experiences. |
 
 </small>
 
@@ -53,6 +55,20 @@ sidebar_position: 4
 - `"regions"`: enables drill-down when a regions provider is supplied
 
 If `detailLevel="regions"` is used without an available provider, the component falls back to `"countries"` and logs a warning.
+
+### `showLabels`
+
+- `false`: default, no automatic country or region labels
+- `true`: render automatic labels for the active visible layer when they fit safely inside the viewport and feature bounds
+
+`textLabelFunction` still works independently and remains the explicit escape hatch for fully custom labeling.
+
+### Zoom Controls
+
+- The built-in zoom control uses a simple `+` / `-` stacked layout.
+- In `detailLevel="regions"` it supports continuous zoom up to `10x`.
+
+TODO: expose zoom-control placement and styling customization options in a future release.
 
 ```ts
 type SizeOption = "sm" | "md" | "lg" | "xl" | "xxl";

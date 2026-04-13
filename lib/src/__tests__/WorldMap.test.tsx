@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import * as React from "react";
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import WorldMap from "../index.js";
@@ -227,12 +227,12 @@ describe("WorldMap — richInteraction", () => {
     );
     const svg = container.querySelector("svg")!;
     const g = container.querySelector("svg > g")!;
-    const original = g.getAttribute("transform");
 
     fireEvent.keyDown(svg, { key: "+" });
     fireEvent.keyDown(svg, { key: "-" });
 
-    expect(g.getAttribute("transform")).toBe(original);
+    expect(g.getAttribute("transform")).toContain("scale(0.4166666666666667)");
+    expect(g.getAttribute("transform")).not.toContain("NaN");
   });
 
   it("accepts '=' as an alias for + (zoom in)", () => {
@@ -248,25 +248,26 @@ describe("WorldMap — richInteraction", () => {
     expect(g.getAttribute("transform")).not.toBe(before);
   });
 
-  it("does not zoom in beyond 4× (scale stays at 4 on repeated +)", () => {
+  it("does not zoom in beyond the maximum continuous zoom level", () => {
     const { container } = render(
       <WorldMap data={DATA} size={400} richInteraction />,
     );
     const svg = container.querySelector("svg")!;
 
-    // 3 zoom-ins reach 4× (1 → 2 → 4); a 4th should be ignored
-    fireEvent.keyDown(svg, { key: "+" });
-    fireEvent.keyDown(svg, { key: "+" });
-    fireEvent.keyDown(svg, { key: "+" });
-    const at4x = container.querySelector("svg > g")!.getAttribute("transform")!;
+    for (let index = 0; index < 10; index += 1) 
+      fireEvent.keyDown(svg, { key: "+" });
+    
+    const atMax = container
+      .querySelector("svg > g")!
+      .getAttribute("transform")!;
 
     fireEvent.keyDown(svg, { key: "+" });
     expect(container.querySelector("svg > g")!.getAttribute("transform")).toBe(
-      at4x,
+      atMax,
     );
   });
 
-  it("zooms around the pointer on double click and resets on a later double click at 4x", () => {
+  it("zooms around the pointer on repeated double click", () => {
     const { container } = render(
       <WorldMap data={DATA} size={400} richInteraction />,
     );
@@ -288,11 +289,7 @@ describe("WorldMap — richInteraction", () => {
     expect(zoomed).not.toBe(original);
 
     fireEvent.doubleClick(svg, { clientX: 110, clientY: 120 });
-    const at4x = g.getAttribute("transform");
-    expect(at4x).not.toBe(original);
-
-    fireEvent.doubleClick(svg, { clientX: 110, clientY: 120 });
-    expect(g.getAttribute("transform")).toBe(original);
+    expect(g.getAttribute("transform")).not.toBe(zoomed);
 
     getBoundingClientRect.mockRestore();
   });
@@ -336,6 +333,11 @@ describe("WorldMap — onClickFunction", () => {
 describe("WorldMap — textLabelFunction", () => {
   const northAmericaLabel = () => [{ label: "North America", x: 100, y: 100 }];
   const noLabels = () => [];
+
+  it("does not render automatic labels by default", () => {
+    const { container } = render(<WorldMap data={DATA} />);
+    expect(container.querySelector("text")).toBeNull();
+  });
 
   it("renders <text> elements when textLabelFunction returns labels", () => {
     const { container } = render(
@@ -444,8 +446,144 @@ describe("WorldMap — edge cases", () => {
       <WorldMap data={DATA} detailLevel="regions" detailProvider={provider} />,
     );
 
+    expect(screen.getByRole("button", { name: "Zoom out" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Zoom in" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
+    expect(
+      within(
+        screen.getByRole("group", { name: "Map zoom controls" }),
+      ).getAllByRole("button"),
+    ).toHaveLength(2);
+  });
+
+  it("renders automatic region labels inside the transformed map group", async () => {
+    const user = userEvent.setup();
+    const providerWithRegions = {
+      supports: () => true,
+      loadRegions: vi.fn().mockResolvedValue({
+        status: "ready",
+        layer: "regions",
+        detailLevel: "regions",
+        collection: {
+          countryCode: "US",
+          englishCountryName: "United States",
+          regions: [
+            {
+              id: "CA",
+              countryCode: "US",
+              labels: { englishName: "California" },
+              path: "M0 0L10 0L10 10L0 10Z",
+              bounds: [
+                [0, 0],
+                [160, 60],
+              ],
+              centroid: [80, 30],
+            },
+          ],
+        },
+      }),
+    };
+
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        detailLevel="regions"
+        detailProvider={providerWithRegions}
+        showLabels
+        size={400}
+      />,
+    );
+
+    await user.click(screen.getByLabelText("United States"));
+    await screen.findByRole("button", { name: "California" });
+
+    const transformedGroup = container.querySelector("svg > g");
+    expect(transformedGroup?.querySelector("text")?.textContent).toBe(
+      "California",
+    );
+  });
+
+  it("does not render automatic labels in regions mode unless showLabels is enabled", async () => {
+    const user = userEvent.setup();
+    const providerWithRegions = {
+      supports: () => true,
+      loadRegions: vi.fn().mockResolvedValue({
+        status: "ready",
+        layer: "regions",
+        detailLevel: "regions",
+        collection: {
+          countryCode: "US",
+          englishCountryName: "United States",
+          regions: [
+            {
+              id: "CA",
+              countryCode: "US",
+              labels: { englishName: "California" },
+              path: "M0 0L10 0L10 10L0 10Z",
+              bounds: [
+                [0, 0],
+                [160, 60],
+              ],
+              centroid: [80, 30],
+            },
+          ],
+        },
+      }),
+    };
+
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        detailLevel="regions"
+        detailProvider={providerWithRegions}
+        size={400}
+      />,
+    );
+
+    await user.click(screen.getByLabelText("United States"));
+    await screen.findByRole("button", { name: "California" });
+
+    expect(container.querySelector("text")).toBeNull();
+  });
+
+  it("supports multiple zoom-in levels before disabling the control", async () => {
+    const user = userEvent.setup();
+    const provider = {
+      supports: () => true,
+      loadRegions: vi.fn().mockResolvedValue({
+        status: "ready",
+        layer: "regions",
+        detailLevel: "regions",
+        collection: {
+          countryCode: "US",
+          englishCountryName: "United States",
+          regions: [],
+        },
+      }),
+    };
+
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        detailLevel="regions"
+        detailProvider={provider}
+        size={400}
+      />,
+    );
+
+    const svg = container.querySelector("svg")!;
+    const group = container.querySelector("svg > g")!;
+    const zoomIn = screen.getByRole("button", { name: "Zoom in" });
+    const transforms = new Set<string | null>([
+      group.getAttribute("transform"),
+    ]);
+
+    for (let index = 0; index < 4; index += 1) {
+      await user.click(zoomIn);
+      transforms.add(group.getAttribute("transform"));
+    }
+
+    expect(transforms.size).toBeGreaterThan(3);
+    expect(svg).toBeInTheDocument();
   });
 
   it("announces drill-down state changes", async () => {
@@ -470,7 +608,9 @@ describe("WorldMap — edge cases", () => {
 
     await user.click(screen.getByLabelText("United States"));
 
-    expect(screen.getByText(/Zoomed into/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Showing United States regions at/i),
+    ).toBeInTheDocument();
   });
 
   it("renders a visible-region list after ready region detail loads", async () => {
@@ -505,6 +645,7 @@ describe("WorldMap — edge cases", () => {
         data={DATA}
         detailLevel="regions"
         detailProvider={providerWithRegions}
+        size={400}
       />,
     );
 

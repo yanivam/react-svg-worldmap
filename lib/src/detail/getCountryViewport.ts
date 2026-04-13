@@ -6,14 +6,28 @@ export interface CountryViewport {
 
 export function getCountryViewport(
   bounds: [[number, number], [number, number]],
+  viewportWidth: number,
+  viewportHeight: number,
 ): CountryViewport {
   const [[minX, minY], [maxX, maxY]] = bounds;
-  const width = Math.max(maxX - minX, 1);
-  const height = Math.max(maxY - minY, 1);
+  const boundsWidth = Math.max(maxX - minX, 1);
+  const boundsHeight = Math.max(maxY - minY, 1);
+  const padding = 24;
+  const availableWidth = Math.max(viewportWidth - padding * 2, 1);
+  const availableHeight = Math.max(viewportHeight - padding * 2, 1);
+  const baseScale = Math.min(
+    availableWidth / boundsWidth,
+    availableHeight / boundsHeight,
+    (viewportWidth / 960) * 10,
+  );
+  const scale = Math.max(1, baseScale / Math.max(viewportWidth / 960, 0.01));
+  const shiftedMinY = minY + 240;
+  const shiftedMaxY = maxY + 240;
 
   return {
-    scale: Math.min(6, Math.max(2, 480 / Math.max(width, height))),
-    translateX: -minX,
-    translateY: -minY,
+    scale,
+    translateX: viewportWidth / 2 - baseScale * ((minX + maxX) / 2),
+    translateY:
+      viewportHeight / 2 - baseScale * ((shiftedMinY + shiftedMaxY) / 2),
   };
 }

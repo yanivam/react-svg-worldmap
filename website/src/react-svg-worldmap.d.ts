@@ -64,6 +64,8 @@ declare module "react-svg-worldmap" {
       loadRegions: (countryCode: string) => Promise<unknown>;
     };
     regionNameTranslations?: Record<string, Record<string, string>>;
+    initialDrilldownCountryCode?: string;
+    showLabels?: boolean;
   }
 
   function WorldMap<T extends string | number = number>(

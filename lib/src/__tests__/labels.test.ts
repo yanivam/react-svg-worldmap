@@ -29,4 +29,27 @@ describe("placeLabels", () => {
 
     expect(placed.map((label) => label.id)).toEqual(["country"]);
   });
+
+  it("skips labels that would overflow their feature bounds", () => {
+    const placed = placeLabels(
+      [
+        {
+          id: "small-region",
+          text: "California",
+          x: 5,
+          y: 5,
+          bounds: [
+            [0, 0],
+            [10, 10],
+          ],
+          priority: 10,
+          layer: "region",
+          minScale: 1,
+        },
+      ],
+      2,
+    );
+
+    expect(placed).toEqual([]);
+  });
 });

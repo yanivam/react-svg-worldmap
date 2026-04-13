@@ -57,6 +57,34 @@ function toValue({ value }: DataItem<string | number>): number {
 }
 
 const defaultTextLabelFunction = () => [];
+const MIN_SCALE = 1;
+const MAX_SCALE = 10;
+const ZOOM_FACTOR = 1.6;
+const REGION_DETAIL_MIN_SCALE = 2.4;
+
+function getRegionCollectionBounds(
+  regions: Array<{ bounds?: [[number, number], [number, number]] }>,
+): [[number, number], [number, number]] | null {
+  const availableBounds = regions
+    .map((region) => region.bounds)
+    .filter(
+      (bounds): bounds is [[number, number], [number, number]] =>
+        bounds != null,
+    );
+
+  if (availableBounds.length === 0) return null;
+
+  return availableBounds.reduce((combined, current) => [
+    [
+      Math.min(combined[0][0], current[0][0]),
+      Math.min(combined[0][1], current[0][1]),
+    ],
+    [
+      Math.max(combined[1][0], current[1][0]),
+      Math.max(combined[1][1], current[1][1]),
+    ],
+  ]);
+}
 
 export default function WorldMap<T extends number | string>(
   props: Props<T>,
@@ -87,6 +115,8 @@ export default function WorldMap<T extends number | string>(
     detailLevel = "countries",
     detailProvider,
     regionNameTranslations,
+    initialDrilldownCountryCode,
+    showLabels = false,
   } = props;
   const [wrapperEl, setWrapperEl] = useState<HTMLDivElement | null>(null);
   const containerRef = useRef<SVGSVGElement>(null);
@@ -103,13 +133,26 @@ export default function WorldMap<T extends number | string>(
     detailLevel,
     detailProvider,
   );
-  const drilldown = useDrilldownState();
+  const initialDrilldownCountryName =
+    initialDrilldownCountryCode == null
+      ? null
+      : geoFeatures.find(
+          (feature) =>
+            feature.properties.I === initialDrilldownCountryCode.toUpperCase(),
+        )?.properties.N ?? null;
+  const drilldown = useDrilldownState(
+    initialDrilldownCountryCode != null && initialDrilldownCountryName != null
+      ? {
+          countryCode: initialDrilldownCountryCode.toUpperCase() as ISOCode,
+          countryName: initialDrilldownCountryName,
+        }
+      : undefined,
+  );
   const detailResult = useDetailCollection(
     drilldown.activeCountryCode,
     detailProvider,
     effectiveDetailLevel === "regions",
   );
-  void regionNameTranslations;
   const regionDetail =
     detailResult.status === "ready" ? detailResult.collection : undefined;
   const visibleRegions = regionDetail?.regions ?? [];
@@ -129,19 +172,31 @@ export default function WorldMap<T extends number | string>(
   const width =
     typeof size === "number" ? size : responsify(size, effectiveWidth);
   const height = width * heightRatio;
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(
+    initialDrilldownCountryCode != null ? REGION_DETAIL_MIN_SCALE : MIN_SCALE,
+  );
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
+  const preferredZoomCountryCode =
+    initialDrilldownCountryCode != null
+      ? (initialDrilldownCountryCode.toUpperCase() as ISOCode)
+      : firstDataCountryCode;
+  const preferredZoomCountryName =
+    initialDrilldownCountryName ?? firstDataCountryName;
+  const showingRegionDetail =
+    drilldown.activeCountryCode != null && scale >= REGION_DETAIL_MIN_SCALE;
 
   React.useEffect(() => {
-    const firstRegionBounds = regionDetail?.regions[0]?.bounds;
-    if (!firstRegionBounds) return;
+    if (!showingRegionDetail || regionDetail == null) return;
 
-    const viewport = getCountryViewport(firstRegionBounds);
+    const detailBounds = getRegionCollectionBounds(regionDetail.regions);
+    if (detailBounds == null) return;
+
+    const viewport = getCountryViewport(detailBounds, width, height);
     setScale(viewport.scale);
     setTranslateX(viewport.translateX);
     setTranslateY(viewport.translateY);
-  }, [regionDetail]);
+  }, [height, regionDetail, showingRegionDetail, width]);
 
   // Stable refs per region for tooltips (avoids ref identity churn)
   const triggerRefs = useRef<Array<{ current: SVGPathElement | null }>>([]);
@@ -193,7 +248,10 @@ export default function WorldMap<T extends number | string>(
         : tooltipTextFunction(context);
     const svgTitle = tooltipContent ?? countryName;
     const handleRegionClick = (event: React.MouseEvent<SVGPathElement>) => {
-      if (canDrillDown) drilldown.enterCountry(isoCode as ISOCode, countryName);
+      if (canDrillDown) {
+        drilldown.enterCountry(isoCode as ISOCode, countryName);
+        setScale((current) => Math.max(current, REGION_DETAIL_MIN_SCALE));
+      }
 
       onClickFunction?.({ ...context, event });
     };
@@ -261,6 +319,10 @@ export default function WorldMap<T extends number | string>(
         text: geoFeature.properties.N,
         x,
         y,
+        bounds: pathGenerator.bounds(geoFeature) as [
+          [number, number],
+          [number, number],
+        ],
         priority: 10,
         layer: "country" as const,
         minScale: 1,
@@ -280,6 +342,7 @@ export default function WorldMap<T extends number | string>(
       text: region.labels.englishName,
       x: region.centroid?.[0] ?? 0,
       y: region.centroid?.[1] ?? 0,
+      ...(region.bounds != null ? { bounds: region.bounds } : {}),
       priority: 5,
       layer: "region" as const,
       minScale: 1,
@@ -297,30 +360,41 @@ export default function WorldMap<T extends number | string>(
         activeRegionTranslations[region.id]!.length > 0,
     );
   const defaultCandidates = getDefaultLabels({
-    countryCandidates: countryLabelCandidates,
-    regionCandidates:
-      drilldown.activeCountryCode == null ? [] : regionLabelCandidates,
+    countryCandidates: showingRegionDetail ? [] : countryLabelCandidates,
+    regionCandidates: showingRegionDetail ? regionLabelCandidates : [],
     hasCompleteRegionTranslations,
     ...(activeRegionTranslations
       ? { regionTranslations: activeRegionTranslations }
       : {}),
   });
-  const automaticLabels = placeLabels(defaultCandidates, scale).map(
-    (label) => ({
-      label: label.text,
-      x: label.x,
-      y: label.y,
-      fontSize: 12,
-      textAnchor: "middle" as const,
-      fill: "#333333",
-      "aria-hidden": true,
-    }),
-  );
+  const automaticLabels = !showLabels
+    ? []
+    : placeLabels(defaultCandidates, scale, {
+        width,
+        height,
+        scaleFactor: (width / 960) * scale,
+        translateX,
+        translateY,
+      }).map((label) => ({
+        label: label.text,
+        x: label.x,
+        y: label.y,
+        fontSize: 12,
+        textAnchor: "middle" as const,
+        fill: "#333333",
+        "aria-hidden": true,
+      }));
   const renderedLabels =
     textLabelFunction === defaultTextLabelFunction
       ? automaticLabels
       : textLabelFunction(width);
-
+  const zoomAtPoint = (factor: number, originX: number, originY: number) => {
+    setTranslateX((current) => factor * current + (1 - factor) * originX);
+    setTranslateY((current) => factor * current + (1 - factor) * originY);
+    setScale((current) =>
+      Math.max(MIN_SCALE, Math.min(MAX_SCALE, current * factor)),
+    );
+  };
   const eventHandlers = {
     onMouseDown(e: React.MouseEvent) {
       // Only suppress default on multi-click (≥2) to prevent text-selection
@@ -333,15 +407,7 @@ export default function WorldMap<T extends number | string>(
       const rect = e.currentTarget.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      if (scale === 4) {
-        setTranslateX(0);
-        setTranslateY(0);
-        setScale(1);
-      } else {
-        setTranslateX(2 * translateX - x);
-        setTranslateY(2 * translateY - y);
-        setScale(scale * 2);
-      }
+      if (scale < MAX_SCALE) zoomAtPoint(ZOOM_FACTOR, x, y);
     },
     // Keyboard equivalents for double-click zoom (WCAG 2.1.1).
     // + / =  → zoom in to the centre of the map
@@ -349,38 +415,47 @@ export default function WorldMap<T extends number | string>(
     onKeyDown(e: React.KeyboardEvent<SVGSVGElement>) {
       if (e.key === "+" || e.key === "=") {
         e.preventDefault();
-        if (scale < 4) {
-          setTranslateX(2 * translateX - width / 2);
-          setTranslateY(2 * translateY - height / 2);
-          setScale(scale * 2);
-        }
+        if (scale < MAX_SCALE) zoomAtPoint(ZOOM_FACTOR, width / 2, height / 2);
       } else if (e.key === "-" || e.key === "_") {
         e.preventDefault();
-        setTranslateX(0);
-        setTranslateY(0);
-        setScale(1);
+        if (scale > MIN_SCALE) 
+          zoomAtPoint(1 / ZOOM_FACTOR, width / 2, height / 2);
+         else if (drilldown.canGoBack) 
+          drilldown.reset();
+        
       }
     },
   };
   const handleZoomIn = () => {
-    if (drilldown.activeCountryCode && drilldown.activeCountryName) {
+    if (
+      effectiveDetailLevel === "regions" &&
+      drilldown.activeCountryCode == null &&
+      preferredZoomCountryCode != null &&
+      preferredZoomCountryName != null &&
+      scale * ZOOM_FACTOR >= REGION_DETAIL_MIN_SCALE
+    ) {
       drilldown.enterCountry(
-        drilldown.activeCountryCode,
-        drilldown.activeCountryName,
+        preferredZoomCountryCode,
+        preferredZoomCountryName,
       );
+    }
+
+    if (scale < MAX_SCALE) zoomAtPoint(ZOOM_FACTOR, width / 2, height / 2);
+  };
+  const handleZoomOut = () => {
+    if (scale > MIN_SCALE) {
+      zoomAtPoint(1 / ZOOM_FACTOR, width / 2, height / 2);
       return;
     }
 
-    if (firstDataCountryCode && firstDataCountryName)
-      drilldown.enterCountry(firstDataCountryCode, firstDataCountryName);
-  };
-  const handleZoomReset = () => {
-    drilldown.reset();
+    if (drilldown.canGoBack) drilldown.reset();
   };
   const liveAnnouncementMessage =
-    drilldown.activeCountryName == null
-      ? "Showing world map"
-      : `Zoomed into ${drilldown.activeCountryName}`;
+    showingRegionDetail && drilldown.activeCountryName != null
+      ? `Showing ${drilldown.activeCountryName} regions at ${scale.toFixed(
+          1,
+        )}x zoom`
+      : `Showing world map at ${scale.toFixed(1)}x zoom`;
   const handleVisibleRegionSelect = () => {};
 
   // Render the SVG (wrapper div for ResizeObserver container sizing)
@@ -388,21 +463,19 @@ export default function WorldMap<T extends number | string>(
     <div
       ref={setWrapperEl}
       className={containerClassName ?? "worldmap__wrapper"}
-      style={{ width: "100%", minHeight: 0 }}>
+      style={{ position: "relative", width: "100%", minHeight: 0 }}>
       {effectiveDetailLevel === "regions" && (
         <>
           {/* eslint-disable react/jsx-no-bind -- Stable local handlers are used for task 5 controls. */}
           <ZoomControls
-            canDrillIn
-            canGoBack={drilldown.canGoBack}
+            canZoomIn={scale < MAX_SCALE}
+            canZoomOut={scale > MIN_SCALE || drilldown.canGoBack}
             onZoomIn={handleZoomIn}
-            onZoomOut={handleZoomReset}
-            onBack={handleZoomReset}
-            onReset={handleZoomReset}
+            onZoomOut={handleZoomOut}
           />
           <LiveAnnouncer message={liveAnnouncementMessage} />
           <VisibleRegionList
-            regions={visibleRegions}
+            regions={showingRegionDetail ? visibleRegions : []}
             onSelect={handleVisibleRegionSelect}
           />
           {/* eslint-enable react/jsx-no-bind */}
@@ -435,11 +508,9 @@ export default function WorldMap<T extends number | string>(
             style={{ transition: "all 0.2s" }}>
             {regionPaths}
             {effectiveDetailLevel === "regions" &&
-              drilldown.activeCountryCode != null &&
+              showingRegionDetail &&
               detailResult.status === "ready" &&
               detailRegionPaths}
-          </g>
-          <g>
             {renderedLabels.map((labelProps) => (
               <TextLabel {...labelProps} key={labelProps.label} />
             ))}

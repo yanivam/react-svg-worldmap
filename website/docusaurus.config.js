@@ -24,6 +24,7 @@ module.exports = {
           type: "dropdown",
           label: "Examples",
           items: [
+            { to: "/examples/regions-drilldown", label: "Regions showcase" },
             { to: "/examples/sizing", label: "Sizing" },
             { to: "/examples/custom-style", label: "Custom styles" },
             { to: "/examples/localization", label: "Localization" },

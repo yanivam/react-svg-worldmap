@@ -103,6 +103,13 @@ Source attribution and policy details:
 
 If `detailLevel="regions"` is used without an available provider, the component falls back to `"countries"` and logs a warning.
 
+### `showLabels`
+
+- `false`: default, preserves the legacy no-label behavior
+- `true`: enables automatic labels for the current visible layer when they fit safely inside the feature bounds and viewport
+
+TODO: expose zoom-control placement and styling customization options in a future release.
+
 ## Accessibility
 
 The component is designed to be WCAG 2.2 AA compliant at the component level:

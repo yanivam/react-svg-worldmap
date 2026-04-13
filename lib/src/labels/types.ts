@@ -5,6 +5,7 @@ export interface LabelCandidate {
   text: string;
   x: number;
   y: number;
+  bounds?: [[number, number], [number, number]];
   priority: number;
   layer: LabelLayer;
   minScale: number;

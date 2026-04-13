@@ -77,4 +77,6 @@ export interface Props<T extends string | number = number> {
   detailLevel?: DetailLevel;
   detailProvider?: DetailProvider;
   regionNameTranslations?: RegionNameTranslations;
+  initialDrilldownCountryCode?: ISOCode;
+  showLabels?: boolean;
 }
