@@ -254,9 +254,9 @@ describe("WorldMap — richInteraction", () => {
     );
     const svg = container.querySelector("svg")!;
 
-    for (let index = 0; index < 10; index += 1) 
+    for (let index = 0; index < 10; index += 1)
       fireEvent.keyDown(svg, { key: "+" });
-    
+
     const atMax = container
       .querySelector("svg > g")!
       .getAttribute("transform")!;
@@ -611,6 +611,28 @@ describe("WorldMap — edge cases", () => {
     expect(
       screen.getByText(/Showing United States regions at/i),
     ).toBeInTheDocument();
+  });
+
+  it("pans the map when dragging after zooming in", () => {
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        size={400}
+        richInteraction
+        detailLevel="countries"
+      />,
+    );
+    const svg = container.querySelector("svg")!;
+    const group = container.querySelector("svg > g")!;
+
+    fireEvent.keyDown(svg, { key: "+" });
+    const beforePan = group.getAttribute("transform");
+
+    fireEvent.mouseDown(svg, { button: 0, clientX: 180, clientY: 140 });
+    fireEvent.mouseMove(svg, { clientX: 220, clientY: 170 });
+    fireEvent.mouseUp(svg, { clientX: 220, clientY: 170 });
+
+    expect(group.getAttribute("transform")).not.toBe(beforePan);
   });
 
   it("renders a visible-region list after ready region detail loads", async () => {

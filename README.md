@@ -96,6 +96,29 @@ Source attribution and policy details:
 - The default map is bundled locally with the package.
 - The component does not fetch map geometry from a remote API at runtime.
 
+## Drill-Down Detail Levels
+
+### `detailLevel`
+
+- `"countries"`: default, current world-map behavior
+- `"regions"`: enables drill-down when a regions provider is supplied
+
+If `detailLevel="regions"` is used without an available provider, the component falls back to `"countries"` and logs a warning.
+
+### `showLabels`
+
+- `false`: default, preserves the legacy no-label behavior
+- `true`: enables automatic labels for the current visible layer when they pass geometry-aware placement checks
+
+When automatic labels are enabled, the built-in label engine:
+
+- starts from an interior anchor on the feature's main visible polygon
+- tries a few nearby fallback positions before suppressing the label
+- allows labels to bridge same-feature water when that improves placement
+- rejects labels whose text boxes overlap another visible feature's land geometry
+
+TODO: expose zoom-control placement and styling customization options in a future release.
+
 ## Accessibility
 
 The component is designed to be WCAG 2.2 AA compliant at the component level:

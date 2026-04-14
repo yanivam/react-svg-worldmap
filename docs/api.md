@@ -59,9 +59,17 @@ If `detailLevel="regions"` is used without an available provider, the component 
 ### `showLabels`
 
 - `false`: default, no automatic country or region labels
-- `true`: render automatic labels for the active visible layer when they fit safely inside the viewport and feature bounds
+- `true`: render automatic labels for the active visible layer when they fit safely inside the viewport and pass geometry-aware placement checks
 
 `textLabelFunction` still works independently and remains the explicit escape hatch for fully custom labeling.
+
+When `showLabels` is enabled, the built-in label engine uses these rules:
+
+- It starts from the best interior anchor it can find for the visible feature.
+- It tries a few nearby fallback positions before dropping the label.
+- A label may span empty water inside the same feature context.
+- A label is rejected if its text box overlaps land geometry from another visible feature.
+- Labels are still collision-filtered against one another, with higher-priority labels winning first.
 
 ### Zoom Controls
 

@@ -12,10 +12,12 @@ sidebar_position: 5
 - Includes live announcements and the visible-region list.
 - Explicitly enables `showLabels`; labels are otherwise off by default for backward compatibility.
 
-When labels are enabled, they are collision-aware and priority-based:
+When labels are enabled, they use geometry-aware placement:
 
 - country labels at world level
 - region labels only after drill-down
+- labels may bridge same-feature water when that improves placement
+- labels are rejected if their text box overlaps another visible feature's land geometry
 - English fallback when provided translations are incomplete for the active region layer
 
 TODO: expose zoom-control placement and styling customization options in a future release.

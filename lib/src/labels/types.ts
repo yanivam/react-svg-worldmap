@@ -1,5 +1,14 @@
 export type LabelLayer = "country" | "region";
 
+export type ProjectedPoint = [number, number];
+export type ProjectedRing = ProjectedPoint[];
+export type ProjectedPolygon = ProjectedRing[];
+
+export interface ProjectedFeatureGeometry {
+  bounds: [[number, number], [number, number]];
+  polygons: ProjectedPolygon[];
+}
+
 export interface LabelCandidate {
   id: string;
   text: string;

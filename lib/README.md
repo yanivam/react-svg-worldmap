@@ -106,7 +106,14 @@ If `detailLevel="regions"` is used without an available provider, the component 
 ### `showLabels`
 
 - `false`: default, preserves the legacy no-label behavior
-- `true`: enables automatic labels for the current visible layer when they fit safely inside the feature bounds and viewport
+- `true`: enables automatic labels for the current visible layer when they pass geometry-aware placement checks
+
+When automatic labels are enabled, the built-in label engine:
+
+- starts from an interior anchor on the feature's main visible polygon
+- tries a few nearby fallback positions before suppressing the label
+- allows labels to bridge same-feature water when that improves placement
+- rejects labels whose text boxes overlap another visible feature's land geometry
 
 TODO: expose zoom-control placement and styling customization options in a future release.
 

@@ -11,8 +11,13 @@ import { projectRegionFeatures } from "./detail/projectRegionFeatures.js";
 import { useDetailCollection } from "./detail/useDetailCollection.js";
 import { useDrilldownState } from "./detail/useDrilldownState.js";
 import { getDefaultLabels } from "./labels/getDefaultLabels.js";
+import { projectFeatureGeometry } from "./labels/geometry.js";
+import { getFeatureLabelAnchor } from "./labels/getFeatureLabelAnchor.js";
 import { placeLabels } from "./labels/placeLabels.js";
-import type { LabelCandidate } from "./labels/types.js";
+import type {
+  LabelCandidate,
+  ProjectedFeatureGeometry,
+} from "./labels/types.js";
 import {
   defaultColor,
   defaultSize,
@@ -84,6 +89,10 @@ function getRegionCollectionBounds(
       Math.max(combined[1][1], current[1][1]),
     ],
   ]);
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
 }
 
 export default function WorldMap<T extends number | string>(
@@ -177,6 +186,18 @@ export default function WorldMap<T extends number | string>(
   );
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
+  const dragStateRef = useRef<{
+    active: boolean;
+    lastX: number;
+    lastY: number;
+    moved: boolean;
+  }>({
+    active: false,
+    lastX: 0,
+    lastY: 0,
+    moved: false,
+  });
+  const suppressClickRef = useRef(false);
   const preferredZoomCountryCode =
     initialDrilldownCountryCode != null
       ? (initialDrilldownCountryCode.toUpperCase() as ISOCode)
@@ -218,6 +239,59 @@ export default function WorldMap<T extends number | string>(
   // Build a path & a tooltip for each country
   const projection = geoMercator();
   const pathGenerator = geoPath().projection(projection);
+  const worldBounds = React.useMemo(() => {
+    const bounds = geoFeatures.map((feature) => pathGenerator.bounds(feature));
+
+    return bounds.reduce((combined, current) => [
+      [
+        Math.min(combined[0][0], current[0][0]),
+        Math.min(combined[0][1], current[0][1]),
+      ],
+      [
+        Math.max(combined[1][0], current[1][0]),
+        Math.max(combined[1][1], current[1][1]),
+      ],
+    ]) as [[number, number], [number, number]];
+  }, [pathGenerator]);
+  const activePanBounds =
+    showingRegionDetail && regionDetail != null
+      ? getRegionCollectionBounds(regionDetail.regions) ?? worldBounds
+      : worldBounds;
+
+  const clampTranslation = React.useCallback(
+    (nextTranslateX: number, nextTranslateY: number, nextScale: number) => {
+      const [[minX, minY], [maxX, maxY]] = activePanBounds;
+      const scaleFactor = (width / 960) * nextScale;
+      const shiftedMinY = minY + 240;
+      const shiftedMaxY = maxY + 240;
+      const scaledWidth = scaleFactor * (maxX - minX);
+      const scaledHeight = scaleFactor * (shiftedMaxY - shiftedMinY);
+      const margin = 32;
+
+      const clampedX =
+        scaledWidth <= width - margin * 2
+          ? width / 2 - scaleFactor * ((minX + maxX) / 2)
+          : clamp(
+              nextTranslateX,
+              width - margin - scaleFactor * maxX,
+              margin - scaleFactor * minX,
+            );
+      const clampedY =
+        scaledHeight <= height - margin * 2
+          ? height / 2 - scaleFactor * ((shiftedMinY + shiftedMaxY) / 2)
+          : clamp(
+              nextTranslateY,
+              height - margin - scaleFactor * shiftedMaxY,
+              margin - scaleFactor * shiftedMinY,
+            );
+
+      return {
+        translateX: clampedX,
+        translateY: clampedY,
+      };
+    },
+    [activePanBounds, height, width],
+  );
 
   const regionElements = geoFeatures.map((geoFeature, i) => {
     const triggerRef = triggerRefs.current[i]!;
@@ -248,6 +322,11 @@ export default function WorldMap<T extends number | string>(
         : tooltipTextFunction(context);
     const svgTitle = tooltipContent ?? countryName;
     const handleRegionClick = (event: React.MouseEvent<SVGPathElement>) => {
+      if (suppressClickRef.current) {
+        suppressClickRef.current = false;
+        return;
+      }
+
       if (canDrillDown) {
         drilldown.enterCountry(isoCode as ISOCode, countryName);
         setScale((current) => Math.max(current, REGION_DETAIL_MIN_SCALE));
@@ -310,9 +389,22 @@ export default function WorldMap<T extends number | string>(
   const regionTooltips = regionElements.map(
     (entry) => entry.highlightedTooltip,
   );
+  const countryFeatureGeometries = Object.fromEntries(
+    geoFeatures
+      .map((geoFeature) => {
+        const geometry = projectFeatureGeometry(geoFeature, pathGenerator);
+        if (geometry == null) return null;
+
+        return [geoFeature.properties.I, geometry] as const;
+      })
+      .filter(
+        (entry): entry is readonly [string, ProjectedFeatureGeometry] =>
+          entry != null,
+      ),
+  );
   const countryLabelCandidates: LabelCandidate[] = geoFeatures
     .map((geoFeature) => {
-      const [x, y] = pathGenerator.centroid(geoFeature);
+      const [x, y] = getFeatureLabelAnchor(geoFeature, pathGenerator);
 
       return {
         id: geoFeature.properties.I,
@@ -370,6 +462,9 @@ export default function WorldMap<T extends number | string>(
   const automaticLabels = !showLabels
     ? []
     : placeLabels(defaultCandidates, scale, {
+        ...(!showingRegionDetail
+          ? { featureGeometries: countryFeatureGeometries }
+          : {}),
         width,
         height,
         scaleFactor: (width / 960) * scale,
@@ -389,11 +484,23 @@ export default function WorldMap<T extends number | string>(
       ? automaticLabels
       : textLabelFunction(width);
   const zoomAtPoint = (factor: number, originX: number, originY: number) => {
-    setTranslateX((current) => factor * current + (1 - factor) * originX);
-    setTranslateY((current) => factor * current + (1 - factor) * originY);
-    setScale((current) =>
-      Math.max(MIN_SCALE, Math.min(MAX_SCALE, current * factor)),
-    );
+    setScale((currentScale) => {
+      const nextScale = Math.max(
+        MIN_SCALE,
+        Math.min(MAX_SCALE, currentScale * factor),
+      );
+      const nextTranslateX = factor * translateX + (1 - factor) * originX;
+      const nextTranslateY = factor * translateY + (1 - factor) * originY;
+      const clampedTranslation = clampTranslation(
+        nextTranslateX,
+        nextTranslateY,
+        nextScale,
+      );
+      setTranslateX(clampedTranslation.translateX);
+      setTranslateY(clampedTranslation.translateY);
+
+      return nextScale;
+    });
   };
   const eventHandlers = {
     onMouseDown(e: React.MouseEvent) {
@@ -402,6 +509,44 @@ export default function WorldMap<T extends number | string>(
       // so keyboard users aren't locked out (WCAG 2.1.1).
       if (e.detail > 1) e.preventDefault();
       e.stopPropagation();
+      if (e.button !== 0) return;
+
+      dragStateRef.current = {
+        active: true,
+        lastX: e.clientX,
+        lastY: e.clientY,
+        moved: false,
+      };
+    },
+    onMouseMove(e: React.MouseEvent) {
+      if (!dragStateRef.current.active) return;
+
+      const deltaX = e.clientX - dragStateRef.current.lastX;
+      const deltaY = e.clientY - dragStateRef.current.lastY;
+      if (deltaX === 0 && deltaY === 0) return;
+
+      dragStateRef.current = {
+        active: true,
+        lastX: e.clientX,
+        lastY: e.clientY,
+        moved:
+          dragStateRef.current.moved || Math.abs(deltaX) + Math.abs(deltaY) > 2,
+      };
+      if (dragStateRef.current.moved) suppressClickRef.current = true;
+
+      const clampedTranslation = clampTranslation(
+        translateX + deltaX,
+        translateY + deltaY,
+        scale,
+      );
+      setTranslateX(clampedTranslation.translateX);
+      setTranslateY(clampedTranslation.translateY);
+    },
+    onMouseUp() {
+      dragStateRef.current.active = false;
+    },
+    onMouseLeave() {
+      dragStateRef.current.active = false;
     },
     onDoubleClick(e: React.MouseEvent) {
       const rect = e.currentTarget.getBoundingClientRect();
@@ -418,11 +563,9 @@ export default function WorldMap<T extends number | string>(
         if (scale < MAX_SCALE) zoomAtPoint(ZOOM_FACTOR, width / 2, height / 2);
       } else if (e.key === "-" || e.key === "_") {
         e.preventDefault();
-        if (scale > MIN_SCALE) 
+        if (scale > MIN_SCALE)
           zoomAtPoint(1 / ZOOM_FACTOR, width / 2, height / 2);
-         else if (drilldown.canGoBack) 
-          drilldown.reset();
-        
+        else if (drilldown.canGoBack) drilldown.reset();
       }
     },
   };

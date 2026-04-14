@@ -188,6 +188,8 @@ Each region entry should include:
 - optional centroid and/or bounding box metadata
 - optional ordering metadata for visible list rendering
 
+For labeling quality, the preferred detail-pack shape should eventually expose enough geometry metadata for geometry-aware label validation, not just centroids.
+
 This model is intentionally neutral so that future providers can transform different source formats into the same runtime shape.
 
 ## Interaction Model
@@ -272,9 +274,34 @@ The design assumes that splitting detailed geography out of the core package is 
 Phase 1 borrows these ideas:
 
 - progressive disclosure by zoom and scope
-- collision avoidance
+- geometry-aware collision avoidance
 - stable label visibility
 - priority ordering with country labels ahead of region labels
+- labels may span same-feature water when that improves readability
+- labels must not overlap land geometry from another visible feature
+
+### Phase 1 Label Placement Rules
+
+The phase-1 labeler should optimize for legibility rather than strict polygon containment.
+
+Accepted behavior:
+
+- a label may extend across ocean or empty space that still belongs to the same feature context
+- a multi-part country can keep one label tied to its primary visible landmass
+- the runtime may try several nearby fallback positions before suppressing a label
+
+Rejected behavior:
+
+- a label may not overlap another visible country or region's land geometry
+- a label may not be shown if no nearby position satisfies viewport, decluttering, and foreign-geometry checks
+
+At implementation time, the preferred algorithm is:
+
+1. Find a strong interior anchor for the feature's main visible polygon.
+2. Measure the rendered label box.
+3. Score a small set of nearby fallback positions.
+4. Reject any candidate whose label box overlaps foreign land geometry.
+5. Prefer candidates with stronger own-feature coverage and better decluttering outcomes.
 
 Phase 1 does not attempt:
 
@@ -292,7 +319,7 @@ The following items are intentionally postponed, ordered by importance and likel
 4. Country-specific high-detail packs.
 5. Data storytelling overlays at region and city levels.
 6. Free-pan/free-zoom as a first-class interaction mode.
-7. Smarter label density and decluttering rules.
+7. Richer multi-candidate label density and decluttering rules for dense region/city layers.
 8. Pack version negotiation and compatibility metadata.
 9. Pluggable accessible detail panels or custom list renderers.
 10. Offline caching for future remote packs.
