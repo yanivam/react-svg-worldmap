@@ -5,9 +5,10 @@ import { createRegionsDetailProvider } from "@react-svg-worldmap/regions/dist/in
 const provider = createRegionsDetailProvider();
 
 const data = [
-  { country: "us", value: 100 },
-  { country: "ca", value: 80 },
-  { country: "mx", value: 60 },
+  { country: "pt", value: 100 },
+  { country: "es", value: 80 },
+  { country: "fr", value: 60 },
+  { country: "ma", value: 45 },
 ];
 
 export default function RegionsDrilldown(): JSX.Element {
@@ -17,10 +18,10 @@ export default function RegionsDrilldown(): JSX.Element {
       title="Regions showcase"
       detailLevel="regions"
       detailProvider={provider}
-      initialDrilldownCountryCode="US"
+      initialMapCenter={{ longitude: -9.142685, latitude: 38.736946 }}
       showLabels
       frame
-      size="xl"
+      size="xxl"
     />
   );
 }

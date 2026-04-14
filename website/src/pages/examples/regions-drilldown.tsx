@@ -12,10 +12,10 @@ export default function RegionsDrilldown(): JSX.Element {
       <main id="main-content" className={styles.main}>
         <Map />
         <p className={styles.exampleNote}>
-          This featured example opens in <code>xl</code> size and starts in
-          region detail for the United States. Use the accessible zoom gauge to
-          switch back to countries with <code>Zoom out</code>, or return to
-          regions with <code>Zoom in</code>. This example explicitly turns on
+          This featured example opens in <code>xxl</code> size with the world
+          centered around Portugal. Drag to change the focus point, then use the
+          accessible zoom gauge to continuously zoom toward the current focus
+          until region detail appears. This example explicitly turns on
           <code>showLabels</code>; the default library behavior remains no
           automatic labels.
         </p>

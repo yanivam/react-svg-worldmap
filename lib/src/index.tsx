@@ -4,14 +4,17 @@ import type GeoJSON from "geojson";
 import { geoMercator, geoPath } from "d3-geo";
 import { feature as topoFeature } from "topojson-client";
 import topoData from "./countries.topo.js";
-import type { Props, CountryContext, DataItem, ISOCode } from "./types.js";
+import type { Props, CountryContext, DataItem, ISOCode , MapCenter } from "./types.js";
 import { getEffectiveDetailLevel } from "./detail/getEffectiveDetailLevel.js";
 import { getCountryViewport } from "./detail/getCountryViewport.js";
 import { projectRegionFeatures } from "./detail/projectRegionFeatures.js";
 import { useDetailCollection } from "./detail/useDetailCollection.js";
 import { useDrilldownState } from "./detail/useDrilldownState.js";
 import { getDefaultLabels } from "./labels/getDefaultLabels.js";
-import { projectFeatureGeometry } from "./labels/geometry.js";
+import {
+  isPointInFeatureGeometry,
+  projectFeatureGeometry,
+} from "./labels/geometry.js";
 import { getFeatureLabelAnchor } from "./labels/getFeatureLabelAnchor.js";
 import { placeLabels } from "./labels/placeLabels.js";
 import type {
@@ -40,6 +43,7 @@ export type {
   DataItem,
   Data,
   CountryContext,
+  MapCenter,
   RegionNameTranslations,
   Props,
 } from "./types.js";
@@ -63,7 +67,6 @@ function toValue({ value }: DataItem<string | number>): number {
 
 const defaultTextLabelFunction = () => [];
 const MIN_SCALE = 1;
-const MAX_SCALE = 10;
 const ZOOM_FACTOR = 1.6;
 const REGION_DETAIL_MIN_SCALE = 2.4;
 
@@ -125,6 +128,7 @@ export default function WorldMap<T extends number | string>(
     detailProvider,
     regionNameTranslations,
     initialDrilldownCountryCode,
+    initialMapCenter,
     showLabels = false,
   } = props;
   const [wrapperEl, setWrapperEl] = useState<HTMLDivElement | null>(null);
@@ -142,6 +146,8 @@ export default function WorldMap<T extends number | string>(
     detailLevel,
     detailProvider,
   );
+  const interactionEnabled =
+    richInteraction || effectiveDetailLevel === "regions";
   const initialDrilldownCountryName =
     initialDrilldownCountryCode == null
       ? null
@@ -186,6 +192,7 @@ export default function WorldMap<T extends number | string>(
   );
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
+  const hasUserAdjustedViewportRef = useRef(false);
   const dragStateRef = useRef<{
     active: boolean;
     lastX: number;
@@ -218,7 +225,6 @@ export default function WorldMap<T extends number | string>(
     setTranslateX(viewport.translateX);
     setTranslateY(viewport.translateY);
   }, [height, regionDetail, showingRegionDetail, width]);
-
   // Stable refs per region for tooltips (avoids ref identity churn)
   const triggerRefs = useRef<Array<{ current: SVGPathElement | null }>>([]);
   if (triggerRefs.current.length !== geoFeatures.length) {
@@ -257,6 +263,15 @@ export default function WorldMap<T extends number | string>(
     showingRegionDetail && regionDetail != null
       ? getRegionCollectionBounds(regionDetail.regions) ?? worldBounds
       : worldBounds;
+  const maxScale = React.useMemo(() => {
+    const [[minX, minY], [maxX, maxY]] = activePanBounds;
+    const baseScaleFactor = width / 960;
+    const contentWidth = Math.max(1, baseScaleFactor * (maxX - minX));
+    const contentHeight = Math.max(1, baseScaleFactor * (maxY - minY));
+    const fitScale = Math.min(width / contentWidth, height / contentHeight);
+
+    return Math.max(200, fitScale * 120);
+  }, [activePanBounds, height, width]);
 
   const clampTranslation = React.useCallback(
     (nextTranslateX: number, nextTranslateY: number, nextScale: number) => {
@@ -292,6 +307,41 @@ export default function WorldMap<T extends number | string>(
     },
     [activePanBounds, height, width],
   );
+  const applyMapCenter = React.useCallback(
+    (mapCenter: MapCenter) => {
+      const projectedPoint = projection([
+        mapCenter.longitude,
+        mapCenter.latitude,
+      ]);
+      if (projectedPoint == null) return;
+
+      const targetScale = Math.max(
+        MIN_SCALE,
+        Math.min(mapCenter.zoom ?? MIN_SCALE, maxScale),
+      );
+      const scaleFactor = (width / 960) * targetScale;
+      const centeredTranslation = clampTranslation(
+        width / 2 - scaleFactor * projectedPoint[0],
+        height / 2 - scaleFactor * (projectedPoint[1] + 240),
+        targetScale,
+      );
+
+      setScale(targetScale);
+      setTranslateX(centeredTranslation.translateX);
+      setTranslateY(centeredTranslation.translateY);
+    },
+    [clampTranslation, height, maxScale, projection, width],
+  );
+  React.useEffect(() => {
+    if (
+      initialMapCenter == null ||
+      hasUserAdjustedViewportRef.current ||
+      showingRegionDetail
+    )
+      return;
+
+    applyMapCenter(initialMapCenter);
+  }, [applyMapCenter, initialMapCenter, showingRegionDetail]);
 
   const regionElements = geoFeatures.map((geoFeature, i) => {
     const triggerRef = triggerRefs.current[i]!;
@@ -402,6 +452,9 @@ export default function WorldMap<T extends number | string>(
           entry != null,
       ),
   );
+  const countryNameByCode = Object.fromEntries(
+    geoFeatures.map((feature) => [feature.properties.I, feature.properties.N]),
+  );
   const countryLabelCandidates: LabelCandidate[] = geoFeatures
     .map((geoFeature) => {
       const [x, y] = getFeatureLabelAnchor(geoFeature, pathGenerator);
@@ -483,11 +536,52 @@ export default function WorldMap<T extends number | string>(
     textLabelFunction === defaultTextLabelFunction
       ? automaticLabels
       : textLabelFunction(width);
+  const getFocusedCountry = React.useCallback(() => {
+    const scaleFactor = (width / 960) * scale;
+    const mapCenterX = (width / 2 - translateX) / scaleFactor;
+    const mapCenterY = (height / 2 - translateY) / scaleFactor - 240;
+
+    const focusedCountryEntry = Object.entries(countryFeatureGeometries).find(
+      ([, geometry]) =>
+        isPointInFeatureGeometry([mapCenterX, mapCenterY], geometry),
+    );
+
+    if (focusedCountryEntry == null) {
+      return preferredZoomCountryCode != null &&
+        preferredZoomCountryName != null
+        ? {
+            countryCode: preferredZoomCountryCode,
+            countryName: preferredZoomCountryName,
+          }
+        : null;
+    }
+
+    const [countryCode] = focusedCountryEntry;
+    const countryName = countryNameByCode[countryCode];
+
+    return countryName != null
+      ? {
+          countryCode: countryCode as ISOCode,
+          countryName,
+        }
+      : null;
+  }, [
+    countryFeatureGeometries,
+    countryNameByCode,
+    height,
+    preferredZoomCountryCode,
+    preferredZoomCountryName,
+    scale,
+    translateX,
+    translateY,
+    width,
+  ]);
   const zoomAtPoint = (factor: number, originX: number, originY: number) => {
+    hasUserAdjustedViewportRef.current = true;
     setScale((currentScale) => {
       const nextScale = Math.max(
         MIN_SCALE,
-        Math.min(MAX_SCALE, currentScale * factor),
+        Math.min(maxScale, currentScale * factor),
       );
       const nextTranslateX = factor * translateX + (1 - factor) * originX;
       const nextTranslateY = factor * translateY + (1 - factor) * originY;
@@ -533,6 +627,7 @@ export default function WorldMap<T extends number | string>(
           dragStateRef.current.moved || Math.abs(deltaX) + Math.abs(deltaY) > 2,
       };
       if (dragStateRef.current.moved) suppressClickRef.current = true;
+      if (dragStateRef.current.moved) hasUserAdjustedViewportRef.current = true;
 
       const clampedTranslation = clampTranslation(
         translateX + deltaX,
@@ -552,7 +647,7 @@ export default function WorldMap<T extends number | string>(
       const rect = e.currentTarget.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      if (scale < MAX_SCALE) zoomAtPoint(ZOOM_FACTOR, x, y);
+      if (scale < maxScale) zoomAtPoint(ZOOM_FACTOR, x, y);
     },
     // Keyboard equivalents for double-click zoom (WCAG 2.1.1).
     // + / =  → zoom in to the centre of the map
@@ -560,7 +655,7 @@ export default function WorldMap<T extends number | string>(
     onKeyDown(e: React.KeyboardEvent<SVGSVGElement>) {
       if (e.key === "+" || e.key === "=") {
         e.preventDefault();
-        if (scale < MAX_SCALE) zoomAtPoint(ZOOM_FACTOR, width / 2, height / 2);
+        if (scale < maxScale) zoomAtPoint(ZOOM_FACTOR, width / 2, height / 2);
       } else if (e.key === "-" || e.key === "_") {
         e.preventDefault();
         if (scale > MIN_SCALE)
@@ -573,17 +668,18 @@ export default function WorldMap<T extends number | string>(
     if (
       effectiveDetailLevel === "regions" &&
       drilldown.activeCountryCode == null &&
-      preferredZoomCountryCode != null &&
-      preferredZoomCountryName != null &&
       scale * ZOOM_FACTOR >= REGION_DETAIL_MIN_SCALE
     ) {
-      drilldown.enterCountry(
-        preferredZoomCountryCode,
-        preferredZoomCountryName,
-      );
+      const focusedCountry = getFocusedCountry();
+      if (focusedCountry != null) {
+        drilldown.enterCountry(
+          focusedCountry.countryCode,
+          focusedCountry.countryName,
+        );
+      }
     }
 
-    if (scale < MAX_SCALE) zoomAtPoint(ZOOM_FACTOR, width / 2, height / 2);
+    if (scale < maxScale) zoomAtPoint(ZOOM_FACTOR, width / 2, height / 2);
   };
   const handleZoomOut = () => {
     if (scale > MIN_SCALE) {
@@ -611,7 +707,7 @@ export default function WorldMap<T extends number | string>(
         <>
           {/* eslint-disable react/jsx-no-bind -- Stable local handlers are used for task 5 controls. */}
           <ZoomControls
-            canZoomIn={scale < MAX_SCALE}
+            canZoomIn={scale < maxScale}
             canZoomOut={scale > MIN_SCALE || drilldown.canGoBack}
             onZoomIn={handleZoomIn}
             onZoomOut={handleZoomOut}
@@ -638,11 +734,11 @@ export default function WorldMap<T extends number | string>(
           aria-label={title ?? "World map"}
           // Make the SVG focusable when richInteraction is on so keyboard
           // users can reach the zoom controls (WCAG 2.1.1).
-          tabIndex={richInteraction ? 0 : undefined}
-          aria-keyshortcuts={richInteraction ? "+ -" : undefined}
+          tabIndex={interactionEnabled ? 0 : undefined}
+          aria-keyshortcuts={interactionEnabled ? "+ -" : undefined}
           height={`${height}px`}
           width={`${width}px`}
-          {...(richInteraction ? eventHandlers : undefined)}>
+          {...(interactionEnabled ? eventHandlers : undefined)}>
           {frame && <Frame color={frameColor} />}
           <g
             transform={`translate(${translateX}, ${translateY}) scale(${

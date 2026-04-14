@@ -26,6 +26,12 @@ declare module "react-svg-worldmap" {
     suffix: string;
   }
 
+  export interface MapCenter {
+    longitude: number;
+    latitude: number;
+    zoom?: number;
+  }
+
   export interface Props<T extends string | number = number> {
     data: DataItem<T>[];
     title?: string;
@@ -65,6 +71,7 @@ declare module "react-svg-worldmap" {
     };
     regionNameTranslations?: Record<string, Record<string, string>>;
     initialDrilldownCountryCode?: string;
+    initialMapCenter?: MapCenter;
     showLabels?: boolean;
   }
 

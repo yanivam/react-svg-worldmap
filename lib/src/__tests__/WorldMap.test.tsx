@@ -254,7 +254,7 @@ describe("WorldMap — richInteraction", () => {
     );
     const svg = container.querySelector("svg")!;
 
-    for (let index = 0; index < 10; index += 1)
+    for (let index = 0; index < 40; index += 1)
       fireEvent.keyDown(svg, { key: "+" });
 
     const atMax = container
@@ -577,12 +577,12 @@ describe("WorldMap — edge cases", () => {
       group.getAttribute("transform"),
     ]);
 
-    for (let index = 0; index < 4; index += 1) {
+    for (let index = 0; index < 12; index += 1) {
       await user.click(zoomIn);
       transforms.add(group.getAttribute("transform"));
     }
 
-    expect(transforms.size).toBeGreaterThan(3);
+    expect(transforms.size).toBeGreaterThan(10);
     expect(svg).toBeInTheDocument();
   });
 
@@ -633,6 +633,60 @@ describe("WorldMap — edge cases", () => {
     fireEvent.mouseUp(svg, { clientX: 220, clientY: 170 });
 
     expect(group.getAttribute("transform")).not.toBe(beforePan);
+  });
+
+  it("supports dragging in regions mode without explicitly enabling richInteraction", async () => {
+    const user = userEvent.setup();
+    const provider = {
+      supports: () => true,
+      loadRegions: vi.fn().mockResolvedValue({
+        status: "ready",
+        layer: "regions",
+        detailLevel: "regions",
+        collection: {
+          countryCode: "US",
+          englishCountryName: "United States",
+          regions: [],
+        },
+      }),
+    };
+
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        detailLevel="regions"
+        detailProvider={provider}
+        size={400}
+      />,
+    );
+    const svg = container.querySelector("svg")!;
+    const group = container.querySelector("svg > g")!;
+
+    await user.click(screen.getByRole("button", { name: "Zoom in" }));
+    const beforePan = group.getAttribute("transform");
+
+    fireEvent.mouseDown(svg, { button: 0, clientX: 180, clientY: 140 });
+    fireEvent.mouseMove(svg, { clientX: 220, clientY: 170 });
+    fireEvent.mouseUp(svg, { clientX: 220, clientY: 170 });
+
+    expect(group.getAttribute("transform")).not.toBe(beforePan);
+  });
+
+  it("applies an initial map center when provided", () => {
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        size={400}
+        initialMapCenter={{ longitude: -9.142685, latitude: 38.736946 }}
+      />,
+    );
+
+    const transform = container
+      .querySelector("svg > g")!
+      .getAttribute("transform");
+
+    expect(transform).not.toContain("translate(0, 0)");
+    expect(transform).not.toContain("NaN");
   });
 
   it("renders a visible-region list after ready region detail loads", async () => {

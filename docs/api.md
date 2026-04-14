@@ -11,6 +11,7 @@ sidebar_position: 4
 - `DataItem`: the type for each country's value to be passed in the `data` prop.
 - `Data`: it's just `DataItem[]`, for more convenience.
 - `CountryContext`: the context in rendering each country, to be used in customization callbacks.
+- `MapCenter`: the type used by `initialMapCenter`.
 - `Props`: the props type for the `WorldMap` component.
 - `regions`: the list of regions (`{ name, code }`) available in the library
 - `WorldMap`: available both as named and default export. The actual component to be rendered.
@@ -46,6 +47,7 @@ sidebar_position: 4
 | `regionNameTranslations` | `Record<string, Record<string, string>>` | Optional region-label translations keyed by country code and region id. If the active layer translations are incomplete, region labels fall back to English. |
 | `showLabels` | `boolean` | Optional automatic label toggle. Defaults to `false` for backward compatibility. When enabled, labels are filtered aggressively to the current visible layer and viewport. |
 | `initialDrilldownCountryCode` | `ISOCode` | Optional initial country focus for regions mode examples and guided drill-down experiences. |
+| `initialMapCenter` | `{ longitude: number; latitude: number; zoom?: number }` | Optional initial world-focus viewport. Useful for examples that should open centered on a specific area before any drill-down occurs. |
 
 </small>
 
@@ -74,7 +76,8 @@ When `showLabels` is enabled, the built-in label engine uses these rules:
 ### Zoom Controls
 
 - The built-in zoom control uses a simple `+` / `-` stacked layout.
-- In `detailLevel="regions"` it supports continuous zoom up to `10x`.
+- In `detailLevel="regions"` it supports adaptive continuous zoom based on the currently visible bounds.
+- In regions mode, drag-to-pan and keyboard zoom are enabled as part of the default interaction flow.
 
 TODO: expose zoom-control placement and styling customization options in a future release.
 

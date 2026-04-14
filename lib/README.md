@@ -115,6 +115,18 @@ When automatic labels are enabled, the built-in label engine:
 - allows labels to bridge same-feature water when that improves placement
 - rejects labels whose text boxes overlap another visible feature's land geometry
 
+### `initialMapCenter`
+
+Use `initialMapCenter` to open the world view around a specific longitude/latitude before any country drill-down occurs.
+
+```tsx
+<WorldMap
+  data={data}
+  detailLevel="regions"
+  initialMapCenter={{ longitude: -9.142685, latitude: 38.736946 }}
+/>
+```
+
 TODO: expose zoom-control placement and styling customization options in a future release.
 
 ## Accessibility

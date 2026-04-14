@@ -33,6 +33,12 @@ export interface RegionNameTranslations {
   [countryCode: string]: Record<string, string>;
 }
 
+export interface MapCenter {
+  longitude: number;
+  latitude: number;
+  zoom?: number;
+}
+
 export interface Props<T extends string | number = number> {
   data: DataItem<T>[];
   title?: string;
@@ -78,5 +84,6 @@ export interface Props<T extends string | number = number> {
   detailProvider?: DetailProvider;
   regionNameTranslations?: RegionNameTranslations;
   initialDrilldownCountryCode?: ISOCode;
+  initialMapCenter?: MapCenter;
   showLabels?: boolean;
 }
