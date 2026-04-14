@@ -114,6 +114,7 @@ function Region(
       ref={mergedRef}
       className={pathClassName || undefined}
       aria-label={isInteractive ? countryName : undefined}
+      vectorEffect="non-scaling-stroke"
       {...buttonProps}
       {...pathProps}
       style={

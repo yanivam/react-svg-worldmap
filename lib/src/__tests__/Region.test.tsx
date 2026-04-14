@@ -25,6 +25,13 @@ describe("Region — rendering", () => {
     expect(container.querySelector("path")).not.toBeNull();
   });
 
+  it("uses a non-scaling stroke so borders stay readable during zoom", () => {
+    const { container } = render(<Region {...BASE} />, { wrapper: Svg });
+    expect(container.querySelector("path")?.getAttribute("vector-effect")).toBe(
+      "non-scaling-stroke",
+    );
+  });
+
   it("renders an SVG <title> child with the svgTitle text", () => {
     const { container } = render(
       <Region {...BASE} svgTitle="France: 42 km²" />,
