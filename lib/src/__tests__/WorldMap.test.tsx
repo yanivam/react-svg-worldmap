@@ -17,6 +17,8 @@ const DATA = [
   { country: "us", value: 100 },
   { country: "cn", value: 200 },
 ] as const;
+const US_CENTER = { longitude: -98.5795, latitude: 39.8283 };
+const CHINA_CENTER = { longitude: 104.1954, latitude: 35.8617 };
 
 // ── Basic rendering ──────────────────────────────────────────────────────────
 
@@ -378,7 +380,7 @@ describe("WorldMap — edge cases", () => {
     );
   });
 
-  it("requests region details after selecting a country in regions mode", async () => {
+  it("requests region details after zooming in from the focused country in regions mode", async () => {
     const user = userEvent.setup();
     const loadRegions = vi.fn().mockResolvedValue({
       status: "ready",
@@ -396,10 +398,17 @@ describe("WorldMap — edge cases", () => {
     };
 
     render(
-      <WorldMap data={DATA} detailLevel="regions" detailProvider={provider} />,
+      <WorldMap
+        data={DATA}
+        detailLevel="regions"
+        detailProvider={provider}
+        size={400}
+        initialMapCenter={US_CENTER}
+      />,
     );
 
-    await user.click(screen.getByLabelText("United States"));
+    await user.click(screen.getByRole("button", { name: "Zoom in" }));
+    await user.click(screen.getByRole("button", { name: "Zoom in" }));
 
     expect(loadRegions).toHaveBeenCalledWith("US");
   });
@@ -490,10 +499,12 @@ describe("WorldMap — edge cases", () => {
         detailProvider={providerWithRegions}
         showLabels
         size={400}
+        initialMapCenter={US_CENTER}
       />,
     );
 
-    await user.click(screen.getByLabelText("United States"));
+    await user.click(screen.getByRole("button", { name: "Zoom in" }));
+    await user.click(screen.getByRole("button", { name: "Zoom in" }));
     await screen.findByRole("button", { name: "California" });
 
     const transformedGroup = container.querySelector("svg > g");
@@ -536,10 +547,12 @@ describe("WorldMap — edge cases", () => {
         detailLevel="regions"
         detailProvider={providerWithRegions}
         size={400}
+        initialMapCenter={US_CENTER}
       />,
     );
 
-    await user.click(screen.getByLabelText("United States"));
+    await user.click(screen.getByRole("button", { name: "Zoom in" }));
+    await user.click(screen.getByRole("button", { name: "Zoom in" }));
     await screen.findByRole("button", { name: "California" });
 
     expect(container.querySelector("text")).toBeNull();
@@ -567,6 +580,7 @@ describe("WorldMap — edge cases", () => {
         detailLevel="regions"
         detailProvider={provider}
         size={400}
+        initialMapCenter={US_CENTER}
       />,
     );
 
@@ -603,10 +617,17 @@ describe("WorldMap — edge cases", () => {
     };
 
     render(
-      <WorldMap data={DATA} detailLevel="regions" detailProvider={provider} />,
+      <WorldMap
+        data={DATA}
+        detailLevel="regions"
+        detailProvider={provider}
+        size={400}
+        initialMapCenter={US_CENTER}
+      />,
     );
 
-    await user.click(screen.getByLabelText("United States"));
+    await user.click(screen.getByRole("button", { name: "Zoom in" }));
+    await user.click(screen.getByRole("button", { name: "Zoom in" }));
 
     expect(
       screen.getByText(/Showing United States regions at/i),
@@ -722,10 +743,12 @@ describe("WorldMap — edge cases", () => {
         detailLevel="regions"
         detailProvider={providerWithRegions}
         size={400}
+        initialMapCenter={US_CENTER}
       />,
     );
 
-    await user.click(screen.getByLabelText("United States"));
+    await user.click(screen.getByRole("button", { name: "Zoom in" }));
+    await user.click(screen.getByRole("button", { name: "Zoom in" }));
 
     expect(
       await screen.findByRole("region", { name: "Visible regions" }),
@@ -756,10 +779,12 @@ describe("WorldMap — edge cases", () => {
         data={DATA}
         detailLevel="regions"
         detailProvider={providerUnavailable}
+        size={400}
+        initialMapCenter={CHINA_CENTER}
       />,
     );
-
-    await user.click(screen.getByLabelText("China"));
+    await user.click(screen.getByRole("button", { name: "Zoom in" }));
+    await user.click(screen.getByRole("button", { name: "Zoom in" }));
 
     expect(screen.getByRole("img")).toHaveAttribute(
       "aria-label",
@@ -801,11 +826,14 @@ describe("WorldMap — edge cases", () => {
         data={DATA}
         detailLevel="regions"
         detailProvider={providerWithRegions}
+        size={400}
+        initialMapCenter={US_CENTER}
         regionNameTranslations={{ US: { CA: "California" } }}
       />,
     );
 
-    await user.click(screen.getByLabelText("United States"));
+    await user.click(screen.getByRole("button", { name: "Zoom in" }));
+    await user.click(screen.getByRole("button", { name: "Zoom in" }));
 
     expect(
       await screen.findByRole("button", { name: "California" }),
@@ -831,4 +859,38 @@ describe("WorldMap — edge cases", () => {
       ),
     ).not.toThrow();
   });
+});
+it("does not drill into regions on country click in regions mode", async () => {
+  const user = userEvent.setup();
+  const onClick = vi.fn();
+  const loadRegions = vi.fn().mockResolvedValue({
+    status: "ready",
+    layer: "regions",
+    detailLevel: "regions",
+    collection: {
+      countryCode: "US",
+      englishCountryName: "United States",
+      regions: [],
+    },
+  });
+  const provider = {
+    supports: () => true,
+    loadRegions,
+  };
+
+  render(
+    <WorldMap
+      data={DATA}
+      detailLevel="regions"
+      detailProvider={provider}
+      size={400}
+      initialMapCenter={US_CENTER}
+      onClickFunction={onClick}
+    />,
+  );
+
+  await user.click(screen.getByLabelText("United States"));
+
+  expect(loadRegions).not.toHaveBeenCalled();
+  expect(onClick).toHaveBeenCalledTimes(1);
 });

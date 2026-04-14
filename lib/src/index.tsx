@@ -4,7 +4,13 @@ import type GeoJSON from "geojson";
 import { geoMercator, geoPath } from "d3-geo";
 import { feature as topoFeature } from "topojson-client";
 import topoData from "./countries.topo.js";
-import type { Props, CountryContext, DataItem, ISOCode , MapCenter } from "./types.js";
+import type {
+  Props,
+  CountryContext,
+  DataItem,
+  ISOCode,
+  MapCenter,
+} from "./types.js";
 import { getEffectiveDetailLevel } from "./detail/getEffectiveDetailLevel.js";
 import { getCountryViewport } from "./detail/getCountryViewport.js";
 import { projectRegionFeatures } from "./detail/projectRegionFeatures.js";
@@ -360,10 +366,7 @@ export default function WorldMap<T extends number | string>(
     // Resolve href and interactivity once so they can be used for both the
     // Region props and to decide whether keyboard / ARIA support is needed.
     const resolvedHref = hrefFunction?.(context);
-    const canDrillDown = effectiveDetailLevel === "regions";
-    const isInteractive = Boolean(
-      onClickFunction ?? resolvedHref ?? canDrillDown,
-    );
+    const isInteractive = Boolean(onClickFunction ?? resolvedHref);
     // Tooltip text doubles as the SVG <title> to give a text alternative for
     // colour-coded data values (WCAG 1.1.1, 1.4.1).
     const tooltipContent =
@@ -375,11 +378,6 @@ export default function WorldMap<T extends number | string>(
       if (suppressClickRef.current) {
         suppressClickRef.current = false;
         return;
-      }
-
-      if (canDrillDown) {
-        drilldown.enterCountry(isoCode as ISOCode, countryName);
-        setScale((current) => Math.max(current, REGION_DETAIL_MIN_SCALE));
       }
 
       onClickFunction?.({ ...context, event });
