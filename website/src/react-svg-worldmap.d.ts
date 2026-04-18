@@ -81,7 +81,7 @@ declare module "react-svg-worldmap" {
   export default WorldMap;
 }
 
-declare module "@react-svg-worldmap/regions/dist/index.cjs" {
+declare module "@react-svg-worldmap/regions" {
   export function createRegionsDetailProvider(): {
     supports: (countryCode: string) => boolean;
     loadRegions: (countryCode: string) => Promise<unknown>;

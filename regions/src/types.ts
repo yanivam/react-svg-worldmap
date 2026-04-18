@@ -9,6 +9,7 @@ export type DetailLayerStatus =
 export interface RegionLabelSet {
   englishName: string;
   localizedName?: string;
+  shortName?: string;
 }
 
 export interface RegionFeatureRecord {
@@ -25,6 +26,7 @@ export interface RegionCollectionRecord {
   countryCode: string;
   englishCountryName: string;
   regions: RegionFeatureRecord[];
+  viewportBounds?: [[number, number], [number, number]];
 }
 
 export interface DetailProviderResult {

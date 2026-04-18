@@ -20,7 +20,7 @@ When labels are enabled, they use geometry-aware placement:
 - labels are rejected if their text box overlaps another visible feature's land geometry
 - English fallback when provided translations are incomplete for the active region layer
 
-TODO: expose zoom-control placement and styling customization options in a future release.
+TODO: expose zoom-control placement and styling customization options in a future release. TODO: improve the featured regions example's land/ocean contrast without changing the default library styling. TODO: finish the high-zoom country-border rendering polish so shared boundaries stay visually consistent.
 
 ## [examples/sizing](/examples/sizing)
 

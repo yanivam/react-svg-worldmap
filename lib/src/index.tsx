@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useRef } from "react";
 import type GeoJSON from "geojson";
 import { geoMercator, geoPath } from "d3-geo";
-import { feature as topoFeature } from "topojson-client";
+import { feature as topoFeature, mesh as topoMesh } from "topojson-client";
 import topoData from "./countries.topo.js";
 import type {
   Props,
@@ -65,6 +65,10 @@ const geoFeatures = (
     topoData.objects.countries,
   ) as unknown as GeoJSON.FeatureCollection
 ).features as Array<GeoJSON.Feature & { properties: { N: string; I: string } }>;
+const countryBoundaryMesh = topoMesh(
+  topoData,
+  topoData.objects.countries,
+) as unknown as GeoJSON.MultiLineString;
 /* eslint-enable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 
 function toValue({ value }: DataItem<string | number>): number {
@@ -98,6 +102,16 @@ function getRegionCollectionBounds(
       Math.max(combined[1][1], current[1][1]),
     ],
   ]);
+}
+
+function getPreferredRegionBounds(regionDetail: {
+  regions: Array<{ bounds?: [[number, number], [number, number]] }>;
+  viewportBounds?: [[number, number], [number, number]];
+}): [[number, number], [number, number]] | null {
+  return (
+    regionDetail.viewportBounds ??
+    getRegionCollectionBounds(regionDetail.regions)
+  );
 }
 
 function clamp(value: number, min: number, max: number): number {
@@ -147,7 +161,19 @@ export default function WorldMap<T extends number | string>(
     () => defaultCountryStyle(borderColor, strokeOpacity),
     [borderColor, strokeOpacity],
   );
-  const styleFunction = styleFunctionProp ?? defaultStyle;
+  const usingDefaultCountryBorders = styleFunctionProp == null;
+  const styleFunction = React.useMemo(
+    () =>
+      usingDefaultCountryBorders
+        ? (context: CountryContext<T>) => ({
+            ...defaultStyle(context),
+            // Shared borders are rendered once through a dedicated mesh path so
+            // zoomed-in boundaries do not visually stack across neighbors.
+            strokeOpacity: 0,
+          })
+        : styleFunctionProp,
+    [defaultStyle, styleFunctionProp, usingDefaultCountryBorders],
+  );
   const effectiveDetailLevel = getEffectiveDetailLevel(
     detailLevel,
     detailProvider,
@@ -223,10 +249,15 @@ export default function WorldMap<T extends number | string>(
   React.useEffect(() => {
     if (!showingRegionDetail || regionDetail == null) return;
 
-    const detailBounds = getRegionCollectionBounds(regionDetail.regions);
+    const detailBounds = getPreferredRegionBounds(regionDetail);
     if (detailBounds == null) return;
 
-    const viewport = getCountryViewport(detailBounds, width, height);
+    const viewport = getCountryViewport(
+      detailBounds,
+      width,
+      height,
+      REGION_DETAIL_MIN_SCALE,
+    );
     setScale(viewport.scale);
     setTranslateX(viewport.translateX);
     setTranslateY(viewport.translateY);
@@ -267,7 +298,7 @@ export default function WorldMap<T extends number | string>(
   }, [pathGenerator]);
   const activePanBounds =
     showingRegionDetail && regionDetail != null
-      ? getRegionCollectionBounds(regionDetail.regions) ?? worldBounds
+      ? getPreferredRegionBounds(regionDetail) ?? worldBounds
       : worldBounds;
   const maxScale = React.useMemo(() => {
     const [[minX, minY], [maxX, maxY]] = activePanBounds;
@@ -417,6 +448,7 @@ export default function WorldMap<T extends number | string>(
 
   // Build paths
   const regionPaths = regionElements.map((entry) => entry.path);
+  const countryBoundaryPath = pathGenerator(countryBoundaryMesh);
   const detailRegionPaths = renderedRegionFeatures.map((region) => (
     <Region
       d={region.path}
@@ -482,7 +514,7 @@ export default function WorldMap<T extends number | string>(
   const regionLabelCandidates: LabelCandidate[] = visibleRegions
     .map((region) => ({
       id: region.id,
-      text: region.labels.englishName,
+      text: region.labels.shortName ?? region.labels.englishName,
       x: region.centroid?.[0] ?? 0,
       y: region.centroid?.[1] ?? 0,
       ...(region.bounds != null ? { bounds: region.bounds } : {}),
@@ -525,7 +557,7 @@ export default function WorldMap<T extends number | string>(
         label: label.text,
         x: label.x,
         y: label.y,
-        fontSize: 12,
+        fontSize: 12 / Math.max((width / 960) * scale, 0.01),
         textAnchor: "middle" as const,
         fill: "#333333",
         "aria-hidden": true,
@@ -744,6 +776,18 @@ export default function WorldMap<T extends number | string>(
             }) translate(0, 240)`}
             style={{ transition: "all 0.2s" }}>
             {regionPaths}
+            {usingDefaultCountryBorders && countryBoundaryPath != null && (
+              <path
+                d={countryBoundaryPath}
+                fill="none"
+                stroke={borderColor}
+                strokeWidth={1}
+                strokeOpacity={strokeOpacity}
+                vectorEffect="non-scaling-stroke"
+                pointerEvents="none"
+                aria-hidden="true"
+              />
+            )}
             {effectiveDetailLevel === "regions" &&
               showingRegionDetail &&
               detailResult.status === "ready" &&

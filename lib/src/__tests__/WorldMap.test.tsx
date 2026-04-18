@@ -5,6 +5,7 @@ import { render, screen, fireEvent, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import WorldMap from "../index.js";
+import { createRegionsDetailProvider } from "../../../regions/src/providers/createRegionsDetailProvider.js";
 
 // Mock react-path-tooltip. It relies on browser layout APIs
 // (getBoundingClientRect measurements for tooltip positioning)
@@ -36,6 +37,15 @@ describe("WorldMap — rendering", () => {
   it("renders country <path> elements", () => {
     const { container } = render(<WorldMap data={DATA} />);
     expect(container.querySelectorAll("path").length).toBeGreaterThan(0);
+  });
+
+  it("renders a single non-scaling border mesh for default country borders", () => {
+    const { container } = render(<WorldMap data={DATA} />);
+    const borderMesh = container.querySelector(
+      'path[aria-hidden="true"][pointer-events="none"][vector-effect="non-scaling-stroke"]',
+    );
+
+    expect(borderMesh).not.toBeNull();
   });
 
   it("wraps content in a div with the default worldmap__wrapper class", () => {
@@ -839,6 +849,28 @@ describe("WorldMap — edge cases", () => {
       await screen.findByRole("button", { name: "California" }),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Texas" })).toBeInTheDocument();
+  });
+
+  it("renders region detail from the package-backed provider", async () => {
+    const { container } = render(
+      <WorldMap
+        data={[{ country: "us", value: 100 }]}
+        detailLevel="regions"
+        detailProvider={createRegionsDetailProvider()}
+        size={400}
+        initialDrilldownCountryCode="US"
+        showLabels
+      />,
+    );
+
+    expect(
+      await screen.findByRole("button", { name: "California" }),
+    ).toBeInTheDocument();
+    expect(
+      Array.from(container.querySelectorAll("path > title")).some(
+        (title) => title.textContent === "California",
+      ),
+    ).toBe(true);
   });
 
   it("renders with a single data point (handles single-value range)", () => {

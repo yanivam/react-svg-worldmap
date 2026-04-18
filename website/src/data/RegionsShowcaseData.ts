@@ -6,10 +6,3 @@ export const regionsShowcaseData: Data = [
   { country: "fr", value: 60 },
   { country: "ma", value: 45 },
 ];
-
-export const regionsShowcaseCapitals: Record<string, string> = {
-  pt: "Lisbon",
-  es: "Madrid",
-  fr: "Paris",
-  ma: "Rabat",
-};

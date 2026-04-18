@@ -59,6 +59,8 @@ export function placeLabels(
 
   for (const candidate of sorted) {
     const size = measureLabel(candidate.text);
+    const mapWidth = size.width / Math.max(options?.scaleFactor ?? 1, 0.01);
+    const mapHeight = size.height / Math.max(options?.scaleFactor ?? 1, 0.01);
     const padding = 4;
     const ownGeometry = options?.featureGeometries?.[candidate.id];
     const foreignGeometries = Object.entries(options?.featureGeometries ?? {})
@@ -69,7 +71,7 @@ export function placeLabels(
       .map(([offsetX, offsetY]) => {
         const x = candidate.x + offsetX;
         const y = candidate.y + offsetY;
-        const rect = createLabelRect(x, y, size.width, size.height);
+        const rect = createLabelRect(x, y, mapWidth, mapHeight);
 
         if (candidate.bounds != null) {
           const [[minX, minY], [maxX, maxY]] = candidate.bounds;
@@ -110,7 +112,8 @@ export function placeLabels(
 
         return {
           ...candidate,
-          ...size,
+          width: mapWidth,
+          height: mapHeight,
           x,
           y,
           score:

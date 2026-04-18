@@ -332,6 +332,11 @@ The following items are intentionally postponed, ordered by importance and likel
 - The distinction between `zoom in`, `back`, `zoom out`, and `reset` needs careful behavioral definition during implementation planning.
 - The provider contract will need a precise API shape in the implementation plan, but the architectural direction is clear.
 
+## Known Follow-Up Issues
+
+- Country border strokes still become visually heavier than intended at higher zoom levels and need a more robust shared-boundary rendering strategy.
+- The featured regions example still does not create a clear enough visual separation between land and ocean.
+
 ## Recommended Implementation Framing
 
 This project should be implemented in phases:

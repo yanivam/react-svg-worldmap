@@ -18,16 +18,46 @@ describe("regions package coverage", () => {
 
   it("returns a ready result when a country has a region dataset", async () => {
     const provider = createRegionsDetailProvider();
-    await expect(provider.loadRegions("us")).resolves.toMatchObject({
-      status: "ready",
-      layer: "regions",
-      detailLevel: "regions",
-      collection: {
-        countryCode: "US",
-        englishCountryName: "United States",
-        regions: [],
-      },
-    });
+    const result = await provider.loadRegions("us");
+
+    expect(result.status).toBe("ready");
+    expect(result.layer).toBe("regions");
+    expect(result.detailLevel).toBe("regions");
+    expect(result.collection).toBeDefined();
+    if (!result.collection) throw new Error("Expected US region collection");
+
+    expect(result.collection.countryCode).toBe("US");
+    expect(result.collection.englishCountryName).toBe("United States");
+    expect(
+      result.collection.regions.some(
+        ({ labels }) => labels.englishName === "California",
+      ),
+    ).toBe(true);
+  });
+
+  it("ships projected region geometry for the starter United States dataset", async () => {
+    const provider = createRegionsDetailProvider();
+    const result = await provider.loadRegions("US");
+
+    expect(result.status).toBe("ready");
+    expect(result.collection).toBeDefined();
+    if (!result.collection) throw new Error("Expected US region collection");
+
+    const [firstRegion] = result.collection.regions;
+
+    expect(result.collection.regions.length).toBeGreaterThan(50);
+    expect(firstRegion.id).toEqual(expect.any(String));
+    expect(firstRegion.countryCode).toBe("US");
+    expect(firstRegion.labels.englishName).toEqual(expect.any(String));
+    expect(firstRegion.path).toMatch(/^M/);
+    expect(firstRegion.centroid).toBeDefined();
+    expect(firstRegion.centroid?.[0]).toEqual(expect.any(Number));
+    expect(firstRegion.centroid?.[1]).toEqual(expect.any(Number));
+    expect(firstRegion.bounds).toBeDefined();
+    expect(firstRegion.bounds?.[0]?.[0]).toEqual(expect.any(Number));
+    expect(firstRegion.bounds?.[0]?.[1]).toEqual(expect.any(Number));
+    expect(firstRegion.bounds?.[1]?.[0]).toEqual(expect.any(Number));
+    expect(firstRegion.bounds?.[1]?.[1]).toEqual(expect.any(Number));
   });
 
   it("returns unavailable when a country has no region dataset", async () => {

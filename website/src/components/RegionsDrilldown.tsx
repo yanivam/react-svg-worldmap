@@ -2,17 +2,15 @@ import * as React from "react";
 import { useState } from "react";
 import type { CountryContext } from "react-svg-worldmap";
 import WorldMap from "react-svg-worldmap";
-import { createRegionsDetailProvider } from "@react-svg-worldmap/regions/dist/index.cjs";
-import {
-  regionsShowcaseCapitals,
-  regionsShowcaseData,
-} from "../data/RegionsShowcaseData";
+import { createRegionsDetailProvider } from "@react-svg-worldmap/regions";
+import { countryCapitals } from "../data/CountryCapitals";
+import { regionsShowcaseData } from "../data/RegionsShowcaseData";
 
 const provider = createRegionsDetailProvider();
 
 const defaultSelection = {
   country: "Portugal",
-  capital: regionsShowcaseCapitals.pt,
+  capital: countryCapitals.pt,
 };
 
 export default function RegionsDrilldown(): JSX.Element {
@@ -22,8 +20,7 @@ export default function RegionsDrilldown(): JSX.Element {
     ({ countryCode, countryName }: CountryContext) => {
       setSelection({
         country: countryName,
-        capital:
-          regionsShowcaseCapitals[countryCode.toLowerCase()] ?? "Unknown",
+        capital: countryCapitals[countryCode.toLowerCase()] ?? "Unknown",
       });
     },
     [],
