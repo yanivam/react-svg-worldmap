@@ -3,7 +3,6 @@
 **Feature Branch**: `001-geopolitical-disputes`  
 **Created**: 2026-04-27  
 **Status**: Draft  
-**Input**: User description: "This is an open source world mapping package, and we get various comments on disputed territories. E.g. Crimea is marked as Russian and not Ukrainian territory. We want to develop a neutral and balanced approach so we clearly mark disputed territories, but we also do not accept fringe asks to mark complete countries or unknown islands as disputed. The proposal recommends a public geopolitical policy, UN-recognized baselines, de facto control awareness, explicit dispute representation, rejection of non-credible claims, transparency, consistent governance, no localized country-specific map views for now, structured metadata, rendering guidance, and contributor review rules."
 
 ## User Scenarios & Testing *(mandatory)*
 
