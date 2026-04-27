@@ -4,6 +4,12 @@
 **Created**: 2026-04-27  
 **Status**: Draft  
 
+## Clarifications
+
+### Session 2026-04-27
+
+- Q: What disputed territories are in the initial supported scope? -> A: Tier 1 only: Crimea, Palestinian Territories, Taiwan, Kashmir, Western Sahara, and Kosovo.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Understand The Project's Geopolitical Position (Priority: P1)
@@ -58,6 +64,8 @@ As a maintainer, I need a repeatable review process for geopolitical changes so 
 - A government or user demands a localized view that differs by viewer country; the initial feature provides a single neutral global view and documents localization as out of scope.
 - Existing map data contains a disputed area represented as ordinary undisputed territory; the feature must provide a migration path that preserves current consumers' ability to render a map while exposing the new dispute status.
 - Source references conflict; the feature must prefer documented project policy order and record the rationale for the chosen classification.
+- A credible dispute is listed as Tier 2 or Tier 3; the initial feature documents it as deferred rather than treating it as rejected or unsupported forever.
+- A proposed dispute is outside the Tier 1 initial set and does not satisfy the documented cutoff rule; the request is rejected as out of scope for the initial dataset.
 
 ## Requirements *(mandatory)*
 
@@ -77,6 +85,10 @@ As a maintainer, I need a repeatable review process for geopolitical changes so 
 - **FR-012**: The project MUST document that the initial policy provides one neutral global representation and does not provide country-specific localized map views.
 - **FR-013**: The project MUST make the policy and dispute data auditable so future contributors can see the reasoning behind classifications.
 - **FR-014**: The project MUST preserve backwards-compatible ordinary country usage unless a consumer explicitly reads or displays dispute-specific information.
+- **FR-015**: The initial supported dispute dataset MUST include exactly these Tier 1 disputes: Crimea, Palestinian Territories, Taiwan, Kashmir, Western Sahara, and Kosovo.
+- **FR-016**: Each Tier 1 dispute MUST include a classification recommendation consistent with the policy: Crimea as Ukraine-recognized and Russia-controlled disputed territory; Palestinian Territories as disputed or partially recognized with West Bank and Gaza distinguishable; Taiwan as separately controlled and disputed or politically sensitive; Kashmir as segmented among India, Pakistan, and China where relevant; Western Sahara as disputed or non-self-governing and not fully assigned to Morocco; Kosovo as partially recognized.
+- **FR-017**: The project MUST document Tier 2 and Tier 3 disputes as deferred expansion candidates rather than initial release requirements.
+- **FR-018**: A territory MUST meet at least one cutoff criterion before being accepted into the dispute dataset: reference in United Nations resolutions or processes, recognized dispute between two or more United Nations member states, wide coverage in major geopolitical or international-law datasets, or explicit treatment by major mapping platforms.
 
 ### Constitution Requirements *(mandatory)*
 
@@ -90,6 +102,7 @@ As a maintainer, I need a repeatable review process for geopolitical changes so 
 
 - **Territory**: A geographic unit represented by the package, including its display name, optional standard code, status, and relationship to disputes or recognized sovereignty.
 - **Dispute Classification**: The public determination that a territory is recognized, disputed, or partially recognized, with rationale and review status.
+- **Initial Tier 1 Dispute Set**: The first supported set of high-visibility disputes: Crimea, Palestinian Territories, Taiwan, Kashmir, Western Sahara, and Kosovo.
 - **Sovereignty Claim**: A claim made by a recognized state or internationally relevant actor, including source evidence and whether it is accepted as credible for project purposes.
 - **Control Information**: The separately recorded description of who currently controls a territory where that differs from recognized sovereignty or is material to user understanding.
 - **Display Guidance**: The project-defined user-facing representation for a territory or boundary, including whether it should appear as ordinary, visibly disputed, or dual-labeled.
@@ -102,7 +115,7 @@ As a maintainer, I need a repeatable review process for geopolitical changes so 
 - **SC-001**: 100% of territories newly classified as disputed or partially recognized include source rationale, dispute parties, and display guidance before release.
 - **SC-002**: Maintainers can evaluate at least 10 representative geopolitical proposals, including credible and fringe examples, with the documented policy producing the expected review outcome in each case.
 - **SC-003**: A consumer reviewing package documentation can identify how disputed territories are represented and how to opt into dispute-aware display behavior in under 5 minutes.
-- **SC-004**: No known credible disputed territory included in the initial feature is represented only as an ordinary undisputed territory after release.
+- **SC-004**: All six Tier 1 disputes are represented with dispute-aware classification and none are represented only as ordinary undisputed territory after release.
 - **SC-005**: At least 90% of reviewed contributor feedback on geopolitical issues can be answered by linking to a specific policy section, data rationale, or contribution rule.
 - **SC-006**: Existing consumers who do not use dispute-specific information can continue rendering ordinary world maps without changing their current usage.
 
@@ -110,6 +123,8 @@ As a maintainer, I need a repeatable review process for geopolitical changes so 
 
 - The initial feature uses a single neutral global representation and intentionally excludes viewer-location-specific localized map variants.
 - The project will rely on documented, credible public sources and project policy hierarchy rather than attempting to determine geopolitical truth independently.
-- The initial disputed territory set may be limited to well-known, high-impact disputes, but the classification framework must support future additions.
+- The initial disputed territory set is limited to the Tier 1 disputes listed in the requirements, while the classification framework must support future additions.
+- Tier 2 candidates for future expansion include South China Sea, India-China border disputes, Abkhazia, South Ossetia, and Transnistria.
+- Tier 3 candidates for future expansion include Nagorno-Karabakh, Northern Cyprus, Somaliland, Falkland Islands or Malvinas, and Gibraltar.
 - The policy should be explicit that the project does not endorse any geopolitical claim.
 - Existing project documents named in the constitution, including `docs/map-data-policy.md` and `docs/map-data-overrides.json`, are the expected homes for map-data policy and overrides unless planning identifies a better documented location.
