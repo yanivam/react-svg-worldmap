@@ -27,8 +27,10 @@ export interface ZoomOptions {
 
 export interface CountryCityMetadata {
   countryCode: ISOCode;
-  capitalCity?: string;
-  largestCity?: string;
+  capitalCity: string;
+  capitalLocation: readonly [number, number];
+  largestCity: string;
+  largestCityLocation: readonly [number, number];
   source?: string;
 }
 

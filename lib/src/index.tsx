@@ -22,6 +22,7 @@ import {
 import { getCountryCityMetadata } from "./countryCities.js";
 import { useWindowWidth, useContainerWidth, responsify } from "./utils.js";
 import { drawTooltip } from "./draw.js";
+import CityMarker from "./components/CityMarker.js";
 import Frame from "./components/Frame.js";
 import Region from "./components/Region.js";
 import TextLabel from "./components/TextLabel.js";
@@ -368,7 +369,6 @@ export default function WorldMap<T extends number | string>(
   };
   const enableMapInteractions = richInteraction || zoomOptions.enabled;
   const labelFontSize = countryLabelFontSize / scale;
-  const detailFontSize = 10 / scale;
 
   // Render the SVG (wrapper div for ResizeObserver container sizing)
   return (
@@ -419,6 +419,19 @@ export default function WorldMap<T extends number | string>(
                 zoomOptions.showCountryDetails &&
                 cityMetadata != null &&
                 canShowCountryDetails(label, scale);
+              const capitalPoint = showDetails
+                ? projection([...cityMetadata.capitalLocation])
+                : null;
+              const largestCityPoint = showDetails
+                ? projection([...cityMetadata.largestCityLocation])
+                : null;
+              const largestCityDuplicatesCapital =
+                showDetails &&
+                cityMetadata.capitalCity === cityMetadata.largestCity &&
+                cityMetadata.capitalLocation[0] ===
+                  cityMetadata.largestCityLocation[0] &&
+                cityMetadata.capitalLocation[1] ===
+                  cityMetadata.largestCityLocation[1];
 
               return (
                 <React.Fragment key={`zoom-label-${label.countryCode}`}>
@@ -431,26 +444,28 @@ export default function WorldMap<T extends number | string>(
                     fill="#222"
                     pointerEvents="none"
                   />
-                  {showDetails && (
-                    <TextLabel
-                      label={[
-                        cityMetadata.capitalCity
-                          ? `Capital: ${cityMetadata.capitalCity}`
-                          : undefined,
-                        cityMetadata.largestCity
-                          ? `Largest: ${cityMetadata.largestCity}`
-                          : undefined,
-                      ]
-                        .filter(Boolean)
-                        .join(" | ")}
-                      x={label.x}
-                      y={label.y + labelFontSize + detailFontSize}
-                      textAnchor="middle"
-                      fontSize={detailFontSize}
-                      fill="#333"
-                      pointerEvents="none"
+                  {showDetails && capitalPoint && (
+                    <CityMarker
+                      countryCode={label.countryCode}
+                      kind="capital"
+                      name={cityMetadata.capitalCity}
+                      scale={scale}
+                      x={capitalPoint[0]}
+                      y={capitalPoint[1]}
                     />
                   )}
+                  {showDetails &&
+                    largestCityPoint &&
+                    !largestCityDuplicatesCapital && (
+                      <CityMarker
+                        countryCode={label.countryCode}
+                        kind="largest"
+                        name={cityMetadata.largestCity}
+                        scale={scale}
+                        x={largestCityPoint[0]}
+                        y={largestCityPoint[1]}
+                      />
+                    )}
                 </React.Fragment>
               );
             })}

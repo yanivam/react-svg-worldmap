@@ -11,7 +11,7 @@ sidebar_position: 4
 - `DataItem`: the type for each country's value to be passed in the `data` prop.
 - `Data`: it's just `DataItem[]`, for more convenience.
 - `CountryContext`: the context in rendering each country, to be used in customization callbacks.
-- `ZoomOptions`: options for opt-in zoom controls, country labels, and country details.
+- `ZoomOptions`: options for opt-in zoom controls, country labels, and city markers.
 - `ZoomState`: the current zoom scale and translation.
 - `Props`: the props type for the `WorldMap` component.
 - `regions`: the list of regions (`{ name, code }`) available in the library
@@ -37,7 +37,7 @@ sidebar_position: 4
 | `frameColor` | `string` | Frame color. |
 | `borderColor` | `string` | Border color around each individual country. |
 | `richInteraction` | `boolean` | WHen turned on, double clicks would cause the map to rescale. (Other cool features to come) |
-| `zoom` | <code>boolean &#124; ZoomOptions</code> | Enables zoom in/out controls, reset, drag panning, default country labels, and zoom-gated country details. See [Zoom example](/examples/zoom). |
+| `zoom` | <code>boolean &#124; ZoomOptions</code> | Enables zoom in/out controls, reset, drag panning, default country labels, and zoom-gated capital/largest-city markers. See [Zoom example](/examples/zoom). |
 | `onZoomChange` | `(state: ZoomState) => void` | Called when zoom scale or translation changes. |
 | :construction: `type` :construction: | `string` | Select type of map you want, either "tooltip" or "marker". <br />:memo: This functionality not only complicates the code, but is infrequently used and needs to be redesigned to make it better. For now it is deprecated and has no effect. :memo: |
 | `styleFunction` | `(context: CountryContext) => React.CSSProperties` | A callback function to customize styling of each country (see [Custom styles example](/examples/custom-style)) |

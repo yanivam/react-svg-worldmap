@@ -9,7 +9,7 @@ sidebar_position: 5
 - The first example for the zoomable map experience.
 - Demonstrates the `zoom` prop, zoom in/out controls, reset, and drag panning.
 - Country labels are enabled by default while zooming and are filtered so labels only appear when they fit.
-- Capital and largest-city details appear at higher zoom levels when the country area can fit them.
+- Capital and largest-city pins appear at their true map locations at higher zoom levels when the country area can fit them.
 
 ## [examples/sizing](/examples/sizing)
 
