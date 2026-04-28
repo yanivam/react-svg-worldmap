@@ -20,7 +20,7 @@ Add a neutral, auditable Tier 1 disputed-territories layer for the published Rea
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - **Open Source Stewardship**: PASS. Plan keeps all policy, metadata, contracts, and docs in the repository and requires public API changes to be typed and documented.
 - **Political and Geopolitical Neutrality**: PASS. Feature directly affects disputed territories and will update `docs/map-data-policy.md` and `docs/map-data-overrides.json`; Tier 1 classifications must be auditable and non-endorsement language must remain explicit.

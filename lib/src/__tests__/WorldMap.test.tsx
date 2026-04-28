@@ -5,6 +5,8 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import WorldMap from "../index.js";
+import type { CountryContext } from "../types.js";
+import { disputedTerritories } from "../disputes.js";
 
 // Mock react-path-tooltip. It relies on browser layout APIs
 // (getBoundingClientRect measurements for tooltip positioning)
@@ -56,6 +58,13 @@ describe("WorldMap — rendering", () => {
     expect(container.querySelectorAll("path.country").length).toBeGreaterThan(
       0,
     );
+  });
+
+  it("renders normally when consumers ignore dispute metadata", () => {
+    const { container } = render(<WorldMap data={DATA} />);
+
+    expect(container.querySelector("svg")).not.toBeNull();
+    expect(container.querySelectorAll("path").length).toBeGreaterThan(0);
   });
 });
 
@@ -326,6 +335,56 @@ describe("WorldMap — onClickFunction", () => {
         minValue: expect.any(Number),
         maxValue: expect.any(Number),
         event: expect.any(Object),
+      }),
+    );
+  });
+});
+
+// ── Dispute metadata ────────────────────────────────────────────────────────
+
+describe("WorldMap — dispute metadata", () => {
+  it("passes dispute metadata to styleFunction for supported region codes", () => {
+    const styleFunction = vi.fn(() => ({}));
+
+    render(<WorldMap data={[]} styleFunction={styleFunction} />);
+
+    expect(styleFunction).toHaveBeenCalledWith(
+      expect.objectContaining({
+        countryCode: "UA",
+        dispute: disputedTerritories.crimea,
+      }),
+    );
+  });
+
+  it("passes dispute metadata to tooltipTextFunction for supported region codes", () => {
+    const tooltipTextFunction = vi.fn(
+      (context: CountryContext) => context.countryName,
+    );
+
+    render(
+      <WorldMap
+        data={[{ country: "UA", value: 1 }]}
+        tooltipTextFunction={tooltipTextFunction}
+      />,
+    );
+
+    expect(tooltipTextFunction).toHaveBeenCalledWith(
+      expect.objectContaining({
+        countryCode: "UA",
+        dispute: disputedTerritories.crimea,
+      }),
+    );
+  });
+
+  it("does not attach dispute metadata to ordinary regions", () => {
+    const styleFunction = vi.fn(() => ({}));
+
+    render(<WorldMap data={[]} styleFunction={styleFunction} />);
+
+    expect(styleFunction).toHaveBeenCalledWith(
+      expect.objectContaining({
+        countryCode: "US",
+        dispute: undefined,
       }),
     );
   });

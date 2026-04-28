@@ -6,6 +6,8 @@
 
 The project aims to present neutral and balanced map content by separating naming policy, geometry source, and dispute handling instead of treating one raw dataset as authoritative for all three.
 
+The project does not endorse any sovereignty claim. When a territory is disputed, partially recognized, or otherwise politically sensitive, the project aims to make that ambiguity visible and auditable instead of silently choosing a side.
+
 ## Source Hierarchy
 
 The project uses this order of precedence when reviewing or updating the bundled map:
@@ -19,6 +21,8 @@ The project uses this order of precedence when reviewing or updating the bundled
 
 The default package output is a thematic world map, not a legal boundary reference. For disputed or recognition-sensitive areas, the project prefers a coarse small-scale representation with explicit documentation over precise boundary claims that could imply a political endorsement.
 
+The package provides one neutral global representation. It does not provide country-specific localized map variants.
+
 ## Dispute Handling Modes
 
 Each sensitive case in the overrides register should use one of these modes:
@@ -27,6 +31,58 @@ Each sensitive case in the overrides register should use one of these modes:
 - `coarse-neutral`: intentionally avoid precise contested boundary claims at this scale
 - `name-policy`: use naming and terminology rules as the main policy surface
 - `maintainer-review-required`: do not change this case silently
+
+## Initial Tier 1 Scope
+
+The initial supported disputed-territory dataset is limited to these Tier 1 cases:
+
+- Crimea
+- Palestinian Territories
+- Taiwan
+- Kashmir
+- Western Sahara
+- Kosovo
+
+Tier 2 candidates for future expansion include South China Sea, India-China border disputes, Abkhazia, South Ossetia, and Transnistria. Tier 3 candidates include Nagorno-Karabakh, Northern Cyprus, Somaliland, Falkland Islands or Malvinas, and Gibraltar. Tier 2 and Tier 3 cases are deferred unless a later feature explicitly expands the supported dataset.
+
+## Inclusion Criteria
+
+A territory must meet at least one of these criteria before it can be accepted into the disputed-territory dataset:
+
+1. It is referenced in United Nations resolutions, processes, or recognized programs.
+2. It is a recognized dispute between two or more United Nations member states.
+3. It is widely covered in major geopolitical or international-law datasets.
+4. It is explicitly handled as disputed or politically sensitive by major map platforms.
+
+Claims outside these criteria should be rejected or deferred. This includes fringe, unsourced, advocacy-driven, unknown-island, or whole-country dispute claims that lack credible public backing.
+
+## Contributor Requirements
+
+Geopolitical issues and pull requests must include:
+
+- The affected territory or territories.
+- The requested change.
+- Public source evidence.
+- Which inclusion criterion is met.
+- The expected impact on names, boundaries, metadata, display, documentation, or package behavior.
+
+Maintainers should not merge geopolitical changes that lack enough public evidence to apply this policy consistently.
+
+## Review Outcomes
+
+Maintainers should use one of these outcomes for geopolitical issues and pull requests:
+
+- `accept`: The proposal is credible, scoped, sourced, and consistent with this policy.
+- `request-evidence`: The proposal may be credible, but the contributor has not provided enough public evidence.
+- `redirect`: The proposal asks to silently change sovereignty, but the better outcome is dispute metadata, display guidance, or documentation.
+- `defer`: The proposal concerns a credible dispute outside the current release scope, such as a deferred Tier 2 or Tier 3 candidate.
+- `reject`: The proposal is fringe, unsourced, advocacy-driven, or outside the project cutoff criteria.
+
+Examples:
+
+- Accepted Tier 1 example: Crimea should be documented as a disputed territory with Ukraine as the recognized baseline and Russia as the controlling power where that distinction is relevant.
+- Deferred Tier 2 example: South China Sea island groups may be credible future candidates, but they are outside the initial Tier 1 dataset.
+- Rejected fringe example: a request to mark an entire recognized country or an unknown island as disputed without credible backing should be rejected.
 
 ## Maintenance Workflow
 

@@ -1,8 +1,6 @@
 # Specification Quality Checklist: Neutral Geopolitical Disputes
 
-**Purpose**: Validate specification completeness and quality before proceeding to planning
-**Created**: 2026-04-27
-**Feature**: [spec.md](../spec.md)
+**Purpose**: Validate specification completeness and quality before proceeding to planning **Created**: 2026-04-27 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality
 

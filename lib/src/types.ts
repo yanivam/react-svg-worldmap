@@ -21,11 +21,54 @@ export interface CountryContext<T extends string | number = number> {
   countryCode: ISOCode;
   countryName: string;
   countryValue?: T | undefined;
+  dispute?: DisputeClassification | undefined;
   color: string;
   minValue: number;
   maxValue: number;
   prefix: string;
   suffix: string;
+}
+
+export type DisputeTier = "tier-1";
+
+export type DisputeStatus =
+  | "disputed"
+  | "partially-recognized"
+  | "non-self-governing"
+  | "politically-sensitive";
+
+export type DisputeReviewStatus =
+  | "active"
+  | "deferred"
+  | "maintainer-review-required";
+
+export type DisputeBorderStyle = "solid" | "dashed" | "unchanged";
+
+export type DisputeLabelStrategy =
+  | "single"
+  | "dual"
+  | "segment"
+  | "metadata-only";
+
+export interface DisputeDisplayGuidance {
+  borderStyle: DisputeBorderStyle;
+  labelStrategy: DisputeLabelStrategy;
+  tooltipLabel: string;
+  defaultDescription: string;
+}
+
+export interface DisputeClassification {
+  id: string;
+  name: string;
+  tier: DisputeTier;
+  status: DisputeStatus;
+  recognizedSovereign?: string | undefined;
+  controllingPower?: string | undefined;
+  disputeParties: readonly string[];
+  territories: readonly string[];
+  sourceRationale: string;
+  display: DisputeDisplayGuidance;
+  reviewStatus: DisputeReviewStatus;
 }
 
 export interface Props<T extends string | number = number> {

@@ -2,3 +2,9 @@ dist
 node_modules
 build
 .docusaurus
+coverage
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.agents/
+.specify/

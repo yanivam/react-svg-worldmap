@@ -14,6 +14,7 @@ sidebar_position: 5
 ## [examples/custom-style](/examples/custom-style)
 
 - An example of a custom styling function
+- An example of dispute-aware styling can use the same callback with optional `context.dispute` metadata.
 - Context type has fields are as follows:
 
 <small>
@@ -25,8 +26,23 @@ sidebar_position: 5
 | `color` | `string` | The color that is inputted by the user for countries with values |
 | `minValue` | `number` | The smallest value of the input data |
 | `maxValue` | `number` | The largest value of the input data |
+| `dispute` | `DisputeClassification \| undefined` | Optional dispute metadata for supported Tier 1 disputed territories |
 
 </small>
+
+```tsx
+<WorldMap
+  data={[{ country: "UA", value: 1 }]}
+  styleFunction={(context) =>
+    context.dispute?.display.borderStyle === "dashed"
+      ? { strokeDasharray: "4 2" }
+      : {}
+  }
+  tooltipTextFunction={(context) =>
+    context.dispute?.display.tooltipLabel ?? context.countryName
+  }
+/>
+```
 
 ## [examples/localization](/examples/localization)
 

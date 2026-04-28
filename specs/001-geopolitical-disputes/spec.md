@@ -2,7 +2,7 @@
 
 **Feature Branch**: `001-geopolitical-disputes`  
 **Created**: 2026-04-27  
-**Status**: Draft  
+**Status**: Draft
 
 ## Clarifications
 
@@ -10,7 +10,7 @@
 
 - Q: What disputed territories are in the initial supported scope? -> A: Tier 1 only: Crimea, Palestinian Territories, Taiwan, Kashmir, Western Sahara, and Kosovo.
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Understand The Project's Geopolitical Position (Priority: P1)
 
@@ -67,7 +67,7 @@ As a maintainer, I need a repeatable review process for geopolitical changes so 
 - A credible dispute is listed as Tier 2 or Tier 3; the initial feature documents it as deferred rather than treating it as rejected or unsupported forever.
 - A proposed dispute is outside the Tier 1 initial set and does not satisfy the documented cutoff rule; the request is rejected as out of scope for the initial dataset.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -90,7 +90,7 @@ As a maintainer, I need a repeatable review process for geopolitical changes so 
 - **FR-017**: The project MUST document Tier 2 and Tier 3 disputes as deferred expansion candidates rather than initial release requirements.
 - **FR-018**: A territory MUST meet at least one cutoff criterion before being accepted into the dispute dataset: reference in United Nations resolutions or processes, recognized dispute between two or more United Nations member states, wide coverage in major geopolitical or international-law datasets, or explicit treatment by major mapping platforms.
 
-### Constitution Requirements *(mandatory)*
+### Constitution Requirements _(mandatory)_
 
 - **CR-001**: Feature MUST preserve the project's MIT-compatible open-source distribution model and document any public API or package artifact changes.
 - **CR-002**: Feature MUST identify whether map data, country/territory names, geopolitical boundaries, codes, disputed areas, or neutrality language are affected. If affected, requirements MUST reference `docs/map-data-policy.md` and `docs/map-data-overrides.json`.
@@ -98,7 +98,7 @@ As a maintainer, I need a repeatable review process for geopolitical changes so 
 - **CR-004**: Feature MUST preserve documented SVG accessibility behavior and justify any new runtime dependency or bundle-size impact.
 - **CR-005**: Feature MUST identify release, README generation, package export, semantic versioning, and consumer documentation impact when applicable.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **Territory**: A geographic unit represented by the package, including its display name, optional standard code, status, and relationship to disputes or recognized sovereignty.
 - **Dispute Classification**: The public determination that a territory is recognized, disputed, or partially recognized, with rationale and review status.
@@ -108,7 +108,7 @@ As a maintainer, I need a repeatable review process for geopolitical changes so 
 - **Display Guidance**: The project-defined user-facing representation for a territory or boundary, including whether it should appear as ordinary, visibly disputed, or dual-labeled.
 - **Geopolitical Proposal**: An issue or pull request requesting a change to boundaries, names, sovereignty, dispute status, or policy language.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
