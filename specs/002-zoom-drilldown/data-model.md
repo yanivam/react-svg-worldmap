@@ -44,19 +44,19 @@ Validation rules:
 
 ## Country City Metadata
 
-Represents country-level city details shown only at sufficient zoom.
+Represents country-level capital city details shown only at sufficient zoom.
 
 Fields:
 
 - `countryCode`: ISO country code.
 - `capitalCity`: Capital city name.
-- `largestCity`: Largest city name.
+- `capitalLocation`: Capital city longitude/latitude.
 - `source`: Documented source or maintainer note for the metadata.
 
 Validation rules:
 
 - Metadata is attached to countries, not rendered as an arbitrary city layer.
-- Details must be hidden when the zoomed visible country area cannot fit them.
+- Capital markers must be hidden when the zoomed visible country area cannot fit them.
 - Missing metadata must not break country rendering or labels.
 
 ## Detail Level

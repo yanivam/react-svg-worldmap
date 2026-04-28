@@ -4,7 +4,7 @@
 
 ## Summary
 
-Add an opt-in, accessible zoom experience to `react-svg-worldmap` while preserving the current country-level world map as the default. Phase 1 builds zoom in/out controls, continuous zoom, drag panning, country labels, label fit/collision logic, non-contiguous country handling, and country-level capital/largest-city details. Phase 2 adds the optional region detail package only after the zoom foundation is complete. The plan adapts the policy-first discipline from `docs/superpowers/plans/2026-04-04-neutral-map-policy.md`: document behavior and public contracts first, keep the base package stable, make optional data explicit, and validate package/docs outputs before release.
+Add an opt-in, accessible zoom experience to `react-svg-worldmap` while preserving the current country-level world map as the default. Phase 1 builds zoom in/out controls, continuous zoom, drag panning, country labels, label fit/collision logic, non-contiguous country handling, and country-level capital city markers. Phase 2 adds the optional region detail package only after the zoom foundation is complete. The plan adapts the policy-first discipline from `docs/superpowers/plans/2026-04-04-neutral-map-policy.md`: document behavior and public contracts first, keep the base package stable, make optional data explicit, and validate package/docs outputs before release.
 
 ## Technical Context
 
@@ -16,7 +16,7 @@ Add an opt-in, accessible zoom experience to `react-svg-worldmap` while preservi
 **Project Type**: Yarn workspace library package plus documentation website and optional data workspace  
 **Performance Goals**: Country-level default remains unchanged for existing consumers; zoom/pan and label calculation stay responsive for the built-in country topology; Phase 2 region drill-down avoids unnecessary work when detail is disabled  
 **Constraints**: Default remains country-level; zoom is opt-in; Phase 1 does not introduce region-level rendering; no hosted map service; no network requirement; no arbitrary city layer; accessibility behavior is part of the core feature  
-**Scale/Scope**: Phase 1 supports country-level zooming, drag panning, country labels, label fit/collision rules, non-contiguous country handling, capital/largest-city metadata, accessible controls, and live announcements. Phase 2 supports optional country-to-region drill-down, starter region coverage, provider fallback, and visible-region list.
+**Scale/Scope**: Phase 1 supports country-level zooming, drag panning, country labels, label fit/collision rules, non-contiguous country handling, capital city metadata, accessible controls, and live announcements. Phase 2 supports optional country-to-region drill-down, starter region coverage, provider fallback, and visible-region list.
 
 ## Constitution Check
 

@@ -25,13 +25,11 @@ const countryGeometries = (topoData as unknown as TopologyData).objects
   .countries.geometries;
 
 describe("country city metadata", () => {
-  it("returns capital and largest city metadata for supported countries", () => {
+  it("returns capital city metadata for supported countries", () => {
     expect(getCountryCityMetadata("US")).toEqual(
       expect.objectContaining({
         capitalCity: "Washington, DC",
         capitalLocation: [-77.0163, 38.9047],
-        largestCity: "New York City",
-        largestCityLocation: [-73.9249, 40.6943],
       }),
     );
   });
@@ -50,11 +48,6 @@ describe("country city metadata", () => {
 
       expect(typeof metadata?.capitalCity).toBe("string");
       expect(metadata?.capitalLocation).toEqual([
-        expect.any(Number),
-        expect.any(Number),
-      ]);
-      expect(typeof metadata?.largestCity).toBe("string");
-      expect(metadata?.largestCityLocation).toEqual([
         expect.any(Number),
         expect.any(Number),
       ]);

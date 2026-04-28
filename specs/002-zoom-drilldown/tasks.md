@@ -86,27 +86,27 @@
 
 ## Phase 5: User Story 3 - Show Country Labels And City Details At Readable Zoom Levels (Priority: P3)
 
-**Goal**: Country labels are enabled by default with zoom, avoid collisions, handle non-contiguous territory, and show capital/largest-city details only when space permits.
+**Goal**: Country labels are enabled by default with zoom, avoid collisions, handle non-contiguous territory, and show capital city markers only when space permits.
 
-**Independent Test**: Enable zoom and labels, zoom into several countries, and confirm country names plus city details appear only when fit and collision rules allow them.
+**Independent Test**: Enable zoom and labels, zoom into several countries, and confirm country names plus capital city markers appear only when fit and collision rules allow them.
 
 ### Tests for User Story 3
 
 - [ ] T025 [P] [US3] Add unit tests for label candidate generation, text bounds, area fit, and collision rejection in [lib/src/**tests**/label-placement.test.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/__tests__/label-placement.test.ts).
 - [ ] T026 [P] [US3] Add unit tests for non-contiguous country label placement using the United States or an equivalent multi-part fixture in [lib/src/**tests**/label-noncontiguous.test.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/__tests__/label-noncontiguous.test.ts).
-- [ ] T027 [P] [US3] Add tests for capital and largest-city metadata lookup and missing metadata fallback in [lib/src/**tests**/country-cities.test.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/__tests__/country-cities.test.ts).
-- [ ] T028 [P] [US3] Add component tests confirming labels and city details appear only at readable zoomed sizes in [lib/src/**tests**/zoom-labels.test.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/__tests__/zoom-labels.test.tsx).
+- [ ] T027 [P] [US3] Add tests for capital city metadata lookup and missing metadata fallback in [lib/src/**tests**/country-cities.test.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/__tests__/country-cities.test.ts).
+- [ ] T028 [P] [US3] Add component tests confirming labels and capital city markers appear only at readable zoomed sizes in [lib/src/**tests**/zoom-labels.test.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/__tests__/zoom-labels.test.tsx).
 
 ### Implementation for User Story 3
 
-- [ ] T029 [US3] Add country city metadata records for capital city and largest city in [lib/src/countryCities.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/countryCities.ts).
+- [ ] T029 [US3] Add country city metadata records for capital city names and coordinates in [lib/src/countryCities.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/countryCities.ts).
 - [ ] T030 [US3] Add label placement helpers for candidate generation, geometry-part fit, collision detection, and stable prioritization in [lib/src/labels/placement.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/labels/placement.ts).
-- [ ] T031 [US3] Add country detail visibility thresholds for labels, capital city, and largest city in [lib/src/labels/detailVisibility.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/labels/detailVisibility.ts).
+- [ ] T031 [US3] Add country detail visibility thresholds for labels and capital city markers in [lib/src/labels/detailVisibility.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/labels/detailVisibility.ts).
 - [ ] T032 [US3] Render default country labels when zoom is enabled and `showCountryLabels` is not disabled in [lib/src/index.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/index.tsx) and [lib/src/components/TextLabel.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/components/TextLabel.tsx).
-- [ ] T033 [US3] Render capital and largest-city details only when visibility thresholds pass in [lib/src/index.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/index.tsx) and [lib/src/components/TextLabel.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/components/TextLabel.tsx).
+- [ ] T033 [US3] Render capital city markers only when visibility thresholds pass in [lib/src/index.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/index.tsx), [lib/src/components/CityMarker.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/components/CityMarker.tsx), and [lib/src/components/TextLabel.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/components/TextLabel.tsx).
 - [ ] T034 [US3] Ensure custom `textLabelFunction` behavior remains compatible alongside default zoom labels in [lib/src/index.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/index.tsx).
 
-**Checkpoint**: Phase 1 is functionally complete: zooming, panning, labels, non-contiguous placement, and country city details work without region data.
+**Checkpoint**: Phase 1 is functionally complete: zooming, panning, labels, non-contiguous placement, and capital city markers work without region data.
 
 ---
 
@@ -207,7 +207,7 @@
 1. Complete T001-T010 to establish zoom infrastructure.
 2. Complete T011-T015 to preserve default behavior.
 3. Complete T016-T024 to ship opt-in zoom, continuous zoom, drag panning, reset, and announcements.
-4. Complete T025-T034 to ship country labels, non-contiguous placement, and capital/largest-city details.
+4. Complete T025-T034 to ship country labels, non-contiguous placement, and capital city markers.
 5. Complete T035-T039 and Phase 1 validation.
 6. Stop and release/demo Phase 1 before starting optional regions.
 

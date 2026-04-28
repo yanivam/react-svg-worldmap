@@ -76,7 +76,7 @@ export function canShowCountryDetails(
 ): boolean {
   const detailWidth = Math.max(
     label.width,
-    estimateTextWidth("Capital / largest city") / scale,
+    estimateTextWidth("Capital city") / scale,
   );
   const detailHeight = DETAIL_HEIGHT / scale;
 

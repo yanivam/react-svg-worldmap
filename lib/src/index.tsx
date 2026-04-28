@@ -422,16 +422,6 @@ export default function WorldMap<T extends number | string>(
               const capitalPoint = showDetails
                 ? projection([...cityMetadata.capitalLocation])
                 : null;
-              const largestCityPoint = showDetails
-                ? projection([...cityMetadata.largestCityLocation])
-                : null;
-              const largestCityDuplicatesCapital =
-                showDetails &&
-                cityMetadata.capitalCity === cityMetadata.largestCity &&
-                cityMetadata.capitalLocation[0] ===
-                  cityMetadata.largestCityLocation[0] &&
-                cityMetadata.capitalLocation[1] ===
-                  cityMetadata.largestCityLocation[1];
 
               return (
                 <React.Fragment key={`zoom-label-${label.countryCode}`}>
@@ -447,25 +437,12 @@ export default function WorldMap<T extends number | string>(
                   {showDetails && capitalPoint && (
                     <CityMarker
                       countryCode={label.countryCode}
-                      kind="capital"
                       name={cityMetadata.capitalCity}
                       scale={scale}
                       x={capitalPoint[0]}
                       y={capitalPoint[1]}
                     />
                   )}
-                  {showDetails &&
-                    largestCityPoint &&
-                    !largestCityDuplicatesCapital && (
-                      <CityMarker
-                        countryCode={label.countryCode}
-                        kind="largest"
-                        name={cityMetadata.largestCity}
-                        scale={scale}
-                        x={largestCityPoint[0]}
-                        y={largestCityPoint[1]}
-                      />
-                    )}
                 </React.Fragment>
               );
             })}

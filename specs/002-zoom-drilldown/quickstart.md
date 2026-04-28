@@ -14,8 +14,8 @@ Verify that existing country maps still work by default and that consumers can o
 6. Add country labels by default when zooming is enabled.
 7. Add fit-aware and collision-aware country label placement.
 8. Add non-contiguous country handling for label placement.
-9. Add country-level capital city and largest city metadata.
-10. Show country city details only when the zoomed country area can fit them.
+9. Add country-level capital city name and coordinate metadata.
+10. Show capital city markers only when the zoomed country area can fit them.
 11. Add a featured website and documentation example for Phase 1 zooming as the first examples entry before the sizing demo.
 12. Phase 2: add public detail-level and provider types to the core package.
 13. Phase 2: add provider fallback behavior for `detailLevel="regions"` without a provider.
@@ -75,7 +75,7 @@ yarn workspace @react-svg-worldmap/regions build
 - Keyboard users can zoom in, zoom out, and reset.
 - Pointer users can drag-pan the zoomed country-level map.
 - Country labels remain readable in the featured zoom example.
-- Capital and largest-city details appear only when there is enough zoomed country area.
+- Capital city markers appear only when there is enough zoomed country area.
 - Base package does not require the optional regions package.
 - Phase 2 region drill-down works only when explicitly enabled.
 - Phase 2 missing provider and missing coverage states fall back safely.

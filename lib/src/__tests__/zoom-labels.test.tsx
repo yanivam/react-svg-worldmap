@@ -37,7 +37,7 @@ describe("WorldMap zoom labels", () => {
     expect(container.querySelector("text")).toBeNull();
   });
 
-  it("shows city markers at true locations when the country has enough visible area", () => {
+  it("shows capital city markers at true locations when the country has enough visible area", () => {
     const { container } = render(
       <WorldMap data={DATA} size={1200} zoom={{ initialScale: 4 }} />,
     );
@@ -47,17 +47,10 @@ describe("WorldMap zoom labels", () => {
         '[data-city-kind="capital"][data-country-code="US"]',
       ),
     ).not.toBeNull();
-    expect(
-      container.querySelector(
-        '[data-city-kind="largest"][data-country-code="US"]',
-      ),
-    ).not.toBeNull();
-
     expect(screen.getByText("Washington, DC (capital)")).toBeInTheDocument();
-    expect(screen.getByText("New York City")).toBeInTheDocument();
   });
 
-  it("can hide city markers through zoom options", () => {
+  it("can hide capital city markers through zoom options", () => {
     const { container } = render(
       <WorldMap
         data={DATA}

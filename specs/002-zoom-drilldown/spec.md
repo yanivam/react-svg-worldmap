@@ -47,9 +47,9 @@ As an application user exploring a thematic map, I need opt-in zoom controls and
 
 ### User Story 3 - Show Country Labels And City Details At Readable Zoom Levels (Priority: P3)
 
-As a map reader, I need country labels, capital city information, and largest city information to appear only when they fit the visible geography so labels add context without clutter.
+As a map reader, I need country labels and capital city information to appear only when they fit the visible geography so labels add context without clutter.
 
-**Why this priority**: Labels and city details are the primary payoff from zooming, but poor placement would make the map less usable.
+**Why this priority**: Labels and capital city markers are the primary payoff from zooming, but poor placement would make the map less usable.
 
 **Independent Test**: Can be tested by enabling zoom and labels, zooming into countries of different sizes and shapes, and confirming labels/details appear only when they fit and do not overlap.
 
@@ -57,7 +57,7 @@ As a map reader, I need country labels, capital city information, and largest ci
 
 1. **Given** zooming is enabled, **When** the map renders, **Then** country labels are enabled by default and filtered by fit/collision rules.
 2. **Given** a country has non-contiguous territory such as the United States, **When** labels are evaluated, **Then** the algorithm chooses a stable readable placement without treating distant territory as one continuous label box.
-3. **Given** a country has capital and largest-city metadata, **When** the zoomed country area is large enough, **Then** the map may show those details; otherwise they remain hidden.
+3. **Given** a country has capital city metadata, **When** the zoomed country area is large enough, **Then** the map may show the capital marker and label; otherwise they remain hidden.
 
 ---
 
@@ -82,7 +82,7 @@ As a package consumer, I need an optional region data package after the zoom fou
 - Region detail provider returns malformed or empty region data.
 - Country or region labels collide, overflow the focused viewport, or become unreadable after zoom.
 - Country label geometry spans non-contiguous territory and would produce a misleading centroid or bounding box.
-- Capital or largest-city details would fit at one zoom level but collide after panning or zooming.
+- Capital city markers would fit at one zoom level but collide after panning or zooming.
 - User activates back, reset, zoom in, or zoom out repeatedly at the boundary state.
 - User has reduced-motion preferences enabled.
 - Consumer supplies custom labels, style callbacks, tooltip callbacks, or click handlers while drill-down is enabled.
@@ -105,7 +105,7 @@ As a package consumer, I need an optional region data package after the zoom fou
 - **FR-010**: Phase 2 MUST provide a visible-region list when region detail is displayed.
 - **FR-011**: Country labels MUST be enabled by default when zooming is enabled; region labels MUST remain Phase 2 behavior.
 - **FR-012**: Default labels MUST use fit-aware and collision-aware placement so labels remain readable.
-- **FR-013**: Phase 1 MUST include country-level capital city and largest city metadata, but MUST NOT introduce arbitrary city layer rendering.
+- **FR-013**: Phase 1 MUST include country-level capital city metadata, but MUST NOT introduce arbitrary city layer rendering.
 - **FR-014**: The feature MUST avoid requiring remote network access or hosted map services for the first region drill-down iteration.
 - **FR-015**: The base package MUST remain usable without installing the optional regions data package.
 - **FR-016**: Phase 2 optional regions data package MUST expose normalized region data and a provider adapter compatible with the core package.
@@ -124,7 +124,7 @@ As a package consumer, I need an optional region data package after the zoom fou
 
 - **Zoom State**: The current scale, translation, reset state, and pointer/keyboard interaction state for the country-level map.
 - **Country Label Candidate**: A label candidate derived from country geometry, visible area, priority, and fit/collision metrics.
-- **Country City Metadata**: Per-country capital city and largest city names used as zoom-dependent details rather than a rendered city layer.
+- **Country City Metadata**: Per-country capital city names and coordinates used as zoom-dependent details rather than a rendered city layer.
 - **Detail Level**: The consumer-selected rendering depth, initially country-level zoom and later optional region-level detail.
 - **Detail Provider**: A consumer or package-supplied source that reports region coverage and loads normalized region detail for a country.
 - **Detail Provider Result**: The provider response describing status, layer, scope, optional region collection, and optional warning or failure information.
@@ -141,14 +141,14 @@ As a package consumer, I need an optional region data package after the zoom fou
 - **SC-001**: Existing country-level map examples render without code changes when detail-level options are omitted.
 - **SC-002**: With zooming enabled, a user can zoom in, zoom out, drag-pan, and reset the country-level map using explicit controls and pointer interactions.
 - **SC-003**: Country labels appear by default when zooming is enabled and avoid visible overlap in the featured zoom example.
-- **SC-004**: Capital city and largest city details appear only when the zoomed country area can fit them without unacceptable overlap.
+- **SC-004**: Capital city markers and labels appear only when the zoomed country area can fit them without unacceptable overlap.
 - **SC-005**: The base package remains usable without installing the optional regions package.
 - **SC-006**: The feature passes package tests, type checking, linting, formatting, build, package smoke validation, and coverage above the project threshold.
 - **SC-007**: Documentation lets a consumer understand how to enable Phase 1 zooming in under 10 minutes and explains that optional region detail is Phase 2.
 
 ## Assumptions
 
-- Phase 1 supports country-level zooming, panning, country labels, and country-level capital/largest-city details only.
+- Phase 1 supports country-level zooming, panning, country labels, and country-level capital city markers only.
 - Phase 2 introduces optional country-to-region drill-down after Phase 1 is complete.
 - Region detail is optional and provider-backed rather than always bundled into the base package.
 - The first region data package may provide starter coverage rather than complete global sub-country coverage.

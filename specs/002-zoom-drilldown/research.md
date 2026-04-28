@@ -11,7 +11,7 @@ Alternatives considered:
 
 ## Decision: Make Zooming The Phase 1 Opt-In
 
-Rationale: Zooming, panning, labels, and country city details can be delivered without expanding the package into region-level map data. This reduces release risk and gives Phase 2 a stable viewport and interaction model to build on.
+Rationale: Zooming, panning, labels, and capital city markers can be delivered without expanding the package into region-level map data. This reduces release risk and gives Phase 2 a stable viewport and interaction model to build on.
 
 Alternatives considered:
 
@@ -45,9 +45,9 @@ Alternatives considered:
 - Use the existing full-country centroid only: rejected because it can place labels over empty space.
 - Suppress all non-contiguous country labels: rejected because large countries still need labels when space permits.
 
-## Decision: Include Country-Level Capital And Largest-City Metadata In Phase 1
+## Decision: Include Country-Level Capital City Metadata In Phase 1
 
-Rationale: Capital and largest-city details provide useful extra context at high zoom without introducing a full point-of-interest or city layer. They are metadata tied to the country record and are shown only when the zoomed country area can fit them without unacceptable overlap.
+Rationale: Capital city markers provide useful extra context at high zoom without introducing a full point-of-interest or city layer. They are metadata tied to the country record and are shown only when the zoomed country area can fit them without unacceptable overlap. Additional city classes are intentionally excluded from Phase 1 to keep the feature focused and reduce map clutter.
 
 Alternatives considered:
 
@@ -89,7 +89,7 @@ Alternatives considered:
 
 - Render every label: rejected because labels overlap in dense regions.
 - Omit labels entirely: rejected because labels are part of the expected zoom value and accessible visible context.
-- Curved or dense city labeling: rejected for Phase 1 because city rendering is limited to country-level capital/largest-city details.
+- Curved or dense city labeling: rejected for Phase 1 because city rendering is limited to country-level capital city markers.
 
 ## Decision: Treat Region Data As A Neutrality-Reviewed Map Data Change
 

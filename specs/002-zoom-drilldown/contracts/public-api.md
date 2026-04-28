@@ -44,16 +44,16 @@ Compatibility requirements:
 ```ts
 interface CountryCityMetadata {
   countryCode: ISOCode;
-  capitalCity?: string;
-  largestCity?: string;
+  capitalCity: string;
+  capitalLocation: readonly [number, number];
   source?: string;
 }
 ```
 
 Behavior requirements:
 
-- Capital and largest-city details are country metadata, not a standalone city layer.
-- Details render only when fit/collision rules determine they can be displayed clearly.
+- Capital city markers are country metadata, not a standalone city layer.
+- Capital markers render only when fit/collision rules determine they can be displayed clearly.
 - Missing metadata does not prevent country rendering or zooming.
 
 ## Phase 2 Region Detail Props
@@ -165,7 +165,7 @@ Documentation must explain:
 
 - Country-level rendering is the default.
 - Phase 1 zooming is opt-in and does not require region data.
-- Country labels and country city details are fit/collision gated.
+- Country labels and capital city markers are fit/collision gated.
 - Phase 2 region drill-down is opt-in.
 - Optional regions package installation or provider setup for Phase 2.
 - Fallback behavior when provider coverage is unavailable in Phase 2.
