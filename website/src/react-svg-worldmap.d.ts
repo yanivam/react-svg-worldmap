@@ -8,6 +8,21 @@ declare module "react-svg-worldmap" {
   export type ISOCode = string;
   export type SizeOption = "sm" | "md" | "lg" | "xl" | "xxl";
 
+  export interface ZoomState {
+    scale: number;
+    translate: [number, number];
+  }
+
+  export interface ZoomOptions {
+    enabled?: boolean;
+    initialScale?: number;
+    minScale?: number;
+    zoomFactor?: number;
+    showControls?: boolean;
+    showCountryLabels?: boolean;
+    showCountryDetails?: boolean;
+  }
+
   export interface DataItem<T extends string | number = number> {
     country: ISOCode;
     value: T;
@@ -44,6 +59,8 @@ declare module "react-svg-worldmap" {
     frameColor?: string;
     borderColor?: string;
     richInteraction?: boolean;
+    zoom?: boolean | ZoomOptions;
+    onZoomChange?: (state: ZoomState) => void;
     type?: string;
     styleFunction?: (context: CountryContext<T>) => React.CSSProperties;
     onClickFunction?: (

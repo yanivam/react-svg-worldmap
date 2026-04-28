@@ -15,6 +15,15 @@ export const sizeMap: Record<SizeOption, number> = {
 /** Sorted breakpoints (ascending) for deterministic threshold selection. */
 export const sizeBreakpoints: number[] = [240, 336, 480, 640, 1200];
 
+export const defaultZoomOptions = {
+  initialScale: 1,
+  minScale: 1,
+  zoomFactor: 1.5,
+  showControls: true,
+  showCountryLabels: true,
+  showCountryDetails: true,
+};
+
 export const defaultCountryStyle =
   (stroke: string, strokeOpacity: number) =>
   <T extends string | number>(context: CountryContext<T>): CSSProperties => {

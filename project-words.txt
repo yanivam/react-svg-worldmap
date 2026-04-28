@@ -20,6 +20,7 @@ millónes
 npmjs
 npmrc
 OIDC
+Paulo
 UNSD
 UNTERM
 agentic
@@ -58,3 +59,4 @@ vitest
 WCAG
 worldmap
 yanivam
+zoomable

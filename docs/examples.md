@@ -4,6 +4,13 @@ sidebar_position: 5
 
 # Examples
 
+## [examples/zoom](/examples/zoom)
+
+- The first example for the zoomable map experience.
+- Demonstrates the `zoom` prop, zoom in/out controls, reset, and drag panning.
+- Country labels are enabled by default while zooming and are filtered so labels only appear when they fit.
+- Capital and largest-city details appear at higher zoom levels when the country area can fit them.
+
 ## [examples/sizing](/examples/sizing)
 
 - A simple example of the world map

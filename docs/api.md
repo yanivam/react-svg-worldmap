@@ -11,6 +11,8 @@ sidebar_position: 4
 - `DataItem`: the type for each country's value to be passed in the `data` prop.
 - `Data`: it's just `DataItem[]`, for more convenience.
 - `CountryContext`: the context in rendering each country, to be used in customization callbacks.
+- `ZoomOptions`: options for opt-in zoom controls, country labels, and country details.
+- `ZoomState`: the current zoom scale and translation.
 - `Props`: the props type for the `WorldMap` component.
 - `regions`: the list of regions (`{ name, code }`) available in the library
 - `WorldMap`: available both as named and default export. The actual component to be rendered.
@@ -35,6 +37,8 @@ sidebar_position: 4
 | `frameColor` | `string` | Frame color. |
 | `borderColor` | `string` | Border color around each individual country. |
 | `richInteraction` | `boolean` | WHen turned on, double clicks would cause the map to rescale. (Other cool features to come) |
+| `zoom` | <code>boolean &#124; ZoomOptions</code> | Enables zoom in/out controls, reset, drag panning, default country labels, and zoom-gated country details. See [Zoom example](/examples/zoom). |
+| `onZoomChange` | `(state: ZoomState) => void` | Called when zoom scale or translation changes. |
 | :construction: `type` :construction: | `string` | Select type of map you want, either "tooltip" or "marker". <br />:memo: This functionality not only complicates the code, but is infrequently used and needs to be redesigned to make it better. For now it is deprecated and has no effect. :memo: |
 | `styleFunction` | `(context: CountryContext) => React.CSSProperties` | A callback function to customize styling of each country (see [Custom styles example](/examples/custom-style)) |
 | `hrefFunction` | <code>(context: CountryContext) => object &#124; string &#124; undefined</code> | A callback function to bind an href link to each country. The return can be the target URL as a string or an object specifying props passed to the anchor element (e.g. `href` and `target`). (see [Href binding example](/examples/links)) |
@@ -61,5 +65,20 @@ type CountryContext = {
   maxValue: number;
   prefix: string;
   suffix: string;
+};
+
+type ZoomOptions = {
+  enabled?: boolean;
+  initialScale?: number;
+  minScale?: number;
+  zoomFactor?: number;
+  showControls?: boolean;
+  showCountryLabels?: boolean;
+  showCountryDetails?: boolean;
+};
+
+type ZoomState = {
+  scale: number;
+  translate: [number, number];
 };
 ```

@@ -1,10 +1,16 @@
 import * as React from "react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import type GeoJSON from "geojson";
 import { geoMercator, geoPath } from "d3-geo";
 import { feature as topoFeature } from "topojson-client";
 import topoData from "./countries.topo.js";
-import type { Props, CountryContext, DataItem, ISOCode } from "./types.js";
+import type {
+  Props,
+  CountryContext,
+  DataItem,
+  ISOCode,
+  ZoomState,
+} from "./types.js";
 import { getDisputeByCountryCode } from "./disputes.js";
 import {
   defaultColor,
@@ -13,11 +19,27 @@ import {
   defaultCountryStyle,
   defaultTooltip,
 } from "./constants.js";
+import { getCountryCityMetadata } from "./countryCities.js";
 import { useWindowWidth, useContainerWidth, responsify } from "./utils.js";
 import { drawTooltip } from "./draw.js";
 import Frame from "./components/Frame.js";
 import Region from "./components/Region.js";
 import TextLabel from "./components/TextLabel.js";
+import ZoomControls from "./components/ZoomControls.js";
+import ZoomStatus from "./components/ZoomStatus.js";
+import {
+  createInitialZoomState,
+  panZoomState,
+  resetZoomState,
+  resolveZoomOptions,
+  zoomAroundPoint,
+} from "./zoom/state.js";
+import {
+  canShowCountryDetails,
+  countryLabelFontSize,
+  createCountryLabelCandidate,
+  placeCountryLabels,
+} from "./labels/placement.js";
 
 export type {
   ISOCode,
@@ -26,6 +48,10 @@ export type {
   Data,
   CountryContext,
   Props,
+  ZoomOptions,
+  ZoomState,
+  CountryCityMetadata,
+  CountryLabelCandidate,
   DisputeTier,
   DisputeStatus,
   DisputeReviewStatus,
@@ -83,6 +109,8 @@ export default function WorldMap<T extends number | string>(
     textLabelFunction = () => [],
     containerClassName,
     regionClassName,
+    zoom,
+    onZoomChange,
   } = props;
   const [wrapperEl, setWrapperEl] = useState<HTMLDivElement | null>(null);
   const containerRef = useRef<SVGSVGElement>(null);
@@ -100,9 +128,18 @@ export default function WorldMap<T extends number | string>(
   const width =
     typeof size === "number" ? size : responsify(size, effectiveWidth);
   const height = width * heightRatio;
-  const [scale, setScale] = useState(1);
-  const [translateX, setTranslateX] = useState(0);
-  const [translateY, setTranslateY] = useState(0);
+  const zoomOptions = React.useMemo(() => resolveZoomOptions(zoom), [zoom]);
+  const [zoomState, setZoomState] = useState(() =>
+    createInitialZoomState(zoomOptions),
+  );
+  const [zoomStatus, setZoomStatus] = useState("Map zoom reset");
+  const dragPoint = useRef<[number, number] | null>(null);
+  const scale = zoomState.scale;
+  const [translateX, translateY] = zoomState.translate;
+
+  useEffect(() => {
+    onZoomChange?.(zoomState);
+  }, [onZoomChange, zoomState]);
 
   // Stable refs per region for tooltips (avoids ref identity churn)
   const triggerRefs = useRef<Array<{ current: SVGPathElement | null }>>([]);
@@ -124,6 +161,20 @@ export default function WorldMap<T extends number | string>(
   // Build a path & a tooltip for each country
   const projection = geoMercator();
   const pathGenerator = geoPath().projection(projection);
+  const countryLabels = React.useMemo(() => {
+    if (!zoomOptions.enabled || !zoomOptions.showCountryLabels) return [];
+
+    return placeCountryLabels(
+      geoFeatures.map((geoFeature) =>
+        createCountryLabelCandidate(pathGenerator, geoFeature, scale),
+      ),
+    );
+  }, [
+    pathGenerator,
+    scale,
+    zoomOptions.enabled,
+    zoomOptions.showCountryLabels,
+  ]);
 
   const regionElements = geoFeatures.map((geoFeature, i) => {
     const triggerRef = triggerRefs.current[i]!;
@@ -197,6 +248,39 @@ export default function WorldMap<T extends number | string>(
     (entry) => entry.highlightedTooltip,
   );
 
+  const updateZoomState = (nextState: ZoomState, message: string): void => {
+    setZoomState(nextState);
+    setZoomStatus(message);
+  };
+
+  const zoomIn = (): void => {
+    updateZoomState(
+      zoomAroundPoint(
+        zoomState,
+        [width / 2, height / 2],
+        zoomOptions.zoomFactor,
+        zoomOptions.minScale,
+      ),
+      "Map zoomed in",
+    );
+  };
+
+  const zoomOut = (): void => {
+    updateZoomState(
+      zoomAroundPoint(
+        zoomState,
+        [width / 2, height / 2],
+        1 / zoomOptions.zoomFactor,
+        zoomOptions.minScale,
+      ),
+      "Map zoomed out",
+    );
+  };
+
+  const resetZoom = (): void => {
+    updateZoomState(resetZoomState(zoomOptions), "Map zoom reset");
+  };
+
   const eventHandlers = {
     onMouseDown(e: React.MouseEvent) {
       // Only suppress default on multi-click (≥2) to prevent text-selection
@@ -204,19 +288,52 @@ export default function WorldMap<T extends number | string>(
       // so keyboard users aren't locked out (WCAG 2.1.1).
       if (e.detail > 1) e.preventDefault();
       e.stopPropagation();
+      if (zoomOptions.enabled) dragPoint.current = [e.clientX, e.clientY];
+    },
+    onMouseMove(e: React.MouseEvent) {
+      if (!zoomOptions.enabled || dragPoint.current == null) return;
+
+      const nextPoint: [number, number] = [e.clientX, e.clientY];
+      const previousPoint = dragPoint.current;
+      dragPoint.current = nextPoint;
+      updateZoomState(
+        panZoomState(zoomState, [
+          nextPoint[0] - previousPoint[0],
+          nextPoint[1] - previousPoint[1],
+        ]),
+        "Map focus changed",
+      );
+    },
+    onMouseUp() {
+      dragPoint.current = null;
+    },
+    onMouseLeave() {
+      dragPoint.current = null;
     },
     onDoubleClick(e: React.MouseEvent) {
       const rect = e.currentTarget.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      if (scale === 4) {
-        setTranslateX(0);
-        setTranslateY(0);
-        setScale(1);
+      if (zoomOptions.enabled) {
+        updateZoomState(
+          zoomAroundPoint(
+            zoomState,
+            [x, y],
+            zoomOptions.zoomFactor,
+            zoomOptions.minScale,
+          ),
+          "Map zoomed in",
+        );
+      } else if (scale === 4) {
+        resetZoom();
       } else {
-        setTranslateX(2 * translateX - x);
-        setTranslateY(2 * translateY - y);
-        setScale(scale * 2);
+        updateZoomState(
+          {
+            scale: scale * 2,
+            translate: [2 * translateX - x, 2 * translateY - y],
+          },
+          "Map zoomed in",
+        );
       }
     },
     // Keyboard equivalents for double-click zoom (WCAG 2.1.1).
@@ -225,19 +342,33 @@ export default function WorldMap<T extends number | string>(
     onKeyDown(e: React.KeyboardEvent<SVGSVGElement>) {
       if (e.key === "+" || e.key === "=") {
         e.preventDefault();
-        if (scale < 4) {
-          setTranslateX(2 * translateX - width / 2);
-          setTranslateY(2 * translateY - height / 2);
-          setScale(scale * 2);
+        if (zoomOptions.enabled) {
+          zoomIn();
+        } else if (scale < 4) {
+          updateZoomState(
+            {
+              scale: scale * 2,
+              translate: [
+                2 * translateX - width / 2,
+                2 * translateY - height / 2,
+              ],
+            },
+            "Map zoomed in",
+          );
         }
       } else if (e.key === "-" || e.key === "_") {
         e.preventDefault();
-        setTranslateX(0);
-        setTranslateY(0);
-        setScale(1);
+        if (zoomOptions.enabled) zoomOut();
+        else resetZoom();
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        resetZoom();
       }
     },
   };
+  const enableMapInteractions = richInteraction || zoomOptions.enabled;
+  const labelFontSize = countryLabelFontSize / scale;
+  const detailFontSize = 10 / scale;
 
   // Render the SVG (wrapper div for ResizeObserver container sizing)
   return (
@@ -251,19 +382,30 @@ export default function WorldMap<T extends number | string>(
         {title && (
           <figcaption className="worldmap__figure-caption">{title}</figcaption>
         )}
+        {zoomOptions.enabled && zoomOptions.showControls && (
+          <ZoomControls
+            // eslint-disable-next-line react/jsx-no-bind -- Controls need component-local zoom actions.
+            onZoomIn={zoomIn}
+            // eslint-disable-next-line react/jsx-no-bind -- Controls need component-local zoom actions.
+            onZoomOut={zoomOut}
+            // eslint-disable-next-line react/jsx-no-bind -- Controls need component-local zoom actions.
+            onReset={resetZoom}
+          />
+        )}
+        {zoomOptions.enabled && <ZoomStatus message={zoomStatus} />}
         <svg
           ref={containerRef}
           // A direct aria-label avoids SSR hydration mismatches from generated
           // ids while still giving the SVG an accessible name (WCAG 1.1.1).
           role="img"
           aria-label={title ?? "World map"}
-          // Make the SVG focusable when richInteraction is on so keyboard
+          // Make the SVG focusable when map interactions are on so keyboard
           // users can reach the zoom controls (WCAG 2.1.1).
-          tabIndex={richInteraction ? 0 : undefined}
-          aria-keyshortcuts={richInteraction ? "+ -" : undefined}
+          tabIndex={enableMapInteractions ? 0 : undefined}
+          aria-keyshortcuts={enableMapInteractions ? "+ -" : undefined}
           height={`${height}px`}
           width={`${width}px`}
-          {...(richInteraction ? eventHandlers : undefined)}>
+          {...(enableMapInteractions ? eventHandlers : undefined)}>
           {frame && <Frame color={frameColor} />}
           <g
             transform={`translate(${translateX}, ${translateY}) scale(${
@@ -271,6 +413,47 @@ export default function WorldMap<T extends number | string>(
             }) translate(0, 240)`}
             style={{ transition: "all 0.2s" }}>
             {regionPaths}
+            {countryLabels.map((label) => {
+              const cityMetadata = getCountryCityMetadata(label.countryCode);
+              const showDetails =
+                zoomOptions.showCountryDetails &&
+                cityMetadata != null &&
+                canShowCountryDetails(label, scale);
+
+              return (
+                <React.Fragment key={`zoom-label-${label.countryCode}`}>
+                  <TextLabel
+                    label={label.label}
+                    x={label.x}
+                    y={label.y}
+                    textAnchor="middle"
+                    fontSize={labelFontSize}
+                    fill="#222"
+                    pointerEvents="none"
+                  />
+                  {showDetails && (
+                    <TextLabel
+                      label={[
+                        cityMetadata.capitalCity
+                          ? `Capital: ${cityMetadata.capitalCity}`
+                          : undefined,
+                        cityMetadata.largestCity
+                          ? `Largest: ${cityMetadata.largestCity}`
+                          : undefined,
+                      ]
+                        .filter(Boolean)
+                        .join(" | ")}
+                      x={label.x}
+                      y={label.y + labelFontSize + detailFontSize}
+                      textAnchor="middle"
+                      fontSize={detailFontSize}
+                      fill="#333"
+                      pointerEvents="none"
+                    />
+                  )}
+                </React.Fragment>
+              );
+            })}
           </g>
           <g>
             {textLabelFunction(width).map((labelProps) => (
