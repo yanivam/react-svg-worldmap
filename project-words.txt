@@ -3,6 +3,7 @@ Burkina
 colour
 Darussalam
 diez
+drilldown
 eslintcache
 estados
 Eswatini
@@ -37,6 +38,7 @@ Karabakh
 Nagorno
 quickstart
 Rica
+renderable
 responsify
 rusia
 Sahrawi

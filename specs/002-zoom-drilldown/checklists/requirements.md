@@ -31,4 +31,4 @@
 
 ## Notes
 
-- Validation passed after migrating the zoom drill-down design content from `codex/zoom-drilldown-spec`.
+- Validation passed after updating 002 to Phase 1 country-level zooming and Phase 2 optional region detail.
