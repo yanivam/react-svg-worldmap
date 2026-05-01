@@ -8,13 +8,15 @@ Add an opt-in, accessible zoom experience to `react-svg-worldmap` while preservi
 
 ## Technical Context
 
-**Language/Version**: TypeScript 4.7, React 18 development baseline, Node >=18  
-**Primary Dependencies**: Existing package dependencies: React, d3-geo, topojson-client, react-path-tooltip, tslib; Phase 2 optional new workspace package for normalized regions data  
-**Storage**: Checked-in world topology for Phase 1; optional sample capital pins may live in website/docs example data outside the core package; checked-in optional region data package for Phase 2; no external storage **Testing**: Vitest, React Testing Library, package build, website typecheck/build, lint, format check, spellcheck, coverage, package smoke validation  
-**Target Platform**: Published npm library consumed by browser-based React applications  
-**Project Type**: Yarn workspace library package plus documentation website and optional data workspace  
-**Performance Goals**: Country-level default remains unchanged for existing consumers; zoom/pan and label calculation stay responsive for the built-in country topology; Phase 2 region drill-down avoids unnecessary work when detail is disabled  
-**Constraints**: Default remains country-level; zoom is opt-in; Phase 1 does not introduce region-level rendering; no hosted map service; no network requirement; no bundled capital city metadata; accessibility behavior is part of the core feature **Scale/Scope**: Phase 1 supports country-level zooming, drag panning, country labels, label fit/collision rules, non-contiguous country handling, consumer-supplied pins with captions, accessible controls, and live announcements. Phase 2 supports optional country-to-region drill-down, starter region coverage, provider fallback, and visible-region list.
+- **Language/Version**: TypeScript 4.7, React 18 development baseline, Node >=18
+- **Primary Dependencies**: Existing package dependencies: React, d3-geo, topojson-client, react-path-tooltip, tslib; Phase 2 optional new workspace package for normalized regions data
+- **Storage**: Checked-in world topology for Phase 1; optional sample capital pins may live in website/docs example data outside the core package; checked-in optional region data package for Phase 2; no external storage
+- **Testing**: Vitest, React Testing Library, package build, website typecheck/build, lint, format check, spellcheck, coverage, package smoke validation
+- **Target Platform**: Published npm library consumed by browser-based React applications
+- **Project Type**: Yarn workspace library package plus documentation website and optional data workspace
+- **Performance Goals**: Country-level default remains unchanged for existing consumers; zoom/pan and label calculation stay responsive for the built-in country topology; Phase 2 region drill-down avoids unnecessary work when detail is disabled
+- **Constraints**: Default remains country-level; zoom is opt-in; Phase 1 does not introduce region-level rendering; no hosted map service; no network requirement; no bundled capital city metadata; accessibility behavior is part of the core feature
+- **Scale/Scope**: Phase 1 supports country-level zooming, drag panning, country labels, label fit/collision rules, non-contiguous country handling, consumer-supplied pins with captions, accessible controls, and live announcements. Phase 2 supports optional country-to-region drill-down, starter region coverage, provider fallback, and visible-region list.
 
 ## Constitution Check
 
