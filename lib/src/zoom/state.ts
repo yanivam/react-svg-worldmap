@@ -8,7 +8,7 @@ export interface ResolvedZoomOptions {
   zoomFactor: number;
   showControls: boolean;
   showCountryLabels: boolean;
-  showCountryDetails: boolean;
+  showPins: boolean;
 }
 
 export function resolveZoomOptions(

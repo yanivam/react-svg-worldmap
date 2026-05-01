@@ -19,10 +19,9 @@ import {
   defaultCountryStyle,
   defaultTooltip,
 } from "./constants.js";
-import { getCountryCityMetadata } from "./countryCities.js";
 import { useWindowWidth, useContainerWidth, responsify } from "./utils.js";
 import { drawTooltip } from "./draw.js";
-import CityMarker from "./components/CityMarker.js";
+import PinMarker from "./components/PinMarker.js";
 import Frame from "./components/Frame.js";
 import Region from "./components/Region.js";
 import TextLabel from "./components/TextLabel.js";
@@ -36,11 +35,11 @@ import {
   zoomAroundPoint,
 } from "./zoom/state.js";
 import {
-  canShowCountryDetails,
   countryLabelFontSize,
   createCountryLabelCandidate,
   placeCountryLabels,
 } from "./labels/placement.js";
+import { projectMapPins } from "./pins/mapPins.js";
 
 export type {
   ISOCode,
@@ -51,7 +50,7 @@ export type {
   Props,
   ZoomOptions,
   ZoomState,
-  CountryCityMetadata,
+  MapPin,
   CountryLabelCandidate,
   DisputeTier,
   DisputeStatus,
@@ -112,6 +111,7 @@ export default function WorldMap<T extends number | string>(
     regionClassName,
     zoom,
     onZoomChange,
+    pins = [],
   } = props;
   const [wrapperEl, setWrapperEl] = useState<HTMLDivElement | null>(null);
   const containerRef = useRef<SVGSVGElement>(null);
@@ -176,6 +176,11 @@ export default function WorldMap<T extends number | string>(
     zoomOptions.enabled,
     zoomOptions.showCountryLabels,
   ]);
+  const mapPins = React.useMemo(() => {
+    if (!zoomOptions.showPins) return [];
+
+    return projectMapPins(pins, projection, scale);
+  }, [pins, projection, scale, zoomOptions.showPins]);
 
   const regionElements = geoFeatures.map((geoFeature, i) => {
     const triggerRef = triggerRefs.current[i]!;
@@ -413,39 +418,32 @@ export default function WorldMap<T extends number | string>(
             }) translate(0, 240)`}
             style={{ transition: "all 0.2s" }}>
             {regionPaths}
-            {countryLabels.map((label) => {
-              const cityMetadata = getCountryCityMetadata(label.countryCode);
-              const showDetails =
-                zoomOptions.showCountryDetails &&
-                cityMetadata != null &&
-                canShowCountryDetails(label, scale);
-              const capitalPoint = showDetails
-                ? projection([...cityMetadata.capitalLocation])
-                : null;
-
-              return (
-                <React.Fragment key={`zoom-label-${label.countryCode}`}>
-                  <TextLabel
-                    label={label.label}
-                    x={label.x}
-                    y={label.y}
-                    textAnchor="middle"
-                    fontSize={labelFontSize}
-                    fill="#222"
-                    pointerEvents="none"
-                  />
-                  {showDetails && capitalPoint && (
-                    <CityMarker
-                      countryCode={label.countryCode}
-                      name={cityMetadata.capitalCity}
-                      scale={scale}
-                      x={capitalPoint[0]}
-                      y={capitalPoint[1]}
-                    />
-                  )}
-                </React.Fragment>
-              );
-            })}
+            {countryLabels.map((label) => (
+              <React.Fragment key={`zoom-label-${label.countryCode}`}>
+                <TextLabel
+                  label={label.label}
+                  x={label.x}
+                  y={label.y}
+                  textAnchor="middle"
+                  fontSize={labelFontSize}
+                  fill="#222"
+                  pointerEvents="none"
+                />
+              </React.Fragment>
+            ))}
+            {mapPins.map(({ pin, x, y }, index) => (
+              <PinMarker
+                key={pin.id ?? `${pin.caption}-${index}`}
+                caption={pin.caption}
+                scale={scale}
+                x={x}
+                y={y}
+                {...(pin.countryCode != null
+                  ? { countryCode: pin.countryCode }
+                  : {})}
+                {...(pin.kind != null ? { kind: pin.kind } : {})}
+              />
+            ))}
           </g>
           <g>
             {textLabelFunction(width).map((labelProps) => (

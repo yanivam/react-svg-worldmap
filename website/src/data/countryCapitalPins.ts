@@ -1,7 +1,15 @@
 /* Cspell:disable */
-import type { CountryCityMetadata, ISOCode } from "./types.js";
+import type { MapPin } from "react-svg-worldmap";
 
+type ISOCode = string;
 type MapCountryCode = Uppercase<ISOCode>;
+
+interface CapitalCityPinRecord {
+  countryCode: ISOCode;
+  capitalCity: string;
+  capitalLocation: readonly [number, number];
+  source?: string;
+}
 
 const DEFAULT_SOURCE =
   "Capital names from worldcities 0.1.8; capital coordinates from SimpleMaps via world-cities-json 1.0.1, with manual coordinates for topology-specific entities";
@@ -1057,10 +1065,14 @@ export const countryCityMetadata = {
     capitalLocation: [31.6, 4.85],
     source: DEFAULT_SOURCE,
   },
-} satisfies Record<MapCountryCode, CountryCityMetadata>;
+} satisfies Record<MapCountryCode, CapitalCityPinRecord>;
 
-export function getCountryCityMetadata(
-  countryCode: ISOCode,
-): CountryCityMetadata | undefined {
-  return countryCityMetadata[countryCode.toUpperCase() as MapCountryCode];
-}
+export const capitalCityPins: MapPin[] = Object.values(countryCityMetadata).map(
+  ({ countryCode, capitalCity, capitalLocation }) => ({
+    id: `capital-${countryCode}`,
+    countryCode,
+    kind: "capital",
+    caption: `${capitalCity} (capital)`,
+    coordinates: capitalLocation,
+  }),
+);

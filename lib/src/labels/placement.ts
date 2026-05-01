@@ -5,7 +5,6 @@ import { getLargestGeometryPart, measureFeature } from "../zoom/geometry.js";
 
 const LABEL_FONT_SIZE = 12;
 const LABEL_HEIGHT = 14;
-const DETAIL_HEIGHT = 24;
 const AVERAGE_CHARACTER_WIDTH = 6.5;
 
 function estimateTextWidth(label: string): number {
@@ -68,22 +67,6 @@ export function placeCountryLabels(
       return [...accepted, candidate];
     }, [])
     .sort((left, right) => left.countryName.localeCompare(right.countryName));
-}
-
-export function canShowCountryDetails(
-  label: CountryLabelCandidate,
-  scale: number,
-): boolean {
-  const detailWidth = Math.max(
-    label.width,
-    estimateTextWidth("Capital city") / scale,
-  );
-  const detailHeight = DETAIL_HEIGHT / scale;
-
-  return (
-    label.availableWidth >= detailWidth * 1.1 &&
-    label.availableHeight >= label.height + detailHeight
-  );
 }
 
 export const countryLabelFontSize = LABEL_FONT_SIZE;

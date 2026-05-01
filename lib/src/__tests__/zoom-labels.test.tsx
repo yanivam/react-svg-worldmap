@@ -37,28 +37,55 @@ describe("WorldMap zoom labels", () => {
     expect(container.querySelector("text")).toBeNull();
   });
 
-  it("shows capital city markers at true locations when the country has enough visible area", () => {
+  it("renders supplied pins at longitude and latitude positions", () => {
     const { container } = render(
-      <WorldMap data={DATA} size={1200} zoom={{ initialScale: 4 }} />,
+      <WorldMap
+        data={DATA}
+        size={1200}
+        pins={[
+          {
+            id: "washington-dc",
+            countryCode: "US",
+            kind: "capital",
+            caption: "Washington, DC (capital)",
+            coordinates: [-77.0163, 38.9047],
+          },
+        ]}
+        zoom={{ initialScale: 4 }}
+      />,
     );
 
     expect(
       container.querySelector(
-        '[data-city-kind="capital"][data-country-code="US"]',
+        '[data-map-pin="capital"][data-country-code="US"]',
       ),
     ).not.toBeNull();
     expect(screen.getByText("Washington, DC (capital)")).toBeInTheDocument();
   });
 
-  it("can hide capital city markers through zoom options", () => {
+  it("does not render pins unless consumers supply them", () => {
+    const { container } = render(
+      <WorldMap data={DATA} size={1200} zoom={{ initialScale: 4 }} />,
+    );
+
+    expect(container.querySelector("[data-map-pin]")).toBeNull();
+  });
+
+  it("can hide supplied pins through zoom options", () => {
     const { container } = render(
       <WorldMap
         data={DATA}
         size={1200}
-        zoom={{ initialScale: 4, showCountryDetails: false }}
+        pins={[
+          {
+            caption: "Hidden pin",
+            coordinates: [-77.0163, 38.9047],
+          },
+        ]}
+        zoom={{ initialScale: 4, showPins: false }}
       />,
     );
 
-    expect(container.querySelector("[data-city-kind]")).toBeNull();
+    expect(container.querySelector("[data-map-pin]")).toBeNull();
   });
 });

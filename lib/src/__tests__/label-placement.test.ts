@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  canShowCountryDetails,
-  placeCountryLabels,
-} from "../labels/placement.js";
+import { placeCountryLabels } from "../labels/placement.js";
 import type { CountryLabelCandidate } from "../types.js";
 
 const candidate = (
@@ -42,21 +39,5 @@ describe("label placement", () => {
     ]);
 
     expect(labels.map((label) => label.countryName)).toEqual(["Left", "Right"]);
-  });
-
-  it("shows country details only when the candidate has enough area", () => {
-    expect(canShowCountryDetails(candidate("United States", 0, 0, 1), 2)).toBe(
-      true,
-    );
-    expect(
-      canShowCountryDetails(
-        {
-          ...candidate("Tiny", 0, 0, 1),
-          availableWidth: 10,
-          availableHeight: 10,
-        },
-        1,
-      ),
-    ).toBe(false);
   });
 });

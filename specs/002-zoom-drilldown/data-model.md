@@ -42,22 +42,25 @@ Validation rules:
 - Non-contiguous countries may produce multiple candidates, but only readable placements are accepted.
 - Lower-priority labels may be hidden to preserve readability.
 
-## Country City Metadata
+## Consumer Pin
 
-Represents country-level capital city details shown only at sufficient zoom.
+Represents a consumer-supplied point detail shown only at sufficient zoom.
 
 Fields:
 
-- `countryCode`: ISO country code.
-- `capitalCity`: Capital city name.
-- `capitalLocation`: Capital city longitude/latitude.
-- `source`: Documented source or maintainer note for the metadata.
+- `id`: Optional stable consumer-provided pin identifier.
+- `coordinates`: Longitude/latitude pair.
+- `caption`: Human-readable caption displayed with the marker when space allows.
+- `countryCode`: Optional ISO country code used for filtering or prioritization.
+- `kind`: Optional marker kind exposed for styling and testing hooks.
+- `priority`: Optional ordering used when pins compete for visible space.
 
 Validation rules:
 
-- Metadata is attached to countries, not rendered as an arbitrary city layer.
-- Capital markers must be hidden when the zoomed visible country area cannot fit them.
-- Missing metadata must not break country rendering or labels.
+- Pins are supplied by consumers or examples, not bundled as core capital city metadata.
+- Pin markers and captions must be hidden when the zoomed visible area cannot fit them.
+- Missing or empty pins must not break country rendering, zooming, or labels.
+- Invalid longitude/latitude coordinates must be ignored or reported without breaking the map.
 
 ## Detail Level
 

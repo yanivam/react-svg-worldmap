@@ -21,7 +21,7 @@ export const defaultZoomOptions = {
   zoomFactor: 1.5,
   showControls: true,
   showCountryLabels: true,
-  showCountryDetails: true,
+  showPins: true,
 };
 
 export const defaultCountryStyle =

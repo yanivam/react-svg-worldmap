@@ -20,7 +20,16 @@ declare module "react-svg-worldmap" {
     zoomFactor?: number;
     showControls?: boolean;
     showCountryLabels?: boolean;
-    showCountryDetails?: boolean;
+    showPins?: boolean;
+  }
+
+  export interface MapPin {
+    id?: string;
+    coordinates: readonly [number, number];
+    caption: string;
+    countryCode?: ISOCode;
+    kind?: string;
+    priority?: number;
   }
 
   export interface DataItem<T extends string | number = number> {
@@ -61,6 +70,7 @@ declare module "react-svg-worldmap" {
     richInteraction?: boolean;
     zoom?: boolean | ZoomOptions;
     onZoomChange?: (state: ZoomState) => void;
+    pins?: readonly MapPin[];
     type?: string;
     styleFunction?: (context: CountryContext<T>) => React.CSSProperties;
     onClickFunction?: (

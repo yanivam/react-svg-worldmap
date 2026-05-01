@@ -83,8 +83,8 @@ TODO:
 - Draggable when zoomed in.
 - Separate scale slider and zoom button components.
 
-## Zoom Labels And Country Details
+## Zoom Labels And Pins
 
 The `zoom` prop enables default country labels. Labels are placed from projected country geometry and filtered by available country area and overlap with already accepted labels. For countries with non-contiguous territory, placement uses the largest projected geometry part so the label is not centered over empty space between distant regions.
 
-Capital city pins are rendered at their projected longitude/latitude positions only when the zoomed country area has enough room. These markers are country metadata, not a general city layer.
+Consumers can pass `pins` to render captioned markers at projected longitude/latitude positions. The core package does not bundle capital city data; examples can provide their own sample pin lists.

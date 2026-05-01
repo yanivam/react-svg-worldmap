@@ -25,9 +25,9 @@
 
 ## Phase 2: Foundational Zoom Infrastructure
 
-**Purpose**: Add shared Phase 1 primitives that block all zoom, label, and city-detail user stories.
+**Purpose**: Add shared Phase 1 primitives that block all zoom, label, and consumer-pin user stories.
 
-- [ ] T005 [P] [US1] Add zoom option, zoom state, country label, and city metadata types in [lib/src/types.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/types.ts).
+- [ ] T005 [P] [US1] Add zoom option, zoom state, country label, and consumer pin types in [lib/src/types.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/types.ts).
 - [ ] T006 [P] [US1] Add default zoom configuration constants in [lib/src/constants.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/constants.ts).
 - [ ] T007 [P] [US1] Add country geometry measurement helpers for projected bounds, visible area, and multi-part geometry in [lib/src/zoom/geometry.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/zoom/geometry.ts).
 - [ ] T008 [P] [US1] Add zoom transform reducer/helpers for scale, translate, drag start, drag move, drag end, and reset in [lib/src/zoom/state.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/zoom/state.ts).
@@ -84,29 +84,29 @@
 
 ---
 
-## Phase 5: User Story 3 - Show Country Labels And City Details At Readable Zoom Levels (Priority: P3)
+## Phase 5: User Story 3 - Show Country Labels And Consumer Pins At Readable Zoom Levels (Priority: P3)
 
-**Goal**: Country labels are enabled by default with zoom, avoid collisions, handle non-contiguous territory, and show capital city markers only when space permits.
+**Goal**: Country labels are enabled by default with zoom, avoid collisions, handle non-contiguous territory, and show consumer-supplied pin markers and captions only when space permits.
 
-**Independent Test**: Enable zoom and labels, zoom into several countries, and confirm country names plus capital city markers appear only when fit and collision rules allow them.
+**Independent Test**: Enable zoom and labels, supply pins with longitude/latitude and captions, zoom into several countries, and confirm country names plus pin markers/captions appear only when fit and collision rules allow them.
 
 ### Tests for User Story 3
 
 - [ ] T025 [P] [US3] Add unit tests for label candidate generation, text bounds, area fit, and collision rejection in [lib/src/**tests**/label-placement.test.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/__tests__/label-placement.test.ts).
 - [ ] T026 [P] [US3] Add unit tests for non-contiguous country label placement using the United States or an equivalent multi-part fixture in [lib/src/**tests**/label-noncontiguous.test.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/__tests__/label-noncontiguous.test.ts).
-- [ ] T027 [P] [US3] Add tests for capital city metadata lookup and missing metadata fallback in [lib/src/**tests**/country-cities.test.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/__tests__/country-cities.test.ts).
-- [ ] T028 [P] [US3] Add component tests confirming labels and capital city markers appear only at readable zoomed sizes in [lib/src/**tests**/zoom-labels.test.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/__tests__/zoom-labels.test.tsx).
+- [ ] T027 [P] [US3] Add tests for consumer-supplied pin validation, projection, caption handling, and missing/invalid pin fallback in [lib/src/**tests**/map-pins.test.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/__tests__/map-pins.test.ts).
+- [ ] T028 [P] [US3] Add component tests confirming labels and consumer-supplied pins appear only at readable zoomed sizes in [lib/src/**tests**/zoom-labels.test.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/__tests__/zoom-labels.test.tsx).
 
 ### Implementation for User Story 3
 
-- [ ] T029 [US3] Add country city metadata records for capital city names and coordinates in [lib/src/countryCities.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/countryCities.ts).
+- [ ] T029 [US3] Add consumer pin projection and validation helpers without bundling capital city metadata in [lib/src/pins/mapPins.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/pins/mapPins.ts).
 - [ ] T030 [US3] Add label placement helpers for candidate generation, geometry-part fit, collision detection, and stable prioritization in [lib/src/labels/placement.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/labels/placement.ts).
-- [ ] T031 [US3] Add country detail visibility thresholds for labels and capital city markers in [lib/src/labels/detailVisibility.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/labels/detailVisibility.ts).
+- [ ] T031 [US3] Add visibility thresholds for labels and consumer-supplied pins in [lib/src/labels/detailVisibility.ts](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/labels/detailVisibility.ts).
 - [ ] T032 [US3] Render default country labels when zoom is enabled and `showCountryLabels` is not disabled in [lib/src/index.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/index.tsx) and [lib/src/components/TextLabel.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/components/TextLabel.tsx).
-- [ ] T033 [US3] Render capital city markers only when visibility thresholds pass in [lib/src/index.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/index.tsx), [lib/src/components/CityMarker.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/components/CityMarker.tsx), and [lib/src/components/TextLabel.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/components/TextLabel.tsx).
+- [ ] T033 [US3] Render consumer-supplied pin markers and captions only when visibility thresholds pass in [lib/src/index.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/index.tsx), [lib/src/components/PinMarker.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/components/PinMarker.tsx), and [lib/src/components/TextLabel.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/components/TextLabel.tsx).
 - [ ] T034 [US3] Ensure custom `textLabelFunction` behavior remains compatible alongside default zoom labels in [lib/src/index.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/src/index.tsx).
 
-**Checkpoint**: Phase 1 is functionally complete: zooming, panning, labels, non-contiguous placement, and capital city markers work without region data.
+**Checkpoint**: Phase 1 is functionally complete: zooming, panning, labels, non-contiguous placement, and consumer-supplied pins work without region data.
 
 ---
 
@@ -115,9 +115,9 @@
 **Purpose**: Document the completed zoom-only release before starting optional region package work.
 
 - [ ] T035 [P] [US2] Add a Phase 1 zoom in/out example page in [website/src/pages/examples/zoom.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/website/src/pages/examples/zoom.tsx).
-- [ ] T036 [P] [US2] Add a reusable zoom example component in [website/src/components/ZoomExample.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/website/src/components/ZoomExample.tsx).
+- [ ] T036 [P] [US2] Add a reusable zoom example component with optional sample capital pins passed through the consumer pin API in [website/src/components/ZoomExample.tsx](/Users/ehudamiri/Documents/projects/react-svg-worldmap/website/src/components/ZoomExample.tsx).
 - [ ] T037 [US2] Document the zoom in/out example as the first example before sizing, plus zoom props, default country labels, drag panning, and reset behavior in [docs/examples.md](/Users/ehudamiri/Documents/projects/react-svg-worldmap/docs/examples.md), [docs/api.md](/Users/ehudamiri/Documents/projects/react-svg-worldmap/docs/api.md), and [website/docusaurus.config.js](/Users/ehudamiri/Documents/projects/react-svg-worldmap/website/docusaurus.config.js).
-- [ ] T038 [US3] Document country city detail visibility rules and non-contiguous country label behavior in [docs/customization.md](/Users/ehudamiri/Documents/projects/react-svg-worldmap/docs/customization.md).
+- [ ] T038 [US3] Document consumer pin visibility rules, note that sample capital pin data is example-only outside the core package, and document non-contiguous country label behavior in [docs/customization.md](/Users/ehudamiri/Documents/projects/react-svg-worldmap/docs/customization.md).
 - [ ] T039 [US1] Regenerate or update package README content for Phase 1 zoom in [README.md](/Users/ehudamiri/Documents/projects/react-svg-worldmap/README.md) and [lib/README.md](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/README.md).
 
 **Phase 1 Release Gate**: Do not start Phase 7 until T001-T039 are complete and validation passes.
@@ -155,7 +155,7 @@
 
 **Purpose**: Cross-cutting checks for quality, docs, package integrity, and map-data policy.
 
-- [ ] T051 [P] Run map-data neutrality review for country city metadata and Phase 2 region names/boundaries against [docs/map-data-policy.md](/Users/ehudamiri/Documents/projects/react-svg-worldmap/docs/map-data-policy.md), [docs/map-data-overrides.json](/Users/ehudamiri/Documents/projects/react-svg-worldmap/docs/map-data-overrides.json), and [GEOPOLITICAL_POLICY.md](/Users/ehudamiri/Documents/projects/react-svg-worldmap/GEOPOLITICAL_POLICY.md).
+- [ ] T051 [P] Run map-data neutrality review for example-only sample capital pin data and Phase 2 region names/boundaries against [docs/map-data-policy.md](/Users/ehudamiri/Documents/projects/react-svg-worldmap/docs/map-data-policy.md), [docs/map-data-overrides.json](/Users/ehudamiri/Documents/projects/react-svg-worldmap/docs/map-data-overrides.json), and [GEOPOLITICAL_POLICY.md](/Users/ehudamiri/Documents/projects/react-svg-worldmap/GEOPOLITICAL_POLICY.md).
 - [ ] T052 [P] Verify package exports and package contents in [lib/package.json](/Users/ehudamiri/Documents/projects/react-svg-worldmap/lib/package.json) and, after Phase 2, [regions/package.json](/Users/ehudamiri/Documents/projects/react-svg-worldmap/regions/package.json).
 - [ ] T053 Run `yarn lint` from [package.json](/Users/ehudamiri/Documents/projects/react-svg-worldmap/package.json).
 - [ ] T054 Run `yarn format-check` from [package.json](/Users/ehudamiri/Documents/projects/react-svg-worldmap/package.json).
@@ -187,7 +187,7 @@
 
 - **US1 Preserve Current World Map Behavior**: Required before shipping any opt-in zoom behavior.
 - **US2 Zoom And Pan The Country Map**: Requires foundational zoom helpers; independent of region data.
-- **US3 Labels And City Details**: Requires US2 zoom state and geometry calculations.
+- **US3 Labels And Consumer Pins**: Requires US2 zoom state and geometry calculations.
 - **US4 Optional Region Detail Package**: Must not begin until Phase 1 is complete and validated.
 
 ### Parallel Opportunities
@@ -207,7 +207,7 @@
 1. Complete T001-T010 to establish zoom infrastructure.
 2. Complete T011-T015 to preserve default behavior.
 3. Complete T016-T024 to ship opt-in zoom, continuous zoom, drag panning, reset, and announcements.
-4. Complete T025-T034 to ship country labels, non-contiguous placement, and capital city markers.
+4. Complete T025-T034 to ship country labels, non-contiguous placement, and consumer-supplied pins.
 5. Complete T035-T039 and Phase 1 validation.
 6. Stop and release/demo Phase 1 before starting optional regions.
 

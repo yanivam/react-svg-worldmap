@@ -1,6 +1,7 @@
 import * as React from "react";
 import WorldMap from "react-svg-worldmap";
 import { populationData } from "../data/CountryData";
+import { capitalCityPins } from "../data/countryCapitalPins";
 
 export default function ZoomExample(): JSX.Element {
   return (
@@ -9,6 +10,7 @@ export default function ZoomExample(): JSX.Element {
       size="responsive"
       frame
       data={populationData}
+      pins={capitalCityPins}
       zoom
     />
   );

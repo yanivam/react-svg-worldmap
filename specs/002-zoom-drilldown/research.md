@@ -11,7 +11,7 @@ Alternatives considered:
 
 ## Decision: Make Zooming The Phase 1 Opt-In
 
-Rationale: Zooming, panning, labels, and capital city markers can be delivered without expanding the package into region-level map data. This reduces release risk and gives Phase 2 a stable viewport and interaction model to build on.
+Rationale: Zooming, panning, labels, and consumer-supplied pins can be delivered without expanding the package into region-level map data or bundled city metadata. This reduces release risk and gives Phase 2 a stable viewport and interaction model to build on.
 
 Alternatives considered:
 
@@ -45,14 +45,14 @@ Alternatives considered:
 - Use the existing full-country centroid only: rejected because it can place labels over empty space.
 - Suppress all non-contiguous country labels: rejected because large countries still need labels when space permits.
 
-## Decision: Include Country-Level Capital City Metadata In Phase 1
+## Decision: Keep Capital Data Out Of Core And Support Consumer Pins
 
-Rationale: Capital city markers provide useful extra context at high zoom without introducing a full point-of-interest or city layer. They are metadata tied to the country record and are shown only when the zoomed country area can fit them without unacceptable overlap. Additional city classes are intentionally excluded from Phase 1 to keep the feature focused and reduce map clutter.
+Rationale: Applications need a general way to place captioned points by longitude/latitude, while the core package should stay data-light and avoid owning capital city metadata. Capital city pins can still be demonstrated by the website example as ordinary consumer-supplied pins.
 
 Alternatives considered:
 
-- Keep all city and capital data out of Phase 1: rejected by the updated scope.
-- Render all cities as a layer: rejected because it would expand the scope beyond country-level metadata.
+- Bundle capital city metadata in Phase 1: rejected because sample capital data belongs outside the core package.
+- Render all cities as a built-in layer: rejected because consumers should own point data and captions.
 
 ## Decision: Add An Async Detail Provider Boundary In Phase 2
 
@@ -89,7 +89,7 @@ Alternatives considered:
 
 - Render every label: rejected because labels overlap in dense regions.
 - Omit labels entirely: rejected because labels are part of the expected zoom value and accessible visible context.
-- Curved or dense city labeling: rejected for Phase 1 because city rendering is limited to country-level capital city markers.
+- Curved or dense point labeling: rejected for Phase 1 because the pin API only needs projected captioned markers with simple fit/collision handling.
 
 ## Decision: Treat Region Data As A Neutrality-Reviewed Map Data Change
 

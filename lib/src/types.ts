@@ -22,14 +22,16 @@ export interface ZoomOptions {
   zoomFactor?: number;
   showControls?: boolean;
   showCountryLabels?: boolean;
-  showCountryDetails?: boolean;
+  showPins?: boolean;
 }
 
-export interface CountryCityMetadata {
-  countryCode: ISOCode;
-  capitalCity: string;
-  capitalLocation: readonly [number, number];
-  source?: string;
+export interface MapPin {
+  id?: string;
+  coordinates: readonly [number, number];
+  caption: string;
+  countryCode?: ISOCode;
+  kind?: string;
+  priority?: number;
 }
 
 export interface CountryLabelCandidate {
@@ -133,6 +135,7 @@ export interface Props<T extends string | number = number> {
   richInteraction?: boolean;
   zoom?: boolean | ZoomOptions;
   onZoomChange?: (state: ZoomState) => void;
+  pins?: readonly MapPin[];
 
   styleFunction?: (context: CountryContext<T>) => React.CSSProperties;
 

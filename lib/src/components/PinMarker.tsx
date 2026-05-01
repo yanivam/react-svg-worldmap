@@ -4,16 +4,18 @@ import TextLabel from "./TextLabel.js";
 import type { ISOCode } from "../types.js";
 
 export interface Props {
-  countryCode: ISOCode;
-  name: string;
+  caption: string;
+  countryCode?: ISOCode;
+  kind?: string;
   scale: number;
   x: number;
   y: number;
 }
 
-export default function CityMarker({
+export default function PinMarker({
+  caption,
   countryCode,
-  name,
+  kind = "pin",
   scale,
   x,
   y,
@@ -26,12 +28,13 @@ export default function CityMarker({
   const pinRadius = 6 * markerScale;
   const pinTop = 7 * markerScale;
   const pinTip = 8 * markerScale;
-  const label = `${name} (capital)`;
 
   return (
     <g
-      data-city-kind="capital"
-      data-country-code={countryCode.toUpperCase()}
+      data-map-pin={kind}
+      {...(countryCode != null
+        ? { "data-country-code": countryCode.toUpperCase() }
+        : {})}
       pointerEvents="none">
       <path
         d={[
@@ -50,7 +53,7 @@ export default function CityMarker({
         strokeWidth={strokeWidth}
       />
       <TextLabel
-        label={label}
+        label={caption}
         x={x + labelOffset}
         y={y - labelOffset}
         fill="#1f2937"

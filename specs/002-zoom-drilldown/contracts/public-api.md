@@ -16,11 +16,12 @@ interface ZoomOptions {
   zoomFactor?: number;
   showControls?: boolean;
   showCountryLabels?: boolean;
-  showCountryDetails?: boolean;
+  showPins?: boolean;
 }
 
 interface Props<T extends string | number = number> {
   zoom?: boolean | ZoomOptions;
+  pins?: MapPin[];
   onZoomChange?: (state: ZoomState) => void;
 }
 
@@ -39,22 +40,25 @@ Compatibility requirements:
 - Existing props, callbacks, default import, and named exports remain compatible.
 - Consumers who do not install region data can continue using the base package.
 
-## Country Metadata Contract
+## Consumer Pin Contract
 
 ```ts
-interface CountryCityMetadata {
-  countryCode: ISOCode;
-  capitalCity: string;
-  capitalLocation: readonly [number, number];
-  source?: string;
+interface MapPin {
+  id?: string;
+  coordinates: readonly [longitude: number, latitude: number];
+  caption: string;
+  countryCode?: ISOCode;
+  kind?: string;
+  priority?: number;
 }
 ```
 
 Behavior requirements:
 
-- Capital city markers are country metadata, not a standalone city layer.
-- Capital markers render only when fit/collision rules determine they can be displayed clearly.
-- Missing metadata does not prevent country rendering or zooming.
+- The core package renders only pins supplied through props; it does not bundle capital city metadata.
+- Pin markers and captions render only when fit/collision rules determine they can be displayed clearly.
+- Missing, empty, or invalid pins do not prevent country rendering or zooming.
+- Documentation or website examples may include sample capital pins/data outside the core package.
 
 ## Phase 2 Region Detail Props
 
@@ -165,7 +169,7 @@ Documentation must explain:
 
 - Country-level rendering is the default.
 - Phase 1 zooming is opt-in and does not require region data.
-- Country labels and capital city markers are fit/collision gated.
+- Country labels and consumer-supplied pins are fit/collision gated.
 - Phase 2 region drill-down is opt-in.
 - Optional regions package installation or provider setup for Phase 2.
 - Fallback behavior when provider coverage is unavailable in Phase 2.
