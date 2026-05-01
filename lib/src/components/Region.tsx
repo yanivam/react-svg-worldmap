@@ -116,6 +116,7 @@ function Region(
       aria-label={isInteractive ? countryName : undefined}
       {...buttonProps}
       {...pathProps}
+      vectorEffect="non-scaling-stroke"
       style={
         hoverStyle ? { ...pathProps.style, ...hoverStyle } : pathProps.style
       }

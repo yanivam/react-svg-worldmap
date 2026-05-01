@@ -27,6 +27,16 @@ Alternatives considered:
 - Country-only click-to-focus: rejected because it does not cover panning or repeated zoom workflows.
 - A finite zoom-step enum: rejected because it conflicts with the requested infinite zoom behavior.
 
+## Decision: Keep Country Border Strokes In Screen Space During Zoom
+
+Rationale: Country borders are visual separators, not geometry that should become more prominent as the viewport scales. Applying SVG non-scaling stroke behavior, or an equivalent inverse-scale stroke-width strategy, keeps borders readable without letting them thicken and obscure small countries during repeated zoom-in actions.
+
+Alternatives considered:
+
+- Let path strokes scale with the zoom transform: rejected because repeated zooming makes borders visually thicker and can dominate the map.
+- Cap the zoom scale to hide the symptom: rejected because the feature requires continuous zoom without artificial finite step limits.
+- Add a consumer option for border scaling: rejected for Phase 1 because constant screen-space borders are the expected default zoom behavior and avoid unnecessary API surface.
+
 ## Decision: Add Country Labels By Default When Zoom Is Enabled
 
 Rationale: Labels are expected once users zoom into the map. They must be filtered by country area, label size, visible viewport, and collision with other labels so the zoomed map remains readable.

@@ -1,32 +1,26 @@
 # Implementation Plan: Zoom Drill-Down
 
-**Branch**: `002-zoom-drilldown` | **Date**: 2026-04-28 | **Spec**: [spec.md](./spec.md)
+**Branch**: `002-zoom-drilldown` | **Date**: 2026-05-01 | **Spec**: [spec.md](./spec.md) **Input**: Feature specification from `/specs/002-zoom-drilldown/spec.md`
+
+**Note**: This template is filled in by the `/speckit-plan` command. See `.specify/templates/plan-template.md` for the execution workflow.
 
 ## Summary
 
-Add an opt-in, accessible zoom experience to `react-svg-worldmap` while preserving the current country-level world map as the default. Phase 1 builds zoom in/out controls, continuous zoom, drag panning, country labels, label fit/collision logic, non-contiguous country handling, and consumer-supplied pins positioned by longitude/latitude with captions. Phase 2 adds the optional region detail package only after the zoom foundation is complete. The plan adapts the policy-first discipline from `docs/superpowers/plans/2026-04-04-neutral-map-policy.md`: document behavior and public contracts first, keep the base package stable, make optional data explicit, and validate package/docs outputs before release.
+Implement opt-in country-level zooming for the existing React SVG world map while preserving default country rendering and all current public behavior. Phase 1 covers continuous zoom, drag panning, reset, keyboard-operable controls, live zoom status, fit-aware country labels, consumer-supplied pins, and constant screen-space country border strokes during zoom. Phase 2, after the zoom foundation is complete, introduces optional provider-backed region detail in a separate data package.
 
 ## Technical Context
 
-- **Language/Version**: TypeScript 4.7, React 18 development baseline, Node >=18
-- **Primary Dependencies**: Existing package dependencies: React, d3-geo, topojson-client, react-path-tooltip, tslib; Phase 2 optional new workspace package for normalized regions data
-- **Storage**: Checked-in world topology for Phase 1; optional sample capital pins may live in website/docs example data outside the core package; checked-in optional region data package for Phase 2; no external storage
-- **Testing**: Vitest, React Testing Library, package build, website typecheck/build, lint, format check, spellcheck, coverage, package smoke validation
-- **Target Platform**: Published npm library consumed by browser-based React applications
-- **Project Type**: Yarn workspace library package plus documentation website and optional data workspace
-- **Performance Goals**: Country-level default remains unchanged for existing consumers; zoom/pan and label calculation stay responsive for the built-in country topology; Phase 2 region drill-down avoids unnecessary work when detail is disabled
-- **Constraints**: Default remains country-level; zoom is opt-in; Phase 1 does not introduce region-level rendering; no hosted map service; no network requirement; no bundled capital city metadata; accessibility behavior is part of the core feature
-- **Scale/Scope**: Phase 1 supports country-level zooming, drag panning, country labels, label fit/collision rules, non-contiguous country handling, consumer-supplied pins with captions, accessible controls, and live announcements. Phase 2 supports optional country-to-region drill-down, starter region coverage, provider fallback, and visible-region list.
+**Language/Version**: TypeScript 4.7, React 18 development baseline, public peer compatibility with React >=16.8, Node >=18 **Primary Dependencies**: React, d3-geo, topojson-client, react-path-tooltip, tsup, Vitest, Testing Library **Storage**: N/A - bundled TopoJSON geometry, consumer props, and optional future region package data **Testing**: Vitest with jsdom, Testing Library for React interaction tests, package coverage via `yarn test:coverage` **Target Platform**: Browser-rendered React SVG package, ESM/CJS package consumers, Docusaurus website examples **Project Type**: Yarn workspace library plus documentation website **Performance Goals**: Zoom and pan interactions should update without remounting map data; label and pin filtering should remain usable for the bundled world country set; repeated zoom should not visually thicken country borders **Constraints**: Preserve default non-zoom behavior, no hosted map service or remote network dependency, no region data in Phase 1 core package, keep SVG accessibility and keyboard access, maintain package build and coverage gates above 80% **Scale/Scope**: One published core package (`lib`), one website example/docs surface, bundled world country geometry, optional Phase 2 region package/provider boundary
 
 ## Constitution Check
 
 _GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-- **Open Source Stewardship**: PASS. Plan requires typed public contracts, checked-in optional package artifacts, docs, examples, and release notes/changelog or changeset coverage.
-- **Political and Geopolitical Neutrality**: PASS WITH REVIEW. Feature adds region data and map detail handling, so any region names, codes, and boundaries must be reviewed against `docs/map-data-policy.md` and `docs/map-data-overrides.json`. The default map remains a small-scale thematic visualization, not an authoritative boundary reference.
-- **Quality Gates**: PASS. Plan includes tests for defaults, zoom state, drag panning, labels, consumer-supplied pin thresholds, non-contiguous countries, accessibility controls, optional package coverage in Phase 2, website examples, package build, website build, lint, typecheck, format, spellcheck, package smoke checks, and coverage above threshold.
-- **Accessible, Lightweight React Library**: PASS. Zoom must remain keyboard-operable, include explicit controls, support announcements and reduced motion, and avoid hosted map API dependencies. Phase 2 region detail must add visible-region list navigation.
-- **Release Integrity and Compatibility**: PASS. Plan identifies package exports, optional workspace package, README generation, website docs/examples, semantic versioning, package contents, ESM/CJS/types, and smoke validation.
+- **Open Source Stewardship**: PASS - Public zoom, pin, and later region-provider contracts are documented in `contracts/public-api.md`; no private services or proprietary data sources are introduced.
+- **Political and Geopolitical Neutrality**: PASS WITH REVIEW - Phase 1 does not change country geometry, names, codes, or disputed areas. Phase 2 region data is explicitly treated as a neutrality-reviewed map data change against `docs/map-data-policy.md` and `docs/map-data-overrides.json`.
+- **Quality Gates**: PASS - Plan requires lint, format check, typecheck, spellcheck, coverage, build, generated README verification, and package smoke validation.
+- **Accessible, Lightweight React Library**: PASS - Zoom controls, keyboard behavior, live announcements, reduced-motion handling, and visible region list requirements are included; Phase 1 adds no hosted map API and keeps data out of core.
+- **Release Integrity and Compatibility**: PASS - Existing country-level API remains the default; new public props/types, docs, examples, generated README, package outputs, and release notes must be validated.
 
 ## Project Structure
 
@@ -46,70 +40,65 @@ specs/002-zoom-drilldown/
 ### Source Code (repository root)
 
 ```text
-docs/
-├── examples.md
-└── superpowers/
-    ├── plans/
-    └── specs/
-
 lib/
-├── README.md
-├── package.json
-└── src/
-    ├── __tests__/
-    ├── components/
-    ├── detail/
-    ├── labels/
-    ├── index.tsx
-    └── types.ts
-
-regions/
-├── package.json
 ├── src/
-│   ├── __tests__/
-│   ├── data/
-│   ├── providers/
-│   ├── coverage.ts
-│   ├── index.ts
-│   ├── normalizeRegionCollection.ts
-│   └── types.ts
-├── tsconfig.json
-└── tsup.config.ts
+│   ├── index.tsx
+│   ├── types.ts
+│   ├── components/
+│   │   ├── PinMarker.tsx
+│   │   ├── Region.tsx
+│   │   ├── TextLabel.tsx
+│   │   ├── ZoomControls.tsx
+│   │   └── ZoomStatus.tsx
+│   ├── labels/
+│   │   └── placement.ts
+│   ├── pins/
+│   │   └── mapPins.ts
+│   ├── zoom/
+│   │   ├── geometry.ts
+│   │   └── state.ts
+│   └── __tests__/
+│       ├── WorldMap.test.tsx
+│       ├── zoom-controls.test.tsx
+│       ├── zoom-drag.test.tsx
+│       ├── zoom-labels.test.tsx
+│       ├── zoom-state.test.ts
+│       ├── label-placement.test.ts
+│       └── map-pins.test.ts
+├── scripts/
+│   └── generate-readme.mjs
+└── README.md
 
 website/
-├── docusaurus.config.js
-└── src/
-    ├── components/
-    ├── data/
-    └── pages/examples/
+├── src/components/ZoomExample.tsx
+├── src/data/countryCapitalPins.ts
+└── src/pages/examples/zoom.tsx
 ```
 
-**Structure Decision**: Phase 1 keeps implementation in `lib` and `website`, adding country-level zoom state, controls, label placement, and a consumer-supplied pin API to the base package. Phase 1 must not add capital city metadata to `lib`; any sample capital pins belong in website/docs example data. Phase 2 extends the Yarn workspace with an optional `regions` workspace instead of adding remote services or bundling all region data into `lib`. Keep `lib` responsible for rendering, state, accessibility, provider contracts, and fallback behavior. Keep `regions` responsible for normalized starter region data and provider adapter helpers. Keep `website` responsible for featured zoom and drill-down examples.
+**Structure Decision**: Use the existing Yarn workspace. Phase 1 changes stay in the published `lib` package and website/docs example surfaces. Phase 2 can add an optional region data workspace/package after the country-level zoom foundation is complete.
+
+## Phase 0: Research
+
+Research decisions are recorded in [research.md](./research.md). The new border-thickness clarification is resolved by treating country boundary strokes as screen-space visual elements rather than map geometry: transformed map paths must use non-scaling stroke behavior or an equivalent inverse-scale stroke-width strategy so repeated zooming does not thicken borders.
+
+No unresolved clarification items remain.
+
+## Phase 1: Design And Contracts
+
+Design artifacts:
+
+- [data-model.md](./data-model.md): Defines zoom state, label candidates, consumer pins, detail provider/result models, region records, visible region list, label placement, and country border stroke rendering.
+- [contracts/public-api.md](./contracts/public-api.md): Defines Phase 1 zoom/pin public props and Phase 2 provider contracts; border stroke behavior is a rendering compatibility guarantee rather than a new public prop.
+- [quickstart.md](./quickstart.md): Documents implementation and verification flow, including repeated zoom validation for constant country border thickness.
+
+Post-design constitution re-check:
+
+- **Open Source Stewardship**: PASS - API and behavior contracts are documented in the feature artifacts.
+- **Political and Geopolitical Neutrality**: PASS WITH REVIEW - No Phase 1 geometry/content changes; Phase 2 region data remains policy-gated.
+- **Quality Gates**: PASS - Verification commands cover package tests, coverage, lint, typecheck, formatting, spellcheck, build, README generation, and package smoke validation.
+- **Accessible, Lightweight React Library**: PASS - Design preserves explicit controls, keyboard operation, live status, and no hosted map dependencies.
+- **Release Integrity and Compatibility**: PASS - Documentation and generated package outputs are included in validation.
 
 ## Complexity Tracking
 
-No constitution violations are planned.
-
-## Phase 0: Research Summary
-
-See [research.md](./research.md). Key decisions:
-
-- Preserve country-level rendering as the default.
-- Use an explicit Phase 1 zoom opt-in that does not require region data.
-- Support continuous zoom, drag panning, reset, country labels, and consumer-supplied pin visibility thresholds in Phase 1.
-- Add a separate optional `@react-svg-worldmap/regions` workspace/package in Phase 2.
-- Introduce an async region provider boundary with Phase 2 region detail.
-- Keep bundled city metadata, remote loading, and hosted map services out of scope.
-- Treat accessible controls, announcements, reduced-motion behavior, and Phase 2 visible-region list support as core acceptance requirements.
-
-## Phase 1: Design Summary
-
-See [data-model.md](./data-model.md), [contracts/public-api.md](./contracts/public-api.md), and [quickstart.md](./quickstart.md).
-
-Post-design Constitution Check:
-
-- **Open Source Stewardship**: PASS. Public contracts and package responsibilities are documented.
-- **Political and Geopolitical Neutrality**: PASS WITH REVIEW. Region data and names require source/policy review before release.
-- **Quality Gates**: PASS. Design defines executable validation for core, optional package, docs, and website.
-- **Accessible, Lightweight React Library**: PASS. Design avoids hosted services and makes accessibility part of the base interaction model.
-- **Release Integrity and Compatibility**: PASS. Design identifies exports, workspace package outputs, README generation, package smoke tests, and semantic versioning.
+No constitution violations or complexity exceptions.

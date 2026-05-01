@@ -11,6 +11,10 @@
 - Q: What source should seed this specification? -> A: Migrate the zoom drill-down design and planning content from branch `codex/zoom-drilldown-spec` into a new `002` Spec Kit feature based on the current `001` branch.
 - Q: What implementation sequence should 002 follow? -> A: Phase 1 builds country-level zooming, panning, labels, and consumer-supplied pin rendering without introducing region-level detail or bundled city metadata. Phase 2 introduces the optional region package only after Phase 1 is complete.
 
+### Session 2026-05-01
+
+- Q: How should country border thickness behave while zooming? -> A: Borders keep a constant screen-space thickness at all zoom levels.
+
 ## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Preserve Current World Map Behavior (Priority: P1)
@@ -42,6 +46,7 @@ As an application user exploring a thematic map, I need opt-in zoom controls and
 1. **Given** zooming is enabled, **When** the user activates zoom in or zoom out repeatedly, **Then** the map scales continuously without artificial step limits and remains usable.
 2. **Given** zooming is enabled, **When** the user drags the map, **Then** the map focus changes by panning the current country-level view.
 3. **Given** the user activates reset, **When** the map has been zoomed or panned, **Then** it returns to the default world view.
+4. **Given** zooming is enabled, **When** the user zooms in or out repeatedly, **Then** country border strokes keep a constant screen-space thickness instead of growing with the zoom scale.
 
 ---
 
@@ -113,6 +118,7 @@ As a package consumer, I need an optional region data package after the zoom fou
 - **FR-018**: Phase 2 optional regions data package MUST expose normalized region data and a provider adapter compatible with the core package.
 - **FR-019**: The feature MUST include a Phase 1 zoom in/out documentation example as the first examples entry before the sizing demo, and Phase 2 MUST add a region drill-down example when available.
 - **FR-020**: Existing country-level style, tooltip, click, link, text label, sizing, frame, and accessibility behavior MUST remain compatible.
+- **FR-021**: Country border strokes MUST keep a constant screen-space thickness at all zoom levels so zooming does not make borders visually thicker or obscure country shapes.
 
 ### Constitution Requirements _(mandatory)_
 
@@ -147,6 +153,7 @@ As a package consumer, I need an optional region data package after the zoom fou
 - **SC-005**: The base package remains usable without installing the optional regions package.
 - **SC-006**: The feature passes package tests, type checking, linting, formatting, build, package smoke validation, and coverage above the project threshold.
 - **SC-007**: Documentation lets a consumer understand how to enable Phase 1 zooming in under 10 minutes and explains that optional region detail is Phase 2.
+- **SC-008**: In the Phase 1 zoom example, repeated zoom-in actions do not increase the rendered screen-space thickness of country border strokes.
 
 ## Assumptions
 

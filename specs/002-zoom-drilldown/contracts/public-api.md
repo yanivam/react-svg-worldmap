@@ -37,6 +37,7 @@ Compatibility requirements:
 - `zoom={true}` enables default controls, drag panning, and country labels.
 - Zoom in, zoom out, and reset controls remain keyboard-operable.
 - Drag panning is available when zooming is enabled.
+- Country border strokes keep a constant screen-space thickness at all zoom levels; this is default rendering behavior and does not require a new prop.
 - Existing props, callbacks, default import, and named exports remain compatible.
 - Consumers who do not install region data can continue using the base package.
 

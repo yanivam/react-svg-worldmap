@@ -45,4 +45,32 @@ describe("WorldMap zoom controls", () => {
     expect(group.getAttribute("transform")).toBe(initial);
     expect(onZoomChange).toHaveBeenCalled();
   });
+
+  it("keeps country border strokes from scaling during repeated zoom", () => {
+    const { container } = render(<WorldMap data={DATA} size={400} zoom />);
+    const countryPath = container.querySelector("path")!;
+
+    fireEvent.click(screen.getByRole("button", { name: "Zoom in" }));
+    fireEvent.click(screen.getByRole("button", { name: "Zoom in" }));
+
+    expect(countryPath.getAttribute("vector-effect")).toBe(
+      "non-scaling-stroke",
+    );
+  });
+
+  it("announces zoom and reset status changes", () => {
+    render(<WorldMap data={DATA} size={400} zoom />);
+    const status = screen.getByText("Map zoom reset");
+
+    expect(status).toHaveAttribute("aria-live", "polite");
+
+    fireEvent.click(screen.getByRole("button", { name: "Zoom in" }));
+    expect(status).toHaveTextContent("Map zoomed in");
+
+    fireEvent.click(screen.getByRole("button", { name: "Zoom out" }));
+    expect(status).toHaveTextContent("Map zoomed out");
+
+    fireEvent.click(screen.getByRole("button", { name: "Reset zoom" }));
+    expect(status).toHaveTextContent("Map zoom reset");
+  });
 });

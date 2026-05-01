@@ -21,6 +21,23 @@ Validation rules:
 - Zoom in must support repeated continuous scaling without a fixed finite step list.
 - Drag panning must not mutate country data or selection state.
 
+## Country Border Stroke Rendering
+
+Represents the visual rule for country boundary strokes under zoom transforms.
+
+Fields:
+
+- `baseStrokeWidth`: The default screen-space stroke width derived from existing country styles.
+- `screenSpaceStrokeWidth`: The effective rendered stroke width after zoom is applied.
+- `vectorEffect`: Whether SVG non-scaling stroke behavior is applied to country paths.
+
+Validation rules:
+
+- Country border strokes must keep constant screen-space thickness at all zoom levels.
+- Repeated zoom-in actions must not increase the visible border thickness between countries.
+- Existing consumer border color, stroke opacity, region class name, and style callbacks must remain compatible.
+- The border rule must apply to default country paths without requiring a new consumer prop.
+
 ## Country Label Candidate
 
 Represents a possible country label at the current zoom and viewport.

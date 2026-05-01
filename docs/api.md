@@ -92,3 +92,5 @@ type MapPin = {
   priority?: number;
 };
 ```
+
+When zoom is enabled, country border strokes keep a constant screen-space thickness while the map scales. This prevents borders from becoming visually heavier during repeated zoom-in actions.

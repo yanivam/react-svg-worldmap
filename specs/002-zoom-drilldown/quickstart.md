@@ -11,17 +11,18 @@ Verify that existing country maps still work by default and that consumers can o
 3. Add zoom state management for continuous zoom, drag panning, and reset.
 4. Add explicit accessible controls for zoom in, zoom out, and reset.
 5. Add live announcements for zoom and reset changes.
-6. Add country labels by default when zooming is enabled.
-7. Add fit-aware and collision-aware country label placement.
-8. Add non-contiguous country handling for label placement.
-9. Add a public consumer-supplied pin API for longitude/latitude coordinates and captions.
-10. Show pin markers and captions only when the zoomed area can fit them.
-11. Add a featured website and documentation example for Phase 1 zooming as the first examples entry before the sizing demo.
-12. Phase 2: add public detail-level and provider types to the core package.
-13. Phase 2: add provider fallback behavior for `detailLevel="regions"` without a provider.
-14. Phase 2: add visible-region list synchronized with displayed region detail.
-15. Phase 2: add optional `@react-svg-worldmap/regions` workspace/package with starter normalized region data and provider helper.
-16. Update README, generated `lib/README.md`, docs examples, package exports, and release notes or changeset.
+6. Keep country border strokes at a constant screen-space thickness during repeated zoom in/out actions.
+7. Add country labels by default when zooming is enabled.
+8. Add fit-aware and collision-aware country label placement.
+9. Add non-contiguous country handling for label placement.
+10. Add a public consumer-supplied pin API for longitude/latitude coordinates and captions.
+11. Show pin markers and captions only when the zoomed area can fit them.
+12. Add a featured website and documentation example for Phase 1 zooming as the first examples entry before the sizing demo.
+13. Phase 2: add public detail-level and provider types to the core package.
+14. Phase 2: add provider fallback behavior for `detailLevel="regions"` without a provider.
+15. Phase 2: add visible-region list synchronized with displayed region detail.
+16. Phase 2: add optional `@react-svg-worldmap/regions` workspace/package with starter normalized region data and provider helper.
+17. Update README, generated `lib/README.md`, docs examples, package exports, and release notes or changeset.
 
 ## Example Consumer Flow
 
@@ -76,6 +77,7 @@ yarn workspace @react-svg-worldmap/regions build
 - Phase 1 zoom works only when explicitly enabled.
 - Keyboard users can zoom in, zoom out, and reset.
 - Pointer users can drag-pan the zoomed country-level map.
+- Repeated zoom-in actions do not increase country border stroke thickness on screen.
 - Country labels remain readable in the featured zoom example.
 - Consumer-supplied pin markers and captions appear only when there is enough zoomed area.
 - Base package does not require the optional regions package.
