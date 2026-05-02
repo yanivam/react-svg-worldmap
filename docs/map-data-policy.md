@@ -97,6 +97,10 @@ When maintainers need to revisit a geopolitical case or update the bundled map:
 
 The current bundled map remains a generated small-scale topology checked into the repo. This policy branch documents how future geometry reviews should be handled; it does not yet replace the shipped world geometry.
 
+## Optional Region Detail Package
+
+The optional region detail package uses separate coverage metadata from the bundled country map. Starter region coverage can be partial or experimental, but that status must be visible in package metadata and documentation. Region names and boundaries are reviewed under the same neutrality goals as country data and must not be described as legal, diplomatic, navigational, or cadastral references.
+
 ## References
 
 - `UNSD M49`: https://unstats.un.org/unsd/methodology/m49/

@@ -1,0 +1,37 @@
+{
+  "name": "@react-svg-worldmap/regions",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "Optional starter region data and provider helpers for react-svg-worldmap.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "README.md",
+    "dist/index.js",
+    "dist/index.cjs",
+    "dist/index.d.ts",
+    "dist/index.d.cts"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "test": "ESBUILD_LOG_LEVEL=silent vitest run"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "dependencies": {
+    "react-svg-worldmap": "2.0.2",
+    "tslib": "^2.4.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "vitest": "^1.6.0"
+  }
+}

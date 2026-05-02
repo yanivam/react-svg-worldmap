@@ -13,6 +13,9 @@ sidebar_position: 4
 - `CountryContext`: the context in rendering each country, to be used in customization callbacks.
 - `ZoomOptions`: options for opt-in zoom controls, country labels, and pins.
 - `ZoomState`: the current zoom scale and translation.
+- `DetailLevel`: whether the map is showing countries or opt-in region detail.
+- `DetailProvider`: provider interface for optional region-detail data.
+- `DetailProviderResult`: status result returned by a region detail provider.
 - `Props`: the props type for the `WorldMap` component.
 - `regions`: the list of regions (`{ name, code }`) available in the library
 - `WorldMap`: available both as named and default export. The actual component to be rendered.
@@ -37,9 +40,12 @@ sidebar_position: 4
 | `frameColor` | `string` | Frame color. |
 | `borderColor` | `string` | Border color around each individual country. |
 | `richInteraction` | `boolean` | WHen turned on, double clicks would cause the map to rescale. (Other cool features to come) |
-| `zoom` | <code>boolean &#124; ZoomOptions</code> | Enables zoom in/out controls, reset, drag panning, default country labels, and optional pins. See [Zoom example](/examples/zoom). |
+| `zoom` | <code>boolean &#124; ZoomOptions</code> | Enables zoom in/out controls, reset, drag panning, default country labels, and optional pins. See [Zoom with regions example](/examples/zoom). |
 | `pins` | `readonly MapPin[]` | Optional longitude/latitude pins with captions. |
 | `onZoomChange` | `(state: ZoomState) => void` | Called when zoom scale or translation changes. |
+| `detailLevel` | <code>'countries' &#124; 'regions'</code> | Optional detail mode. Defaults to country-level rendering. |
+| `detailProvider` | `DetailProvider` | Optional provider for region-detail data. Required only when `detailLevel="regions"` should display regional boundaries. |
+| `onDetailStatusChange` | `(status: DetailProviderResult) => void` | Called when region detail becomes loading, ready, unavailable, or failed. |
 | :construction: `type` :construction: | `string` | Select type of map you want, either "tooltip" or "marker". <br />:memo: This functionality not only complicates the code, but is infrequently used and needs to be redesigned to make it better. For now it is deprecated and has no effect. :memo: |
 | `styleFunction` | `(context: CountryContext) => React.CSSProperties` | A callback function to customize styling of each country (see [Custom styles example](/examples/custom-style)) |
 | `hrefFunction` | <code>(context: CountryContext) => object &#124; string &#124; undefined</code> | A callback function to bind an href link to each country. The return can be the target URL as a string or an object specifying props passed to the anchor element (e.g. `href` and `target`). (see [Href binding example](/examples/links)) |
@@ -94,8 +100,86 @@ type MapPin = {
   kind?: string;
   priority?: number;
 };
+
+type DetailLevel = "countries" | "regions";
+
+type RegionCoverageStatus =
+  | "complete"
+  | "partial"
+  | "experimental"
+  | "unavailable";
+
+type DetailLayerStatus =
+  | "idle"
+  | "loading"
+  | "ready"
+  | "unavailable"
+  | "failed";
+
+type RegionCoverageRecord = {
+  countryCode: ISOCode;
+  countryName: string;
+  status: RegionCoverageStatus;
+  regionCount: number;
+  sourceSummary?: string;
+  reviewNotes?: string;
+};
+
+type RegionFeatureRecord = {
+  id: string;
+  countryCode: ISOCode;
+  name: string;
+  localizedName?: string;
+  path: string;
+  centroid?: readonly [number, number];
+  bounds?: readonly [readonly [number, number], readonly [number, number]];
+  order?: number;
+};
+
+type RegionCollectionRecord = {
+  countryCode: ISOCode;
+  countryName: string;
+  coverageStatus: RegionCoverageStatus;
+  regions: RegionFeatureRecord[];
+  reviewNotes?: string;
+};
+
+type DetailProviderResult = {
+  status: DetailLayerStatus;
+  layer: "regions";
+  countryCode?: ISOCode;
+  coverageStatus?: RegionCoverageStatus;
+  collection?: RegionCollectionRecord;
+  warning?: string;
+};
+
+type DetailProvider = {
+  supports(countryCode: ISOCode): boolean;
+  getCoverage?(countryCode?: ISOCode): RegionCoverageRecord[];
+  loadRegions(countryCode: ISOCode): Promise<DetailProviderResult>;
+};
 ```
 
 When zoom is enabled, country border strokes keep a constant screen-space thickness while the map scales. This prevents borders from becoming visually heavier during repeated zoom-in actions.
 
 Default country labels use clamped screen-space sizing while zooming. The default label target starts at `12px`, grows gradually as zoom increases, and caps at `20px`; placement still rejects labels that do not fit the country shape or that collide with higher-priority labels. Override `countryLabelMinFontSize`, `countryLabelMaxFontSize`, or `countryLabelZoomGrowthRate` inside `zoom` to tune that behavior.
+
+## Region Detail
+
+Region detail is opt-in and provider-backed. Country-level rendering remains the default, and the core package does not require the optional regions package at runtime.
+
+```tsx
+import WorldMap from "react-svg-worldmap";
+import { createRegionsDetailProvider } from "@react-svg-worldmap/regions";
+
+const detailProvider = createRegionsDetailProvider();
+
+<WorldMap
+  data={[{ country: "US", value: 1 }]}
+  zoom
+  detailLevel="regions"
+  detailProvider={detailProvider}
+/>;
+```
+
+If a provider is omitted, fails, or does not support the focused country, the map keeps the country-level view and reports the detail status through `onDetailStatusChange`. Starter coverage in `@react-svg-worldmap/regions` is intentionally limited and documented through coverage metadata.

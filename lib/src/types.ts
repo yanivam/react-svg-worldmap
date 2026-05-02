@@ -15,6 +15,71 @@ export interface ZoomState {
   translate: [number, number];
 }
 
+export type DetailLevel = "countries" | "regions";
+
+export type RegionCoverageStatus =
+  | "complete"
+  | "partial"
+  | "experimental"
+  | "unavailable";
+
+export type DetailLayerStatus =
+  | "idle"
+  | "loading"
+  | "ready"
+  | "unavailable"
+  | "failed";
+
+export interface RegionCoverageRecord {
+  countryCode: ISOCode;
+  countryName: string;
+  status: RegionCoverageStatus;
+  regionCount: number;
+  sourceSummary?: string;
+  reviewNotes?: string;
+}
+
+export interface RegionViewport {
+  center?: readonly [number, number];
+  bounds?: readonly [readonly [number, number], readonly [number, number]];
+  scale?: number;
+}
+
+export interface RegionFeatureRecord {
+  id: string;
+  countryCode: ISOCode;
+  name: string;
+  localizedName?: string;
+  path: string;
+  centroid?: readonly [number, number];
+  bounds?: readonly [readonly [number, number], readonly [number, number]];
+  order?: number;
+}
+
+export interface RegionCollectionRecord {
+  countryCode: ISOCode;
+  countryName: string;
+  coverageStatus: RegionCoverageStatus;
+  regions: RegionFeatureRecord[];
+  preferredViewport?: RegionViewport;
+  reviewNotes?: string;
+}
+
+export interface DetailProviderResult {
+  status: DetailLayerStatus;
+  layer: "regions";
+  countryCode?: ISOCode;
+  coverageStatus?: RegionCoverageStatus;
+  collection?: RegionCollectionRecord;
+  warning?: string;
+}
+
+export interface DetailProvider {
+  supports: (countryCode: ISOCode) => boolean;
+  getCoverage?: (countryCode?: ISOCode) => RegionCoverageRecord[];
+  loadRegions: (countryCode: ISOCode) => Promise<DetailProviderResult>;
+}
+
 export interface ZoomOptions {
   enabled?: boolean;
   initialScale?: number;
@@ -139,6 +204,9 @@ export interface Props<T extends string | number = number> {
   zoom?: boolean | ZoomOptions;
   onZoomChange?: (state: ZoomState) => void;
   pins?: readonly MapPin[];
+  detailLevel?: DetailLevel;
+  detailProvider?: DetailProvider;
+  onDetailStatusChange?: (status: DetailProviderResult) => void;
 
   styleFunction?: (context: CountryContext<T>) => React.CSSProperties;
 

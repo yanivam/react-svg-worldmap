@@ -4,13 +4,14 @@ sidebar_position: 5
 
 # Examples
 
-## [examples/zoom](/examples/zoom)
+## [Zoom with regions](/examples/zoom)
 
-- The first example for the zoomable map experience.
+- The first example for the zoomable map experience with opt-in region detail.
 - Demonstrates the `zoom` prop, zoom in/out controls, reset, and drag panning.
 - Country border strokes keep a constant screen-space thickness while zooming.
 - Country labels are enabled by default while zooming, grow within clamped screen-space bounds, and are filtered so labels only appear when they fit.
-- The zoom example supplies its own capital city pins so sample data stays outside the core package.
+- The example renders on an XL canvas, shows region details by default, and lets users turn region details on or off.
+- The example can overlay capital city pins on demand; the overlay is off by default so sample data stays outside the core package.
 
 ## [examples/sizing](/examples/sizing)
 

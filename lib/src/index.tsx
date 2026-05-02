@@ -10,6 +10,7 @@ import type {
   DataItem,
   ISOCode,
   ZoomState,
+  DetailProviderResult,
 } from "./types.js";
 import { getDisputeByCountryCode } from "./disputes.js";
 import {
@@ -27,6 +28,7 @@ import Region from "./components/Region.js";
 import TextLabel from "./components/TextLabel.js";
 import ZoomControls from "./components/ZoomControls.js";
 import ZoomStatus from "./components/ZoomStatus.js";
+import VisibleRegionList from "./components/VisibleRegionList.js";
 import {
   createInitialZoomState,
   panZoomState,
@@ -34,6 +36,12 @@ import {
   resolveZoomOptions,
   zoomAroundPoint,
 } from "./zoom/state.js";
+import {
+  createFailedDetailResult,
+  createIdleDetailResult,
+  createUnavailableDetailResult,
+  isReadyDetailResult,
+} from "./detail/providerState.js";
 import {
   createCountryLabelCandidate,
   placeCountryLabels,
@@ -52,6 +60,15 @@ export type {
   ZoomState,
   MapPin,
   CountryLabelCandidate,
+  DetailLevel,
+  RegionCoverageStatus,
+  DetailLayerStatus,
+  RegionCoverageRecord,
+  RegionViewport,
+  RegionFeatureRecord,
+  RegionCollectionRecord,
+  DetailProvider,
+  DetailProviderResult,
   DisputeTier,
   DisputeStatus,
   DisputeReviewStatus,
@@ -65,6 +82,13 @@ export {
   getDisputeByCountryCode,
   getDisputeById,
 } from "./disputes.js";
+export {
+  createFailedDetailResult,
+  createIdleDetailResult,
+  createReadyDetailResult,
+  createUnavailableDetailResult,
+  isReadyDetailResult,
+} from "./detail/providerState.js";
 export type { DisputeId } from "./disputes.js";
 
 // Decode the TopoJSON topology once at module load time.
@@ -112,6 +136,9 @@ export default function WorldMap<T extends number | string>(
     zoom,
     onZoomChange,
     pins = [],
+    detailLevel = "countries",
+    detailProvider,
+    onDetailStatusChange,
   } = props;
   const [wrapperEl, setWrapperEl] = useState<HTMLDivElement | null>(null);
   const containerRef = useRef<SVGSVGElement>(null);
@@ -134,10 +161,13 @@ export default function WorldMap<T extends number | string>(
     createInitialZoomState(zoomOptions),
   );
   const [zoomStatus, setZoomStatus] = useState("Map zoom reset");
+  const [detailResult, setDetailResult] = useState<DetailProviderResult>(
+    createIdleDetailResult(),
+  );
   const dragPoint = useRef<[number, number] | null>(null);
   const scale = zoomState.scale;
   const [translateX, translateY] = zoomState.translate;
-  const mapScale = (width / 960) * scale;
+  const mapScale = ((width > 0 ? width : 960) / 960) * scale;
   const labelFontSize = resolveCountryLabelMapFontSize(
     scale,
     mapScale,
@@ -147,6 +177,82 @@ export default function WorldMap<T extends number | string>(
   useEffect(() => {
     onZoomChange?.(zoomState);
   }, [onZoomChange, zoomState]);
+
+  const focusedCountryCode = React.useMemo((): ISOCode | undefined => {
+    if (detailLevel !== "regions" || detailProvider == null) return undefined;
+
+    const supportedDataCountry = data
+      .map(({ country }) => country.toUpperCase() as ISOCode)
+      .find((countryCode) => detailProvider.supports(countryCode));
+    if (supportedDataCountry != null) return supportedDataCountry;
+
+    return detailProvider
+      .getCoverage?.()
+      .find((coverage) => detailProvider.supports(coverage.countryCode))
+      ?.countryCode;
+  }, [data, detailLevel, detailProvider]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (detailLevel !== "regions") {
+      const idle = createIdleDetailResult();
+      setDetailResult(idle);
+      onDetailStatusChange?.(idle);
+      return undefined;
+    }
+
+    if (detailProvider == null || focusedCountryCode == null) {
+      const unavailable = createUnavailableDetailResult(
+        focusedCountryCode,
+        "Region detail is unavailable.",
+      );
+      setDetailResult(unavailable);
+      onDetailStatusChange?.(unavailable);
+      return undefined;
+    }
+
+    const loading: DetailProviderResult = {
+      status: "loading",
+      layer: "regions",
+      countryCode: focusedCountryCode,
+    };
+    setDetailResult(loading);
+    onDetailStatusChange?.(loading);
+
+    if (!detailProvider.supports(focusedCountryCode)) {
+      const unavailable = createUnavailableDetailResult(
+        focusedCountryCode,
+        "Region detail is unavailable for this country.",
+      );
+      setDetailResult(unavailable);
+      onDetailStatusChange?.(unavailable);
+      return undefined;
+    }
+
+    void detailProvider
+      .loadRegions(focusedCountryCode)
+      .then((result) => {
+        if (!cancelled) {
+          setDetailResult(result);
+          onDetailStatusChange?.(result);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          const failed = createFailedDetailResult(
+            focusedCountryCode,
+            "Region detail could not be loaded.",
+          );
+          setDetailResult(failed);
+          onDetailStatusChange?.(failed);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [detailLevel, detailProvider, focusedCountryCode, onDetailStatusChange]);
 
   // Stable refs per region for tooltips (avoids ref identity churn)
   const triggerRefs = useRef<Array<{ current: SVGPathElement | null }>>([]);
@@ -187,6 +293,9 @@ export default function WorldMap<T extends number | string>(
 
     return projectMapPins(pins, projection, scale);
   }, [pins, projection, scale, zoomOptions.showPins]);
+  const readyRegionCollection = isReadyDetailResult(detailResult)
+    ? detailResult.collection
+    : undefined;
 
   const regionElements = geoFeatures.map((geoFeature, i) => {
     const triggerRef = triggerRefs.current[i]!;
@@ -254,6 +363,31 @@ export default function WorldMap<T extends number | string>(
 
   // Build paths
   const regionPaths = regionElements.map((entry) => entry.path);
+
+  const detailRegionPaths =
+    readyRegionCollection?.regions.map((region) => (
+      <path
+        key={`region-detail-${region.id}`}
+        d={region.path}
+        data-region-id={region.id}
+        data-country-code={region.countryCode.toUpperCase()}
+        fill="rgba(255,255,255,0.24)"
+        stroke={borderColor}
+        strokeOpacity={Math.min(strokeOpacity + 0.25, 1)}
+        strokeWidth={0.8}
+        vectorEffect="non-scaling-stroke">
+        <title>{region.localizedName ?? region.name}</title>
+      </path>
+    )) ?? [];
+
+  const regionLabels = React.useMemo(() => {
+    if (!zoomOptions.enabled || readyRegionCollection == null) return [];
+
+    return readyRegionCollection.regions
+      .filter((region) => region.centroid != null)
+      .sort((left, right) => (left.order ?? 0) - (right.order ?? 0))
+      .slice(0, 12);
+  }, [readyRegionCollection, zoomOptions.enabled]);
 
   // Build tooltips
   const regionTooltips = regionElements.map(
@@ -403,6 +537,13 @@ export default function WorldMap<T extends number | string>(
           />
         )}
         {zoomOptions.enabled && <ZoomStatus message={zoomStatus} />}
+        {detailLevel === "regions" && detailResult.status !== "idle" && (
+          <ZoomStatus
+            message={
+              detailResult.warning ?? `Region detail ${detailResult.status}`
+            }
+          />
+        )}
         <svg
           ref={containerRef}
           // A direct aria-label avoids SSR hydration mismatches from generated
@@ -421,6 +562,7 @@ export default function WorldMap<T extends number | string>(
             transform={`translate(${translateX}, ${translateY}) scale(${mapScale}) translate(0, 240)`}
             style={{ transition: "all 0.2s" }}>
             {regionPaths}
+            {detailRegionPaths}
             {countryLabels.map((label) => (
               <React.Fragment key={`zoom-label-${label.countryCode}`}>
                 <TextLabel
@@ -433,6 +575,18 @@ export default function WorldMap<T extends number | string>(
                   pointerEvents="none"
                 />
               </React.Fragment>
+            ))}
+            {regionLabels.map((region) => (
+              <TextLabel
+                key={`region-label-${region.id}`}
+                label={region.localizedName ?? region.name}
+                x={region.centroid![0]}
+                y={region.centroid![1]}
+                textAnchor="middle"
+                fontSize={labelFontSize}
+                fill="#111"
+                pointerEvents="none"
+              />
             ))}
             {mapPins.map(({ pin, x, y }, index) => (
               <PinMarker
@@ -455,6 +609,9 @@ export default function WorldMap<T extends number | string>(
           </g>
           {regionTooltips}
         </svg>
+        {readyRegionCollection != null && (
+          <VisibleRegionList collection={readyRegionCollection} />
+        )}
       </figure>
     </div>
   );

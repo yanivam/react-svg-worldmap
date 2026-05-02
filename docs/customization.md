@@ -101,3 +101,23 @@ Country labels use screen-space font sizing while zooming. By default they start
 ```
 
 Consumers can pass `pins` to render captioned markers at projected longitude/latitude positions. The core package does not bundle capital city data; examples can provide their own sample pin lists.
+
+## Region Detail
+
+Region detail is provided through an optional package and a provider. Country-level maps do not need the package.
+
+```tsx
+import WorldMap from "react-svg-worldmap";
+import { createRegionsDetailProvider } from "@react-svg-worldmap/regions";
+
+const detailProvider = createRegionsDetailProvider();
+
+<WorldMap
+  data={data}
+  zoom
+  detailLevel="regions"
+  detailProvider={detailProvider}
+/>;
+```
+
+The starter provider exposes coverage metadata so applications can check whether a country is supported before enabling region detail. Unsupported, failed, or unavailable detail keeps the country-level view instead of breaking the map.

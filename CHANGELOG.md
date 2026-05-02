@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The recent history follows a Keep a Changelog style. Older `1.x` entries are preserved below as legacy release notes.
 
+## Unreleased
+
+### Added
+
+- Added an optional `@react-svg-worldmap/regions` package with starter region coverage metadata, normalized region records, and a provider helper.
+- Added provider-backed `detailLevel="regions"` support in the core map with country-level fallback for unavailable or failed region detail.
+- Added visible region list and live region-detail status behavior for accessible region views.
+
+### Changed
+
+- Documented optional region package installation, starter coverage limitations, and region data neutrality expectations.
+
 ## 2.0.2 - 2026-04-05
 
 ### Added

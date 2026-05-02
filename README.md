@@ -18,6 +18,7 @@ A lightweight React component for rendering a bundled SVG world map for charts, 
 - Ships ESM, CJS, and TypeScript declaration files
 - CI enforces automated tests and `>90%` coverage
 - Optional dispute metadata for high-visibility geopolitical cases
+- Optional region-detail package for reviewed starter sub-country coverage
 
 ## Documentation & Examples
 
@@ -34,6 +35,12 @@ Live examples and package documentation are available at [yanivam.github.io/reac
 
 ```bash
 npm install react-svg-worldmap
+```
+
+Optional starter region detail is published separately:
+
+```bash
+npm install @react-svg-worldmap/regions
 ```
 
 ## Usage
@@ -101,6 +108,22 @@ import WorldMap from "react-svg-worldmap";
 />;
 ```
 
+Region detail is opt-in and distributed through the optional `@react-svg-worldmap/regions` package. Starter region coverage is limited and marked in package metadata; unsupported countries fall back to the country-level map.
+
+```tsx
+import WorldMap from "react-svg-worldmap";
+import { createRegionsDetailProvider } from "@react-svg-worldmap/regions";
+
+const detailProvider = createRegionsDetailProvider();
+
+<WorldMap
+  data={[{ country: "US", value: 1 }]}
+  zoom
+  detailLevel="regions"
+  detailProvider={detailProvider}
+/>;
+```
+
 Source attribution and policy details:
 
 - [Geopolitical policy](https://github.com/yanivam/react-svg-worldmap/blob/main/GEOPOLITICAL_POLICY.md)
@@ -141,6 +164,7 @@ Because `<WorldMap>` is a self-contained SVG widget and not a full page, the hos
 This repository is a Yarn workspace with two packages:
 
 - `lib` for the published component package
+- `regions` for the optional region-detail data package
 - `website` for the documentation and examples site
 
 ### Prerequisites

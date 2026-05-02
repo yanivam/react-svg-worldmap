@@ -20,7 +20,66 @@ declare module "react-svg-worldmap" {
     zoomFactor?: number;
     showControls?: boolean;
     showCountryLabels?: boolean;
+    countryLabelMinFontSize?: number;
+    countryLabelMaxFontSize?: number;
+    countryLabelZoomGrowthRate?: number;
     showPins?: boolean;
+  }
+
+  export type DetailLevel = "countries" | "regions";
+  export type RegionCoverageStatus =
+    | "complete"
+    | "partial"
+    | "experimental"
+    | "unavailable";
+  export type DetailLayerStatus =
+    | "idle"
+    | "loading"
+    | "ready"
+    | "unavailable"
+    | "failed";
+
+  export interface RegionCoverageRecord {
+    countryCode: ISOCode;
+    countryName: string;
+    status: RegionCoverageStatus;
+    regionCount: number;
+    sourceSummary?: string;
+    reviewNotes?: string;
+  }
+
+  export interface RegionFeatureRecord {
+    id: string;
+    countryCode: ISOCode;
+    name: string;
+    localizedName?: string;
+    path: string;
+    centroid?: readonly [number, number];
+    bounds?: readonly [readonly [number, number], readonly [number, number]];
+    order?: number;
+  }
+
+  export interface RegionCollectionRecord {
+    countryCode: ISOCode;
+    countryName: string;
+    coverageStatus: RegionCoverageStatus;
+    regions: RegionFeatureRecord[];
+    reviewNotes?: string;
+  }
+
+  export interface DetailProviderResult {
+    status: DetailLayerStatus;
+    layer: "regions";
+    countryCode?: ISOCode;
+    coverageStatus?: RegionCoverageStatus;
+    collection?: RegionCollectionRecord;
+    warning?: string;
+  }
+
+  export interface DetailProvider {
+    supports: (countryCode: ISOCode) => boolean;
+    getCoverage?: (countryCode?: ISOCode) => RegionCoverageRecord[];
+    loadRegions: (countryCode: ISOCode) => Promise<DetailProviderResult>;
   }
 
   export interface MapPin {
@@ -71,6 +130,9 @@ declare module "react-svg-worldmap" {
     zoom?: boolean | ZoomOptions;
     onZoomChange?: (state: ZoomState) => void;
     pins?: readonly MapPin[];
+    detailLevel?: DetailLevel;
+    detailProvider?: DetailProvider;
+    onDetailStatusChange?: (status: DetailProviderResult) => void;
     type?: string;
     styleFunction?: (context: CountryContext<T>) => React.CSSProperties;
     onClickFunction?: (

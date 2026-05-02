@@ -6,9 +6,9 @@ import Map from "@site/src/components/ZoomExample";
 import Source from "!!raw-loader!@site/src/components/ZoomExample";
 import styles from "./styles.module.css";
 
-export default function Zoom(): JSX.Element {
+export default function ZoomWithRegions(): JSX.Element {
   return (
-    <Layout title="Zoom example">
+    <Layout title="Zoom with regions example">
       <main id="main-content" className={styles.main}>
         <Map />
         <div className={styles.code}>
