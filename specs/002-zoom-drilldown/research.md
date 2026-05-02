@@ -46,6 +46,16 @@ Alternatives considered:
 - Render every country label: rejected because dense regions would overlap immediately.
 - Require consumers to provide labels: rejected because Phase 1 should be usable out of the box.
 
+## Decision: Use Clamped Zoom-Aware Country Label Sizing
+
+Rationale: Google Maps-style label behavior treats text as a styled map layer whose appearance changes by zoom level instead of scaling text directly with geometry. For this SVG package, the equivalent lightweight approach is a default clamped zoom-aware label size curve that grows modestly at high zoom while still feeding the fit/collision rules. Consumers can tune the minimum, maximum, and curve through `ZoomOptions`.
+
+Alternatives considered:
+
+- Keep labels fixed at the current screen size: rejected because country names can look disproportionately small at high zoom.
+- Scale labels directly with map geometry: rejected because labels can become oversized and collide quickly.
+- Require only explicit consumer size stops: rejected because default zoom labels should remain useful without extra configuration.
+
 ## Decision: Handle Non-Contiguous Countries As Multiple Geometry Parts
 
 Rationale: Countries such as the United States should not use a single misleading bounding box or centroid that spans detached territory. Label placement should evaluate candidate parts and prioritize the readable main visible landmass while still accounting for other visible parts.

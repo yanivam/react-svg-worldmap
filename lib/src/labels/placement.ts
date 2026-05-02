@@ -1,14 +1,23 @@
 import type GeoJSON from "geojson";
 import type { GeoPath } from "d3-geo";
 import type { CountryLabelCandidate, ISOCode } from "../types.js";
+import type { ResolvedZoomOptions } from "../zoom/state.js";
 import { getLargestGeometryPart, measureFeature } from "../zoom/geometry.js";
 
 const LABEL_FONT_SIZE = 12;
 const LABEL_HEIGHT = 14;
 const AVERAGE_CHARACTER_WIDTH = 6.5;
 
-function estimateTextWidth(label: string): number {
-  return label.length * AVERAGE_CHARACTER_WIDTH;
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+function estimateTextWidth(label: string, fontSize: number): number {
+  return label.length * AVERAGE_CHARACTER_WIDTH * (fontSize / LABEL_FONT_SIZE);
+}
+
+function estimateTextHeight(fontSize: number): number {
+  return LABEL_HEIGHT * (fontSize / LABEL_FONT_SIZE);
 }
 
 function intersects(
@@ -26,14 +35,14 @@ function intersects(
 export function createCountryLabelCandidate(
   pathGenerator: GeoPath,
   feature: GeoJSON.Feature & { properties: { N: string; I: string } },
-  scale: number,
+  fontSize: number,
 ): CountryLabelCandidate | undefined {
   const label = feature.properties.N;
   const part = getLargestGeometryPart(pathGenerator, feature);
   const measurement = measureFeature(pathGenerator, part);
-  const width = estimateTextWidth(label) / scale;
-  const height = LABEL_HEIGHT / scale;
-  const minWidth = Math.max(width * 1.2, 14 / scale);
+  const width = estimateTextWidth(label, fontSize);
+  const height = estimateTextHeight(fontSize);
+  const minWidth = Math.max(width * 1.2, fontSize * 1.2);
   const minHeight = height * 1.4;
 
   if (measurement.width < minWidth || measurement.height < minHeight)
@@ -67,6 +76,29 @@ export function placeCountryLabels(
       return [...accepted, candidate];
     }, [])
     .sort((left, right) => left.countryName.localeCompare(right.countryName));
+}
+
+export function resolveCountryLabelScreenFontSize(
+  scale: number,
+  options: ResolvedZoomOptions,
+): number {
+  const minFontSize = Math.max(1, options.countryLabelMinFontSize);
+  const maxFontSize = Math.max(minFontSize, options.countryLabelMaxFontSize);
+  const growthRate = Math.max(0, options.countryLabelZoomGrowthRate);
+  const effectiveScale = Math.max(1, scale);
+  const fontSize = minFontSize * effectiveScale ** growthRate;
+
+  return clamp(fontSize, minFontSize, maxFontSize);
+}
+
+export function resolveCountryLabelMapFontSize(
+  scale: number,
+  mapScale: number,
+  options: ResolvedZoomOptions,
+): number {
+  const safeMapScale = Math.max(Number.EPSILON, mapScale);
+
+  return resolveCountryLabelScreenFontSize(scale, options) / safeMapScale;
 }
 
 export const countryLabelFontSize = LABEL_FONT_SIZE;

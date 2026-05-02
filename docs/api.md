@@ -75,6 +75,9 @@ type ZoomOptions = {
   zoomFactor?: number;
   showControls?: boolean;
   showCountryLabels?: boolean;
+  countryLabelMinFontSize?: number;
+  countryLabelMaxFontSize?: number;
+  countryLabelZoomGrowthRate?: number;
   showPins?: boolean;
 };
 
@@ -94,3 +97,5 @@ type MapPin = {
 ```
 
 When zoom is enabled, country border strokes keep a constant screen-space thickness while the map scales. This prevents borders from becoming visually heavier during repeated zoom-in actions.
+
+Default country labels use clamped screen-space sizing while zooming. The default label target starts at `12px`, grows gradually as zoom increases, and caps at `20px`; placement still rejects labels that do not fit the country shape or that collide with higher-priority labels. Override `countryLabelMinFontSize`, `countryLabelMaxFontSize`, or `countryLabelZoomGrowthRate` inside `zoom` to tune that behavior.

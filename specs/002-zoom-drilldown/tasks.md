@@ -92,23 +92,26 @@
 
 ## Phase 5: User Story 3 - Show Country Labels And Consumer Pins At Readable Zoom Levels (Priority: P3)
 
-**Goal**: Country labels are enabled by default with zoom, avoid collisions, handle non-contiguous territory, and show consumer-supplied pins only when readable.
+**Goal**: Country labels are enabled by default with zoom, grow within configured screen-space bounds, avoid collisions, handle non-contiguous territory, and show consumer-supplied pins only when readable.
 
-**Independent Test**: Enable zoom and labels, provide longitude/latitude pins with captions, zoom into multiple countries, and confirm labels and pins appear only when fit and collision rules allow them.
+**Independent Test**: Enable zoom and labels, provide longitude/latitude pins with captions, zoom into multiple countries, and confirm labels grow within configured bounds while labels and pins appear only when fit and collision rules allow them.
 
 ### Tests for User Story 3
 
-- [ ] T031 [P] [US3] Add unit tests for label candidate generation, text bounds, area fit, collision rejection, and priority ordering in lib/src/**tests**/label-placement.test.ts.
-- [ ] T032 [P] [US3] Add unit tests for non-contiguous country label placement using the United States or an equivalent multi-part fixture in lib/src/**tests**/zoom-labels.test.tsx.
-- [ ] T033 [P] [US3] Add unit tests for consumer pin projection, invalid coordinate handling, caption handling, and missing pin fallback in lib/src/**tests**/map-pins.test.ts.
-- [ ] T034 [P] [US3] Add component tests for zoom-dependent label and pin visibility thresholds in lib/src/**tests**/zoom-labels.test.tsx.
+- [x] T031 [P] [US3] Add unit tests for label candidate generation, text bounds, area fit, collision rejection, priority ordering, and computed label font size in `lib/src/__tests__/label-placement.test.ts`.
+- [x] T032 [P] [US3] Add unit tests for clamped zoom-aware label sizing defaults and ZoomOptions overrides in `lib/src/__tests__/zoom-labels.test.tsx`.
+- [ ] T033 [P] [US3] Add unit tests for non-contiguous country label placement using the United States or an equivalent multi-part fixture in `lib/src/__tests__/zoom-labels.test.tsx`.
+- [ ] T034 [P] [US3] Add unit tests for consumer pin projection, invalid coordinate handling, caption handling, and missing pin fallback in `lib/src/__tests__/map-pins.test.ts`.
+- [ ] T035 [P] [US3] Add component tests for zoom-dependent label and pin visibility thresholds in `lib/src/__tests__/zoom-labels.test.tsx`.
 
 ### Implementation for User Story 3
 
-- [ ] T035 [US3] Render default country labels when zoom is enabled and showCountryLabels is not disabled in lib/src/index.tsx and lib/src/components/TextLabel.tsx.
-- [ ] T036 [US3] Implement fit-aware and collision-aware country label placement, including non-contiguous country handling, in lib/src/labels/placement.ts and lib/src/zoom/geometry.ts.
-- [ ] T037 [US3] Render consumer-supplied pin markers and captions through zoom-dependent fit/collision gating in lib/src/index.tsx, lib/src/components/PinMarker.tsx, and lib/src/pins/mapPins.ts.
-- [ ] T038 [US3] Preserve custom textLabelFunction behavior alongside default zoom labels in lib/src/index.tsx.
+- [x] T036 [US3] Add country label size options to ZoomOptions and default zoom configuration in lib/src/types.ts and lib/src/constants.ts.
+- [x] T037 [US3] Implement automatic clamped zoom-aware label size calculation in lib/src/labels/placement.ts.
+- [x] T038 [US3] Render default country labels with computed label size when zoom is enabled and showCountryLabels is not disabled in lib/src/index.tsx and lib/src/components/TextLabel.tsx.
+- [x] T039 [US3] Implement fit-aware and collision-aware country label placement, including non-contiguous country handling and computed label size bounds, in lib/src/labels/placement.ts and lib/src/zoom/geometry.ts.
+- [ ] T040 [US3] Render consumer-supplied pin markers and captions through zoom-dependent fit/collision gating in lib/src/index.tsx, lib/src/components/PinMarker.tsx, and lib/src/pins/mapPins.ts.
+- [ ] T041 [US3] Preserve custom textLabelFunction behavior alongside default zoom labels in lib/src/index.tsx.
 
 **Checkpoint**: User Story 3 is independently functional on top of opt-in country zoom.
 
@@ -118,13 +121,13 @@
 
 **Purpose**: Document country-level zoom, constant border behavior, labels, and consumer pins before optional region work begins.
 
-- [ ] T039 [P] Add or update the Phase 1 zoom example page in website/src/pages/examples/zoom.tsx.
-- [ ] T040 [P] Add or update a reusable zoom example component with consumer-supplied sample pins in website/src/components/ZoomExample.tsx and website/src/data/countryCapitalPins.ts.
-- [x] T041 Document zoom props, continuous zoom, drag panning, reset, keyboard controls, announcements, and constant border thickness in docs/api.md and docs/examples.md.
-- [ ] T042 Document country label placement, non-contiguous country behavior, consumer pin visibility rules, and example-only capital pin data in docs/customization.md and docs/examples.md.
-- [ ] T043 Update README source content and regenerate package README output in README.md and lib/README.md.
+- [ ] T042 [P] Add or update the Phase 1 zoom example page in website/src/pages/examples/zoom.tsx.
+- [ ] T043 [P] Add or update a reusable zoom example component with consumer-supplied sample pins in website/src/components/ZoomExample.tsx and website/src/data/countryCapitalPins.ts.
+- [x] T044 Document zoom props, continuous zoom, drag panning, reset, keyboard controls, announcements, and constant border thickness in docs/api.md and docs/examples.md.
+- [x] T045 Document country label sizing options, country label placement, non-contiguous country behavior, consumer pin visibility rules, and example-only capital pin data in docs/api.md, docs/customization.md, and docs/examples.md.
+- [ ] T046 Update README source content and regenerate package README output in README.md and lib/README.md.
 
-**Phase 1 Release Gate**: Do not start Phase 7 until T001-T043 are complete and validation passes.
+**Phase 1 Release Gate**: Do not start Phase 7 until T001-T046 are complete and validation passes.
 
 ---
 
@@ -136,20 +139,20 @@
 
 ### Tests for User Story 4
 
-- [ ] T044 [P] [US4] Add core detail provider contract and fallback tests for no provider, unsupported country, loading, ready, and failed states in lib/src/**tests**/detail-provider.test.tsx.
-- [ ] T045 [P] [US4] Add visible-region list accessibility tests in lib/src/**tests**/visible-region-list.test.tsx.
-- [ ] T046 [P] [US4] Add optional package data validation tests in regions/src/**tests**/region-data.test.ts.
+- [ ] T047 [P] [US4] Add core detail provider contract and fallback tests for no provider, unsupported country, loading, ready, and failed states in `lib/src/__tests__/detail-provider.test.tsx`.
+- [ ] T048 [P] [US4] Add visible-region list accessibility tests in `lib/src/__tests__/visible-region-list.test.tsx`.
+- [ ] T049 [P] [US4] Add optional package data validation tests in `regions/src/__tests__/region-data.test.ts`.
 
 ### Implementation for User Story 4
 
-- [ ] T047 [US4] Add Phase 2 detailLevel, detailProvider, region record, region collection, and provider result public types in lib/src/types.ts.
-- [ ] T048 [US4] Implement provider state management and country-level fallback behavior in lib/src/detail/providerState.ts.
-- [ ] T049 [US4] Render region detail only when provider data is ready and coverage exists in lib/src/index.tsx.
-- [ ] T050 [US4] Add visible-region list rendering synchronized with displayed region detail in lib/src/components/VisibleRegionList.tsx.
-- [ ] T051 [US4] Create optional regions workspace package configuration in regions/package.json, regions/tsconfig.json, and regions/tsup.config.ts.
-- [ ] T052 [US4] Add normalized starter region data, coverage metadata, and neutrality notes in regions/src/data and regions/src/coverage.ts.
-- [ ] T053 [US4] Add core-compatible region provider adapter exports in regions/src/providers/createRegionsDetailProvider.ts and regions/src/index.ts.
-- [ ] T054 [US4] Document optional region package installation, provider setup, fallback states, and starter coverage in docs/api.md, docs/examples.md, and README.md.
+- [ ] T050 [US4] Add Phase 2 detailLevel, detailProvider, region record, region collection, and provider result public types in lib/src/types.ts.
+- [ ] T051 [US4] Implement provider state management and country-level fallback behavior in lib/src/detail/providerState.ts.
+- [ ] T052 [US4] Render region detail only when provider data is ready and coverage exists in lib/src/index.tsx.
+- [ ] T053 [US4] Add visible-region list rendering synchronized with displayed region detail in lib/src/components/VisibleRegionList.tsx.
+- [ ] T054 [US4] Create optional regions workspace package configuration in regions/package.json, regions/tsconfig.json, and regions/tsup.config.ts.
+- [ ] T055 [US4] Add normalized starter region data, coverage metadata, and neutrality notes in regions/src/data and regions/src/coverage.ts.
+- [ ] T056 [US4] Add core-compatible region provider adapter exports in regions/src/providers/createRegionsDetailProvider.ts and regions/src/index.ts.
+- [ ] T057 [US4] Document optional region package installation, provider setup, fallback states, and starter coverage in docs/api.md, docs/examples.md, and README.md.
 
 **Checkpoint**: User Story 4 is optional, provider-backed, and does not alter default country-level behavior.
 
@@ -159,18 +162,18 @@
 
 **Purpose**: Validate quality gates, docs, package artifacts, and neutrality requirements.
 
-- [ ] T055 [P] Run map-data neutrality review for Phase 2 region names/boundaries and example-only sample pin data in docs/map-data-policy.md, docs/map-data-overrides.json, and GEOPOLITICAL_POLICY.md.
-- [ ] T056 [P] Verify package exports and package contents in lib/package.json and, after Phase 2, regions/package.json.
-- [ ] T057 Run yarn lint from package.json.
-- [ ] T058 Run yarn format-check from package.json.
-- [ ] T059 Run yarn typecheck from package.json.
-- [ ] T060 Run yarn spellcheck from package.json.
-- [ ] T061 Run yarn test:coverage from package.json and confirm coverage remains above the project threshold.
-- [ ] T062 Run yarn build from package.json.
-- [ ] T063 Run yarn generate:readme from package.json and confirm README.md and lib/README.md are synchronized.
-- [ ] T064 Run npm pack --dry-run ./lib and verify package contents against lib/package.json.
-- [ ] T065 After Phase 2 only, run yarn workspace @react-svg-worldmap/regions build from regions/package.json.
-- [ ] T066 Update release notes or changelog impact for Phase 1 and Phase 2 in CHANGELOG.md and docs/RELEASING.md.
+- [ ] T058 [P] Run map-data neutrality review for Phase 2 region names/boundaries and example-only sample pin data in docs/map-data-policy.md, docs/map-data-overrides.json, and GEOPOLITICAL_POLICY.md.
+- [ ] T059 [P] Verify package exports and package contents in lib/package.json and, after Phase 2, regions/package.json.
+- [ ] T060 Run yarn lint from package.json.
+- [ ] T061 Run yarn format-check from package.json.
+- [ ] T062 Run yarn typecheck from package.json.
+- [ ] T063 Run yarn spellcheck from package.json.
+- [ ] T064 Run yarn test:coverage from package.json and confirm coverage remains above the project threshold.
+- [ ] T065 Run yarn build from package.json.
+- [ ] T066 Run yarn generate:readme from package.json and confirm README.md and lib/README.md are synchronized.
+- [ ] T067 Run npm pack --dry-run ./lib and verify package contents against lib/package.json.
+- [ ] T068 After Phase 2 only, run yarn workspace @react-svg-worldmap/regions build from regions/package.json.
+- [ ] T069 Update release notes or changelog impact for Phase 1 and Phase 2 in CHANGELOG.md and docs/RELEASING.md.
 
 ---
 
@@ -184,7 +187,7 @@
 - **Phase 4 US2**: Depends on Phase 2 and must preserve US1 behavior.
 - **Phase 5 US3**: Depends on US2 zoom transforms and Phase 2 geometry helpers.
 - **Phase 6 Phase 1 Docs**: Depends on US1-US3 behavior.
-- **Phase 7 US4**: Depends on the Phase 1 Release Gate after T001-T043.
+- **Phase 7 US4**: Depends on the Phase 1 Release Gate after T001-T046.
 - **Phase 8 Polish**: Runs after the selected release scope is complete.
 
 ### User Story Dependencies
@@ -200,10 +203,10 @@
 - T005-T012 can run in parallel where file ownership does not overlap.
 - T013-T015 can run in parallel before T016-T018.
 - T019-T023 can run in parallel before T024-T030.
-- T031-T034 can run in parallel before T035-T038.
-- T039-T040 can run in parallel with T041-T043 after Phase 1 behavior is stable.
-- T044-T046 can run in parallel after the Phase 1 Release Gate.
-- T055-T056 can run in parallel with validation commands once implementation is complete.
+- T031-T035 can run in parallel before T036-T041.
+- T042-T043 can run in parallel with T044-T046 after Phase 1 behavior is stable.
+- T047-T049 can run in parallel after the Phase 1 Release Gate.
+- T058-T059 can run in parallel with validation commands once implementation is complete.
 
 ## Parallel Example: User Story 2
 
@@ -217,8 +220,9 @@ Task: "Add component tests proving country border paths use non-scaling stroke b
 
 ```text
 Task: "Add unit tests for label candidate generation, text bounds, area fit, collision rejection, and priority ordering in lib/src/__tests__/label-placement.test.ts"
+Task: "Add unit tests for clamped zoom-aware label sizing defaults and ZoomOptions overrides in lib/src/__tests__/zoom-labels.test.tsx"
 Task: "Add unit tests for consumer pin projection, invalid coordinate handling, caption handling, and missing pin fallback in lib/src/__tests__/map-pins.test.ts"
-Task: "Implement fit-aware and collision-aware country label placement, including non-contiguous country handling, in lib/src/labels/placement.ts and lib/src/zoom/geometry.ts"
+Task: "Implement automatic clamped zoom-aware label size calculation in lib/src/labels/placement.ts"
 ```
 
 ## Implementation Strategy
@@ -248,3 +252,4 @@ Task: "Implement fit-aware and collision-aware country label placement, includin
 - User story phases include tests before implementation tasks.
 - Phase 2 region tasks are intentionally deferred until the country-level zoom foundation is complete.
 - The zoom-border bug is covered by T022 and T029.
+- The zoom-aware label-size improvement is covered by T032, T036, T037, and T045.

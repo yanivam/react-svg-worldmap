@@ -35,9 +35,9 @@ import {
   zoomAroundPoint,
 } from "./zoom/state.js";
 import {
-  countryLabelFontSize,
   createCountryLabelCandidate,
   placeCountryLabels,
+  resolveCountryLabelMapFontSize,
 } from "./labels/placement.js";
 import { projectMapPins } from "./pins/mapPins.js";
 
@@ -137,6 +137,12 @@ export default function WorldMap<T extends number | string>(
   const dragPoint = useRef<[number, number] | null>(null);
   const scale = zoomState.scale;
   const [translateX, translateY] = zoomState.translate;
+  const mapScale = (width / 960) * scale;
+  const labelFontSize = resolveCountryLabelMapFontSize(
+    scale,
+    mapScale,
+    zoomOptions,
+  );
 
   useEffect(() => {
     onZoomChange?.(zoomState);
@@ -167,12 +173,12 @@ export default function WorldMap<T extends number | string>(
 
     return placeCountryLabels(
       geoFeatures.map((geoFeature) =>
-        createCountryLabelCandidate(pathGenerator, geoFeature, scale),
+        createCountryLabelCandidate(pathGenerator, geoFeature, labelFontSize),
       ),
     );
   }, [
+    labelFontSize,
     pathGenerator,
-    scale,
     zoomOptions.enabled,
     zoomOptions.showCountryLabels,
   ]);
@@ -373,7 +379,6 @@ export default function WorldMap<T extends number | string>(
     },
   };
   const enableMapInteractions = richInteraction || zoomOptions.enabled;
-  const labelFontSize = countryLabelFontSize / scale;
 
   // Render the SVG (wrapper div for ResizeObserver container sizing)
   return (
@@ -413,9 +418,7 @@ export default function WorldMap<T extends number | string>(
           {...(enableMapInteractions ? eventHandlers : undefined)}>
           {frame && <Frame color={frameColor} />}
           <g
-            transform={`translate(${translateX}, ${translateY}) scale(${
-              (width / 960) * scale
-            }) translate(0, 240)`}
+            transform={`translate(${translateX}, ${translateY}) scale(${mapScale}) translate(0, 240)`}
             style={{ transition: "all 0.2s" }}>
             {regionPaths}
             {countryLabels.map((label) => (

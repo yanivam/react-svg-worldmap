@@ -22,6 +22,9 @@ export interface ZoomOptions {
   zoomFactor?: number;
   showControls?: boolean;
   showCountryLabels?: boolean;
+  countryLabelMinFontSize?: number;
+  countryLabelMaxFontSize?: number;
+  countryLabelZoomGrowthRate?: number;
   showPins?: boolean;
 }
 

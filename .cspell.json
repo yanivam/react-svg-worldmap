@@ -12,8 +12,11 @@
   ],
   "ignorePaths": [
     "package.json",
+    "package-lock.json",
     "yarn.lock",
     "project-words.txt",
-    "lib/src/countries.topo.ts"
+    "lib/src/countries.topo.ts",
+    ".agents/**",
+    ".specify/**"
   ]
 }

@@ -15,6 +15,10 @@
 
 - Q: How should country border thickness behave while zooming? -> A: Borders keep a constant screen-space thickness at all zoom levels.
 
+### Session 2026-05-02
+
+- Q: How should country label text size behave while zooming? -> A: Use automatic clamped zoom-aware label sizing by default, with consumer overrides in `ZoomOptions`.
+
 ## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Preserve Current World Map Behavior (Priority: P1)
@@ -63,6 +67,7 @@ As a map reader, I need country labels and consumer-supplied pins with captions 
 1. **Given** zooming is enabled, **When** the map renders, **Then** country labels are enabled by default and filtered by fit/collision rules.
 2. **Given** a country has non-contiguous territory such as the United States, **When** labels are evaluated, **Then** the algorithm chooses a stable readable placement without treating distant territory as one continuous label box.
 3. **Given** a consumer supplies pins with longitude/latitude and captions, **When** the zoomed area is large enough, **Then** the map may show the pin marker and caption; otherwise they remain hidden.
+4. **Given** zooming is enabled, **When** the user zooms in repeatedly, **Then** country label text grows within configured minimum and maximum screen-space bounds instead of remaining disproportionately small or becoming oversized.
 
 ---
 
@@ -119,6 +124,7 @@ As a package consumer, I need an optional region data package after the zoom fou
 - **FR-019**: The feature MUST include a Phase 1 zoom in/out documentation example as the first examples entry before the sizing demo, and Phase 2 MUST add a region drill-down example when available.
 - **FR-020**: Existing country-level style, tooltip, click, link, text label, sizing, frame, and accessibility behavior MUST remain compatible.
 - **FR-021**: Country border strokes MUST keep a constant screen-space thickness at all zoom levels so zooming does not make borders visually thicker or obscure country shapes.
+- **FR-022**: Country labels MUST use automatic clamped zoom-aware screen-space sizing by default, and `ZoomOptions` MUST allow consumers to override the label size range or zoom-size curve without affecting default non-zoom rendering.
 
 ### Constitution Requirements _(mandatory)_
 
@@ -132,6 +138,7 @@ As a package consumer, I need an optional region data package after the zoom fou
 
 - **Zoom State**: The current scale, translation, reset state, and pointer/keyboard interaction state for the country-level map.
 - **Country Label Candidate**: A label candidate derived from country geometry, visible area, priority, and fit/collision metrics.
+- **Country Label Size Rule**: The default and consumer-configured minimum, maximum, and zoom-aware sizing behavior for country label text at the current zoom.
 - **Consumer Pin**: A consumer-supplied longitude/latitude marker with a caption, rendered as zoom-dependent context rather than bundled core metadata.
 - **Detail Level**: The consumer-selected rendering depth, initially country-level zoom and later optional region-level detail.
 - **Detail Provider**: A consumer or package-supplied source that reports region coverage and loads normalized region detail for a country.
@@ -154,6 +161,7 @@ As a package consumer, I need an optional region data package after the zoom fou
 - **SC-006**: The feature passes package tests, type checking, linting, formatting, build, package smoke validation, and coverage above the project threshold.
 - **SC-007**: Documentation lets a consumer understand how to enable Phase 1 zooming in under 10 minutes and explains that optional region detail is Phase 2.
 - **SC-008**: In the Phase 1 zoom example, repeated zoom-in actions do not increase the rendered screen-space thickness of country border strokes.
+- **SC-009**: In the Phase 1 zoom example, repeated zoom-in actions increase country label screen-space size within the configured bounds, and labels still pass fit/collision gating.
 
 ## Assumptions
 

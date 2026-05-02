@@ -16,6 +16,9 @@ interface ZoomOptions {
   zoomFactor?: number;
   showControls?: boolean;
   showCountryLabels?: boolean;
+  countryLabelMinFontSize?: number;
+  countryLabelMaxFontSize?: number;
+  countryLabelZoomGrowthRate?: number;
   showPins?: boolean;
 }
 
@@ -38,6 +41,7 @@ Compatibility requirements:
 - Zoom in, zoom out, and reset controls remain keyboard-operable.
 - Drag panning is available when zooming is enabled.
 - Country border strokes keep a constant screen-space thickness at all zoom levels; this is default rendering behavior and does not require a new prop.
+- Country labels use automatic clamped zoom-aware sizing by default; consumers can override the label size bounds or growth curve through `ZoomOptions`.
 - Existing props, callbacks, default import, and named exports remain compatible.
 - Consumers who do not install region data can continue using the base package.
 
@@ -170,7 +174,7 @@ Documentation must explain:
 
 - Country-level rendering is the default.
 - Phase 1 zooming is opt-in and does not require region data.
-- Country labels and consumer-supplied pins are fit/collision gated.
+- Country labels use clamped zoom-aware sizing and remain fit/collision gated.
 - Phase 2 region drill-down is opt-in.
 - Optional regions package installation or provider setup for Phase 2.
 - Fallback behavior when provider coverage is unavailable in Phase 2.

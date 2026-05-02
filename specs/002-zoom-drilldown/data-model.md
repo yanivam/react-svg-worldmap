@@ -59,6 +59,24 @@ Validation rules:
 - Non-contiguous countries may produce multiple candidates, but only readable placements are accepted.
 - Lower-priority labels may be hidden to preserve readability.
 
+## Country Label Size Rule
+
+Represents the default and consumer-configured screen-space sizing behavior for country label text.
+
+Fields:
+
+- `minFontSize`: Minimum screen-space label font size.
+- `maxFontSize`: Maximum screen-space label font size.
+- `zoomScale`: Current zoom scale used to derive the target label size.
+- `growthRate`: Optional curve factor controlling how quickly labels grow as zoom increases.
+
+Validation rules:
+
+- Default country labels must grow modestly as zoom increases.
+- Computed label size must stay within the configured minimum and maximum.
+- Label fit and collision calculations must use the computed label size.
+- Consumer overrides in `ZoomOptions` must not affect default non-zoom rendering.
+
 ## Consumer Pin
 
 Represents a consumer-supplied point detail shown only at sufficient zoom.

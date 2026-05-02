@@ -10,6 +10,18 @@ vi.mock("react-path-tooltip", () => ({
 
 const DATA = [{ country: "us", value: 100 }] as const;
 
+function getCountryLabelFontSize(
+  container: HTMLElement,
+  countryName: string,
+): number {
+  const label = Array.from(container.querySelectorAll("text")).find(
+    (text) => text.textContent?.startsWith(countryName),
+  );
+
+  expect(label).toBeDefined();
+  return Number(label!.getAttribute("font-size"));
+}
+
 describe("WorldMap zoom labels", () => {
   it("does not render default country labels when zoom is omitted", () => {
     const { container } = render(<WorldMap data={DATA} />);
@@ -35,6 +47,45 @@ describe("WorldMap zoom labels", () => {
     );
 
     expect(container.querySelector("text")).toBeNull();
+  });
+
+  it("uses clamped zoom-aware country label sizing by default", () => {
+    const lowZoom = render(
+      <WorldMap data={DATA} size={960} zoom={{ initialScale: 4 }} />,
+    );
+    const highZoom = render(
+      <WorldMap data={DATA} size={960} zoom={{ initialScale: 64 }} />,
+    );
+
+    const lowZoomScreenFontSize =
+      getCountryLabelFontSize(lowZoom.container, "United States") * 4;
+    const highZoomScreenFontSize =
+      getCountryLabelFontSize(highZoom.container, "United States") * 64;
+
+    expect(lowZoomScreenFontSize).toBeGreaterThan(12);
+    expect(highZoomScreenFontSize).toBeCloseTo(20);
+
+    lowZoom.unmount();
+    highZoom.unmount();
+  });
+
+  it("respects country label size overrides", () => {
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        size={960}
+        zoom={{
+          initialScale: 16,
+          countryLabelMinFontSize: 10,
+          countryLabelMaxFontSize: 14,
+          countryLabelZoomGrowthRate: 1,
+        }}
+      />,
+    );
+
+    expect(
+      getCountryLabelFontSize(container, "United States") * 16,
+    ).toBeCloseTo(14);
   });
 
   it("renders supplied pins at longitude and latitude positions", () => {

@@ -9,7 +9,7 @@ sidebar_position: 5
 - The first example for the zoomable map experience.
 - Demonstrates the `zoom` prop, zoom in/out controls, reset, and drag panning.
 - Country border strokes keep a constant screen-space thickness while zooming.
-- Country labels are enabled by default while zooming and are filtered so labels only appear when they fit.
+- Country labels are enabled by default while zooming, grow within clamped screen-space bounds, and are filtered so labels only appear when they fit.
 - The zoom example supplies its own capital city pins so sample data stays outside the core package.
 
 ## [examples/sizing](/examples/sizing)

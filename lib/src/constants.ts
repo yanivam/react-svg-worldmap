@@ -21,6 +21,9 @@ export const defaultZoomOptions = {
   zoomFactor: 1.5,
   showControls: true,
   showCountryLabels: true,
+  countryLabelMinFontSize: 12,
+  countryLabelMaxFontSize: 20,
+  countryLabelZoomGrowthRate: 0.35,
   showPins: true,
 };
 

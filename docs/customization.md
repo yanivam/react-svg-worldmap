@@ -87,4 +87,17 @@ TODO:
 
 The `zoom` prop enables default country labels. Labels are placed from projected country geometry and filtered by available country area and overlap with already accepted labels. For countries with non-contiguous territory, placement uses the largest projected geometry part so the label is not centered over empty space between distant regions.
 
+Country labels use screen-space font sizing while zooming. By default they start at `12px`, grow gradually at higher zoom levels, and stop at `20px` so labels become more readable without overwhelming the map. You can tune the rule with `countryLabelMinFontSize`, `countryLabelMaxFontSize`, and `countryLabelZoomGrowthRate`:
+
+```tsx
+<WorldMap
+  data={data}
+  zoom={{
+    countryLabelMinFontSize: 13,
+    countryLabelMaxFontSize: 24,
+    countryLabelZoomGrowthRate: 0.4,
+  }}
+/>
+```
+
 Consumers can pass `pins` to render captioned markers at projected longitude/latitude positions. The core package does not bundle capital city data; examples can provide their own sample pin lists.
