@@ -1,4 +1,8 @@
-export { regionCoverage, getRegionCoverage } from "./coverage.js";
+export {
+  regionCoverage,
+  targetRegionCountries,
+  getRegionCoverage,
+} from "./coverage.js";
 export { regionCollections } from "./data/starter.js";
 export { createRegionsDetailProvider } from "./providers/createRegionsDetailProvider.js";
 export type {

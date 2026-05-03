@@ -2,7 +2,7 @@
   "name": "@react-svg-worldmap/regions",
   "version": "0.1.0",
   "license": "MIT",
-  "description": "Optional starter region data and provider helpers for react-svg-worldmap.",
+  "description": "Optional target-country region data and provider helpers for react-svg-worldmap.",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -17,6 +17,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
+    "generate:regions": "node scripts/generate-starter-regions.mjs",
     "test": "ESBUILD_LOG_LEVEL=silent vitest run"
   },
   "exports": {

@@ -3,6 +3,11 @@ import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 
 import WorldMap from "../index.js";
+import {
+  createRegionLabelCandidate,
+  placeRegionLabels,
+} from "../labels/placement.js";
+import type { RegionFeatureRecord } from "../types.js";
 
 vi.mock("react-path-tooltip", () => ({
   PathTooltip: () => null,
@@ -138,5 +143,79 @@ describe("WorldMap zoom labels", () => {
     );
 
     expect(container.querySelector("[data-map-pin]")).toBeNull();
+  });
+
+  it("creates region label candidates using bounds and centroid fit", () => {
+    const region: RegionFeatureRecord = {
+      id: "us-ca",
+      countryCode: "US",
+      name: "California",
+      kind: "state",
+      path: "M0 0 L100 0 L100 80 L0 80 Z",
+      centroid: [50, 40],
+      bounds: [
+        [0, 0],
+        [100, 80],
+      ],
+    };
+
+    expect(createRegionLabelCandidate(region, 10)).toMatchObject({
+      regionId: "us-ca",
+      countryCode: "US",
+      label: "California",
+      x: 50,
+      y: 40,
+    });
+  });
+
+  it("hides region label candidates that cannot fit their bounds", () => {
+    const region: RegionFeatureRecord = {
+      id: "us-ri",
+      countryCode: "US",
+      name: "Rhode Island",
+      path: "M0 0 L10 0 L10 5 L0 5 Z",
+      centroid: [5, 2.5],
+      bounds: [
+        [0, 0],
+        [10, 5],
+      ],
+    };
+
+    expect(createRegionLabelCandidate(region, 12)).toBeUndefined();
+  });
+
+  it("places region labels without accepting colliding lower-priority labels", () => {
+    const large = createRegionLabelCandidate(
+      {
+        id: "large",
+        countryCode: "US",
+        name: "Large Region",
+        path: "M0 0 L200 0 L200 100 L0 100 Z",
+        centroid: [100, 50],
+        bounds: [
+          [0, 0],
+          [200, 100],
+        ],
+      },
+      10,
+    );
+    const colliding = createRegionLabelCandidate(
+      {
+        id: "small",
+        countryCode: "US",
+        name: "Small",
+        path: "M80 35 L130 35 L130 70 L80 70 Z",
+        centroid: [105, 52],
+        bounds: [
+          [80, 35],
+          [130, 70],
+        ],
+      },
+      10,
+    );
+
+    expect(
+      placeRegionLabels([colliding, large]).map((label) => label.regionId),
+    ).toEqual(["large"]);
   });
 });

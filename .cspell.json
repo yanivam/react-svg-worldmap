@@ -16,6 +16,7 @@
     "yarn.lock",
     "project-words.txt",
     "lib/src/countries.topo.ts",
+    "regions/src/data/starter.ts",
     ".agents/**",
     ".specify/**"
   ]

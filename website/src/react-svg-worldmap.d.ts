@@ -44,7 +44,9 @@ declare module "react-svg-worldmap" {
     countryName: string;
     status: RegionCoverageStatus;
     regionCount: number;
+    expectedRegionCount?: number;
     sourceSummary?: string;
+    sourceUrl?: string;
     reviewNotes?: string;
   }
 
@@ -53,16 +55,21 @@ declare module "react-svg-worldmap" {
     countryCode: ISOCode;
     name: string;
     localizedName?: string;
+    kind?: string;
     path: string;
     centroid?: readonly [number, number];
     bounds?: readonly [readonly [number, number], readonly [number, number]];
     order?: number;
+    sourceId?: string;
   }
 
   export interface RegionCollectionRecord {
     countryCode: ISOCode;
     countryName: string;
     coverageStatus: RegionCoverageStatus;
+    expectedRegionCount?: number;
+    sourceSummary?: string;
+    sourceUrl?: string;
     regions: RegionFeatureRecord[];
     reviewNotes?: string;
   }
@@ -133,6 +140,7 @@ declare module "react-svg-worldmap" {
     detailLevel?: DetailLevel;
     detailProvider?: DetailProvider;
     onDetailStatusChange?: (status: DetailProviderResult) => void;
+    showRegionList?: boolean;
     type?: string;
     styleFunction?: (context: CountryContext<T>) => React.CSSProperties;
     onClickFunction?: (
@@ -153,4 +161,35 @@ declare module "react-svg-worldmap" {
     props: Props<T>,
   ): React.JSX.Element;
   export default WorldMap;
+}
+
+declare module "@react-svg-worldmap/regions" {
+  export type DetailProvider = import("react-svg-worldmap").DetailProvider;
+  export type DetailProviderResult =
+    import("react-svg-worldmap").DetailProviderResult;
+  export type DetailLayerStatus =
+    import("react-svg-worldmap").DetailLayerStatus;
+  export type DetailLevel = import("react-svg-worldmap").DetailLevel;
+  export type RegionCollectionRecord =
+    import("react-svg-worldmap").RegionCollectionRecord;
+  export type RegionCoverageRecord =
+    import("react-svg-worldmap").RegionCoverageRecord;
+  export type RegionCoverageStatus =
+    import("react-svg-worldmap").RegionCoverageStatus;
+  export type RegionFeatureRecord =
+    import("react-svg-worldmap").RegionFeatureRecord;
+  export const regionCoverage: import("react-svg-worldmap").RegionCoverageRecord[];
+  export const targetRegionCountries: Array<{
+    countryCode: import("react-svg-worldmap").ISOCode;
+    countryName: string;
+    continentGroup: "Americas" | "Europe" | "Asia" | "Africa" | "Oceania";
+  }>;
+  export const regionCollections: Record<
+    string,
+    import("react-svg-worldmap").RegionCollectionRecord
+  >;
+  export function getRegionCoverage(
+    countryCode?: import("react-svg-worldmap").ISOCode,
+  ): import("react-svg-worldmap").RegionCoverageRecord[];
+  export function createRegionsDetailProvider(): import("react-svg-worldmap").DetailProvider;
 }

@@ -28,6 +28,13 @@ const collection: RegionCollectionRecord = {
       path: "M220 215 L300 215 L300 285 L220 285 Z",
       centroid: [260, 250],
     },
+    {
+      id: "us-second-region",
+      countryCode: "US",
+      name: "Second Region",
+      path: "M320 215 L400 215 L400 285 L320 285 Z",
+      centroid: [360, 250],
+    },
   ],
 };
 
@@ -67,6 +74,29 @@ describe("detail provider state helpers", () => {
 });
 
 describe("WorldMap region detail", () => {
+  it("does not load region detail when the map is in country mode", async () => {
+    const onDetailStatusChange = vi.fn();
+    const detailProvider = provider();
+    const loadRegions = vi.spyOn(detailProvider, "loadRegions");
+
+    render(
+      <WorldMap
+        data={DATA}
+        zoom
+        detailLevel="countries"
+        detailProvider={detailProvider}
+        onDetailStatusChange={onDetailStatusChange}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(onDetailStatusChange).toHaveBeenCalledWith(
+        expect.objectContaining({ status: "idle" }),
+      );
+    });
+    expect(loadRegions).not.toHaveBeenCalled();
+  });
+
   it("renders supported region boundaries and labels", async () => {
     const { container } = render(
       <WorldMap
@@ -86,6 +116,43 @@ describe("WorldMap region detail", () => {
     expect(
       screen.getByLabelText("Visible regions for United States"),
     ).toBeInTheDocument();
+  });
+
+  it("exposes single-region collections without drawing an internal boundary", async () => {
+    const singleRegionCollection: RegionCollectionRecord = {
+      countryCode: "US",
+      countryName: "United States",
+      coverageStatus: "complete",
+      expectedRegionCount: 1,
+      regions: [
+        {
+          id: "us-single",
+          countryCode: "US",
+          name: "Single Region",
+          path: "M220 215 L300 215 L300 285 L220 285 Z",
+          centroid: [260, 250],
+          bounds: [
+            [220, 215],
+            [300, 285],
+          ],
+        },
+      ],
+    };
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        zoom
+        detailLevel="regions"
+        detailProvider={provider(
+          createReadyDetailResult(singleRegionCollection),
+        )}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Single Region")).toBeInTheDocument();
+    });
+    expect(container.querySelector("[data-region-id='us-single']")).toBeNull();
   });
 
   it("falls back when provider data is unavailable", async () => {

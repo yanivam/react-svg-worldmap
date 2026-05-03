@@ -42,7 +42,10 @@ Release is triggered from **Actions → “Release” → Run workflow**. It doe
    - When ready to release: run **`yarn version`** at the repo root. This consumes changesets, bumps `lib/package.json`, and updates `lib/CHANGELOG.md`.
    - Commit and push the version and changelog to `main`.
    - The npm package publishes `lib/README.md`, which is generated from the marked npm section in `README.md`.
-   - If the optional regions package changes, verify `regions/README.md`, `regions/package.json`, and `npm pack --dry-run ./regions` before publishing.
+   - If the optional regions package changes, verify `regions/README.md`, `regions/package.json`, `targetRegionCountries`, and `npm pack --dry-run ./regions` before publishing.
+   - For region data changes, follow `CONTRIBUTING.md` and verify the recorded coverage counts and source notes in `docs/map-data-policy.md`, `docs/map-data-overrides.json`, `regions/README.md`, and `CONTRIBUTING.md`.
+   - Record `npm --cache /private/tmp/npm-cache-codex pack --dry-run ./lib` and `npm --cache /private/tmp/npm-cache-codex pack --dry-run ./regions` output when generated region data changes. Latest region-data validation for the 23-country optional package: core `react-svg-worldmap@2.0.2` dry-run is 740.3 kB packed / 6.4 MB unpacked with 6 files; optional `@react-svg-worldmap/regions@0.1.0` dry-run is 2.8 MB packed / 10.3 MB unpacked with 6 files after generated SVG paths are rounded to hundredth-pixel precision.
+   - If bundled map geometry changes, rerun the documented topology generator, review `docs/map-data-policy.md` and `docs/map-data-overrides.json`, and record validation output including source path, country count, coordinate count, precision, optimization settings, quality-budget fixture results, and package-size impact.
 
 2. **npm Trusted Publishing (one-time setup)**
    - Publishing uses [Trusted Publishing](https://docs.npmjs.com/trusted-publishers) (OIDC). No long-lived token or 2FA code needed in CI.

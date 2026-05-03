@@ -8,13 +8,14 @@ The recent history follows a Keep a Changelog style. Older `1.x` entries are pre
 
 ### Added
 
-- Added an optional `@react-svg-worldmap/regions` package with starter region coverage metadata, normalized region records, and a provider helper.
-- Added provider-backed `detailLevel="regions"` support in the core map with country-level fallback for unavailable or failed region detail.
-- Added visible region list and live region-detail status behavior for accessible region views.
+- Added an optional `@react-svg-worldmap/regions` package with target-country first-level region data for 23 countries, coverage metadata, normalized region records, source URLs, target-country exports, and a provider helper.
+- Added provider-backed `detailLevel="regions"` support in the core map with dotted internal region borders and country-level fallback for unavailable or failed region detail.
+- Added visible region list, live region-detail status behavior, and `showRegionList` control for accessible region views.
 
 ### Changed
 
-- Documented optional region package installation, starter coverage limitations, and region data neutrality expectations.
+- Regenerated the bundled country topology from the documented Natural Earth Admin 0 source path with higher country-level geometry detail, at least 6 decimal places of retained source precision, and quality-budgeted TopoJSON optimization that reduces the packed core package dry-run to 739.4 kB.
+- Documented optional region package installation, target-country coverage, source records, contribution workflow, and region data neutrality expectations.
 
 ## 2.0.2 - 2026-04-05
 

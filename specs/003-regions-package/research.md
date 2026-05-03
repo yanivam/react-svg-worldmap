@@ -1,71 +1,93 @@
 # Research: Regions Package
 
-## Decision: Optional Regions Package With Provider Boundary
+## Decision: Keep Region Detail In An Optional Workspace Package
 
-**Rationale**: Region data can be large, politically sensitive, and unnecessary for country-only users. Keeping starter region coverage in an optional package preserves the existing core package footprint while making region detail available to consumers who choose it. A provider boundary lets consumers use the optional package or their own reviewed data.
+Rationale: Existing consumers expect the core package to render country maps without installing extra region data. A separate `@react-svg-worldmap/regions` package preserves the country-only default, keeps region coverage opt-in, and lets future region datasets grow without forcing all consumers to carry them.
 
-**Alternatives considered**:
+Alternatives considered:
 
-- Bundle starter region data in the core package: rejected because it increases default package size and makes country-only consumers carry unused data.
-- Require consumers to fetch region data from a hosted service: rejected because the project should remain usable without hosted map-service dependencies.
-- Hard-code one region source inside the core renderer: rejected because it blocks custom coverage and makes neutrality review less modular.
+- Bundle starter regions into `react-svg-worldmap`: rejected because it grows the default package for consumers who only need countries.
+- Require consumers to fetch region data from a hosted service: rejected because the project must work without a hosted map dependency.
+- Leave region detail entirely to custom consumer code: rejected because the feature requires a documented package-backed starter path.
 
-## Decision: Core Detail Provider Contract
+## Decision: Use A Provider Boundary For Region Detail
 
-**Rationale**: The core package should know how to request, validate, and render region detail without depending on any specific data package. The provider reports support, loading status, unavailable coverage, failure, warnings, and ready region collections. This supports clean fallback behavior and explicit consumer warnings.
+Rationale: A `DetailProvider` contract lets the core renderer consume region coverage and collections without importing the optional package at runtime. The optional package and custom consumer providers share one integration boundary, which keeps fallback states and accessibility behavior centralized in the core map.
 
-**Alternatives considered**:
+Alternatives considered:
 
-- Pass raw region arrays directly to the map: rejected because support checks, fallback states, async loading, and custom providers become inconsistent.
-- Add a broad plugin system: rejected as too much surface area for the current feature.
-- Infer region availability from package presence: rejected because package presence does not prove coverage for a specific country.
+- Directly import optional region data from the core package: rejected because it couples the core runtime to optional data.
+- Add ad hoc props for each supported country: rejected because it does not scale to custom providers or future coverage.
+- Render region data only in website examples: rejected because consumers need a reusable package API.
 
-## Decision: Starter Coverage Is Limited And Explicit
+## Decision: Region Coverage Uses Explicit Status Metadata
 
-**Rationale**: The first region package release can provide a reviewed starter set rather than global coverage. The important user guarantee is that coverage is discoverable and unsupported countries fall back cleanly. Coverage metadata must distinguish complete, partial, experimental, and unavailable states.
+Rationale: Region data can be complete, partial, experimental, or unavailable. Encoding that status in coverage metadata keeps limited starter coverage honest and allows applications to inspect support before requesting detail.
 
-**Alternatives considered**:
+Alternatives considered:
 
-- Delay release until global region coverage exists: rejected because it blocks provider integration and would expand map-data review beyond the feature scope.
-- Ship incomplete data as if complete: rejected because it violates consumer trust and neutrality expectations.
-- Omit coverage metadata: rejected because consumers need to know support before enabling region detail.
+- Treat presence of records as full support: rejected because starter coverage may be limited.
+- Hide unsupported countries until runtime: rejected because consumers need discoverable coverage.
+- Use a boolean `supported` flag only: rejected because it cannot distinguish complete, partial, and experimental coverage.
 
-## Decision: Region Geometry As Normalized Package Records
+## Decision: Ready Region Detail Renders Boundaries, Labels, Visible List, Pins, And Status
 
-**Rationale**: Region records need stable identifiers, parent country, names, renderable boundary data, and optional label/viewport metadata. Keeping geometry in normalized package records makes validation and package smoke tests straightforward, and it avoids requiring network conversion at runtime.
+Rationale: Region detail is useful only when users can see and understand the displayed regions. Boundaries and fit-aware labels provide the visual layer, the visible region list provides non-SVG discoverability, pins remain geographically anchored, and live status communicates loading/fallback transitions.
 
-**Alternatives considered**:
+Alternatives considered:
 
-- Store only source dataset references: rejected because consumers need ready-to-render package data.
-- Store only SVG paths without metadata: rejected because labels, coverage validation, parent-country checks, and visible region lists need structured records.
-- Store multiple localized names in the initial release: deferred because default English labels and optional consumer translation hooks cover the initial use case with less data policy surface.
+- Render boundaries only: rejected because regions would be hard to identify accessibly.
+- Always render all labels and pins: rejected because collisions and unreadable text would degrade the map.
+- Suppress pins during region detail: rejected because consumer-provided geographic overlays should remain usable when fit rules allow.
 
-## Decision: Fallback-First Region Rendering
+## Decision: Regenerate Core Country Topology From Current Project Source Path With 6 Decimal Places
 
-**Rationale**: Region detail must never break country-level map rendering. Unsupported, unavailable, failed, or loading provider states should leave a stable country view and communicate status. This preserves compatibility and makes region detail safe to enable incrementally.
+Rationale: The clarified requirement chooses the existing project source path rather than switching to a new upstream dataset. The generation workflow must raise retained source precision to at least 6 decimal places before quality-budgeted optimization and stop geometry reduction that removes visible country-level coastline, island, border, and small-country detail.
 
-**Alternatives considered**:
+Alternatives considered:
 
-- Hide the map while loading or unavailable: rejected because it reduces usability and creates avoidable layout changes.
-- Throw runtime errors for unsupported countries: rejected because unsupported coverage is expected.
-- Automatically zoom into unsupported countries without detail: rejected because it could imply a detail mode is available when it is not.
+- Switch to Natural Earth 10m Admin 0: rejected by clarification in favor of the current source path.
+- Preserve exact source precision: rejected because 6 decimals provides a concrete high-detail target and avoids unbounded source noise.
+- Keep the current reduced topology: rejected because it removes too much visible country-level detail.
+- Use 50m source as a middle ground: rejected because the user prioritized restoring detail, not further source simplification.
 
-## Decision: Region Accessibility Mirrors Country Zoom Accessibility
+## Decision: Prefer Lossless TopoJSON Encoding, Then Apply Quality-Budgeted Simplification
 
-**Rationale**: The completed zoom foundation already includes keyboard controls and live status. Region detail should reuse those expectations, adding visible region list behavior and status announcements when a focused country has ready, unavailable, loading, or failed detail.
+Rationale: TopoJSON arc sharing, delta encoding, minification, and build-time formatting reduce size without discarding geometry detail and should remain the first optimization layer. The clarified package-size requirement allows a second, quality-budgeted simplification or quantization pass when the high-detail baseline produces too large a core package, provided automated validation proves no material human-visible degradation for selected small-island, coastline, border, and small-country fixtures.
 
-**Alternatives considered**:
+Alternatives considered:
 
-- SVG-only region interaction: rejected because a synchronized visible list is needed for accessible non-graphical navigation and review.
-- Mouse-only drill-down: rejected because it would regress keyboard accessibility.
-- Silent fallback: rejected because users need to understand why region detail did not appear.
+- Continue aggressive simplification for package size: rejected because geometry quality is the primary goal.
+- Store full unencoded GeoJSON in the package: rejected because TopoJSON gives meaningful lossless compression while preserving the public API.
+- Quantize below the 6-decimal target: rejected because it violates the clarified precision requirement.
+- Lossless-only optimization: rejected because the high-detail baseline can still produce a materially larger packed package than acceptable for a lightweight core library.
 
-## Decision: Region Data Requires Neutrality Review
+## Decision: Validate Optimization With Fixed Quality Fixtures
 
-**Rationale**: Sub-country boundaries and names can introduce additional political claims beyond the base world map. Every starter country and future contribution must be reviewed against the map-data policy, with limitations and disputed or sensitive cases documented.
+Rationale: "Minimal human-visible compromise" needs a repeatable proxy. The optimizer should compare the optimized topology against the high-detail baseline for country record preservation, retained precision, renderability, and fixture-level shape preservation. Fixture countries should cover small islands, complex coastlines, sensitive borders, and small countries so size reduction does not silently remove the details the regeneration was meant to restore.
 
-**Alternatives considered**:
+Alternatives considered:
 
-- Treat region data as purely technical: rejected because boundaries and names are user-visible map data.
-- Accept source data without project review: rejected because the project maintains its own neutrality policy and override register.
-- Exclude all sensitive countries permanently: rejected because documented review and fallback behavior are sufficient for scoped starter coverage.
+- Manual visual review only: rejected because it is subjective and not repeatable in CI.
+- Global coordinate-count threshold only: rejected because it can hide localized degradation in small or complex features.
+- Package-size target only: rejected because a smaller package can still produce visibly worse map quality.
+
+## Decision: Add Map-Data Generation Validation
+
+Rationale: The regenerated topology needs objective checks: same country record count and ISO/name coverage, at least 6 decimal places retained in generated coordinates, higher retained coordinate detail than the current bundled topology, renderable SVG paths, and recorded file-size impact. This turns "more detail" into a repeatable gate.
+
+Alternatives considered:
+
+- Manual visual inspection only: rejected because it is subjective and hard to repeat.
+- File-size check only: rejected because package size does not prove geometry quality.
+- Snapshot the entire topology only: rejected because it detects changes but does not explain whether precision and coverage requirements were met.
+
+## Decision: Treat Country Topology Regeneration As A Map-Data Neutrality Change
+
+Rationale: Country geometry, borders, small islands, and disputed areas can carry geopolitical meaning. Regeneration must be reviewed against `docs/map-data-policy.md` and `docs/map-data-overrides.json`, and documentation must continue to describe the default map as a thematic visualization rather than an authoritative boundary reference.
+
+Alternatives considered:
+
+- Treat precision-only generation as non-political: rejected because changed borders and territory visibility can alter representation.
+- Block all geometry changes due to neutrality risk: rejected because the clarified feature explicitly requires restoring detail.
+- Add multiple geopolitical variants: rejected because it expands scope beyond the current default map.

@@ -44,7 +44,9 @@ import {
 } from "./detail/providerState.js";
 import {
   createCountryLabelCandidate,
+  createRegionLabelCandidate,
   placeCountryLabels,
+  placeRegionLabels,
   resolveCountryLabelMapFontSize,
 } from "./labels/placement.js";
 import { projectMapPins } from "./pins/mapPins.js";
@@ -60,6 +62,7 @@ export type {
   ZoomState,
   MapPin,
   CountryLabelCandidate,
+  RegionLabelCandidate,
   DetailLevel,
   RegionCoverageStatus,
   DetailLayerStatus,
@@ -139,6 +142,7 @@ export default function WorldMap<T extends number | string>(
     detailLevel = "countries",
     detailProvider,
     onDetailStatusChange,
+    showRegionList = true,
   } = props;
   const [wrapperEl, setWrapperEl] = useState<HTMLDivElement | null>(null);
   const containerRef = useRef<SVGSVGElement>(null);
@@ -365,29 +369,49 @@ export default function WorldMap<T extends number | string>(
   const regionPaths = regionElements.map((entry) => entry.path);
 
   const detailRegionPaths =
-    readyRegionCollection?.regions.map((region) => (
-      <path
-        key={`region-detail-${region.id}`}
-        d={region.path}
-        data-region-id={region.id}
-        data-country-code={region.countryCode.toUpperCase()}
-        fill="rgba(255,255,255,0.24)"
-        stroke={borderColor}
-        strokeOpacity={Math.min(strokeOpacity + 0.25, 1)}
-        strokeWidth={0.8}
-        vectorEffect="non-scaling-stroke">
-        <title>{region.localizedName ?? region.name}</title>
-      </path>
-    )) ?? [];
+    readyRegionCollection != null && readyRegionCollection.regions.length > 1
+      ? readyRegionCollection.regions.map((region) => (
+          <path
+            key={`region-detail-${region.id}`}
+            d={region.path}
+            data-region-id={region.id}
+            data-country-code={region.countryCode.toUpperCase()}
+            data-region-kind={region.kind}
+            fill="transparent"
+            stroke={borderColor}
+            strokeDasharray="2 2"
+            strokeLinecap="round"
+            strokeOpacity={Math.min(strokeOpacity + 0.35, 1)}
+            strokeWidth={0.8}
+            vectorEffect="non-scaling-stroke">
+            <title>
+              {region.localizedName ?? region.name} region boundary (thematic,
+              non-authoritative)
+            </title>
+          </path>
+        ))
+      : [];
 
   const regionLabels = React.useMemo(() => {
-    if (!zoomOptions.enabled || readyRegionCollection == null) return [];
+    if (
+      !zoomOptions.enabled ||
+      readyRegionCollection == null ||
+      scale < zoomOptions.zoomFactor
+    )
+      return [];
 
-    return readyRegionCollection.regions
-      .filter((region) => region.centroid != null)
-      .sort((left, right) => (left.order ?? 0) - (right.order ?? 0))
-      .slice(0, 12);
-  }, [readyRegionCollection, zoomOptions.enabled]);
+    return placeRegionLabels(
+      readyRegionCollection.regions.map((region) =>
+        createRegionLabelCandidate(region, labelFontSize),
+      ),
+    );
+  }, [
+    labelFontSize,
+    readyRegionCollection,
+    scale,
+    zoomOptions.enabled,
+    zoomOptions.zoomFactor,
+  ]);
 
   // Build tooltips
   const regionTooltips = regionElements.map(
@@ -578,10 +602,10 @@ export default function WorldMap<T extends number | string>(
             ))}
             {regionLabels.map((region) => (
               <TextLabel
-                key={`region-label-${region.id}`}
-                label={region.localizedName ?? region.name}
-                x={region.centroid![0]}
-                y={region.centroid![1]}
+                key={`region-label-${region.regionId}`}
+                label={region.label}
+                x={region.x}
+                y={region.y}
                 textAnchor="middle"
                 fontSize={labelFontSize}
                 fill="#111"
@@ -609,7 +633,7 @@ export default function WorldMap<T extends number | string>(
           </g>
           {regionTooltips}
         </svg>
-        {readyRegionCollection != null && (
+        {showRegionList && readyRegionCollection != null && (
           <VisibleRegionList collection={readyRegionCollection} />
         )}
       </figure>

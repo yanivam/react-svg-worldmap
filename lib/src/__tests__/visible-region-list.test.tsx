@@ -9,6 +9,7 @@ const collection: RegionCollectionRecord = {
   countryCode: "US",
   countryName: "United States",
   coverageStatus: "experimental",
+  expectedRegionCount: 2,
   regions: [
     {
       id: "west",
@@ -34,5 +35,27 @@ describe("VisibleRegionList", () => {
     ).toHaveAttribute("data-visible-region-list", "US");
     expect(screen.getByText("West")).toBeInTheDocument();
     expect(screen.getByText("East")).toBeInTheDocument();
+    expect(
+      screen.getByText("Coverage: experimental (2/2)"),
+    ).toBeInTheDocument();
+  });
+
+  it("keeps dense coverage available when map labels are hidden", () => {
+    render(
+      <VisibleRegionList
+        collection={{
+          ...collection,
+          regions: Array.from({ length: 20 }, (_, index) => ({
+            id: `region-${index}`,
+            countryCode: "US",
+            name: `Region ${index + 1}`,
+            path: "M0 0 L1 0 L1 1 Z",
+          })),
+        }}
+      />,
+    );
+
+    expect(screen.getByText("Region 1")).toBeInTheDocument();
+    expect(screen.getByText("Region 20")).toBeInTheDocument();
   });
 });

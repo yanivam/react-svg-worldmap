@@ -9,6 +9,9 @@
 ### Session 2026-05-02
 
 - Q: What should the default overlay state be for the renamed Zoom with regions example? → A: Region details on by default; capital city overlay off by default.
+- Q: Which source strategy should be used to restore country-level map granularity? → A: Keep the current source path, raise coordinate precision, and stop aggressive geometry reduction.
+- Q: What minimum retained source precision should regenerated country geometry use before quality-budgeted optimization? → A: 6 decimal places.
+- Q: What size-reduction strategy is acceptable with minimal human-visible map quality compromise? → A: Quality-budgeted simplification.
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -91,6 +94,10 @@ As a maintainer, I want region data to follow documented quality and neutrality 
 - **FR-017**: The "Zoom with regions" example MUST include a control that toggles the capital city overlay on or off without changing the current zoom focus.
 - **FR-018**: The "Zoom with regions" example MUST include a control that toggles region details on or off without changing the current zoom focus.
 - **FR-019**: The "Zoom with regions" example MUST render with region details enabled and capital city overlay disabled by default.
+- **FR-020**: The core country-level map data MUST be regenerated from the current project source path with at least 6 decimal places of retained source precision before quality-budgeted optimization and without lossy geometry reduction that removes visible coastline, island, border, or small-country detail.
+- **FR-021**: The regenerated country-level map data MAY use lossless compression or structural encoding such as TopoJSON arc sharing, delta encoding, minification, or build-time formatting, but MUST keep lossy simplification within an explicit quality budget.
+- **FR-022**: The map-data generation workflow MUST document the source input, precision settings, compression steps, and validation checks used to regenerate `lib/src/countries.topo.ts`.
+- **FR-023**: Package-size reduction MAY use quality-budgeted simplification or quantization only when automated validation proves country records are preserved, retained precision remains at least 6 decimal places, geometry remains renderable, and selected small-island, coastline, border, and small-country fixtures do not show material human-visible degradation.
 
 ### Constitution Requirements _(mandatory)_
 
@@ -119,6 +126,8 @@ As a maintainer, I want region data to follow documented quality and neutrality 
 - **SC-005**: Region detail preserves keyboard-operable zoom and reset behavior in 100% of accessibility regression scenarios.
 - **SC-006**: Region package installation and first working region-detail example can be completed by a developer following the documentation in under 10 minutes.
 - **SC-007**: The "Zoom with regions" example renders on an XL canvas with independent capital-city and region-detail controls in 100% of example smoke checks.
+- **SC-008**: Country-level geometry regeneration preserves all current country records and improves retained source detail compared with the current bundled topology, with at least 6 decimal places of retained source precision and validation output recorded in the repository.
+- **SC-009**: Optimized country topology reduces the packed core package size to approximately 1 MB or less while passing the quality-budget validation fixtures for renderability, source precision, small islands, coastlines, borders, and small-country visibility.
 
 ## Assumptions
 

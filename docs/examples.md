@@ -11,13 +11,17 @@ sidebar_position: 5
 - Country border strokes keep a constant screen-space thickness while zooming.
 - Country labels are enabled by default while zooming, grow within clamped screen-space bounds, and are filtered so labels only appear when they fit.
 - The example renders on an XL canvas, shows region details by default, and lets users turn region details on or off.
+- Region details come from the optional `@react-svg-worldmap/regions` package, with target-country coverage for 23 countries. United States and Canada are marked complete; the remaining target countries are marked experimental until country-specific official source review is complete.
+- Internal region borders render as dotted overlays, and region labels appear only when zoom and label-fit rules keep them readable.
 - The example can overlay capital city pins on demand; the overlay is off by default so sample data stays outside the core package.
+- Uses the higher-detail bundled country topology, regenerated from the documented Natural Earth Admin 0 source path with at least 6 decimal places of retained source precision and quality-budgeted package-size optimization that keeps the packed core package under 1 MB.
 
 ## [examples/sizing](/examples/sizing)
 
 - A simple example of the world map
 - 4 maps given two different data sets
 - Example of some simple features using the default styling
+- XL and XXL examples demonstrate opt-in region detail from the optional regions package without rendering the below-map list of every visible region.
 - Responsive size example showing how an example with responsive size looks
 
 ## [examples/custom-style](/examples/custom-style)

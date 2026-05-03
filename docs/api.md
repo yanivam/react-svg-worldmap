@@ -46,6 +46,7 @@ sidebar_position: 4
 | `detailLevel` | <code>'countries' &#124; 'regions'</code> | Optional detail mode. Defaults to country-level rendering. |
 | `detailProvider` | `DetailProvider` | Optional provider for region-detail data. Required only when `detailLevel="regions"` should display regional boundaries. |
 | `onDetailStatusChange` | `(status: DetailProviderResult) => void` | Called when region detail becomes loading, ready, unavailable, or failed. |
+| `showRegionList` | `boolean` | Controls the accessible below-map list of visible regions when region detail is ready. Defaults to `true`; set to `false` when the surrounding page already provides equivalent region context. |
 | :construction: `type` :construction: | `string` | Select type of map you want, either "tooltip" or "marker". <br />:memo: This functionality not only complicates the code, but is infrequently used and needs to be redesigned to make it better. For now it is deprecated and has no effect. :memo: |
 | `styleFunction` | `(context: CountryContext) => React.CSSProperties` | A callback function to customize styling of each country (see [Custom styles example](/examples/custom-style)) |
 | `hrefFunction` | <code>(context: CountryContext) => object &#124; string &#124; undefined</code> | A callback function to bind an href link to each country. The return can be the target URL as a string or an object specifying props passed to the anchor element (e.g. `href` and `target`). (see [Href binding example](/examples/links)) |
@@ -121,7 +122,9 @@ type RegionCoverageRecord = {
   countryName: string;
   status: RegionCoverageStatus;
   regionCount: number;
+  expectedRegionCount?: number;
   sourceSummary?: string;
+  sourceUrl?: string;
   reviewNotes?: string;
 };
 
@@ -130,16 +133,21 @@ type RegionFeatureRecord = {
   countryCode: ISOCode;
   name: string;
   localizedName?: string;
+  kind?: string;
   path: string;
   centroid?: readonly [number, number];
   bounds?: readonly [readonly [number, number], readonly [number, number]];
   order?: number;
+  sourceId?: string;
 };
 
 type RegionCollectionRecord = {
   countryCode: ISOCode;
   countryName: string;
   coverageStatus: RegionCoverageStatus;
+  expectedRegionCount?: number;
+  sourceSummary?: string;
+  sourceUrl?: string;
   regions: RegionFeatureRecord[];
   reviewNotes?: string;
 };
@@ -179,7 +187,12 @@ const detailProvider = createRegionsDetailProvider();
   zoom
   detailLevel="regions"
   detailProvider={detailProvider}
+  showRegionList={false}
 />;
 ```
 
-If a provider is omitted, fails, or does not support the focused country, the map keeps the country-level view and reports the detail status through `onDetailStatusChange`. Starter coverage in `@react-svg-worldmap/regions` is intentionally limited and documented through coverage metadata.
+If a provider is omitted, fails, or does not support the focused country, the map keeps the country-level view and reports the detail status through `onDetailStatusChange`. Target-country coverage in `@react-svg-worldmap/regions` currently includes first-level regions for 23 countries across the Americas, Europe, Asia, Africa, and Oceania. United States and Canada are marked complete; the remaining target countries are marked experimental until country-specific official source review is complete. Internal region borders are dotted, region labels follow the same fit and collision rules as country labels, and coverage/source limitations are documented through package metadata.
+
+## Bundled Country Topology
+
+The core package bundles country-level TopoJSON generated from the documented Natural Earth Admin 0 source path. The current generation keeps at least 6 decimal places of retained source precision, then applies TopoJSON arc sharing, delta encoding, JSON minification, and quality-budgeted quantization to keep the packed core package under 1 MB while preserving validation fixtures for small islands, coastlines, borders, and small countries.

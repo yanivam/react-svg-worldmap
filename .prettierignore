@@ -6,5 +6,6 @@ coverage
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+lib/src/countries.topo.ts
 .agents/
 .specify/

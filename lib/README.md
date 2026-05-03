@@ -16,7 +16,7 @@ A lightweight React component for rendering a bundled SVG world map for charts, 
 - Ships ESM, CJS, and TypeScript declaration files
 - CI enforces automated tests and `>90%` coverage
 - Optional dispute metadata for high-visibility geopolitical cases
-- Optional region-detail package for reviewed starter sub-country coverage
+- Optional region-detail package for reviewed target-country sub-country coverage
 
 ## Documentation & Examples
 
@@ -35,7 +35,7 @@ Live examples and package documentation are available at [yanivam.github.io/reac
 npm install react-svg-worldmap
 ```
 
-Optional starter region detail is published separately:
+Optional target-country region detail is published separately:
 
 ```bash
 npm install @react-svg-worldmap/regions
@@ -88,6 +88,8 @@ The project uses a documented source hierarchy instead of treating one raw datas
 
 This project aims to stay neutral by documenting how naming, geometry, and disputed territories are handled. For sensitive cases, maintainers prefer reviewable documentation and coarse small-scale representation over silent or over-precise political claims.
 
+The bundled country topology is regenerated from the documented Natural Earth Admin 0 source path with at least 6 decimal places of retained source precision. The current regeneration favors visible country-level coastline, island, border, and small-country detail, then applies quality-budgeted TopoJSON compression, delta encoding, minification, and quantization to keep the core npm package under 1 MB while preserving the validated map fixtures.
+
 The package exposes Tier 1 dispute metadata for Crimea, Palestinian Territories, Taiwan, Kashmir, Western Sahara, and Kosovo. Consumers can opt into dispute-aware rendering through callback context:
 
 ```tsx
@@ -106,7 +108,7 @@ import WorldMap from "react-svg-worldmap";
 />;
 ```
 
-Region detail is opt-in and distributed through the optional `@react-svg-worldmap/regions` package. Starter region coverage is limited and marked in package metadata; unsupported countries fall back to the country-level map.
+Region detail is opt-in and distributed through the optional `@react-svg-worldmap/regions` package. Target-country coverage currently includes first-level regions for 23 countries across the Americas, Europe, Asia, Africa, and Oceania. United States and Canada coverage is marked complete; the remaining target countries are marked experimental until country-specific official source review is complete. Unsupported countries fall back to the country-level map, internal region borders render as dotted overlays, and region labels use the same zoom-aware fit rules as country labels.
 
 ```tsx
 import WorldMap from "react-svg-worldmap";
@@ -127,7 +129,9 @@ Source attribution and policy details:
 - [Geopolitical policy](https://github.com/yanivam/react-svg-worldmap/blob/main/GEOPOLITICAL_POLICY.md)
 - [Map data policy](https://github.com/yanivam/react-svg-worldmap/blob/main/docs/map-data-policy.md)
 - [Sensitive-case overrides register](https://github.com/yanivam/react-svg-worldmap/blob/main/docs/map-data-overrides.json)
+- [Contributing guide](https://github.com/yanivam/react-svg-worldmap/blob/main/CONTRIBUTING.md)
 - [Natural Earth Admin 0 Countries](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-0-countries/)
+- [Natural Earth Admin 1 States/Provinces](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/)
 - [UNSD M49](https://unstats.un.org/unsd/methodology/m49/)
 - [UNTERM](https://unterm.un.org/)
 

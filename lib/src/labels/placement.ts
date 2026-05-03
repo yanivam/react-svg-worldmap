@@ -1,6 +1,11 @@
 import type GeoJSON from "geojson";
 import type { GeoPath } from "d3-geo";
-import type { CountryLabelCandidate, ISOCode } from "../types.js";
+import type {
+  CountryLabelCandidate,
+  ISOCode,
+  RegionFeatureRecord,
+  RegionLabelCandidate,
+} from "../types.js";
 import type { ResolvedZoomOptions } from "../zoom/state.js";
 import { getLargestGeometryPart, measureFeature } from "../zoom/geometry.js";
 
@@ -20,16 +25,30 @@ function estimateTextHeight(fontSize: number): number {
   return LABEL_HEIGHT * (fontSize / LABEL_FONT_SIZE);
 }
 
-function intersects(
-  left: CountryLabelCandidate,
-  right: CountryLabelCandidate,
-): boolean {
+type LabelCandidate = CountryLabelCandidate | RegionLabelCandidate;
+
+function intersects(left: LabelCandidate, right: LabelCandidate): boolean {
   return !(
     left.x + left.width / 2 < right.x - right.width / 2 ||
     left.x - left.width / 2 > right.x + right.width / 2 ||
     left.y + left.height / 2 < right.y - right.height / 2 ||
     left.y - left.height / 2 > right.y + right.height / 2
   );
+}
+
+function placeLabels<T extends LabelCandidate>(
+  candidates: Array<T | undefined>,
+  compare: (left: T, right: T) => number,
+): T[] {
+  return candidates
+    .filter((candidate): candidate is T => Boolean(candidate))
+    .sort((left, right) => right.priority - left.priority)
+    .reduce<T[]>((accepted, candidate) => {
+      if (accepted.some((label) => intersects(label, candidate)))
+        return accepted;
+      return [...accepted, candidate];
+    }, [])
+    .sort(compare);
 }
 
 export function createCountryLabelCandidate(
@@ -65,17 +84,55 @@ export function createCountryLabelCandidate(
 export function placeCountryLabels(
   candidates: Array<CountryLabelCandidate | undefined>,
 ): CountryLabelCandidate[] {
-  return candidates
-    .filter((candidate): candidate is CountryLabelCandidate =>
-      Boolean(candidate),
-    )
-    .sort((left, right) => right.priority - left.priority)
-    .reduce<CountryLabelCandidate[]>((accepted, candidate) => {
-      if (accepted.some((label) => intersects(label, candidate)))
-        return accepted;
-      return [...accepted, candidate];
-    }, [])
-    .sort((left, right) => left.countryName.localeCompare(right.countryName));
+  return placeLabels(candidates, (left, right) =>
+    left.countryName.localeCompare(right.countryName),
+  );
+}
+
+export function createRegionLabelCandidate(
+  region: RegionFeatureRecord,
+  fontSize: number,
+): RegionLabelCandidate | undefined {
+  const label = region.localizedName ?? region.name;
+  const [[minX, minY], [maxX, maxY]] = region.bounds ?? [
+    [region.centroid?.[0] ?? 0, region.centroid?.[1] ?? 0],
+    [region.centroid?.[0] ?? 0, region.centroid?.[1] ?? 0],
+  ];
+  const availableWidth = Math.abs(maxX - minX);
+  const availableHeight = Math.abs(maxY - minY);
+  const width = estimateTextWidth(label, fontSize);
+  const height = estimateTextHeight(fontSize);
+  const minWidth = Math.max(width * 1.2, fontSize * 1.2);
+  const minHeight = height * 1.4;
+
+  if (
+    region.centroid == null ||
+    availableWidth < minWidth ||
+    availableHeight < minHeight
+  )
+    return undefined;
+
+  return {
+    regionId: region.id,
+    countryCode: region.countryCode,
+    regionName: region.name,
+    label,
+    x: region.centroid[0],
+    y: region.centroid[1],
+    width,
+    height,
+    availableWidth,
+    availableHeight,
+    priority: availableWidth * availableHeight,
+  };
+}
+
+export function placeRegionLabels(
+  candidates: Array<RegionLabelCandidate | undefined>,
+): RegionLabelCandidate[] {
+  return placeLabels(candidates, (left, right) =>
+    left.regionName.localeCompare(right.regionName),
+  );
 }
 
 export function resolveCountryLabelScreenFontSize(

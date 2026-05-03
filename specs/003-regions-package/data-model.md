@@ -2,7 +2,7 @@
 
 ## Region Package
 
-Represents the optional distribution artifact that contains starter region data and provider helpers.
+Represents the optional distribution artifact containing starter region data and provider helpers.
 
 Fields:
 
@@ -158,6 +158,113 @@ Validation rules:
 - Region detail requires a focused country and ready provider result.
 - Reset returns to country-level world view.
 - Region state must not mutate consumer data values.
+
+## Country Topology Source
+
+Represents the current project source path used to regenerate the core country-level map.
+
+Fields:
+
+- `sourcePath`: Local path or documented source input used by `lib/scripts/migrate-to-topo.ts`.
+- `sourceFormat`: Input geometry format before TopoJSON conversion.
+- `countryRecords`: Country features with display name, ISO code, and MultiPolygon coordinates.
+- `sourceNotes`: Notes about provenance, policy limitations, and any historical conversion steps.
+
+Relationships:
+
+- Produces one country topology generation run.
+- Must align with map-data policy and overrides.
+- Feeds `lib/src/countries.topo.ts`.
+
+Validation rules:
+
+- Must preserve all current country records by ISO code and display name unless a policy-reviewed change explicitly documents otherwise.
+- Must not be replaced with a new upstream dataset without a new clarification or plan amendment.
+- Must identify any unavailable source file or recovery step before implementation.
+
+## Country Topology Generation Run
+
+Represents one reproducible regeneration of `lib/src/countries.topo.ts`.
+
+Fields:
+
+- `inputPath`: Source input consumed by the generator.
+- `outputPath`: Generated topology path, normally `lib/src/countries.topo.ts`.
+- `minimumCoordinatePrecision`: Required retained source precision before quality-budgeted optimization, currently 6 decimal places.
+- `compressionSteps`: Lossless structural compression steps such as TopoJSON arc sharing and minification.
+- `lossySteps`: Any quality-budgeted simplification or quantization, expected to be documented with settings and validation output.
+- `fileSizeBytes`: Generated file size.
+- `generatedAt`: Date or commit context for the run if recorded.
+
+Relationships:
+
+- Consumes one country topology source.
+- Produces one topology validation report.
+- Updates release and map-data documentation when geometry changes materially.
+
+Validation rules:
+
+- Must retain at least 6 decimal places of coordinate precision.
+- Must not apply lossy geometry reduction outside the approved quality budget.
+- Must document source input, precision settings, compression steps, and validation checks.
+- Must keep the generated topology import-compatible with the current renderer.
+
+## Country Topology Optimization Budget
+
+Represents the allowed package-size reduction policy for generated country geometry.
+
+Fields:
+
+- `baselineTopologyPath`: High-detail generated topology before lossy optimization.
+- `optimizedTopologyPath`: Generated topology intended for package publication.
+- `minimumCoordinatePrecision`: Required retained source precision before quality-budgeted optimization, currently 6 decimal places.
+- `allowedTechniques`: Lossless compression plus quality-budgeted simplification or quantization.
+- `fixtureCountries`: Countries or territories used for quality-budget checks.
+- `fixtureCategories`: Required fixture coverage such as small islands, complex coastlines, sensitive borders, and small countries.
+- `maximumFixtureDegradation`: Numeric or boolean threshold defining material human-visible degradation.
+- `packageSizeBaseline`: Packed core package size before optimization.
+- `packageSizeOptimized`: Packed core package size after optimization.
+
+Relationships:
+
+- Applies to one country topology generation run.
+- Produces one topology validation report.
+- Feeds release documentation and package-size impact notes.
+
+Validation rules:
+
+- Optimized topology must preserve all current country records and ISO/display-name mappings.
+- Retained precision must remain at least 6 decimal places.
+- Every optimized country geometry must decode and render to an SVG path.
+- Fixture checks must include small-island, coastline, border, and small-country cases.
+- Optimization must reduce packed core package size compared with the high-detail baseline.
+- Any fixture degradation beyond the budget fails validation and blocks publication.
+
+## Country Topology Validation Report
+
+Represents the evidence that regenerated country geometry meets the feature requirements.
+
+Fields:
+
+- `countryCountBefore`: Country count from the previous bundled topology.
+- `countryCountAfter`: Country count after regeneration.
+- `isoCodesBefore`: ISO codes from the previous bundled topology.
+- `isoCodesAfter`: ISO codes after regeneration.
+- `minimumPrecisionObserved`: Lowest retained source precision observed before quality-budgeted optimization where source precision allows it.
+- `coordinateDetailDelta`: Measurement showing retained coordinate detail improved compared with the current topology.
+- `renderabilityResult`: Result of decoding topology and generating SVG paths.
+- `qualityFixtureResults`: Results for small-island, coastline, border, and small-country fixture comparisons.
+- `optimizationSettings`: Simplification or quantization settings used, if any.
+- `packageSizeDelta`: Size change for source and package build outputs.
+- `neutralityReviewResult`: Notes from policy/overrides review.
+
+Validation rules:
+
+- Country count and ISO coverage must match the current topology unless a policy-reviewed exception is documented.
+- Minimum retained precision must be at least 6 decimal places.
+- Renderability must pass for all country geometries.
+- Quality fixtures must pass before optimized topology replaces the high-detail baseline.
+- Package-size impact must be recorded, not hidden.
 
 ## Visible Region List
 

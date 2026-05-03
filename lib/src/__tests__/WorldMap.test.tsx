@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import * as React from "react";
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import WorldMap from "../index.js";
-import type { CountryContext } from "../types.js";
+import type {
+  CountryContext,
+  DetailProvider,
+  RegionCollectionRecord,
+} from "../types.js";
 import { disputedTerritories } from "../disputes.js";
 
 // Mock react-path-tooltip. It relies on browser layout APIs
@@ -19,6 +23,51 @@ const DATA = [
   { country: "us", value: 100 },
   { country: "cn", value: 200 },
 ] as const;
+
+const detailCollection: RegionCollectionRecord = {
+  countryCode: "US",
+  countryName: "United States",
+  coverageStatus: "complete",
+  expectedRegionCount: 2,
+  regions: [
+    {
+      id: "us-west",
+      countryCode: "US",
+      name: "West",
+      kind: "state",
+      path: "M220 215 L300 215 L300 285 L220 285 Z",
+      centroid: [260, 250],
+      bounds: [
+        [220, 215],
+        [300, 285],
+      ],
+    },
+    {
+      id: "us-east",
+      countryCode: "US",
+      name: "East",
+      kind: "state",
+      path: "M320 215 L420 215 L420 285 L320 285 Z",
+      centroid: [370, 250],
+      bounds: [
+        [320, 215],
+        [420, 285],
+      ],
+    },
+  ],
+};
+
+const detailProvider: DetailProvider = {
+  supports: (countryCode) => countryCode.toUpperCase() === "US",
+  loadRegions: () =>
+    Promise.resolve({
+      status: "ready",
+      layer: "regions",
+      countryCode: "US",
+      coverageStatus: "complete",
+      collection: detailCollection,
+    }),
+};
 
 // ── Basic rendering ──────────────────────────────────────────────────────────
 
@@ -36,6 +85,11 @@ describe("WorldMap — rendering", () => {
   it("renders country <path> elements", () => {
     const { container } = render(<WorldMap data={DATA} />);
     expect(container.querySelectorAll("path").length).toBeGreaterThan(0);
+  });
+
+  it("renders the regenerated core country topology through the public component", () => {
+    const { container } = render(<WorldMap data={[]} />);
+    expect(container.querySelectorAll("svg path")).toHaveLength(175);
   });
 
   it("wraps content in a div with the default worldmap__wrapper class", () => {
@@ -65,6 +119,93 @@ describe("WorldMap — rendering", () => {
 
     expect(container.querySelector("svg")).not.toBeNull();
     expect(container.querySelectorAll("path").length).toBeGreaterThan(0);
+  });
+
+  it("renders region detail paths as dotted thematic overlays", async () => {
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        zoom={{ initialScale: 4 }}
+        detailLevel="regions"
+        detailProvider={detailProvider}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(container.querySelectorAll("[data-region-id]")).toHaveLength(2);
+    });
+
+    const regionPath = container.querySelector("[data-region-id='us-west']")!;
+    expect(regionPath.getAttribute("stroke-dasharray")).toBe("2 2");
+    expect(regionPath.getAttribute("fill")).toBe("transparent");
+    expect(regionPath.querySelector("title")?.textContent).toContain(
+      "non-authoritative",
+    );
+  });
+
+  it("keeps country paths visible when region detail is layered", async () => {
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        zoom={{ initialScale: 4 }}
+        detailLevel="regions"
+        detailProvider={detailProvider}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(container.querySelectorAll("[data-region-id]")).toHaveLength(2);
+    });
+
+    expect(container.querySelectorAll("svg path")).toHaveLength(177);
+    expect(container.querySelectorAll("[data-region-id]")).toHaveLength(2);
+    expect(
+      Array.from(container.querySelectorAll("path > title")).some(
+        (title) => title.textContent?.includes("United States"),
+      ),
+    ).toBe(true);
+  });
+
+  it("hides region map labels when zoom is too low", async () => {
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        zoom={{ initialScale: 1 }}
+        detailLevel="regions"
+        detailProvider={detailProvider}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(container.querySelectorAll("[data-region-id]")).toHaveLength(2);
+    });
+
+    expect(
+      Array.from(container.querySelectorAll("svg text")).some(
+        (label) => label.textContent === "West",
+      ),
+    ).toBe(false);
+  });
+
+  it("shows fitted region map labels when zoom is high enough", async () => {
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        zoom={{ initialScale: 4 }}
+        detailLevel="regions"
+        detailProvider={detailProvider}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(container.querySelectorAll("[data-region-id]")).toHaveLength(2);
+    });
+
+    expect(
+      Array.from(container.querySelectorAll("svg text")).some(
+        (label) => label.textContent === "West",
+      ),
+    ).toBe(true);
   });
 });
 

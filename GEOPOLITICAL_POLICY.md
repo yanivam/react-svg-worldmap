@@ -28,6 +28,8 @@ No single source is treated as perfect for every case. The policy goal is a defe
 
 The package provides one neutral global representation. It does not provide country-specific localized map variants.
 
+The bundled base geometry is regenerated from the documented Natural Earth Admin 0 source path and remains a thematic small-scale visualization. Higher coordinate precision improves visible country-level detail, and quality-budgeted optimization reduces package size, but neither makes the package a legal, diplomatic, navigational, cadastral, or authoritative boundary reference.
+
 For disputed or recognition-sensitive cases, the project prefers:
 
 - Explicit metadata over silent sovereignty changes.

@@ -102,6 +102,10 @@ Country labels use screen-space font sizing while zooming. By default they start
 
 Consumers can pass `pins` to render captioned markers at projected longitude/latitude positions. The core package does not bundle capital city data; examples can provide their own sample pin lists.
 
+## Country Map Granularity
+
+Country geometry is bundled in the core package and regenerated from the documented Natural Earth Admin 0 source path with at least 6 decimal places of retained source precision. Custom styling, labels, and pins use that higher-detail topology after TopoJSON compression, delta encoding, minification, and quality-budgeted quantization, so very small islands and coastlines remain visible while the packed core package stays under 1 MB. The map remains a non-authoritative thematic visualization.
+
 ## Region Detail
 
 Region detail is provided through an optional package and a provider. Country-level maps do not need the package.
@@ -120,4 +124,4 @@ const detailProvider = createRegionsDetailProvider();
 />;
 ```
 
-The starter provider exposes coverage metadata so applications can check whether a country is supported before enabling region detail. Unsupported, failed, or unavailable detail keeps the country-level view instead of breaking the map.
+The optional provider exposes coverage metadata so applications can check whether a country is supported before enabling region detail. It currently includes target-country first-level coverage for 23 countries; United States and Canada are marked complete, while the remaining target countries are marked experimental until country-specific official source review is complete. Unsupported, failed, or unavailable detail keeps the country-level view instead of breaking the map. Internal region borders are dotted by default, and region labels use the same zoom-aware fit and collision behavior as country labels.
