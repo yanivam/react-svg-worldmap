@@ -7,21 +7,26 @@ sidebar_position: 5
 ## [Zoom with regions](/examples/zoom)
 
 - The first example for the zoomable map experience with opt-in region detail.
-- Demonstrates the `zoom` prop, zoom in/out controls, reset, and drag panning.
+- Demonstrates the `zoom` prop, zoom in/out/reset controls, double-click zoom, and drag panning.
 - Country border strokes keep a constant screen-space thickness while zooming.
 - Country labels are enabled by default while zooming, grow within clamped screen-space bounds, and are filtered so labels only appear when they fit.
 - The example renders on an XL canvas, shows region details by default, and lets users turn region details on or off.
-- Region details come from the optional `@react-svg-worldmap/regions` package, with target-country coverage for 23 countries. United States and Canada are marked complete; the remaining target countries are marked experimental until country-specific official source review is complete.
+- Region details come from the optional `@react-svg-worldmap/regions` package, with complete target-country coverage for 23 countries across the Americas, Europe, Asia, Africa, and Oceania.
+- The example follows the four-step optional region setup path: install the regions package, import `createRegionsDetailProvider`, pass the provider to the map, and enable `detailLevel="regions"` with zoom.
+- Country geometry uses gradual disclosure: reduced closed country shapes below `2x`, detailed country shapes at `2x`, and selected dotted region overlays at `4x`.
 - Internal region borders render as dotted overlays, and region labels appear only when zoom and label-fit rules keep them readable.
-- The example can overlay capital city pins on demand; the overlay is off by default so sample data stays outside the core package.
-- Uses the higher-detail bundled country topology, regenerated from the documented Natural Earth Admin 0 source path with at least 6 decimal places of retained source precision and quality-budgeted package-size optimization that keeps the packed core package under 1 MB.
+- The example can overlay capital city pins and AWS Region location pins on demand; both overlays are off by default so sample data stays outside the core package.
+- AWS Region pins come from the official AWS Regions documentation. Each pin uses the most precise location available: published or directly inferable city locations first, state or equivalent capitals when only an administrative area is known, and country capitals when only country-level geography is known. Capital fallback labels include `(location not published)`.
+- Uses the bundled reduced/detailed country topology tiers, regenerated from the documented Natural Earth Admin 0 source path with at least 6 decimal places of retained source precision and quality-budgeted package-size optimization.
+- Uses lightweight SVG land/ocean contrast through sea/background color `#A0D7EB`, no-data land color `#F4F2F2`, closed country shapes, and border colors; Google Maps is only a visual-design reference for readability principles, not a dependency or clone target.
 
 ## [examples/sizing](/examples/sizing)
 
 - A simple example of the world map
 - 4 maps given two different data sets
 - Example of some simple features using the default styling
-- XL and XXL examples demonstrate opt-in region detail from the optional regions package without rendering the below-map list of every visible region.
+- XL and XXL examples demonstrate opt-in region detail from the optional regions package without rendering a below-map list of region names.
+- Default examples keep land visible against the ocean/background through SVG color contrast and closed country shapes, not hosted map tiles or raster basemaps.
 - Responsive size example showing how an example with responsive size looks
 
 ## [examples/custom-style](/examples/custom-style)

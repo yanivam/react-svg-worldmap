@@ -140,7 +140,6 @@ declare module "react-svg-worldmap" {
     detailLevel?: DetailLevel;
     detailProvider?: DetailProvider;
     onDetailStatusChange?: (status: DetailProviderResult) => void;
-    showRegionList?: boolean;
     type?: string;
     styleFunction?: (context: CountryContext<T>) => React.CSSProperties;
     onClickFunction?: (

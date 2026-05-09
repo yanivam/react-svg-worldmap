@@ -14,7 +14,16 @@ const feature = (geometryPartId?: number): GeoJSON.Feature => ({
 });
 
 const pathGenerator = {
-  bounds(target: GeoJSON.Feature): [[number, number], [number, number]] {
+  bounds(
+    target: GeoJSON.Feature | { type: "Sphere" },
+  ): [[number, number], [number, number]] {
+    if (target.type === "Sphere") {
+      return [
+        [0, 0],
+        [10, 10],
+      ];
+    }
+
     const partId = Number(target.properties?.geometryPartId ?? 0);
 
     return partId === 1

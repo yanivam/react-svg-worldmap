@@ -15,7 +15,38 @@ export interface ZoomState {
   translate: [number, number];
 }
 
+export type CountryGeometryTierName = "reduced" | "detailed";
+
+export type GeometryTierLoadState = "idle" | "loading" | "ready" | "failed";
+
+export interface CountryGeometryTierStatus {
+  tier: CountryGeometryTierName;
+  zoom: number;
+  loadState: GeometryTierLoadState;
+  packageLocal: true;
+}
+
 export type DetailLevel = "countries" | "regions";
+
+export const mapRenderingLayers = [
+  "ocean",
+  "countries",
+  "regions",
+  "labels",
+  "pins",
+  "interaction-targets",
+] as const;
+
+export type MapRenderingLayerId = (typeof mapRenderingLayers)[number];
+
+export const mapRenderingLayerOrder: Record<MapRenderingLayerId, number> = {
+  ocean: 0,
+  countries: 1,
+  regions: 2,
+  labels: 3,
+  pins: 4,
+  "interaction-targets": 5,
+};
 
 export type RegionCoverageStatus =
   | "complete"
@@ -228,7 +259,6 @@ export interface Props<T extends string | number = number> {
   detailLevel?: DetailLevel;
   detailProvider?: DetailProvider;
   onDetailStatusChange?: (status: DetailProviderResult) => void;
-  showRegionList?: boolean;
 
   styleFunction?: (context: CountryContext<T>) => React.CSSProperties;
 

@@ -6,6 +6,14 @@ export interface Props {
 
 export default function Frame({ color }: Props): JSX.Element | null {
   return (
-    <rect x={0} y={0} width="100%" height="100%" stroke={color} fill="none" />
+    <rect
+      data-map-frame="true"
+      x={0}
+      y={0}
+      width="100%"
+      height="100%"
+      stroke={color}
+      fill="none"
+    />
   );
 }

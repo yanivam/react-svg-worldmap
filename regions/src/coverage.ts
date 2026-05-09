@@ -1,5 +1,4 @@
 import type { ISOCode, RegionCoverageRecord } from "react-svg-worldmap";
-import { regionCollections } from "./data/starter.js";
 
 export interface TargetRegionCountry {
   countryCode: ISOCode;
@@ -45,27 +44,72 @@ export const targetRegionCountries: TargetRegionCountry[] = [
   { countryCode: "FM", countryName: "Micronesia", continentGroup: "Oceania" },
 ];
 
-export const regionCoverage: RegionCoverageRecord[] = Object.values(
-  regionCollections,
-).map((collection) => {
-  const coverage: RegionCoverageRecord = {
-    countryCode: collection.countryCode,
-    countryName: collection.countryName,
-    status: collection.coverageStatus,
-    regionCount: collection.regions.length,
-  };
+const naturalEarthSourceSummary =
+  "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.";
+const naturalEarthSourceUrl =
+  "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/";
+const naturalEarthReviewNotes =
+  "Complete target-country coverage from Natural Earth Admin 1. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources before changing expected counts.";
 
-  if (collection.expectedRegionCount != null)
-    coverage.expectedRegionCount = collection.expectedRegionCount;
-  if (collection.sourceSummary != null)
-    coverage.sourceSummary = collection.sourceSummary;
-  if (collection.sourceUrl != null)
-    coverage.sourceUrl = String(collection.sourceUrl);
-  if (collection.reviewNotes != null)
-    coverage.reviewNotes = collection.reviewNotes;
-
-  return coverage;
-});
+export const regionCoverage: RegionCoverageRecord[] = [
+  {
+    countryCode: "US",
+    countryName: "United States",
+    status: "complete",
+    regionCount: 50,
+    expectedRegionCount: 50,
+    sourceSummary:
+      "Generated from us-atlas@3.0.1 states-10m TopoJSON, derived from U.S. Census Bureau cartographic boundary data.",
+    sourceUrl: "https://cdn.jsdelivr.net/npm/us-atlas@3.0.1/states-10m.json",
+    reviewNotes:
+      "Coverage includes the 50 U.S. states. District of Columbia and territories are not included in this first-level states layer.",
+  },
+  {
+    countryCode: "CA",
+    countryName: "Canada",
+    status: "complete",
+    regionCount: 13,
+    expectedRegionCount: 13,
+    sourceSummary:
+      "Generated from Opendatasoft georef-canada-province GeoJSON using Statistics Canada province and territory records.",
+    sourceUrl:
+      "https://public.opendatasoft.com/explore/dataset/georef-canada-province/",
+    reviewNotes:
+      "Coverage includes Canada's 10 provinces and 3 territories as thematic map data, not legal boundary data.",
+  },
+  ...[
+    ["MX", "Mexico", 32],
+    ["BR", "Brazil", 27],
+    ["AR", "Argentina", 24],
+    ["VE", "Venezuela", 25],
+    ["DE", "Germany", 16],
+    ["CH", "Switzerland", 26],
+    ["AT", "Austria", 9],
+    ["BE", "Belgium", 11],
+    ["BA", "Bosnia and Herzegovina", 18],
+    ["RU", "Russia", 85],
+    ["IN", "India", 36],
+    ["PK", "Pakistan", 8],
+    ["AE", "United Arab Emirates", 9],
+    ["MY", "Malaysia", 16],
+    ["IQ", "Iraq", 18],
+    ["NG", "Nigeria", 37],
+    ["ET", "Ethiopia", 11],
+    ["ZA", "South Africa", 9],
+    ["SD", "Sudan", 17],
+    ["AU", "Australia", 12],
+    ["FM", "Micronesia", 4],
+  ].map(([countryCode, countryName, regionCount]) => ({
+    countryCode: countryCode as ISOCode,
+    countryName: String(countryName),
+    status: "complete" as const,
+    regionCount: Number(regionCount),
+    expectedRegionCount: Number(regionCount),
+    sourceSummary: naturalEarthSourceSummary,
+    sourceUrl: naturalEarthSourceUrl,
+    reviewNotes: naturalEarthReviewNotes,
+  })),
+];
 
 export function getRegionCoverage(
   countryCode?: ISOCode,

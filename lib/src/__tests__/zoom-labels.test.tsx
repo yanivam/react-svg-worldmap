@@ -1,19 +1,66 @@
 import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 
 import WorldMap from "../index.js";
 import {
   createRegionLabelCandidate,
+  placeMapLabels,
   placeRegionLabels,
 } from "../labels/placement.js";
-import type { RegionFeatureRecord } from "../types.js";
+import type {
+  DetailProvider,
+  RegionCollectionRecord,
+  RegionFeatureRecord,
+} from "../types.js";
 
 vi.mock("react-path-tooltip", () => ({
   PathTooltip: () => null,
 }));
 
 const DATA = [{ country: "us", value: 100 }] as const;
+
+const collection: RegionCollectionRecord = {
+  countryCode: "CA",
+  countryName: "Canada",
+  coverageStatus: "complete",
+  regions: [
+    {
+      id: "ca-west",
+      countryCode: "CA",
+      name: "West",
+      path: "M220 215 L300 215 L300 285 L220 285 Z",
+      centroid: [260, 250],
+      bounds: [
+        [220, 215],
+        [300, 285],
+      ],
+    },
+    {
+      id: "ca-east",
+      countryCode: "CA",
+      name: "East",
+      path: "M320 215 L420 215 L420 285 L320 285 Z",
+      centroid: [370, 250],
+      bounds: [
+        [320, 215],
+        [420, 285],
+      ],
+    },
+  ],
+};
+
+const provider: DetailProvider = {
+  supports: (countryCode) => countryCode.toUpperCase() === "CA",
+  loadRegions: () =>
+    Promise.resolve({
+      status: "ready",
+      layer: "regions",
+      countryCode: "CA",
+      coverageStatus: "complete",
+      collection,
+    }),
+};
 
 function getCountryLabelFontSize(
   container: HTMLElement,
@@ -217,5 +264,217 @@ describe("WorldMap zoom labels", () => {
     expect(
       placeRegionLabels([colliding, large]).map((label) => label.regionId),
     ).toEqual(["large"]);
+  });
+
+  it("handles representative large, dense, and island region label fixtures deterministically", () => {
+    const fixtures: RegionFeatureRecord[] = [
+      {
+        id: "large-west",
+        countryCode: "BR",
+        name: "Large West",
+        path: "M0 0 L240 0 L240 120 L0 120 Z",
+        centroid: [120, 60],
+        bounds: [
+          [0, 0],
+          [240, 120],
+        ],
+      },
+      {
+        id: "large-east",
+        countryCode: "BR",
+        name: "Large East",
+        path: "M300 0 L540 0 L540 120 L300 120 Z",
+        centroid: [420, 60],
+        bounds: [
+          [300, 0],
+          [540, 120],
+        ],
+      },
+      {
+        id: "dense-major",
+        countryCode: "BE",
+        name: "Dense Major",
+        path: "M0 170 L150 170 L150 230 L0 230 Z",
+        centroid: [75, 200],
+        bounds: [
+          [0, 170],
+          [150, 230],
+        ],
+      },
+      {
+        id: "dense-minor",
+        countryCode: "BE",
+        name: "Dense Minor",
+        path: "M40 178 L118 178 L118 222 L40 222 Z",
+        centroid: [79, 201],
+        bounds: [
+          [40, 178],
+          [118, 222],
+        ],
+      },
+      {
+        id: "island-visible",
+        countryCode: "FM",
+        name: "Yap",
+        path: "M260 170 L340 170 L340 230 L260 230 Z",
+        centroid: [300, 200],
+        bounds: [
+          [260, 170],
+          [340, 230],
+        ],
+      },
+      {
+        id: "island-hidden",
+        countryCode: "FM",
+        name: "Pohnpei",
+        path: "M380 190 L395 190 L395 200 L380 200 Z",
+        centroid: [387, 195],
+        bounds: [
+          [380, 190],
+          [395, 200],
+        ],
+      },
+    ];
+
+    const labels = placeRegionLabels(
+      fixtures.map((fixture) => createRegionLabelCandidate(fixture, 10)),
+    );
+
+    expect(labels.map((label) => label.regionId)).toEqual([
+      "dense-major",
+      "large-east",
+      "large-west",
+      "island-visible",
+    ]);
+    expect(labels).not.toContainEqual(
+      expect.objectContaining({ regionId: "dense-minor" }),
+    );
+    expect(labels).not.toContainEqual(
+      expect.objectContaining({ regionId: "island-hidden" }),
+    );
+  });
+
+  it("does not load or show region labels below 4x", async () => {
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        size={1200}
+        zoom={{ initialScale: 2 }}
+        detailLevel="regions"
+        detailProvider={provider}
+      />,
+    );
+
+    await waitFor(() =>
+      expect(container.querySelector("[data-region-id]")).toBeNull(),
+    );
+    expect(
+      Array.from(container.querySelectorAll("text")).some(
+        (label) => label.textContent === "West",
+      ),
+    ).toBe(false);
+  });
+
+  it("shows readable region labels at 4x", async () => {
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        size={1200}
+        zoom={{ initialScale: 4 }}
+        detailLevel="regions"
+        detailProvider={provider}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(
+        container.querySelector("[data-region-id='ca-west']"),
+      ).not.toBeNull();
+    });
+    expect(
+      Array.from(container.querySelectorAll("text")).some(
+        (label) => label.textContent === "West",
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps country labels over colliding region labels at 4x", () => {
+    const labels = placeMapLabels({
+      countryCandidates: [
+        {
+          countryCode: "CA",
+          countryName: "Canada",
+          label: "Canada",
+          x: 100,
+          y: 100,
+          width: 80,
+          height: 16,
+          availableWidth: 300,
+          availableHeight: 200,
+          priority: 60000,
+        },
+      ],
+      regionCandidates: [
+        {
+          regionId: "ca-collision",
+          countryCode: "CA",
+          regionName: "Collision",
+          label: "Collision",
+          x: 100,
+          y: 100,
+          width: 70,
+          height: 12,
+          availableWidth: 160,
+          availableHeight: 80,
+          priority: 12800,
+        },
+      ],
+      scale: 4,
+    });
+
+    expect(labels.countryLabels.map((label) => label.countryName)).toEqual([
+      "Canada",
+    ]);
+    expect(labels.regionLabels).toEqual([]);
+  });
+
+  it("prefers colliding region labels over country labels at 6x", () => {
+    const labels = placeMapLabels({
+      countryCandidates: [
+        {
+          countryCode: "CA",
+          countryName: "Canada",
+          label: "Canada",
+          x: 100,
+          y: 100,
+          width: 80,
+          height: 16,
+          availableWidth: 300,
+          availableHeight: 200,
+          priority: 60000,
+        },
+      ],
+      regionCandidates: [
+        {
+          regionId: "ca-collision",
+          countryCode: "CA",
+          regionName: "Collision",
+          label: "Collision",
+          x: 100,
+          y: 100,
+          width: 70,
+          height: 12,
+          availableWidth: 160,
+          availableHeight: 80,
+          priority: 12800,
+        },
+      ],
+      scale: 6,
+    });
+
+    expect(labels.countryLabels).toEqual([]);
+    expect(labels.regionLabels.map((label) => label.regionId)).toEqual([
+      "ca-collision",
+    ]);
   });
 });

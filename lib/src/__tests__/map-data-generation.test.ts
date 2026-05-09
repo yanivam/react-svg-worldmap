@@ -2,7 +2,17 @@ import { geoMercator, geoPath } from "d3-geo";
 import { feature as topoFeature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import { describe, expect, it } from "vitest";
-import topoData, { topologyMetadata } from "../countries.topo.js";
+import reducedTopoData, {
+  topologyMetadata as reducedTopologyMetadata,
+} from "../countries-reduced.topo.js";
+import detailedTopoData, {
+  topologyMetadata as detailedTopologyMetadata,
+} from "../countries-detailed.topo.js";
+import { getGeometryTierParseGuards } from "../map-data/geometry-tiers.js";
+import {
+  measureFeature,
+  normalizeFeatureForProjection,
+} from "../zoom/geometry.js";
 
 type CountryProperties = {
   N: string;
@@ -18,10 +28,15 @@ type CoordinateScan = {
   maxPrecision: number;
 };
 
-const typedTopoData = topoData as unknown as CountryTopology;
-const countryCollection = topoFeature(
-  typedTopoData,
-  typedTopoData.objects.countries,
+const typedReducedTopoData = reducedTopoData as unknown as CountryTopology;
+const typedDetailedTopoData = detailedTopoData as unknown as CountryTopology;
+const reducedCountryCollection = topoFeature(
+  typedReducedTopoData,
+  typedReducedTopoData.objects.countries,
+);
+const detailedCountryCollection = topoFeature(
+  typedDetailedTopoData,
+  typedDetailedTopoData.objects.countries,
 );
 
 function decimalPlaces(value: number): number {
@@ -91,12 +106,26 @@ function scanGeometry(geometry: GeoJSON.Geometry): CoordinateScan {
   );
 }
 
+function countPolygonParts(geometry: GeoJSON.Geometry): number {
+  if (geometry.type === "Polygon") return 1;
+  if (geometry.type === "MultiPolygon") return geometry.coordinates.length;
+  if (geometry.type === "GeometryCollection") {
+    return geometry.geometries.reduce(
+      (count, childGeometry) => count + countPolygonParts(childGeometry),
+      0,
+    );
+  }
+
+  return 0;
+}
+
 describe("generated country topology", () => {
   it("preserves the package country records and ISO/name properties", () => {
-    expect(countryCollection.features).toHaveLength(175);
+    expect(reducedCountryCollection.features).toHaveLength(175);
+    expect(detailedCountryCollection.features).toHaveLength(175);
 
     const countries = new Map(
-      countryCollection.features.map((country) => [
+      reducedCountryCollection.features.map((country) => [
         country.properties.I,
         country.properties.N,
       ]),
@@ -107,10 +136,11 @@ describe("generated country topology", () => {
     expect(countries.get("EH")).toBe("Western Sahara");
     expect(countries.get("XK")).toBe("Kosovo");
     expect(countries.get("CYP")).toBe("Northern Cyprus");
+    expect(countries.get("CY")).toBe("Cyprus");
   });
 
   it("retains high-detail coordinates with at least 6 decimal places", () => {
-    const summary = countryCollection.features.reduce<CoordinateScan>(
+    const summary = detailedCountryCollection.features.reduce<CoordinateScan>(
       (accumulator, country) => {
         const child = scanGeometry(country.geometry);
         return {
@@ -123,32 +153,95 @@ describe("generated country topology", () => {
 
     expect(summary.count).toBeGreaterThan(400_000);
     expect(summary.maxPrecision).toBeGreaterThanOrEqual(6);
-    expect(topologyMetadata.minimumCoordinatePrecision).toBe(6);
-    expect(topologyMetadata.maximumQuantizationStepDegrees).toBeLessThanOrEqual(
-      topologyMetadata.qualityBudget.maximumMaterialBoundsDeltaDegrees,
+    expect(detailedTopologyMetadata.minimumCoordinatePrecision).toBe(6);
+    expect(
+      detailedTopologyMetadata.maximumQuantizationStepDegrees,
+    ).toBeLessThanOrEqual(
+      detailedTopologyMetadata.qualityBudget.maximumMaterialBoundsDeltaDegrees,
     );
   });
 
-  it("renders every country geometry to a non-empty SVG path", () => {
-    const projection = geoMercator().fitSize([800, 600], countryCollection);
+  it("renders every country geometry tier to non-empty closed SVG paths", () => {
+    const projection = geoMercator().fitSize(
+      [800, 600],
+      detailedCountryCollection,
+    );
     const path = geoPath().projection(projection);
 
-    for (const country of countryCollection.features)
-      expect(path(country)).toEqual(expect.stringMatching(/^M/));
+    for (const collection of [
+      reducedCountryCollection,
+      detailedCountryCollection,
+    ]) {
+      for (const country of collection.features) {
+        const renderedPath = path(country);
+        expect(renderedPath).toEqual(expect.stringMatching(/^M/));
+        expect(renderedPath).toEqual(expect.stringMatching(/Z$/));
+      }
+    }
+  });
+
+  it("normalizes inverted spherical rings for antimeridian and multipolygon countries", () => {
+    const projection = geoMercator();
+    const path = geoPath().projection(projection);
+    const sphereBounds = path.bounds({ type: "Sphere" });
+    const sphereWidth = sphereBounds[1][0] - sphereBounds[0][0];
+    const sphereHeight = sphereBounds[1][1] - sphereBounds[0][1];
+
+    for (const collection of [
+      reducedCountryCollection,
+      detailedCountryCollection,
+    ]) {
+      for (const countryCode of ["US", "RU"] as const) {
+        const country = collection.features.find(
+          (feature) => feature.properties.I === countryCode,
+        )!;
+        const normalizedCountry = normalizeFeatureForProjection(path, country);
+        const measurement = measureFeature(path, normalizedCountry);
+
+        expect(
+          measurement.width >= sphereWidth * 0.99 &&
+            measurement.height >= sphereHeight * 0.99,
+        ).toBe(false);
+      }
+    }
+  });
+
+  it("keeps all Cyprus island land visible instead of rendering omitted source records as ocean", () => {
+    for (const collection of [
+      reducedCountryCollection,
+      detailedCountryCollection,
+    ]) {
+      const cyprus = collection.features.find(
+        (feature) => feature.properties.I === "CY",
+      )!;
+
+      expect(countPolygonParts(cyprus.geometry)).toBeGreaterThanOrEqual(9);
+    }
   });
 
   it("uses quality-budgeted optimization to reduce topology size", () => {
-    expect(topologyMetadata.optimization).toBe("quality-budgeted");
-    expect(topologyMetadata.quantization).toBe(10_000);
-    expect(topologyMetadata.optimizedSourceBytes).toBeLessThan(
-      topologyMetadata.highDetailSourceBytes,
+    expect(reducedTopologyMetadata.optimization).toBe("quality-budgeted");
+    expect(reducedTopologyMetadata.tier).toBe("reduced");
+    expect(detailedTopologyMetadata.tier).toBe("detailed");
+    expect(reducedTopologyMetadata.quantization).toBe(4_000);
+    expect(detailedTopologyMetadata.quantization).toBe(10_000);
+    expect(reducedTopologyMetadata.optimizedSourceBytes).toBeLessThan(
+      detailedTopologyMetadata.optimizedSourceBytes,
     );
-    expect(topologyMetadata.sourceSizeReductionRatio).toBeGreaterThan(0.86);
+    expect(detailedTopologyMetadata.optimizedSourceBytes).toBeLessThan(
+      detailedTopologyMetadata.highDetailSourceBytes,
+    );
+    expect(reducedTopologyMetadata.sourceSizeReductionRatio).toBeGreaterThan(
+      0.87,
+    );
+    expect(detailedTopologyMetadata.sourceSizeReductionRatio).toBeGreaterThan(
+      0.86,
+    );
   });
 
   it("passes small-island, coastline, border, and small-country fixtures", () => {
     const fixtureCategories = new Set(
-      topologyMetadata.qualityBudget.fixtures.flatMap(
+      detailedTopologyMetadata.qualityBudget.fixtures.flatMap(
         (fixture) => fixture.categories,
       ),
     );
@@ -162,14 +255,23 @@ describe("generated country topology", () => {
       ]),
     );
 
-    for (const fixture of topologyMetadata.qualityBudget.fixtures) {
+    for (const fixture of [
+      ...reducedTopologyMetadata.qualityBudget.fixtures,
+      ...detailedTopologyMetadata.qualityBudget.fixtures,
+    ]) {
       expect(fixture.passed).toBe(true);
       expect(fixture.areaDeltaRatio).toBeLessThanOrEqual(
-        topologyMetadata.qualityBudget.maximumMaterialAreaDeltaRatio,
+        detailedTopologyMetadata.qualityBudget.maximumMaterialAreaDeltaRatio,
       );
       expect(fixture.maximumBoundsDeltaDegrees).toBeLessThanOrEqual(
-        topologyMetadata.qualityBudget.maximumMaterialBoundsDeltaDegrees,
+        detailedTopologyMetadata.qualityBudget
+          .maximumMaterialBoundsDeltaDegrees,
       );
     }
+  });
+
+  it("does not parse detailed topology through initial geometry tier imports", () => {
+    expect(getGeometryTierParseGuards().reducedParsed).toBe(true);
+    expect(getGeometryTierParseGuards().detailedParsed).toBe(false);
   });
 });

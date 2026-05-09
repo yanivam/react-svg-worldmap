@@ -6,7 +6,7 @@ export default defineConfig({
   dts: true,
   sourcemap: true,
   clean: true,
-  splitting: false,
+  splitting: true,
   outDir: "dist",
   external: ["react-svg-worldmap"],
 });

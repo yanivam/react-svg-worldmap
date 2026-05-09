@@ -1,11 +1,13 @@
-import { readFileSync, writeFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { geoMercator, geoPath } from "d3-geo";
 import { feature as topoFeature } from "topojson-client";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outputPath = resolve(__dirname, "../src/data/starter.ts");
+const countriesOutputDir = resolve(__dirname, "../src/data/countries");
+const loadersOutputPath = resolve(__dirname, "../src/data/loaders.ts");
 const usSourcePath =
   process.env.US_ATLAS_SOURCE_PATH ?? "/private/tmp/us-states-10m.json";
 const canadaSourcePath =
@@ -129,8 +131,12 @@ function normalizeKind(value, fallback = "region") {
   return normalized === "" ? fallback : normalized;
 }
 
+const pathDecimalPlaces = Number(
+  process.env.REGION_PATH_DECIMALS ?? process.env.REGION_DECIMALS ?? 1,
+);
+
 function round(value) {
-  return Number(value.toFixed(2));
+  return Number(value.toFixed(pathDecimalPlaces));
 }
 
 function formatPathNumber(value) {
@@ -147,6 +153,121 @@ function compressPath(path) {
   return path.replace(/-?\d+(?:\.\d+)?(?:e[-+]?\d+)?/gi, formatPathNumber);
 }
 
+function splitPathSubpaths(path) {
+  return path
+    .split(/(?=M)/u)
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
+
+function measurePathSubpath(subpath) {
+  const numbers = Array.from(
+    subpath.matchAll(/-?\d+(?:\.\d+)?(?:e[-+]?\d+)?/giu),
+  ).map((match) => Number(match[0]));
+  const xValues = [];
+  const yValues = [];
+
+  for (let index = 0; index < numbers.length - 1; index += 2) {
+    xValues.push(numbers[index]);
+    yValues.push(numbers[index + 1]);
+  }
+
+  if (xValues.length === 0 || yValues.length === 0)
+    return { width: 0, height: 0 };
+
+  return {
+    width: Math.max(...xValues) - Math.min(...xValues),
+    height: Math.max(...yValues) - Math.min(...yValues),
+  };
+}
+
+function isArtifactSubpath(subpath) {
+  const measurement = measurePathSubpath(subpath);
+
+  return measurement.width > 900 && measurement.height > 650;
+}
+
+function removeArtifactSubpaths(path) {
+  const subpaths = splitPathSubpaths(path);
+  const cleanedSubpaths = subpaths.filter(
+    (subpath) => !isArtifactSubpath(subpath),
+  );
+  if (cleanedSubpaths.length === 0)
+    throw new Error("Region path cleanup removed every subpath");
+
+  return cleanedSubpaths.join("");
+}
+
+function reversePolygonRings(coordinates) {
+  return coordinates.map((ring) => [...ring].reverse());
+}
+
+function measureFeature(pathGenerator, feature) {
+  const bounds = pathGenerator.bounds(feature);
+
+  return {
+    width: Math.max(0, bounds[1][0] - bounds[0][0]),
+    height: Math.max(0, bounds[1][1] - bounds[0][1]),
+  };
+}
+
+function isFullSphereMeasurement(pathGenerator, measurement) {
+  const sphereBounds = pathGenerator.bounds({ type: "Sphere" });
+  const sphereWidth = Math.max(0, sphereBounds[1][0] - sphereBounds[0][0]);
+  const sphereHeight = Math.max(0, sphereBounds[1][1] - sphereBounds[0][1]);
+
+  return (
+    sphereWidth > 0 &&
+    sphereHeight > 0 &&
+    measurement.width >= sphereWidth * 0.99 &&
+    measurement.height >= sphereHeight * 0.99
+  );
+}
+
+function normalizePolygonForProjection(pathGenerator, coordinates) {
+  const polygon = {
+    type: "Feature",
+    properties: {},
+    geometry: {
+      type: "Polygon",
+      coordinates,
+    },
+  };
+  const measurement = measureFeature(pathGenerator, polygon);
+  if (!isFullSphereMeasurement(pathGenerator, measurement)) return coordinates;
+
+  return reversePolygonRings(coordinates);
+}
+
+function normalizeFeatureForProjection(pathGenerator, feature) {
+  if (feature.geometry?.type === "Polygon") {
+    return {
+      ...feature,
+      geometry: {
+        ...feature.geometry,
+        coordinates: normalizePolygonForProjection(
+          pathGenerator,
+          feature.geometry.coordinates,
+        ),
+      },
+    };
+  }
+
+  if (feature.geometry?.type === "MultiPolygon") {
+    return {
+      ...feature,
+      geometry: {
+        ...feature.geometry,
+        coordinates: feature.geometry.coordinates.map((coordinates) =>
+          normalizePolygonForProjection(pathGenerator, coordinates),
+        ),
+      },
+    };
+  }
+
+  return feature;
+}
+
 function roundPoint(point) {
   return [round(point[0]), round(point[1])];
 }
@@ -161,13 +282,17 @@ function recordFromFeature({
   pathGenerator,
   includeSourceInId = false,
 }) {
-  const generatedPath = pathGenerator(feature);
+  const normalizedFeature = normalizeFeatureForProjection(
+    pathGenerator,
+    feature,
+  );
+  const generatedPath = pathGenerator(normalizedFeature);
   if (generatedPath == null || !generatedPath.startsWith("M"))
     throw new Error(`Expected renderable path for ${countryCode} ${name}`);
 
-  const path = compressPath(generatedPath);
-  const bounds = pathGenerator.bounds(feature).map(roundPoint);
-  const centroid = roundPoint(pathGenerator.centroid(feature));
+  const path = compressPath(removeArtifactSubpaths(generatedPath));
+  const bounds = pathGenerator.bounds(normalizedFeature).map(roundPoint);
+  const centroid = roundPoint(pathGenerator.centroid(normalizedFeature));
 
   return {
     id: `${countryCode.toLowerCase()}-${[
@@ -462,14 +587,14 @@ for (const country of naturalEarthCountries) {
   regionCollections[country.code] = {
     countryCode: country.code,
     countryName: country.name,
-    coverageStatus: "experimental",
+    coverageStatus: "complete",
     expectedRegionCount: regions.length,
     sourceSummary:
       "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
     sourceUrl:
       "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
     reviewNotes:
-      "Experimental target-country coverage from Natural Earth Admin 1. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources before marking complete.",
+      "Complete target-country coverage from Natural Earth Admin 1. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources before changing expected counts.",
     regions,
   };
 }
@@ -491,6 +616,60 @@ export const regionCollections: Record<string, RegionCollectionRecord> = ${JSON.
 
 writeFileSync(outputPath, output);
 console.log(`Wrote ${outputPath}`);
+
+mkdirSync(countriesOutputDir, { recursive: true });
+const countryCodes = Object.keys(regionCollections).sort((left, right) =>
+  left.localeCompare(right),
+);
+for (const countryCode of countryCodes) {
+  const countryOutput = `import type { RegionCollectionRecord } from "react-svg-worldmap";
+
+export const regionCollection = ${JSON.stringify(
+    regionCollections[countryCode],
+    null,
+    2,
+  )} satisfies RegionCollectionRecord;
+`;
+
+  writeFileSync(join(countriesOutputDir, `${countryCode}.ts`), countryOutput);
+}
+
+const loadersOutput = `import type { ISOCode, RegionCollectionRecord } from "react-svg-worldmap";
+
+type RegionCollectionLoader = () => Promise<RegionCollectionRecord>;
+
+export const regionCollectionLoaders: Record<string, RegionCollectionLoader> = {
+${countryCodes
+  .map(
+    (countryCode) =>
+      `  ${countryCode}: () => import("./countries/${countryCode}.js").then((module) => module.regionCollection),`,
+  )
+  .join("\n")}
+};
+
+export async function loadRegionCollection(
+  countryCode: ISOCode | string,
+): Promise<RegionCollectionRecord | undefined> {
+  return regionCollectionLoaders[countryCode.toUpperCase()]?.();
+}
+
+export async function loadRegionCollections(): Promise<
+  Record<string, RegionCollectionRecord>
+> {
+  const entries = await Promise.all(
+    Object.entries(regionCollectionLoaders).map(async ([countryCode, load]) => [
+      countryCode,
+      await load(),
+    ] as const),
+  );
+
+  return Object.fromEntries(entries);
+}
+`;
+
+writeFileSync(loadersOutputPath, loadersOutput);
+console.log(`Wrote ${countriesOutputDir}`);
+console.log(`Wrote ${loadersOutputPath}`);
 for (const { code, name } of targetCountries) {
   console.log(
     `${name} (${code}) regions: ${regionCollections[code].regions.length}`,

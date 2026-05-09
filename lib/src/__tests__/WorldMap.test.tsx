@@ -10,6 +10,7 @@ import type {
   DetailProvider,
   RegionCollectionRecord,
 } from "../types.js";
+import { mapRenderingLayerOrder, mapRenderingLayers } from "../types.js";
 import { disputedTerritories } from "../disputes.js";
 
 // Mock react-path-tooltip. It relies on browser layout APIs
@@ -25,14 +26,14 @@ const DATA = [
 ] as const;
 
 const detailCollection: RegionCollectionRecord = {
-  countryCode: "US",
-  countryName: "United States",
+  countryCode: "CA",
+  countryName: "Canada",
   coverageStatus: "complete",
   expectedRegionCount: 2,
   regions: [
     {
-      id: "us-west",
-      countryCode: "US",
+      id: "ca-west",
+      countryCode: "CA",
       name: "West",
       kind: "state",
       path: "M220 215 L300 215 L300 285 L220 285 Z",
@@ -43,8 +44,8 @@ const detailCollection: RegionCollectionRecord = {
       ],
     },
     {
-      id: "us-east",
-      countryCode: "US",
+      id: "ca-east",
+      countryCode: "CA",
       name: "East",
       kind: "state",
       path: "M320 215 L420 215 L420 285 L320 285 Z",
@@ -58,16 +59,30 @@ const detailCollection: RegionCollectionRecord = {
 };
 
 const detailProvider: DetailProvider = {
-  supports: (countryCode) => countryCode.toUpperCase() === "US",
+  supports: (countryCode) => countryCode.toUpperCase() === "CA",
   loadRegions: () =>
     Promise.resolve({
       status: "ready",
       layer: "regions",
-      countryCode: "US",
+      countryCode: "CA",
       coverageStatus: "complete",
       collection: detailCollection,
     }),
 };
+
+function getDirectMapLayerIds(svg: SVGSVGElement): string[] {
+  return Array.from(svg.children)
+    .filter((child) => child.hasAttribute("data-map-layer"))
+    .map((child) => child.getAttribute("data-map-layer") ?? "");
+}
+
+function getMapSvg(container: HTMLElement): SVGSVGElement {
+  return container.querySelector('svg[role="img"]')!;
+}
+
+function getCountriesLayer(container: HTMLElement): SVGGElement {
+  return container.querySelector('[data-map-layer="countries"]')!;
+}
 
 // ── Basic rendering ──────────────────────────────────────────────────────────
 
@@ -85,6 +100,86 @@ describe("WorldMap — rendering", () => {
   it("renders country <path> elements", () => {
     const { container } = render(<WorldMap data={DATA} />);
     expect(container.querySelectorAll("path").length).toBeGreaterThan(0);
+  });
+
+  it("renders the explicit SVG map layers in paint order", async () => {
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        size={400}
+        zoom={{ initialScale: 4 }}
+        detailLevel="regions"
+        detailProvider={detailProvider}
+        pins={[
+          {
+            id: "test-pin",
+            coordinates: [-77.0369, 38.9072],
+            caption: "Washington",
+            kind: "capital",
+          },
+        ]}
+      />,
+    );
+    const svg = getMapSvg(container);
+
+    await waitFor(() => {
+      expect(container.querySelectorAll("[data-region-id]")).toHaveLength(2);
+    });
+
+    expect(getDirectMapLayerIds(svg)).toEqual([...mapRenderingLayers]);
+
+    for (const layer of mapRenderingLayers) {
+      expect(
+        svg
+          .querySelector(`[data-map-layer="${layer}"]`)
+          ?.getAttribute("data-map-layer-order"),
+      ).toBe(String(mapRenderingLayerOrder[layer]));
+    }
+  });
+
+  it("keeps ocean, countries, regions, labels, pins, and interaction targets separated by layer", async () => {
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        size={400}
+        zoom={{ initialScale: 4 }}
+        detailLevel="regions"
+        detailProvider={detailProvider}
+        pins={[
+          {
+            id: "test-pin",
+            coordinates: [-77.0369, 38.9072],
+            caption: "Washington",
+            kind: "capital",
+          },
+        ]}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(container.querySelectorAll("[data-region-id]")).toHaveLength(2);
+    });
+
+    expect(
+      container.querySelector('[data-map-layer="ocean"] [data-map-ocean]'),
+    ).not.toBeNull();
+    expect(
+      container.querySelector(
+        '[data-map-layer="countries"] [data-country-code="US"]',
+      ),
+    ).not.toBeNull();
+    expect(
+      container.querySelector('[data-map-layer="regions"] [data-region-id]'),
+    ).not.toBeNull();
+    expect(
+      container.querySelector('[data-map-layer="labels"] text'),
+    ).not.toBeNull();
+    expect(
+      container.querySelector('[data-map-layer="pins"] [data-map-pin]'),
+    ).not.toBeNull();
+    expect(
+      container.querySelector('[data-map-layer="interaction-targets"]'),
+    ).not.toBeNull();
   });
 
   it("renders the regenerated core country topology through the public component", () => {
@@ -114,6 +209,60 @@ describe("WorldMap — rendering", () => {
     );
   });
 
+  it("uses a light water background by default so land separates from ocean", () => {
+    const { container } = render(<WorldMap data={DATA} />);
+    const figure = container.querySelector("figure")!;
+    const ocean = container.querySelector("[data-map-ocean]")!;
+
+    expect(figure).toHaveStyle({ backgroundColor: "#A0D7EB" });
+    expect(ocean.getAttribute("fill")).toBe("#A0D7EB");
+  });
+
+  it("renders no-data countries as visible neutral land by default", () => {
+    const { container } = render(<WorldMap data={[]} />);
+    const countryPath = getMapSvg(container).querySelector("path")!;
+
+    expect(countryPath).toHaveStyle({
+      fill: "#F4F2F2",
+      fillOpacity: "1",
+      stroke: "#607d86",
+    });
+  });
+
+  it("preserves consumer overrides for water background and country borders", () => {
+    const { container } = render(
+      <WorldMap data={[]} backgroundColor="#ddeeff" borderColor="#334455" />,
+    );
+    const figure = container.querySelector("figure")!;
+    const ocean = container.querySelector("[data-map-ocean]")!;
+    const countryPath = getMapSvg(container).querySelector("path")!;
+
+    expect(figure).toHaveStyle({ backgroundColor: "#ddeeff" });
+    expect(ocean.getAttribute("fill")).toBe("#ddeeff");
+    expect(countryPath).toHaveStyle({ stroke: "#334455" });
+  });
+
+  it("uses reduced country geometry below 2x", () => {
+    const { container } = render(<WorldMap data={DATA} zoom />);
+    expect(getMapSvg(container)).toHaveAttribute(
+      "data-country-geometry-tier",
+      "reduced",
+    );
+  });
+
+  it("loads detailed country geometry at 2x", async () => {
+    const { container } = render(
+      <WorldMap data={DATA} zoom={{ initialScale: 2 }} />,
+    );
+
+    await waitFor(() => {
+      expect(getMapSvg(container)).toHaveAttribute(
+        "data-country-geometry-tier",
+        "detailed",
+      );
+    });
+  });
+
   it("renders normally when consumers ignore dispute metadata", () => {
     const { container } = render(<WorldMap data={DATA} />);
 
@@ -125,6 +274,7 @@ describe("WorldMap — rendering", () => {
     const { container } = render(
       <WorldMap
         data={DATA}
+        size={400}
         zoom={{ initialScale: 4 }}
         detailLevel="regions"
         detailProvider={detailProvider}
@@ -135,7 +285,7 @@ describe("WorldMap — rendering", () => {
       expect(container.querySelectorAll("[data-region-id]")).toHaveLength(2);
     });
 
-    const regionPath = container.querySelector("[data-region-id='us-west']")!;
+    const regionPath = container.querySelector("[data-region-id='ca-west']")!;
     expect(regionPath.getAttribute("stroke-dasharray")).toBe("2 2");
     expect(regionPath.getAttribute("fill")).toBe("transparent");
     expect(regionPath.querySelector("title")?.textContent).toContain(
@@ -147,6 +297,7 @@ describe("WorldMap — rendering", () => {
     const { container } = render(
       <WorldMap
         data={DATA}
+        size={400}
         zoom={{ initialScale: 4 }}
         detailLevel="regions"
         detailProvider={detailProvider}
@@ -157,7 +308,7 @@ describe("WorldMap — rendering", () => {
       expect(container.querySelectorAll("[data-region-id]")).toHaveLength(2);
     });
 
-    expect(container.querySelectorAll("svg path")).toHaveLength(177);
+    expect(getMapSvg(container).querySelectorAll("path")).toHaveLength(177);
     expect(container.querySelectorAll("[data-region-id]")).toHaveLength(2);
     expect(
       Array.from(container.querySelectorAll("path > title")).some(
@@ -166,20 +317,20 @@ describe("WorldMap — rendering", () => {
     ).toBe(true);
   });
 
-  it("hides region map labels when zoom is too low", async () => {
+  it("does not render region overlays when zoom is below 4x", async () => {
     const { container } = render(
       <WorldMap
         data={DATA}
+        size={400}
         zoom={{ initialScale: 1 }}
         detailLevel="regions"
         detailProvider={detailProvider}
       />,
     );
 
-    await waitFor(() => {
-      expect(container.querySelectorAll("[data-region-id]")).toHaveLength(2);
-    });
-
+    await waitFor(() =>
+      expect(container.querySelector("[data-region-id]")).toBeNull(),
+    );
     expect(
       Array.from(container.querySelectorAll("svg text")).some(
         (label) => label.textContent === "West",
@@ -191,6 +342,7 @@ describe("WorldMap — rendering", () => {
     const { container } = render(
       <WorldMap
         data={DATA}
+        size={400}
         zoom={{ initialScale: 4 }}
         detailLevel="regions"
         detailProvider={detailProvider}
@@ -206,6 +358,26 @@ describe("WorldMap — rendering", () => {
         (label) => label.textContent === "West",
       ),
     ).toBe(true);
+  });
+
+  it("does not render a below-map list when region detail is ready", async () => {
+    render(
+      <WorldMap
+        data={DATA}
+        size={400}
+        zoom={{ initialScale: 4 }}
+        detailLevel="regions"
+        detailProvider={detailProvider}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.getAllByText("West").length).toBeGreaterThan(0);
+    });
+
+    expect(screen.queryByText("United States regions")).toBeNull();
+    expect(screen.queryByText("Coverage: complete (2/2)")).toBeNull();
+    expect(screen.queryByRole("list")).toBeNull();
   });
 });
 
@@ -264,21 +436,21 @@ describe("WorldMap — title and accessibility", () => {
 describe("WorldMap — frame", () => {
   it("renders a <rect> when frame=true", () => {
     const { container } = render(<WorldMap data={DATA} frame />);
-    expect(container.querySelector("rect")).not.toBeNull();
+    expect(container.querySelector("[data-map-frame]")).not.toBeNull();
   });
 
   it("does not render a <rect> by default (frame=false)", () => {
     const { container } = render(<WorldMap data={DATA} />);
-    expect(container.querySelector("rect")).toBeNull();
+    expect(container.querySelector("[data-map-frame]")).toBeNull();
   });
 
   it("applies frameColor as the rect stroke color", () => {
     const { container } = render(
       <WorldMap data={DATA} frame frameColor="crimson" />,
     );
-    expect(container.querySelector("rect")!.getAttribute("stroke")).toBe(
-      "crimson",
-    );
+    expect(
+      container.querySelector("[data-map-frame]")!.getAttribute("stroke"),
+    ).toBe("crimson");
   });
 });
 
@@ -351,6 +523,27 @@ describe("WorldMap — richInteraction", () => {
     expect(container.querySelector("svg")!.getAttribute("tabindex")).toBeNull();
   });
 
+  it("renders zoom controls as a bottom-right overlay outside the SVG content layer", () => {
+    const { container } = render(
+      <WorldMap data={DATA} size={400} title="Zoom layout" zoom />,
+    );
+    const controls = screen.getByRole("group", { name: "Map zoom controls" });
+    const svg = container.querySelector("svg")!;
+    const figure = container.querySelector("figure")!;
+
+    expect(figure).toHaveStyle({ position: "relative" });
+    expect(controls).toHaveStyle({
+      position: "absolute",
+      right: "12px",
+      bottom: "12px",
+      zIndex: "2",
+    });
+    expect(svg.contains(controls)).toBe(false);
+    expect(
+      screen.getByRole("button", { name: "Reset zoom" }),
+    ).toBeInTheDocument();
+  });
+
   it('sets aria-keyshortcuts="+ -" when richInteraction=true', () => {
     const { container } = render(<WorldMap data={DATA} richInteraction />);
     expect(
@@ -363,7 +556,7 @@ describe("WorldMap — richInteraction", () => {
       <WorldMap data={DATA} size={400} richInteraction />,
     );
     const svg = container.querySelector("svg")!;
-    const g = container.querySelector("svg > g")!;
+    const g = getCountriesLayer(container);
     const before = g.getAttribute("transform");
 
     fireEvent.keyDown(svg, { key: "+" });
@@ -376,7 +569,7 @@ describe("WorldMap — richInteraction", () => {
       <WorldMap data={DATA} size={400} richInteraction />,
     );
     const svg = container.querySelector("svg")!;
-    const g = container.querySelector("svg > g")!;
+    const g = getCountriesLayer(container);
     const original = g.getAttribute("transform");
 
     fireEvent.keyDown(svg, { key: "+" });
@@ -390,7 +583,7 @@ describe("WorldMap — richInteraction", () => {
       <WorldMap data={DATA} size={400} richInteraction />,
     );
     const svg = container.querySelector("svg")!;
-    const g = container.querySelector("svg > g")!;
+    const g = getCountriesLayer(container);
     const before = g.getAttribute("transform");
 
     fireEvent.keyDown(svg, { key: "=" });
@@ -408,20 +601,18 @@ describe("WorldMap — richInteraction", () => {
     fireEvent.keyDown(svg, { key: "+" });
     fireEvent.keyDown(svg, { key: "+" });
     fireEvent.keyDown(svg, { key: "+" });
-    const at4x = container.querySelector("svg > g")!.getAttribute("transform")!;
+    const at4x = getCountriesLayer(container).getAttribute("transform")!;
 
     fireEvent.keyDown(svg, { key: "+" });
-    expect(container.querySelector("svg > g")!.getAttribute("transform")).toBe(
-      at4x,
-    );
+    expect(getCountriesLayer(container).getAttribute("transform")).toBe(at4x);
   });
 
-  it("zooms around the pointer on double click and resets on a later double click at 4x", () => {
+  it("zooms around the pointer on double click when richInteraction is enabled", () => {
     const { container } = render(
       <WorldMap data={DATA} size={400} richInteraction />,
     );
     const svg = container.querySelector("svg")!;
-    const g = container.querySelector("svg > g")!;
+    const g = getCountriesLayer(container);
     const getBoundingClientRect = vi
       .spyOn(svg, "getBoundingClientRect")
       .mockReturnValue({
@@ -434,15 +625,7 @@ describe("WorldMap — richInteraction", () => {
     const original = g.getAttribute("transform");
 
     fireEvent.doubleClick(svg, { clientX: 110, clientY: 120 });
-    const zoomed = g.getAttribute("transform");
-    expect(zoomed).not.toBe(original);
-
-    fireEvent.doubleClick(svg, { clientX: 110, clientY: 120 });
-    const at4x = g.getAttribute("transform");
-    expect(at4x).not.toBe(original);
-
-    fireEvent.doubleClick(svg, { clientX: 110, clientY: 120 });
-    expect(g.getAttribute("transform")).toBe(original);
+    expect(g.getAttribute("transform")).not.toBe(original);
 
     getBoundingClientRect.mockRestore();
   });

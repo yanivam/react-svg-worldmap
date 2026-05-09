@@ -1,5 +1,6 @@
 import type { ZoomOptions, ZoomState } from "../types.js";
 import { defaultZoomOptions } from "../constants.js";
+import type { MapViewport } from "./geometry.js";
 
 export interface ResolvedZoomOptions {
   enabled: boolean;
@@ -72,6 +73,43 @@ export function panZoomState(
   return {
     scale: state.scale,
     translate: [state.translate[0] + delta[0], state.translate[1] + delta[1]],
+  };
+}
+
+function clampAxis(
+  translate: number,
+  viewportSize: number,
+  scaledContentSize: number,
+): number {
+  if (scaledContentSize <= viewportSize)
+    return (viewportSize - scaledContentSize) / 2;
+
+  const minTranslate = viewportSize - scaledContentSize;
+  return Math.min(0, Math.max(minTranslate, translate));
+}
+
+export function clampZoomState(
+  state: ZoomState,
+  viewport: MapViewport,
+): ZoomState {
+  const viewportWidth = Math.max(0, viewport.width);
+  const viewportHeight = Math.max(0, viewport.height);
+  const scaledWidth = viewportWidth * state.scale;
+  const scaledHeight = viewportHeight * state.scale;
+  const translate: [number, number] = [
+    clampAxis(state.translate[0], viewportWidth, scaledWidth),
+    clampAxis(state.translate[1], viewportHeight, scaledHeight),
+  ];
+
+  if (
+    translate[0] === state.translate[0] &&
+    translate[1] === state.translate[1]
+  )
+    return state;
+
+  return {
+    scale: state.scale,
+    translate,
   };
 }
 

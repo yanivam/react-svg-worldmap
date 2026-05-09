@@ -3,7 +3,11 @@ export {
   targetRegionCountries,
   getRegionCoverage,
 } from "./coverage.js";
-export { regionCollections } from "./data/starter.js";
+export {
+  loadRegionCollection,
+  loadRegionCollections,
+  regionCollectionLoaders,
+} from "./data/loaders.js";
 export { createRegionsDetailProvider } from "./providers/createRegionsDetailProvider.js";
 export type {
   DetailProvider,

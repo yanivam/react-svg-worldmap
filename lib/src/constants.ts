@@ -3,6 +3,14 @@ import type { SizeOption, CountryContext } from "./types.js";
 
 export const defaultSize = "xl";
 export const defaultColor = "#dddddd";
+export const defaultBackgroundColor = "#A0D7EB";
+export const defaultBorderColor = "#607d86";
+export const defaultLandColor = "#F4F2F2";
+export const detailedCountryGeometryMinZoom = 2;
+export const regionGeometryMinZoom = 4;
+export const mapCoordinateWidth = 960;
+export const mapCoordinateHeight = 720;
+export const mapCoordinateTranslate: [number, number] = [0, 240];
 export const heightRatio = 3 / 4;
 export const sizeMap: Record<SizeOption, number> = {
   sm: 240,
@@ -18,7 +26,7 @@ export const sizeBreakpoints: number[] = [240, 336, 480, 640, 1200];
 export const defaultZoomOptions = {
   initialScale: 1,
   minScale: 1,
-  zoomFactor: 1.5,
+  zoomFactor: 2,
   showControls: true,
   showCountryLabels: true,
   countryLabelMinFontSize: 12,
@@ -41,14 +49,14 @@ export const defaultCountryStyle =
     let opacityLevel =
       calculatedValue !== undefined
         ? 0.2 + 0.6 * ((calculatedValue - minValue) / (maxValue - minValue))
-        : 0;
+        : 1;
 
     // If there's only one value, the calculation would be dividing by zero.
     // We adjust it to the maximum value.
     if (Number.isNaN(opacityLevel)) opacityLevel = 0.8;
 
     const style = {
-      fill: color,
+      fill: calculatedValue === undefined ? defaultLandColor : color,
       fillOpacity: opacityLevel,
       stroke,
       strokeWidth: 1,

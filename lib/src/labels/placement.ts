@@ -27,6 +27,11 @@ function estimateTextHeight(fontSize: number): number {
 
 type LabelCandidate = CountryLabelCandidate | RegionLabelCandidate;
 
+export interface PlacedMapLabels {
+  countryLabels: CountryLabelCandidate[];
+  regionLabels: RegionLabelCandidate[];
+}
+
 function intersects(left: LabelCandidate, right: LabelCandidate): boolean {
   return !(
     left.x + left.width / 2 < right.x - right.width / 2 ||
@@ -49,6 +54,19 @@ function placeLabels<T extends LabelCandidate>(
       return [...accepted, candidate];
     }, [])
     .sort(compare);
+}
+
+function placeMixedLabels(
+  candidates: Array<LabelCandidate | undefined>,
+): LabelCandidate[] {
+  return candidates
+    .filter((candidate): candidate is LabelCandidate => Boolean(candidate))
+    .sort((left, right) => right.priority - left.priority)
+    .reduce<LabelCandidate[]>((accepted, candidate) => {
+      if (accepted.some((label) => intersects(label, candidate)))
+        return accepted;
+      return [...accepted, candidate];
+    }, []);
 }
 
 export function createCountryLabelCandidate(
@@ -133,6 +151,52 @@ export function placeRegionLabels(
   return placeLabels(candidates, (left, right) =>
     left.regionName.localeCompare(right.regionName),
   );
+}
+
+export function placeMapLabels({
+  countryCandidates,
+  regionCandidates,
+  scale,
+}: {
+  countryCandidates: Array<CountryLabelCandidate | undefined>;
+  regionCandidates: Array<RegionLabelCandidate | undefined>;
+  scale: number;
+}): PlacedMapLabels {
+  const countryPriorityMultiplier = scale >= 6 ? 0.35 : 4;
+  const regionPriorityMultiplier = scale >= 6 ? 4 : 0.35;
+  const placed = placeMixedLabels([
+    ...countryCandidates.map((candidate) =>
+      candidate == null
+        ? undefined
+        : {
+            ...candidate,
+            priority: candidate.priority * countryPriorityMultiplier,
+          },
+    ),
+    ...regionCandidates.map((candidate) =>
+      candidate == null
+        ? undefined
+        : {
+            ...candidate,
+            priority: candidate.priority * regionPriorityMultiplier,
+          },
+    ),
+  ]);
+
+  return {
+    countryLabels: placed
+      .filter(
+        (candidate): candidate is CountryLabelCandidate =>
+          "countryName" in candidate,
+      )
+      .sort((left, right) => left.countryName.localeCompare(right.countryName)),
+    regionLabels: placed
+      .filter(
+        (candidate): candidate is RegionLabelCandidate =>
+          "regionName" in candidate,
+      )
+      .sort((left, right) => left.regionName.localeCompare(right.regionName)),
+  };
 }
 
 export function resolveCountryLabelScreenFontSize(

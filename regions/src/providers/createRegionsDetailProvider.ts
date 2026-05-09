@@ -4,28 +4,26 @@ import {
   createUnavailableDetailResult,
 } from "react-svg-worldmap";
 import { getRegionCoverage } from "../coverage.js";
-import { regionCollections } from "../data/starter.js";
+import { loadRegionCollection } from "../data/loaders.js";
 
 export function createRegionsDetailProvider(): DetailProvider {
   return {
     supports(countryCode) {
-      return regionCollections[countryCode.toUpperCase()] != null;
+      return getRegionCoverage(countryCode).length > 0;
     },
     getCoverage(countryCode?: ISOCode) {
       return getRegionCoverage(countryCode);
     },
-    loadRegions(countryCode) {
-      const collection = regionCollections[countryCode.toUpperCase()];
+    async loadRegions(countryCode) {
+      const collection = await loadRegionCollection(countryCode);
       if (collection == null) {
-        return Promise.resolve(
-          createUnavailableDetailResult(
-            countryCode,
-            "Region detail is unavailable for this country.",
-          ),
+        return createUnavailableDetailResult(
+          countryCode,
+          "Region detail is unavailable for this country.",
         );
       }
 
-      return Promise.resolve(createReadyDetailResult(collection));
+      return createReadyDetailResult(collection);
     },
   };
 }

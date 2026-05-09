@@ -88,7 +88,13 @@ The project uses a documented source hierarchy instead of treating one raw datas
 
 This project aims to stay neutral by documenting how naming, geometry, and disputed territories are handled. For sensitive cases, maintainers prefer reviewable documentation and coarse small-scale representation over silent or over-precise political claims.
 
-The bundled country topology is regenerated from the documented Natural Earth Admin 0 source path with at least 6 decimal places of retained source precision. The current regeneration favors visible country-level coastline, island, border, and small-country detail, then applies quality-budgeted TopoJSON compression, delta encoding, minification, and quantization to keep the core npm package under 1 MB while preserving the validated map fixtures.
+The bundled country topology is regenerated from the documented Natural Earth Admin 0 source path with at least 6 decimal places of retained source precision. The current regeneration emits closed country shapes in two package-local tiers: reduced country geometry for the initial world view and detailed country geometry for zoomed views. Both tiers apply quality-budgeted TopoJSON compression, delta encoding, minification, and quantization so the core package preserves validated coastline, island, border, and small-country fixtures while remaining compact.
+
+The default visual treatment separates land from the surrounding ocean/background with sea/background color `#A0D7EB`, neutral no-data land color `#F4F2F2`, and a softer country/coastline stroke. Closed country paths keep the sea layer from bleeding into land fills. The SVG uses an explicit paint stack: ocean/background, countries, optional regions, labels, pins, then interaction targets. This follows common basemap readability principles such as water/land contrast and coastline emphasis while remaining a themeable SVG map. The package does not use Google Maps, hosted map tiles, raster imagery, terrain/satellite rendering, external geometry providers, or custom map provider APIs.
+
+Country detail uses gradual disclosure. The initial map uses the reduced closed country tier below `2x` zoom. At `2x` and above, the core package can load its detailed country tier. At `4x` and above, selected region detail can load when `detailLevel="regions"` and a compatible optional provider is supplied.
+
+When zoom is enabled, the map renders compact bottom-right `+` and `-` controls. Double-clicking zooms in around the clicked point and uses the same configured zoom factor as the `+` control.
 
 The package exposes Tier 1 dispute metadata for Crimea, Palestinian Territories, Taiwan, Kashmir, Western Sahara, and Kosovo. Consumers can opt into dispute-aware rendering through callback context:
 
@@ -108,7 +114,15 @@ import WorldMap from "react-svg-worldmap";
 />;
 ```
 
-Region detail is opt-in and distributed through the optional `@react-svg-worldmap/regions` package. Target-country coverage currently includes first-level regions for 23 countries across the Americas, Europe, Asia, Africa, and Oceania. United States and Canada coverage is marked complete; the remaining target countries are marked experimental until country-specific official source review is complete. Unsupported countries fall back to the country-level map, internal region borders render as dotted overlays, and region labels use the same zoom-aware fit rules as country labels.
+Region detail is opt-in and distributed through the optional `@react-svg-worldmap/regions` package. Target-country coverage currently includes complete first-level regions for 23 countries across the Americas, Europe, Asia, Africa, and Oceania. Future non-target countries may use partial or experimental metadata, but target countries are complete. Unsupported countries fall back to the country-level map, internal region borders render as dotted overlays at `4x` and above, and region labels use the same zoom-aware fit rules as country labels.
+
+Current target-country coverage:
+
+- Americas: United States, Canada, Mexico, Brazil, Argentina, Venezuela
+- Europe: Germany, Switzerland, Austria, Belgium, Bosnia and Herzegovina, Russia
+- Asia: India, Pakistan, United Arab Emirates, Malaysia, Iraq
+- Africa: Nigeria, Ethiopia, South Africa, Sudan
+- Oceania: Australia, Micronesia
 
 ```tsx
 import WorldMap from "react-svg-worldmap";

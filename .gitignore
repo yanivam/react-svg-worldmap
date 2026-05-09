@@ -38,5 +38,6 @@ tmp-smoke
 .vscode/
 *.swp
 *.swo
+*.tmp
 .claude
 .worktrees/

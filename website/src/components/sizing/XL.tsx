@@ -15,10 +15,9 @@ export default function App(): JSX.Element {
       size="xl"
       data={GDPData}
       frame
-      zoom={{ initialScale: 4 }}
+      zoom
       detailLevel="regions"
       detailProvider={detailProvider}
-      showRegionList={false}
     />
   );
 }

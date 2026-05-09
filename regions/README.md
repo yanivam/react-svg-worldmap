@@ -12,6 +12,13 @@ npm install react-svg-worldmap @react-svg-worldmap/regions
 
 ## Usage
 
+Enable region overlays in four consumer steps:
+
+1. Install `@react-svg-worldmap/regions` alongside `react-svg-worldmap`.
+2. Import `createRegionsDetailProvider`.
+3. Create and pass the provider to `WorldMap`.
+4. Set `detailLevel="regions"` with zoom enabled so the overlay can appear at region-detail zoom.
+
 ```tsx
 import WorldMap from "react-svg-worldmap";
 import { createRegionsDetailProvider } from "@react-svg-worldmap/regions";
@@ -36,7 +43,7 @@ The package includes first-level region collections and coverage metadata for 23
 - Africa: Nigeria, Ethiopia, South Africa, Sudan
 - Oceania: Australia, Micronesia
 
-United States and Canada are marked `complete`. The other target countries are currently marked `experimental` because they are generated from Natural Earth Admin 1 and need country-specific official source review before being marked complete.
+All 23 target countries are marked `complete`. Future non-target countries may use `partial`, `experimental`, or `unavailable` metadata when source review or expected-count validation is not complete.
 
 Coverage metadata is exported through `targetRegionCountries`, `regionCoverage`, `getRegionCoverage()`, and the provider's `getCoverage()` method.
 
@@ -44,7 +51,11 @@ Coverage metadata is exported through `targetRegionCountries`, `regionCoverage`,
 
 - United States: `us-atlas@3.0.1` `states-10m.json`, derived from U.S. Census Bureau cartographic boundary data.
 - Canada: Opendatasoft `georef-canada-province` GeoJSON using Statistics Canada province and territory records.
-- Other target countries: Natural Earth Admin 1 states/provinces 10m cultural vectors.
+- Other target countries: Natural Earth Admin 1 states/provinces 10m cultural vectors, with expected-count validation recorded in package tests.
+
+## License
+
+This optional package is distributed under the MIT license and includes a package-local `LICENSE` file in the npm artifact.
 
 ## Boundary Policy
 

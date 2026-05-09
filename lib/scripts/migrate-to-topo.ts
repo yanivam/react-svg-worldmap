@@ -22,15 +22,29 @@ import currentTopoData from "../src/countries.topo.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const sourceUrl =
   "https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-10m.json";
-const outputPath = resolve(__dirname, "../src/countries.topo.ts");
+const compatibilityOutputPath = resolve(__dirname, "../src/countries.topo.ts");
+const reducedOutputPath = resolve(
+  __dirname,
+  "../src/countries-reduced.topo.ts",
+);
+const detailedOutputPath = resolve(
+  __dirname,
+  "../src/countries-detailed.topo.ts",
+);
 const baselineOutputPath = process.env.WORLD_ATLAS_BASELINE_OUTPUT_PATH;
 const sourcePath = process.env.WORLD_ATLAS_SOURCE_PATH;
 const minimumCoordinatePrecision = 6;
-const defaultQuantization = 10_000;
+const defaultDetailedQuantization = 10_000;
+const defaultReducedQuantization = 4_000;
 const optimizationMode =
   process.env.WORLD_ATLAS_OPTIMIZATION === "none" ? "none" : "quality-budgeted";
-const quantization = Number(
-  process.env.WORLD_ATLAS_QUANTIZATION ?? defaultQuantization,
+const detailedQuantization = Number(
+  process.env.WORLD_ATLAS_DETAILED_QUANTIZATION ??
+    process.env.WORLD_ATLAS_QUANTIZATION ??
+    defaultDetailedQuantization,
+);
+const reducedQuantization = Number(
+  process.env.WORLD_ATLAS_REDUCED_QUANTIZATION ?? defaultReducedQuantization,
 );
 const maximumMaterialBoundsDeltaDegrees = 0.05;
 const maximumMaterialAreaDeltaRatio = 0.1;
@@ -54,6 +68,13 @@ const atlasNameByCurrentName: Record<string, string> = {
   "The Gambia": "Gambia",
   "United States": "United States of America",
   "Western Sahara": "W. Sahara",
+};
+
+const supplementalAtlasNamesByCurrentName: Record<string, string[]> = {
+  // Natural Earth stores these land areas as separate Admin 0 records. The
+  // package does not expose them as countries, but omitting them paints parts
+  // of Cyprus as ocean and makes the north/south division look like water.
+  Cyprus: ["Cyprus U.N. Buffer Zone", "Akrotiri", "Dhekelia"],
 };
 
 type CurrentCountry = {
@@ -91,6 +112,7 @@ type QualityFixtureResult = QualityFixture & {
 
 type TopologyMetadata = {
   source: string;
+  tier: "reduced" | "detailed" | "compatibility";
   countries: number;
   coordinates: number;
   maximumSourcePrecision: number;
@@ -240,6 +262,41 @@ function scanGeometry(geometry: GeoJSON.Geometry): CoordinateScan {
   );
 }
 
+function collectPolygons(
+  geometry: GeoJSON.Geometry,
+): GeoJSON.MultiPolygon["coordinates"] {
+  if (geometry.type === "Polygon") return [geometry.coordinates];
+  if (geometry.type === "MultiPolygon") return geometry.coordinates;
+  if (geometry.type === "GeometryCollection") {
+    return geometry.geometries.flatMap((childGeometry) =>
+      collectPolygons(childGeometry),
+    );
+  }
+
+  return [];
+}
+
+function combinePolygonFeatures(
+  features: GeoJSON.Feature[],
+): GeoJSON.Polygon | GeoJSON.MultiPolygon {
+  const polygons = features.flatMap((feature) =>
+    collectPolygons(feature.geometry),
+  );
+
+  if (polygons.length === 0)
+    throw new Error("Expected at least one polygon feature to combine");
+
+  return polygons.length === 1
+    ? {
+        type: "Polygon",
+        coordinates: polygons[0],
+      }
+    : {
+        type: "MultiPolygon",
+        coordinates: polygons,
+      };
+}
+
 function getFeatureCollection(source: unknown): GeoJSON.FeatureCollection {
   const sourceTopology = source as AtlasTopology;
   const currentCountries = readCurrentCountries();
@@ -262,13 +319,21 @@ function getFeatureCollection(source: unknown): GeoJSON.FeatureCollection {
 
   const features = currentCountries.map((country) => {
     const atlasName = atlasNameByCurrentName[country.N] ?? country.N;
-    const canonicalAtlasName = atlasNameLookup.get(normalizeName(atlasName));
-    if (canonicalAtlasName == null)
-      throw new Error(`No Natural Earth geometry found for ${country.N}`);
+    const atlasNames = [
+      atlasName,
+      ...(supplementalAtlasNamesByCurrentName[country.N] ?? []),
+    ];
+    const atlasCountryFeatures = atlasNames.map((name) => {
+      const canonicalAtlasName = atlasNameLookup.get(normalizeName(name));
+      if (canonicalAtlasName == null)
+        throw new Error(`No Natural Earth geometry found for ${country.N}`);
 
-    const atlasFeature = atlasFeatures.get(normalizeName(canonicalAtlasName));
-    if (atlasFeature == null)
-      throw new Error(`No decoded geometry found for ${country.N}`);
+      const atlasFeature = atlasFeatures.get(normalizeName(canonicalAtlasName));
+      if (atlasFeature == null)
+        throw new Error(`No decoded geometry found for ${country.N}`);
+
+      return atlasFeature;
+    });
 
     return {
       type: "Feature",
@@ -276,7 +341,10 @@ function getFeatureCollection(source: unknown): GeoJSON.FeatureCollection {
         N: country.N,
         I: country.I,
       },
-      geometry: atlasFeature.geometry,
+      geometry:
+        atlasCountryFeatures.length === 1
+          ? atlasCountryFeatures[0].geometry
+          : combinePolygonFeatures(atlasCountryFeatures),
     } satisfies GeoJSON.Feature;
   });
 
@@ -361,7 +429,10 @@ function getMaximumQuantizationStepDegrees(topo: Topology): number | null {
   return Math.max(topo.transform.scale[0], topo.transform.scale[1]);
 }
 
-function createOutput(topo: Topology, metadata: TopologyMetadata): string {
+function createTopologyOutput(
+  topo: Topology,
+  metadata: TopologyMetadata,
+): string {
   return `/* prettier-ignore */
 // AUTO-GENERATED by lib/scripts/migrate-to-topo.ts - do not edit manually.
 // Regenerate: yarn workspace react-svg-worldmap tsx scripts/migrate-to-topo.ts
@@ -373,6 +444,59 @@ const topoData: any = ${JSON.stringify(topo)};
 
 export default topoData;
 `;
+}
+
+function createCompatibilityOutput(): string {
+  return `/* prettier-ignore */
+// AUTO-GENERATED by lib/scripts/migrate-to-topo.ts - do not edit manually.
+// Compatibility module for existing imports.
+// New code should import a specific country geometry tier module.
+
+export { topologyMetadata } from "./countries-reduced.topo.js";
+export { default } from "./countries-reduced.topo.js";
+`;
+}
+
+function createMetadata(
+  tier: TopologyMetadata["tier"],
+  topo: Topology,
+  quantizationValue: number | null,
+  fixtureResults: QualityFixtureResult[],
+): TopologyMetadata {
+  const topoBytes = Buffer.byteLength(JSON.stringify(topo), "utf-8");
+  const maximumQuantizationStepDegrees =
+    getMaximumQuantizationStepDegrees(topo);
+
+  return {
+    source: sourcePath ?? sourceUrl,
+    tier,
+    countries: featureCollection.features.length,
+    coordinates: coordinateSummary.count,
+    maximumSourcePrecision: coordinateSummary.maxPrecision,
+    minimumCoordinatePrecision,
+    optimization: optimizationMode,
+    quantization:
+      optimizationMode === "quality-budgeted" ? quantizationValue : null,
+    maximumQuantizationStepDegrees,
+    compression: [
+      "TopoJSON arc sharing",
+      "TopoJSON delta encoding",
+      "JSON minification",
+    ],
+    lossyReduction:
+      optimizationMode === "quality-budgeted"
+        ? `${tier} quality-budgeted TopoJSON quantization`
+        : "none beyond source topology quantization",
+    highDetailSourceBytes,
+    optimizedSourceBytes: topoBytes,
+    sourceSizeReductionRatio:
+      highDetailSourceBytes === 0 ? 0 : 1 - topoBytes / highDetailSourceBytes,
+    qualityBudget: {
+      maximumMaterialBoundsDeltaDegrees,
+      maximumMaterialAreaDeltaRatio,
+      fixtures: fixtureResults,
+    },
+  };
 }
 
 const source = await loadSource();
@@ -395,11 +519,17 @@ if (coordinateSummary.maxPrecision < minimumCoordinatePrecision) {
 }
 
 const highDetailTopo = topology({ countries: featureCollection });
-const optimizedTopo =
+const detailedTopo =
   optimizationMode === "quality-budgeted"
-    ? topology({ countries: featureCollection }, quantization)
+    ? topology({ countries: featureCollection }, detailedQuantization)
     : highDetailTopo;
-const fixtureResults = getFixtureResults(highDetailTopo, optimizedTopo);
+const reducedTopo =
+  optimizationMode === "quality-budgeted"
+    ? topology({ countries: featureCollection }, reducedQuantization)
+    : highDetailTopo;
+const detailedFixtureResults = getFixtureResults(highDetailTopo, detailedTopo);
+const reducedFixtureResults = getFixtureResults(highDetailTopo, reducedTopo);
+const fixtureResults = [...detailedFixtureResults, ...reducedFixtureResults];
 const failedFixture = fixtureResults.find((fixture) => !fixture.passed);
 if (failedFixture != null) {
   throw new Error(
@@ -411,91 +541,113 @@ const highDetailSourceBytes = Buffer.byteLength(
   JSON.stringify(highDetailTopo),
   "utf-8",
 );
-const optimizedSourceBytes = Buffer.byteLength(
-  JSON.stringify(optimizedTopo),
+const detailedSourceBytes = Buffer.byteLength(
+  JSON.stringify(detailedTopo),
+  "utf-8",
+);
+const reducedSourceBytes = Buffer.byteLength(
+  JSON.stringify(reducedTopo),
   "utf-8",
 );
 if (
   optimizationMode === "quality-budgeted" &&
-  optimizedSourceBytes >= highDetailSourceBytes
+  detailedSourceBytes >= highDetailSourceBytes
 )
-  throw new Error("Optimized topology did not reduce source size");
+  throw new Error("Detailed topology did not reduce source size");
 
-const maximumQuantizationStepDegrees =
-  getMaximumQuantizationStepDegrees(optimizedTopo);
+const detailedMaximumQuantizationStepDegrees =
+  getMaximumQuantizationStepDegrees(detailedTopo) ?? 0;
+const reducedMaximumQuantizationStepDegrees =
+  getMaximumQuantizationStepDegrees(reducedTopo) ?? 0;
 if (
-  maximumQuantizationStepDegrees != null &&
-  maximumQuantizationStepDegrees > maximumMaterialBoundsDeltaDegrees
+  detailedMaximumQuantizationStepDegrees > maximumMaterialBoundsDeltaDegrees
 ) {
   throw new Error(
-    `Expected quantization step <= ${maximumMaterialBoundsDeltaDegrees}, got ${maximumQuantizationStepDegrees}`,
+    `Expected detailed quantization step <= ${maximumMaterialBoundsDeltaDegrees}, got ${detailedMaximumQuantizationStepDegrees}`,
   );
 }
 
-const metadata: TopologyMetadata = {
-  source: sourcePath ?? sourceUrl,
-  countries: featureCollection.features.length,
-  coordinates: coordinateSummary.count,
-  maximumSourcePrecision: coordinateSummary.maxPrecision,
-  minimumCoordinatePrecision,
-  optimization: optimizationMode,
-  quantization: optimizationMode === "quality-budgeted" ? quantization : null,
-  maximumQuantizationStepDegrees,
-  compression: [
-    "TopoJSON arc sharing",
-    "TopoJSON delta encoding",
-    "JSON minification",
-  ],
-  lossyReduction:
-    optimizationMode === "quality-budgeted"
-      ? "quality-budgeted TopoJSON quantization"
-      : "none beyond source topology quantization",
-  highDetailSourceBytes,
-  optimizedSourceBytes,
-  sourceSizeReductionRatio:
-    highDetailSourceBytes === 0
-      ? 0
-      : 1 - optimizedSourceBytes / highDetailSourceBytes,
-  qualityBudget: {
-    maximumMaterialBoundsDeltaDegrees,
-    maximumMaterialAreaDeltaRatio,
-    fixtures: fixtureResults,
-  },
-};
-
-if (baselineOutputPath != null && baselineOutputPath.length > 0)
-  writeFileSync(baselineOutputPath, createOutput(highDetailTopo, metadata));
-
-const output = createOutput(optimizedTopo, metadata);
-writeFileSync(outputPath, output, "utf-8");
-
-const bytes = Buffer.byteLength(output, "utf-8");
-console.log("Written to lib/src/countries.topo.ts");
-console.log(`Source: ${metadata.source}`);
-console.log(`Countries: ${metadata.countries}`);
-console.log(`Coordinates: ${metadata.coordinates}`);
-console.log(`Max source precision: ${metadata.maximumSourcePrecision}`);
-console.log(`Optimization: ${metadata.optimization}`);
-console.log(`Quantization: ${metadata.quantization ?? "none"}`);
-console.log(
-  `Max quantization step: ${
-    metadata.maximumQuantizationStepDegrees?.toString() ?? "none"
-  }`,
+const detailedMetadata = createMetadata(
+  "detailed",
+  detailedTopo,
+  detailedQuantization,
+  detailedFixtureResults,
 );
-console.log(`Compression: ${metadata.compression.join(" + ")}`);
-console.log(`Lossy reduction: ${metadata.lossyReduction}`);
+const reducedMetadata = createMetadata(
+  "reduced",
+  reducedTopo,
+  reducedQuantization,
+  reducedFixtureResults,
+);
+
+if (baselineOutputPath != null && baselineOutputPath.length > 0) {
+  writeFileSync(
+    baselineOutputPath,
+    createTopologyOutput(highDetailTopo, {
+      ...detailedMetadata,
+      tier: "compatibility",
+      optimization: "none",
+      quantization: null,
+      maximumQuantizationStepDegrees: null,
+      optimizedSourceBytes: highDetailSourceBytes,
+      sourceSizeReductionRatio: 0,
+    }),
+  );
+}
+
+const reducedOutput = createTopologyOutput(reducedTopo, reducedMetadata);
+const detailedOutput = createTopologyOutput(detailedTopo, detailedMetadata);
+writeFileSync(reducedOutputPath, reducedOutput, "utf-8");
+writeFileSync(detailedOutputPath, detailedOutput, "utf-8");
+writeFileSync(compatibilityOutputPath, createCompatibilityOutput(), "utf-8");
+
+const reducedBytes = Buffer.byteLength(reducedOutput, "utf-8");
+const detailedBytes = Buffer.byteLength(detailedOutput, "utf-8");
+console.log("Written to lib/src/countries-reduced.topo.ts");
+console.log("Written to lib/src/countries-detailed.topo.ts");
+console.log("Written compatibility module to lib/src/countries.topo.ts");
+console.log(`Source: ${detailedMetadata.source}`);
+console.log(`Countries: ${detailedMetadata.countries}`);
+console.log(`Coordinates: ${detailedMetadata.coordinates}`);
+console.log(`Max source precision: ${detailedMetadata.maximumSourcePrecision}`);
+console.log(`Optimization: ${detailedMetadata.optimization}`);
+console.log(`Reduced quantization: ${reducedMetadata.quantization ?? "none"}`);
+console.log(
+  `Detailed quantization: ${detailedMetadata.quantization ?? "none"}`,
+);
+console.log(
+  `Reduced max quantization step: ${reducedMaximumQuantizationStepDegrees.toString()}`,
+);
+console.log(
+  `Detailed max quantization step: ${detailedMaximumQuantizationStepDegrees.toString()}`,
+);
+console.log(`Compression: ${detailedMetadata.compression.join(" + ")}`);
+console.log(`Reduced lossy reduction: ${reducedMetadata.lossyReduction}`);
+console.log(`Detailed lossy reduction: ${detailedMetadata.lossyReduction}`);
 console.log(
   `High-detail source: ${(highDetailSourceBytes / 1024).toFixed(1)} KB`,
 );
-console.log(`Optimized source: ${(optimizedSourceBytes / 1024).toFixed(1)} KB`);
+console.log(`Reduced source: ${(reducedSourceBytes / 1024).toFixed(1)} KB`);
+console.log(`Detailed source: ${(detailedSourceBytes / 1024).toFixed(1)} KB`);
 console.log(
-  `Source size reduction: ${(metadata.sourceSizeReductionRatio * 100).toFixed(
-    1,
-  )}%`,
+  `Reduced source size reduction: ${(
+    reducedMetadata.sourceSizeReductionRatio * 100
+  ).toFixed(1)}%`,
 );
 console.log(
-  `Quality fixtures: ${fixtureResults
+  `Detailed source size reduction: ${(
+    detailedMetadata.sourceSizeReductionRatio * 100
+  ).toFixed(1)}%`,
+);
+console.log(
+  `Detailed quality fixtures: ${detailedFixtureResults
     .map((fixture) => `${fixture.countryCode}=pass`)
     .join(", ")}`,
 );
-console.log(`Output: ${(bytes / 1024).toFixed(1)} KB`);
+console.log(
+  `Reduced quality fixtures: ${reducedFixtureResults
+    .map((fixture) => `${fixture.countryCode}=pass`)
+    .join(", ")}`,
+);
+console.log(`Reduced output: ${(reducedBytes / 1024).toFixed(1)} KB`);
+console.log(`Detailed output: ${(detailedBytes / 1024).toFixed(1)} KB`);
