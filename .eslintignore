@@ -4,3 +4,6 @@ build
 .docusaurus
 coverage
 lib/coverage
+lib/map-assets
+lib/src/map-assets/*.cjs
+lib/src/map-assets/*.metadata.ts

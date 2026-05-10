@@ -1,8 +1,8 @@
 import type GeoJSON from "geojson";
 import { feature as topoFeature } from "topojson-client";
-import reducedTopoData, {
-  topologyMetadata as reducedTopologyMetadata,
-} from "../countries-reduced.topo.js";
+import reducedTopoData from "../map-assets/countries-reduced.topo.cjs";
+import { topologyMetadata as detailedTopologyMetadata } from "../map-assets/countries-detailed.metadata.js";
+import { topologyMetadata as reducedSourceTopologyMetadata } from "../map-assets/countries-reduced.metadata.js";
 import {
   detailedCountryGeometryMinZoom,
   regionGeometryMinZoom,
@@ -20,11 +20,15 @@ export type CountryFeatureCollection = GeoJSON.FeatureCollection & {
   features: CountryFeature[];
 };
 
+type TopologyMetadata =
+  | typeof reducedSourceTopologyMetadata
+  | typeof detailedTopologyMetadata;
+
 export interface CountryGeometryTier {
   name: CountryGeometryTierName;
   loadState: GeometryTierLoadState;
   features: CountryFeature[];
-  metadata: typeof reducedTopologyMetadata;
+  metadata: TopologyMetadata;
 }
 
 export interface GeometryTierParseGuards {
@@ -40,12 +44,10 @@ const parseGuards: GeometryTierParseGuards = {
 function decodeCountryFeatures(
   topoData: typeof reducedTopoData,
 ): CountryFeature[] {
-  /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
   const collection = topoFeature(
     topoData,
     topoData.objects.countries,
   ) as unknown as CountryFeatureCollection;
-  /* eslint-enable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 
   return collection.features;
 }
@@ -57,7 +59,7 @@ export const reducedCountryGeometryTier: CountryGeometryTier = {
   name: "reduced",
   loadState: "ready",
   features: reducedCountryFeatures,
-  metadata: reducedTopologyMetadata,
+  metadata: reducedSourceTopologyMetadata,
 };
 
 export function getCountryGeometryTierName(
@@ -84,13 +86,13 @@ export function resetGeometryTierParseGuardsForTests(): void {
 }
 
 export async function loadDetailedCountryGeometry(): Promise<CountryGeometryTier> {
-  const module = await import("../countries-detailed.topo.js");
+  const module = await import("../map-assets/countries-detailed.topo.cjs");
   parseGuards.detailedParsed = true;
 
   return {
     name: "detailed",
     loadState: "ready",
     features: decodeCountryFeatures(module.default),
-    metadata: module.topologyMetadata,
+    metadata: detailedTopologyMetadata,
   };
 }

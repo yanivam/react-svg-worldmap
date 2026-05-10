@@ -9,6 +9,9 @@ pnpm-lock.yaml
 lib/src/countries.topo.ts
 lib/src/countries-reduced.topo.ts
 lib/src/countries-detailed.topo.ts
+lib/map-assets/*.cjs
+lib/src/map-assets/*.cjs
+lib/src/map-assets/*.metadata.ts
 regions/src/data/countries/
 regions/src/data/starter.ts
 .agents/

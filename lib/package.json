@@ -10,6 +10,7 @@
   "types": "./dist/index.d.ts",
   "files": [
     "README.md",
+    "map-assets/",
     "dist/index.js",
     "dist/index.cjs",
     "dist/index.d.ts",
@@ -20,12 +21,14 @@
     "node": ">=18"
   },
   "scripts": {
-    "build": "tsup && node scripts/inline-sourcemaps.cjs",
+    "build": "node scripts/build-shared-map-assets.mjs && tsup && node scripts/verify-no-sourcemap-references.cjs",
     "build:local": "yarn build && npm pack",
     "generate:readme": "node scripts/generate-readme.mjs",
-    "test": "ESBUILD_LOG_LEVEL=silent vitest run",
-    "test:watch": "ESBUILD_LOG_LEVEL=silent vitest",
-    "test:coverage": "ESBUILD_LOG_LEVEL=silent vitest run --coverage"
+    "inspect:artifacts": "node scripts/inspect-package-artifacts.mjs",
+    "compare:distributions": "node scripts/compare-distributions.mjs",
+    "test": "node scripts/build-shared-map-assets.mjs && ESBUILD_LOG_LEVEL=silent vitest run",
+    "test:watch": "node scripts/build-shared-map-assets.mjs && ESBUILD_LOG_LEVEL=silent vitest",
+    "test:coverage": "node scripts/build-shared-map-assets.mjs && ESBUILD_LOG_LEVEL=silent vitest run --coverage"
   },
   "exports": {
     ".": {

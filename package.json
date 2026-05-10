@@ -13,6 +13,8 @@
     "build:website": "yarn workspace website build",
     "build": "yarn build:package && yarn build:regions && yarn build:website",
     "generate:readme": "yarn workspace react-svg-worldmap generate:readme",
+    "inspect:package": "yarn workspace react-svg-worldmap inspect:artifacts",
+    "compare:distributions": "yarn workspace react-svg-worldmap compare:distributions",
     "start:website": "yarn workspace website start",
     "lint": "eslint --cache \"**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier --write .",

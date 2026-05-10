@@ -41,6 +41,7 @@ Baltistan
 Dhabi
 Dhekelia
 discoverability
+entrypoints
 ehudamiri
 georef
 Herz
@@ -65,6 +66,9 @@ quickstart
 Rica
 renderable
 renderability
+inspectability
+inspectable
+mitigations
 responsify
 rusia
 Sahrawi
@@ -72,6 +76,7 @@ socio-economic
 softprops
 SPECKIT
 sourcemaps
+shippability
 testid
 topo
 topojson
@@ -86,6 +91,7 @@ unidos
 vitest
 WCAG
 worldmap
+worktrees
 yanivam
 Yinchuan
 zoomable

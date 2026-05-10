@@ -200,6 +200,8 @@ Country geometry is bundled in reduced and detailed closed-shape tiers. Below `2
 
 The visible zoom transform is not blocked by those higher-detail tiers. The map can move immediately using the already-rendered detail, then update detailed geometry or region overlays once the zoom state settles.
 
+Country topology remains part of the core `react-svg-worldmap` package. It is stored as package-local `map-assets` files so the ESM and CommonJS entry points can share the same country data without asking consumers to install another package. Those asset files are implementation details; import the package through `react-svg-worldmap`, not through `map-assets`.
+
 The core package owns these built-in thresholds for now. External geometry providers and custom map provider APIs are future extension points, not part of the current public API.
 
 ## Region Detail
