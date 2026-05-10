@@ -10,6 +10,8 @@ A lightweight React component for rendering a bundled SVG world map for charts, 
 
 `react-svg-worldmap` is designed for teams that want a simple client-side world map without a hosted map service, API dependency, or heavyweight geographic stack. The package ships a bundled map and exposes a small React API for coloring countries, attaching interactions, and rendering values.
 
+Version `2.1.0` focuses on smoother zoom rendering, optional first-level region detail, and clearer release artifacts for the companion regions package.
+
 ## Why teams use it
 
 - Bundled map data with no runtime network requests
@@ -42,6 +44,8 @@ Optional target-country region detail is published separately:
 ```bash
 npm install @react-svg-worldmap/regions
 ```
+
+For region detail, install matching major/minor versions of both packages, for example `react-svg-worldmap@2.1.0` with `@react-svg-worldmap/regions@2.1.0`.
 
 ## Usage
 
@@ -120,6 +124,8 @@ import WorldMap from "react-svg-worldmap";
 
 Region detail is opt-in and distributed through the optional `@react-svg-worldmap/regions` package. Target-country coverage currently includes complete first-level regions for 23 countries across the Americas, Europe, Asia, Africa, and Oceania. Future non-target countries may use partial or experimental metadata, but target countries are complete. Unsupported countries fall back to the country-level map, internal region borders render as dotted overlays at `4x` and above, and region labels use the same zoom-aware fit rules as country labels.
 
+When region overlays are visible, country borders are drawn slightly stronger than the internal dotted region lines so country edges remain legible. Native SVG hover text for region overlays is intentionally concise: `Region, Country`.
+
 Current target-country coverage:
 
 - Americas: United States, Canada, Mexico, Brazil, Argentina, Venezuela
@@ -163,9 +169,11 @@ Source attribution and policy details:
 
 The component is designed to be WCAG 2.2 AA compliant at the component level:
 
-- The root `<svg>` is annotated with `role="img"` and `aria-labelledby` pointing to an embedded `<title>` element.
-- Each country region SVG element carries its own `<title>` with the country name and value.
-- The component ships no decorative elements without `aria-hidden`.
+- The root `<svg>` is annotated with `role="img"` and a stable `aria-label` from the `title` prop or the fallback label `World map`.
+- Each country path carries an SVG `<title>` with its country name or configured tooltip text.
+- Interactive country paths and linked regions receive keyboard and accessible-name support.
+- Region overlay paths expose concise `Region, Country` title and ARIA text when region detail is visible.
+- Zoom controls are reachable as standard buttons and announce status changes through an off-screen live region.
 
 ### Responsibilities of the consuming application
 

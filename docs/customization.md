@@ -147,4 +147,6 @@ const detailProvider = createRegionsDetailProvider();
 />;
 ```
 
-The optional provider exposes coverage metadata so applications can check whether a country is supported before enabling region detail. It currently includes complete target-country first-level coverage for 23 countries. Future non-target countries may use partial or experimental coverage metadata, but the target-country package does not mark target countries as experimental. Unsupported, failed, or unavailable detail keeps the country-level view instead of breaking the map. Internal region borders are dotted by default, and region labels use the same zoom-aware fit and collision behavior as country labels.
+The optional provider exposes coverage metadata so applications can check whether a country is supported before enabling region detail. It currently includes complete target-country first-level coverage for 23 countries. Future non-target countries may use partial or experimental coverage metadata, but the target-country package does not mark target countries as experimental. Unsupported, failed, or unavailable detail keeps the country-level view instead of breaking the map.
+
+Internal region borders are dotted by default, and region labels use the same zoom-aware fit and collision behavior as country labels. When region detail is visible, country borders are drawn slightly stronger so country edges remain readable. Region overlay hover text is intentionally concise and uses `Region, Country`; put longer source or policy explanations in surrounding documentation instead of hover UI.

@@ -26,6 +26,9 @@ describe("regions package", () => {
     await expect(loadRegionCollection("FM")).resolves.toMatchObject({
       countryCode: "FM",
     });
+    await expect(
+      loadRegionCollection("FR").then((value) => value),
+    ).resolves.toBe(undefined);
     expect(getRegionCoverage("US")).toHaveLength(1);
     expect(getRegionCoverage("CA")).toHaveLength(1);
     expect(getRegionCoverage("MX")).toHaveLength(1);
@@ -61,6 +64,7 @@ describe("regions package", () => {
     const packageJson = JSON.parse(
       readFileSync(resolve("../regions/package.json"), "utf8"),
     ) as { license?: string; files?: string[] };
+    const changelogPath = resolve("../regions/CHANGELOG.md");
     const licensePath = resolve("../regions/LICENSE");
     const readmePath = resolve("../regions/README.md");
     const contributingPath = resolve("../regions/CONTRIBUTING.md");
@@ -71,6 +75,7 @@ describe("regions package", () => {
       expect.arrayContaining([
         "CODE_OF_CONDUCT.md",
         "CONTRIBUTING.md",
+        "CHANGELOG.md",
         "LICENSE",
         "README.md",
       ]),
@@ -88,6 +93,8 @@ describe("regions package", () => {
     expect(readFileSync(codeOfConductPath, "utf8")).toContain(
       "Code of Conduct",
     );
+    expect(existsSync(changelogPath)).toBe(true);
+    expect(readFileSync(changelogPath, "utf8")).toContain("2.1.0");
   });
 
   it("creates a provider compatible with supported and unsupported countries", async () => {

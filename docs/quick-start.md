@@ -6,15 +6,19 @@ sidebar_position: 2
 
 ## Install
 
-In order to install, run the following command:
+Install the core package:
 
 ```bash npm2yarn
-npm install react-svg-worldmap --save
+npm install react-svg-worldmap
+```
+
+Optional region overlays are published separately:
+
+```bash npm2yarn
+npm install @react-svg-worldmap/regions
 ```
 
 ## Usage
-
-Explore the example folder for a simple case for an end-to-end react app using the react-svg-worldmap.
 
 Here is a simple example:
 
@@ -42,7 +46,7 @@ function App() {
       <WorldMap
         color="red"
         title="Top 10 Populous Countries"
-        value-suffix="people"
+        valueSuffix="people"
         size="lg"
         data={data}
       />
@@ -51,7 +55,33 @@ function App() {
 }
 ```
 
-The only mandatory prop is `data`, which contains an array of country/value objects, with values for countries that you have values for. (Countries without a value will be blank.) The country code is a 2 character string representing the country ([ISO alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)) and `value` is a number or string.
+The only mandatory prop is `data`. It contains country/value objects for the countries you want to color. Countries without a value use the default no-data land color. Country codes use ISO 3166-1 alpha-2 values such as `us`, `fr`, and `jp`; `value` can be a number or string.
+
+## Zoom and region detail
+
+Enable zoom when users need closer inspection:
+
+```tsx
+<WorldMap data={data} zoom />
+```
+
+Region detail is opt-in. Install `@react-svg-worldmap/regions`, create a provider, and pass it to the map:
+
+```tsx
+import WorldMap from "react-svg-worldmap";
+import { createRegionsDetailProvider } from "@react-svg-worldmap/regions";
+
+const detailProvider = createRegionsDetailProvider();
+
+<WorldMap
+  data={[{ country: "US", value: 1 }]}
+  zoom
+  detailLevel="regions"
+  detailProvider={detailProvider}
+/>;
+```
+
+Region overlays appear at `4x` zoom and above. Unsupported countries keep the country-level view.
 
 ## Class components
 

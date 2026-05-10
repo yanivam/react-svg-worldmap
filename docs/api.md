@@ -173,6 +173,8 @@ Zoom controls render as a compact bottom-right map overlay with accessible `+`, 
 
 Zoom rendering is staged for perceived responsiveness. The SVG transform updates first so zoom controls provide immediate visible feedback, while secondary detail such as detailed country geometry, labels, pins, and optional region overlays can settle afterward. Representative package scenarios target visible feedback within 250 ms for typical zoom clicks and visible completion within 500 ms for worst-case representative zoom clicks.
 
+The SVG exposes `data-zoom-scale`, `data-detail-zoom-scale`, and `data-zoom-render-phase` attributes for regression tests and diagnostics. Treat them as diagnostic output rather than styling hooks for application UI.
+
 Default country labels use clamped screen-space sizing while zooming. The default label target starts at `12px`, grows gradually as zoom increases, and caps at `20px`; placement still rejects labels that do not fit the country shape or that collide with higher-priority labels. Override `countryLabelMinFontSize`, `countryLabelMaxFontSize`, or `countryLabelZoomGrowthRate` inside `zoom` to tune that behavior.
 
 ## Land And Ocean Clarity
@@ -221,6 +223,10 @@ const detailProvider = createRegionsDetailProvider();
 ```
 
 If a provider is omitted, fails, or does not support the focused country, the map keeps the country-level view and reports the detail status through `onDetailStatusChange`. Target-country coverage in `@react-svg-worldmap/regions` currently includes complete first-level regions for 23 countries across the Americas, Europe, Asia, Africa, and Oceania. Future non-target countries may use `partial`, `experimental`, or `unavailable` metadata, but all target countries in the optional package are complete. Internal region borders are dotted, region labels follow the same fit and collision rules as country labels, and coverage/source limitations are documented through package metadata.
+
+When region overlays are visible, country borders are slightly strengthened so country edges remain legible against internal dotted region borders. Region overlay hover text and ARIA text use the concise form `Region, Country`.
+
+The optional regions helper `loadRegionCollection(countryCode)` always returns a promise. Supported countries resolve to a collection; unsupported countries resolve to `undefined`.
 
 ## Bundled Country Topology
 

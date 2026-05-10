@@ -53,8 +53,11 @@ export const regionCollectionLoaders: Record<string, RegionCollectionLoader> = {
 
 export function loadRegionCollection(
   countryCode: string,
-): Promise<RegionCollectionRecord> | undefined {
-  return regionCollectionLoaders[countryCode.toUpperCase()]?.();
+): Promise<RegionCollectionRecord | undefined> {
+  return (
+    regionCollectionLoaders[countryCode.toUpperCase()]?.() ??
+    Promise.resolve(undefined)
+  );
 }
 
 export async function loadRegionCollections(): Promise<

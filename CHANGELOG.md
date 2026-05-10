@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The recent history follows a Keep a Changelog style. Older `1.x` entries are preserved below as legacy release notes.
 
-## Unreleased
+## 2.1.0 - 2026-05-10
 
 ### Added
 
@@ -14,6 +14,7 @@ The recent history follows a Keep a Changelog style. Older `1.x` entries are pre
 - Added clamped pan/zoom behavior and full-world example starts so users cannot drag the map outside the display area or need to zoom out on load.
 - Added global AWS Region location pins to the zoom-with-regions website example, sourced from the official AWS Regions documentation with explicit `(location not published)` labels for capital-city fallbacks.
 - Added an MIT license file to the optional `@react-svg-worldmap/regions` package artifact.
+- Added a package-local changelog to the optional `@react-svg-worldmap/regions` package artifact.
 - Added an explicit SVG rendering layer contract for ocean/background, countries, optional regions, labels, pins, and interaction targets.
 - Added zoom responsiveness regression coverage for immediate visual feedback, deferred detail settling, and representative timing reports.
 
@@ -23,6 +24,11 @@ The recent history follows a Keep a Changelog style. Older `1.x` entries are pre
 - Marked all 23 optional region target countries as complete and documented target-country coverage, source records, contribution workflow, and region data neutrality expectations.
 - Added country identity attributes to rendered paths and regression coverage for Russia, United States, Mexico, Nigeria, and Brazil rendering/hover alignment.
 - Staged zoom rendering so the SVG transform updates before detailed geometry, labels, pins, and optional region overlays settle.
+- Simplified region overlay hover text to `Region, Country` and strengthened country borders while region detail is visible.
+
+### Fixed
+
+- Preserved the optional regions package `loadRegionCollection(countryCode)` promise-returning API for unsupported country codes.
 
 ### Removed
 

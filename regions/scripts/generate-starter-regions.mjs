@@ -650,7 +650,10 @@ ${countryCodes
 export async function loadRegionCollection(
   countryCode: ISOCode | string,
 ): Promise<RegionCollectionRecord | undefined> {
-  return regionCollectionLoaders[countryCode.toUpperCase()]?.();
+  return (
+    regionCollectionLoaders[countryCode.toUpperCase()]?.() ??
+    Promise.resolve(undefined)
+  );
 }
 
 export async function loadRegionCollections(): Promise<

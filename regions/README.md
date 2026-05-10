@@ -4,6 +4,8 @@ Optional target-country region data and provider helpers for `react-svg-worldmap
 
 The core world map package does not require this package. Add it only when an application needs reviewed country-scoped first-level region detail.
 
+For release `2.1.0`, use this package with `react-svg-worldmap@2.1.0`.
+
 ## Install
 
 ```sh
@@ -47,11 +49,23 @@ All 23 target countries are marked `complete`. Future non-target countries may u
 
 Coverage metadata is exported through `targetRegionCountries`, `regionCoverage`, `getRegionCoverage()`, and the provider's `getCoverage()` method.
 
+## Loading Behavior
+
+Region collections are split by country. `loadRegionCollection(countryCode)` always returns a promise: supported countries resolve to a collection, and unsupported countries resolve to `undefined`. This keeps promise chaining safe for applications that probe coverage dynamically.
+
+`createRegionsDetailProvider()` uses the same loaders. It reports unsupported, failed, or unavailable region detail without breaking the country-level map.
+
+Region overlays are intended for zoomed thematic inspection. In `react-svg-worldmap`, they appear at `4x` zoom and above, render as dotted internal borders, and use concise hover text in the form `Region, Country`.
+
 ## Sources
 
 - United States: `us-atlas@3.0.1` `states-10m.json`, derived from U.S. Census Bureau cartographic boundary data.
 - Canada: Opendatasoft `georef-canada-province` GeoJSON using Statistics Canada province and territory records.
 - Other target countries: Natural Earth Admin 1 states/provinces 10m cultural vectors, with expected-count validation recorded in package tests.
+
+## Release Notes
+
+See `CHANGELOG.md` for package-specific release notes.
 
 ## License
 
