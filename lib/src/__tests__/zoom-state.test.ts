@@ -2,10 +2,13 @@ import { describe, expect, it } from "vitest";
 
 import {
   clampZoomState,
+  createInitialZoomRenderState,
   createInitialZoomState,
   panZoomState,
+  requestZoomRenderState,
   resetZoomState,
   resolveZoomOptions,
+  settleZoomRenderState,
   zoomAroundPoint,
 } from "../zoom/state.js";
 
@@ -104,5 +107,36 @@ describe("zoom state", () => {
     );
 
     expect(state).toEqual({ scale: 0.5, translate: [100, 75] });
+  });
+
+  it("tracks immediate interaction zoom separately from deferred detail zoom", () => {
+    const initial = createInitialZoomRenderState(resolveZoomOptions(true));
+    const requested = requestZoomRenderState(initial, {
+      scale: 2,
+      translate: [-100, -50],
+    });
+
+    expect(requested).toMatchObject({
+      interaction: { scale: 2, translate: [-100, -50] },
+      detail: { scale: 1, translate: [0, 0] },
+      phase: "immediate-feedback",
+      requestId: 1,
+    });
+
+    expect(settleZoomRenderState(requested, 1)).toMatchObject({
+      interaction: { scale: 2, translate: [-100, -50] },
+      detail: { scale: 2, translate: [-100, -50] },
+      phase: "complete",
+    });
+  });
+
+  it("ignores stale deferred detail settlements", () => {
+    const initial = createInitialZoomRenderState(resolveZoomOptions(true));
+    const requested = requestZoomRenderState(initial, {
+      scale: 2,
+      translate: [-100, -50],
+    });
+
+    expect(settleZoomRenderState(requested, 0)).toBe(requested);
   });
 });

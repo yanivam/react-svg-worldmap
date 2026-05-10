@@ -11,7 +11,7 @@ import {
 const targetCountryCodes = targetRegionCountries.map(
   ({ countryCode }) => countryCode,
 );
-let regionCollections: Record<string, RegionCollectionRecord>;
+let regionCollections: Record<string, RegionCollectionRecord> = {};
 
 describe("target region coverage completeness", () => {
   beforeAll(async () => {

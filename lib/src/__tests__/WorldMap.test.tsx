@@ -288,9 +288,31 @@ describe("WorldMap — rendering", () => {
     const regionPath = container.querySelector("[data-region-id='ca-west']")!;
     expect(regionPath.getAttribute("stroke-dasharray")).toBe("2 2");
     expect(regionPath.getAttribute("fill")).toBe("transparent");
-    expect(regionPath.querySelector("title")?.textContent).toContain(
-      "non-authoritative",
+    expect(regionPath.querySelector("title")?.textContent).toBe("West, Canada");
+    expect(regionPath.getAttribute("aria-label")).toBe("West, Canada");
+  });
+
+  it("strengthens country borders when region detail is visible", async () => {
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        size={400}
+        zoom={{ initialScale: 4 }}
+        detailLevel="regions"
+        detailProvider={detailProvider}
+      />,
     );
+
+    await waitFor(() => {
+      expect(container.querySelectorAll("[data-region-id]")).toHaveLength(2);
+    });
+
+    const canadaPath = container.querySelector(
+      '[data-map-layer="countries"] [data-country-code="CA"]',
+    )!;
+
+    expect(canadaPath.style.strokeWidth).toBe("1.35");
+    expect(canadaPath.style.strokeOpacity).toBe("0.45");
   });
 
   it("keeps country paths visible when region detail is layered", async () => {

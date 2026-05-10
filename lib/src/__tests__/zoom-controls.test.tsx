@@ -107,6 +107,18 @@ describe("WorldMap zoom controls", () => {
     );
   });
 
+  it("keeps the latest requested scale during repeated zoom clicks", () => {
+    const { container } = render(<WorldMap data={DATA} size={400} zoom />);
+    const svg = container.querySelector('svg[role="img"]')!;
+
+    fireEvent.click(screen.getByRole("button", { name: "Zoom in" }));
+    fireEvent.click(screen.getByRole("button", { name: "Zoom in" }));
+    fireEvent.click(screen.getByRole("button", { name: "Zoom out" }));
+
+    expect(svg).toHaveAttribute("data-zoom-scale", "2");
+    expect(svg).toHaveAttribute("data-zoom-render-phase", "immediate-feedback");
+  });
+
   it("announces zoom status changes", () => {
     render(<WorldMap data={DATA} size={400} zoom />);
     const status = screen.getByText("Map zoom reset");

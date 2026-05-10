@@ -106,6 +106,8 @@ TODO:
 
 The `zoom` prop enables bottom-right zoom controls, drag panning, double-click zoom, default country labels, and optional pins. The controls use accessible `+` and `-` buttons. Double-click zoom uses the clicked point as the zoom origin and the same configured `zoomFactor` as the `+` control.
 
+Zoom updates are staged: the map transform responds first, then labels, pins, detailed country geometry, and optional region overlays settle. This keeps the default examples smooth while preserving the SVG rendering and accessibility model.
+
 Labels are placed from projected country geometry and filtered by available country area and overlap with already accepted labels. For countries with non-contiguous territory, placement uses the largest projected geometry part so the label is not centered over empty space between distant regions.
 
 Country labels use screen-space font sizing while zooming. By default they start at `12px`, grow gradually at higher zoom levels, and stop at `20px` so labels become more readable without overwhelming the map. You can tune the rule with `countryLabelMinFontSize`, `countryLabelMaxFontSize`, and `countryLabelZoomGrowthRate`:

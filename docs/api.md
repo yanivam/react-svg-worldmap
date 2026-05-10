@@ -171,6 +171,8 @@ When zoom is enabled, country border strokes keep a constant screen-space thickn
 
 Zoom controls render as a compact bottom-right map overlay with accessible `+`, `-`, and `Reset zoom` buttons. The default `zoomFactor` is `2`, so each click moves faster than the earlier granular control step. Double-clicking the map zooms in around the clicked point and uses the same configured `zoomFactor` as the `+` button, so custom zoom tuning applies consistently across button and pointer interactions. The `Reset zoom` button restores the initial full-world scale and position in one click.
 
+Zoom rendering is staged for perceived responsiveness. The SVG transform updates first so zoom controls provide immediate visible feedback, while secondary detail such as detailed country geometry, labels, pins, and optional region overlays can settle afterward. Representative package scenarios target visible feedback within 250 ms for typical zoom clicks and visible completion within 500 ms for worst-case representative zoom clicks.
+
 Default country labels use clamped screen-space sizing while zooming. The default label target starts at `12px`, grows gradually as zoom increases, and caps at `20px`; placement still rejects labels that do not fit the country shape or that collide with higher-priority labels. Override `countryLabelMinFontSize`, `countryLabelMaxFontSize`, or `countryLabelZoomGrowthRate` inside `zoom` to tune that behavior.
 
 ## Land And Ocean Clarity
@@ -193,6 +195,8 @@ For full control of land fills, pass `styleFunction`; keep enough contrast betwe
 ## Geometry Detail Disclosure
 
 Country geometry is bundled in reduced and detailed closed-shape tiers. Below `2x` zoom, the map uses the reduced country tier for lower initial parse and render cost. At `2x` and above, the core package can load its detailed country tier from a package-local module. At `4x` and above, selected region geometry can load when `detailLevel="regions"` and a compatible optional `detailProvider` is supplied.
+
+The visible zoom transform is not blocked by those higher-detail tiers. The map can move immediately using the already-rendered detail, then update detailed geometry or region overlays once the zoom state settles.
 
 The core package owns these built-in thresholds for now. External geometry providers and custom map provider APIs are future extension points, not part of the current public API.
 

@@ -15,12 +15,14 @@ The recent history follows a Keep a Changelog style. Older `1.x` entries are pre
 - Added global AWS Region location pins to the zoom-with-regions website example, sourced from the official AWS Regions documentation with explicit `(location not published)` labels for capital-city fallbacks.
 - Added an MIT license file to the optional `@react-svg-worldmap/regions` package artifact.
 - Added an explicit SVG rendering layer contract for ocean/background, countries, optional regions, labels, pins, and interaction targets.
+- Added zoom responsiveness regression coverage for immediate visual feedback, deferred detail settling, and representative timing reports.
 
 ### Changed
 
 - Regenerated the bundled country topology from the documented Natural Earth Admin 0 source path with higher country-level geometry detail, at least 6 decimal places of retained source precision, and quality-budgeted TopoJSON optimization that keeps the packed core package dry-run near 1.2 MB with reduced and detailed geometry tiers.
 - Marked all 23 optional region target countries as complete and documented target-country coverage, source records, contribution workflow, and region data neutrality expectations.
 - Added country identity attributes to rendered paths and regression coverage for Russia, United States, Mexico, Nigeria, and Brazil rendering/hover alignment.
+- Staged zoom rendering so the SVG transform updates before detailed geometry, labels, pins, and optional region overlays settle.
 
 ### Removed
 

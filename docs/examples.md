@@ -14,11 +14,13 @@ sidebar_position: 5
 - Region details come from the optional `@react-svg-worldmap/regions` package, with complete target-country coverage for 23 countries across the Americas, Europe, Asia, Africa, and Oceania.
 - The example follows the four-step optional region setup path: install the regions package, import `createRegionsDetailProvider`, pass the provider to the map, and enable `detailLevel="regions"` with zoom.
 - Country geometry uses gradual disclosure: reduced closed country shapes below `2x`, detailed country shapes at `2x`, and selected dotted region overlays at `4x`.
+- Zoom feedback is staged for smoothness: the visible map transform updates first, then detailed country geometry, labels, pins, and optional region overlays settle afterward. Representative package tests target visible feedback within 250 ms for typical zoom clicks and visible completion within 500 ms for worst-case representative zoom clicks.
 - Internal region borders render as dotted overlays, and region labels appear only when zoom and label-fit rules keep them readable.
 - The example can overlay capital city pins and AWS Region location pins on demand; both overlays are off by default so sample data stays outside the core package.
 - AWS Region pins come from the official AWS Regions documentation. Each pin uses the most precise location available: published or directly inferable city locations first, state or equivalent capitals when only an administrative area is known, and country capitals when only country-level geography is known. Capital fallback labels include `(location not published)`.
 - Uses the bundled reduced/detailed country topology tiers, regenerated from the documented Natural Earth Admin 0 source path with at least 6 decimal places of retained source precision and quality-budgeted package-size optimization.
 - Uses lightweight SVG land/ocean contrast through sea/background color `#A0D7EB`, no-data land color `#F4F2F2`, closed country shapes, and border colors; Google Maps is only a visual-design reference for readability principles, not a dependency or clone target.
+- The smoothness target applies to the bundled examples and representative package scenarios. Consumer configurations with unbounded custom labels, pins, styles, or container constraints may need their own validation.
 
 ## [examples/sizing](/examples/sizing)
 

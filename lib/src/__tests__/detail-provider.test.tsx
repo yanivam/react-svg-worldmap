@@ -1,6 +1,6 @@
 import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 import WorldMap, {
   createFailedDetailResult,
@@ -303,5 +303,30 @@ describe("WorldMap region detail", () => {
       });
     });
     expect(loadRegions).not.toHaveBeenCalled();
+  });
+
+  it("keeps region loading behind the first visible zoom feedback", async () => {
+    const detailProvider = provider();
+    const loadRegions = vi.spyOn(detailProvider, "loadRegions");
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        size={400}
+        zoom={{ initialScale: 2 }}
+        detailLevel="regions"
+        detailProvider={detailProvider}
+      />,
+    );
+    const svg = container.querySelector('svg[role="img"]')!;
+
+    fireEvent.click(screen.getByRole("button", { name: "Zoom in" }));
+
+    expect(svg).toHaveAttribute("data-zoom-scale", "4");
+    expect(svg).toHaveAttribute("data-detail-zoom-scale", "2");
+    expect(loadRegions).not.toHaveBeenCalled();
+
+    await waitFor(() => {
+      expect(svg).toHaveAttribute("data-detail-zoom-scale", "4");
+    });
   });
 });

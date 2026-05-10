@@ -14,7 +14,7 @@ const expectedTargetGroups = {
   Africa: ["NG", "ET", "ZA", "SD"],
   Oceania: ["AU", "FM"],
 };
-let regionCollections: Record<string, RegionCollectionRecord>;
+let regionCollections: Record<string, RegionCollectionRecord> = {};
 
 describe("region data", () => {
   beforeAll(async () => {

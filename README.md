@@ -98,6 +98,8 @@ Country detail uses gradual disclosure. The initial map uses the reduced closed 
 
 When zoom is enabled, the map renders compact bottom-right `+` and `-` controls. Double-clicking zooms in around the clicked point and uses the same configured zoom factor as the `+` control.
 
+Zoom rendering is staged for perceived responsiveness. The SVG transform updates first so zoom controls provide immediate visible feedback, while secondary detail such as detailed country geometry, labels, pins, and optional region overlays can settle afterward. Representative package scenarios target visible feedback within 250 ms for typical zoom clicks and visible completion within 500 ms for worst-case representative zoom clicks.
+
 The package exposes Tier 1 dispute metadata for Crimea, Palestinian Territories, Taiwan, Kashmir, Western Sahara, and Kosovo. Consumers can opt into dispute-aware rendering through callback context:
 
 ```tsx

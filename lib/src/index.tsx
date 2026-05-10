@@ -38,6 +38,7 @@ import {
   resolveZoomOptions,
   zoomAroundPoint,
 } from "./zoom/state.js";
+import type { ZoomRenderPhase } from "./zoom/state.js";
 import {
   createFailedDetailResult,
   createIdleDetailResult,
@@ -118,6 +119,29 @@ function isRenderableRegionPath(path: string): boolean {
   return /^M\s*-?\d/u.test(path.trim());
 }
 
+function readNumericStyleValue(
+  value: React.CSSProperties[keyof React.CSSProperties],
+): number | undefined {
+  if (typeof value === "number") return value;
+  if (typeof value !== "string") return undefined;
+
+  const parsedValue = Number.parseFloat(value);
+  return Number.isFinite(parsedValue) ? parsedValue : undefined;
+}
+
+function strengthenCountryBorderForRegions(
+  style: React.CSSProperties,
+): React.CSSProperties {
+  const strokeWidth = readNumericStyleValue(style.strokeWidth) ?? 1;
+  const strokeOpacity = readNumericStyleValue(style.strokeOpacity) ?? 1;
+
+  return {
+    ...style,
+    strokeWidth: Math.max(strokeWidth + 0.35, 1.35),
+    strokeOpacity: Math.min(strokeOpacity + 0.25, 1),
+  };
+}
+
 export default function WorldMap<T extends number | string>(
   props: Props<T>,
 ): JSX.Element {
@@ -175,6 +199,11 @@ export default function WorldMap<T extends number | string>(
   const [zoomState, setZoomState] = useState(() =>
     clampZoomState(createInitialZoomState(zoomOptions), mapViewport),
   );
+  const [detailZoomState, setDetailZoomState] = useState(() =>
+    clampZoomState(createInitialZoomState(zoomOptions), mapViewport),
+  );
+  const [zoomRenderPhase, setZoomRenderPhase] =
+    useState<ZoomRenderPhase>("complete");
   const [zoomStatus, setZoomStatus] = useState("Map zoom reset");
   const [detailResult, setDetailResult] = useState<DetailProviderResult>(
     createIdleDetailResult(),
@@ -184,15 +213,21 @@ export default function WorldMap<T extends number | string>(
   );
   const dragPoint = useRef<[number, number] | null>(null);
   const scale = zoomState.scale;
+  const detailScale = detailZoomState.scale;
   const [translateX, translateY] = zoomState.translate;
+  const [detailTranslateX, detailTranslateY] = detailZoomState.translate;
   const mapTransform = React.useMemo(
     () => createMapTransform(mapViewport, zoomState),
     [mapViewport, zoomState],
   );
-  const mapScale = mapTransform.mapScale;
+  const detailMapTransform = React.useMemo(
+    () => createMapTransform(mapViewport, detailZoomState),
+    [detailZoomState, mapViewport],
+  );
+  const detailMapScale = detailMapTransform.mapScale;
   const labelFontSize = resolveCountryLabelMapFontSize(
-    scale,
-    mapScale,
+    detailScale,
+    detailMapScale,
     zoomOptions,
   );
   const geoFeatures = React.useMemo(
@@ -219,17 +254,22 @@ export default function WorldMap<T extends number | string>(
     if (
       detailLevel !== "regions" ||
       detailProvider == null ||
-      !shouldLoadRegionGeometry(scale) ||
-      mapScale <= 0
+      !shouldLoadRegionGeometry(detailScale) ||
+      detailMapScale <= 0
     )
       return [];
 
-    const [contentTranslateX, contentTranslateY] = mapTransform.contentTranslate;
+    const [contentTranslateX, contentTranslateY] =
+      detailMapTransform.contentTranslate;
     const visibleBounds = {
-      left: (0 - translateX) / mapScale - contentTranslateX,
-      right: (mapViewport.width - translateX) / mapScale - contentTranslateX,
-      top: (0 - translateY) / mapScale - contentTranslateY,
-      bottom: (mapViewport.height - translateY) / mapScale - contentTranslateY,
+      left: (0 - detailTranslateX) / detailMapScale - contentTranslateX,
+      right:
+        (mapViewport.width - detailTranslateX) / detailMapScale -
+        contentTranslateX,
+      top: (0 - detailTranslateY) / detailMapScale - contentTranslateY,
+      bottom:
+        (mapViewport.height - detailTranslateY) / detailMapScale -
+        contentTranslateY,
     };
 
     return renderGeoFeatures
@@ -237,8 +277,7 @@ export default function WorldMap<T extends number | string>(
         const countryCode = geoFeature.properties.I as ISOCode;
         if (!detailProvider.supports(countryCode)) return false;
 
-        const [[left, top], [right, bottom]] =
-          pathGenerator.bounds(geoFeature);
+        const [[left, top], [right, bottom]] = pathGenerator.bounds(geoFeature);
         return (
           right >= visibleBounds.left &&
           left <= visibleBounds.right &&
@@ -248,17 +287,17 @@ export default function WorldMap<T extends number | string>(
       })
       .map((geoFeature) => geoFeature.properties.I as ISOCode);
   }, [
+    detailMapScale,
+    detailMapTransform.contentTranslate,
+    detailScale,
     detailLevel,
     detailProvider,
-    mapScale,
-    mapTransform.contentTranslate,
+    detailTranslateX,
+    detailTranslateY,
     mapViewport.height,
     mapViewport.width,
     pathGenerator,
     renderGeoFeatures,
-    scale,
-    translateX,
-    translateY,
   ]);
 
   useEffect(() => {
@@ -267,12 +306,15 @@ export default function WorldMap<T extends number | string>(
 
   useEffect(() => {
     setZoomState((currentState) => clampZoomState(currentState, mapViewport));
+    setDetailZoomState((currentState) =>
+      clampZoomState(currentState, mapViewport),
+    );
   }, [mapViewport]);
 
   useEffect(() => {
     let cancelled = false;
 
-    if (!shouldLoadDetailedCountryGeometry(scale)) {
+    if (!shouldLoadDetailedCountryGeometry(detailScale)) {
       setCountryGeometryTier(reducedCountryGeometryTier);
       return undefined;
     }
@@ -290,7 +332,7 @@ export default function WorldMap<T extends number | string>(
     return () => {
       cancelled = true;
     };
-  }, [countryGeometryTier.name, scale]);
+  }, [countryGeometryTier.name, detailScale]);
 
   const [detailResultsByCountryCode, setDetailResultsByCountryCode] = useState<
     Record<string, DetailProviderResult>
@@ -309,7 +351,7 @@ export default function WorldMap<T extends number | string>(
       return undefined;
     }
 
-    if (!shouldLoadRegionGeometry(scale)) {
+    if (!shouldLoadRegionGeometry(detailScale)) {
       const unavailable = createUnavailableDetailResult(
         undefined,
         `Region detail appears at ${regionGeometryMinZoom}x zoom.`,
@@ -349,7 +391,7 @@ export default function WorldMap<T extends number | string>(
       return next;
     });
 
-    for (const countryCode of countriesToLoad) {
+    const loadCountryRegions = (countryCode: ISOCode): void => {
       requestedRegionCountryCodes.current.add(countryCode);
       const loading: DetailProviderResult = {
         status: "loading",
@@ -385,7 +427,9 @@ export default function WorldMap<T extends number | string>(
             onDetailStatusChange?.(failed);
           }
         });
-    }
+    };
+
+    for (const countryCode of countriesToLoad) loadCountryRegions(countryCode);
 
     return () => {
       cancelled = true;
@@ -393,8 +437,8 @@ export default function WorldMap<T extends number | string>(
   }, [
     detailLevel,
     detailProvider,
+    detailScale,
     onDetailStatusChange,
-    scale,
     visibleRegionCountryCodes,
   ]);
 
@@ -418,8 +462,8 @@ export default function WorldMap<T extends number | string>(
   const mapPins = React.useMemo(() => {
     if (!zoomOptions.showPins) return [];
 
-    return projectMapPins(pins, projection, scale);
-  }, [pins, projection, scale, zoomOptions.showPins]);
+    return projectMapPins(pins, projection, detailScale);
+  }, [detailScale, pins, projection, zoomOptions.showPins]);
   const visibleRegionCountryCodeSet = React.useMemo(
     () => new Set<string>(visibleRegionCountryCodes),
     [visibleRegionCountryCodes],
@@ -449,6 +493,7 @@ export default function WorldMap<T extends number | string>(
       ),
     [readyRegionCollections, visibleRegionCountryCodeSet],
   );
+  const hasVisibleRegionDetails = renderableRegions.length > 0;
 
   const regionElements = renderGeoFeatures.map((geoFeature, i) => {
     const triggerRef = triggerRefs.current[i]!;
@@ -482,11 +527,16 @@ export default function WorldMap<T extends number | string>(
         : (event: React.MouseEvent<SVGPathElement>) =>
             onClickFunction({ ...context, event });
 
+    const countryStyle = styleFunction(context);
     const path = (
       <Region
         ref={triggerRef}
         d={pathGenerator(geoFeature)!}
-        style={styleFunction(context)}
+        style={
+          hasVisibleRegionDetails
+            ? strengthenCountryBorderForRegions(countryStyle)
+            : countryStyle
+        }
         // eslint-disable-next-line react/jsx-no-bind -- Region expects a callback prop.
         onClick={handleRegionClick}
         strokeOpacity={strokeOpacity}
@@ -520,17 +570,22 @@ export default function WorldMap<T extends number | string>(
   // Build paths
   const regionPaths = regionElements.map((entry) => entry.path);
 
-  const detailRegionPaths =
-    readyRegionCollections.flatMap((collection) => {
-      const collectionRegions = collection.regions.filter((region) =>
-        isRenderableRegionPath(region.path),
-      );
-      if (collectionRegions.length <= 1) return [];
+  const detailRegionPaths = readyRegionCollections.flatMap((collection) => {
+    const collectionRegions = collection.regions.filter((region) =>
+      isRenderableRegionPath(region.path),
+    );
+    if (collectionRegions.length <= 1) return [];
 
-      return collectionRegions.map((region) => (
+    return collectionRegions.map((region) => {
+      const regionTitle = `${region.localizedName ?? region.name}, ${
+        collection.countryName
+      }`;
+
+      return (
         <path
           key={`region-detail-${region.id}`}
           d={region.path}
+          aria-label={regionTitle}
           data-region-id={region.id}
           data-country-code={region.countryCode.toUpperCase()}
           data-region-kind={region.kind}
@@ -541,39 +596,41 @@ export default function WorldMap<T extends number | string>(
           strokeOpacity={Math.min(strokeOpacity + 0.35, 1)}
           strokeWidth={0.8}
           vectorEffect="non-scaling-stroke">
-          <title>
-            {region.localizedName ?? region.name} region boundary (thematic,
-            non-authoritative)
-          </title>
+          <title>{regionTitle}</title>
         </path>
-      ));
+      );
     });
+  });
 
   const labelPlacement = React.useMemo(() => {
-    if (!zoomOptions.enabled)
-      return { countryLabels: [], regionLabels: [] };
+    if (!zoomOptions.enabled) return { countryLabels: [], regionLabels: [] };
 
     return placeMapLabels({
       countryCandidates: zoomOptions.showCountryLabels
         ? renderGeoFeatures.map((geoFeature) =>
-            createCountryLabelCandidate(pathGenerator, geoFeature, labelFontSize),
+            createCountryLabelCandidate(
+              pathGenerator,
+              geoFeature,
+              labelFontSize,
+            ),
           )
         : [],
       regionCandidates:
-        readyRegionCollections.length > 0 && shouldLoadRegionGeometry(scale)
+        readyRegionCollections.length > 0 &&
+        shouldLoadRegionGeometry(detailScale)
           ? renderableRegions.map((region) =>
               createRegionLabelCandidate(region, labelFontSize * 0.7),
             )
           : [],
-      scale,
+      scale: detailScale,
     });
   }, [
+    detailScale,
     labelFontSize,
     pathGenerator,
     readyRegionCollections.length,
     renderGeoFeatures,
     renderableRegions,
-    scale,
     zoomOptions.enabled,
     zoomOptions.showCountryLabels,
   ]);
@@ -585,8 +642,45 @@ export default function WorldMap<T extends number | string>(
     (entry) => entry.highlightedTooltip,
   );
 
+  const detailFrameId = useRef<number | null>(null);
+
+  useEffect(
+    () => () => {
+      if (
+        detailFrameId.current != null &&
+        typeof globalThis.cancelAnimationFrame === "function"
+      )
+        globalThis.cancelAnimationFrame(detailFrameId.current);
+    },
+    [],
+  );
+
+  const scheduleDetailZoomState = React.useCallback((nextState: ZoomState) => {
+    if (
+      detailFrameId.current != null &&
+      typeof globalThis.cancelAnimationFrame === "function"
+    )
+      globalThis.cancelAnimationFrame(detailFrameId.current);
+
+    const frameCallback = (): void => {
+      setDetailZoomState(nextState);
+      setZoomRenderPhase("complete");
+      detailFrameId.current = null;
+    };
+
+    if (typeof globalThis.requestAnimationFrame === "function") {
+      detailFrameId.current = globalThis.requestAnimationFrame(frameCallback);
+    } else {
+      detailFrameId.current = null;
+      setTimeout(frameCallback, 0);
+    }
+  }, []);
+
   const updateZoomState = (nextState: ZoomState, message: string): void => {
-    setZoomState(clampZoomState(nextState, mapViewport));
+    const clampedNextState = clampZoomState(nextState, mapViewport);
+    setZoomState(clampedNextState);
+    setZoomRenderPhase("immediate-feedback");
+    scheduleDetailZoomState(clampedNextState);
     setZoomStatus(message);
   };
 
@@ -741,6 +835,9 @@ export default function WorldMap<T extends number | string>(
           tabIndex={enableMapInteractions ? 0 : undefined}
           aria-keyshortcuts={enableMapInteractions ? "+ -" : undefined}
           data-country-geometry-tier={countryGeometryTier.name}
+          data-detail-zoom-scale={detailScale}
+          data-zoom-render-phase={zoomRenderPhase}
+          data-zoom-scale={scale}
           height={`${height}px`}
           width={`${width}px`}
           {...(enableMapInteractions ? eventHandlers : undefined)}>
@@ -790,18 +887,18 @@ export default function WorldMap<T extends number | string>(
                 </React.Fragment>
               ))}
               {regionLabels.map((region) => (
-                  <TextLabel
-                    key={`region-label-${region.regionId}`}
-                    label={region.label}
-                    x={region.x}
-                    y={region.y}
-                    textAnchor="middle"
-                    fontSize={labelFontSize * 0.7}
-                    fill="#555"
-                    fontWeight={400}
-                    pointerEvents="none"
-                  />
-                ))}
+                <TextLabel
+                  key={`region-label-${region.regionId}`}
+                  label={region.label}
+                  x={region.x}
+                  y={region.y}
+                  textAnchor="middle"
+                  fontSize={labelFontSize * 0.7}
+                  fill="#555"
+                  fontWeight={400}
+                  pointerEvents="none"
+                />
+              ))}
             </g>
             {textLabelFunction(width).map((labelProps) => (
               <TextLabel {...labelProps} key={labelProps.label} />

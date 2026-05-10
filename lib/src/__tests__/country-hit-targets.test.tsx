@@ -1,6 +1,6 @@
 import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
-import { render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 import WorldMap from "../index.js";
 
@@ -72,5 +72,23 @@ describe("country hit target geometry", () => {
     expect(label).not.toBeNull();
     expect(Number(label?.getAttribute("x"))).toBeLessThan(320);
     expect(Number(label?.getAttribute("y"))).toBeLessThan(220);
+  });
+
+  it("keeps country identity aligned while zoom detail is settling", () => {
+    const { container } = render(
+      <WorldMap data={[{ country: "US", value: 1 }]} size={400} zoom />,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Zoom in" }));
+
+    expect(container.querySelector('svg[role="img"]')).toHaveAttribute(
+      "data-zoom-render-phase",
+      "immediate-feedback",
+    );
+    const path = container.querySelector('[data-country-code="US"]');
+    expect(path?.getAttribute("data-map-interaction-target")).toBe("country");
+    expect(path?.querySelector("title")?.textContent).toContain(
+      "United States",
+    );
   });
 });

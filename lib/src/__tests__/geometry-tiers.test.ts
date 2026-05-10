@@ -1,5 +1,5 @@
 import * as React from "react";
-import { render, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, beforeEach, vi } from "vitest";
 
 import WorldMap from "../index.js";
@@ -83,6 +83,27 @@ describe("country geometry tiers", () => {
         detailedRender.container.querySelector('svg[role="img"]')!,
       ),
     ).toEqual([...mapRenderingLayers]);
+  });
+
+  it("keeps detailed geometry work behind the first visible zoom feedback", async () => {
+    const { container } = render(
+      React.createElement(WorldMap, {
+        data: [{ country: "US", value: 1 }],
+        size: 400,
+        zoom: true,
+      }),
+    );
+    const svg = container.querySelector('svg[role="img"]')!;
+
+    fireEvent.click(screen.getByRole("button", { name: "Zoom in" }));
+
+    expect(svg).toHaveAttribute("data-zoom-scale", "2");
+    expect(svg).toHaveAttribute("data-detail-zoom-scale", "1");
+    expect(svg).toHaveAttribute("data-country-geometry-tier", "reduced");
+
+    await waitFor(() => {
+      expect(svg).toHaveAttribute("data-detail-zoom-scale", "2");
+    });
   });
 
   it("keeps external geometry providers and custom maps out of the current contract", () => {

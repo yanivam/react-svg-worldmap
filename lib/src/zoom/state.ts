@@ -2,6 +2,18 @@ import type { ZoomOptions, ZoomState } from "../types.js";
 import { defaultZoomOptions } from "../constants.js";
 import type { MapViewport } from "./geometry.js";
 
+export type ZoomRenderPhase =
+  | "complete"
+  | "immediate-feedback"
+  | "secondary-detail-settling";
+
+export interface ZoomRenderState {
+  interaction: ZoomState;
+  detail: ZoomState;
+  phase: ZoomRenderPhase;
+  requestId: number;
+}
+
 export interface ResolvedZoomOptions {
   enabled: boolean;
   initialScale: number;
@@ -45,6 +57,44 @@ export function createInitialZoomState(
   return {
     scale: Math.max(options.initialScale, options.minScale),
     translate: [0, 0],
+  };
+}
+
+export function createInitialZoomRenderState(
+  options: ResolvedZoomOptions,
+): ZoomRenderState {
+  const initial = createInitialZoomState(options);
+
+  return {
+    interaction: initial,
+    detail: initial,
+    phase: "complete",
+    requestId: 0,
+  };
+}
+
+export function requestZoomRenderState(
+  current: ZoomRenderState,
+  nextInteraction: ZoomState,
+): ZoomRenderState {
+  return {
+    interaction: nextInteraction,
+    detail: current.detail,
+    phase: "immediate-feedback",
+    requestId: current.requestId + 1,
+  };
+}
+
+export function settleZoomRenderState(
+  current: ZoomRenderState,
+  requestId: number,
+): ZoomRenderState {
+  if (current.requestId !== requestId) return current;
+
+  return {
+    ...current,
+    detail: current.interaction,
+    phase: "complete",
   };
 }
 
