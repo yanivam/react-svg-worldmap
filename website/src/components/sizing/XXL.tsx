@@ -1,6 +1,9 @@
 import * as React from "react";
+import { createRegionsDetailProvider } from "@react-svg-worldmap/regions";
 import WorldMap from "react-svg-worldmap";
 import { GDPData } from "../../data/CountryData";
+
+const detailProvider = createRegionsDetailProvider();
 
 export default function App(): JSX.Element {
   return (
@@ -12,6 +15,9 @@ export default function App(): JSX.Element {
       size="xxl"
       data={GDPData}
       frame
+      zoom
+      detailLevel="regions"
+      detailProvider={detailProvider}
     />
   );
 }

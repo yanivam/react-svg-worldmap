@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "defaultRepresentation": "coarse-neutral",
   "sourceHierarchy": [
     "UNSD M49",
@@ -7,36 +7,318 @@
     "Natural Earth Admin 0 Countries",
     "Maintainer overrides register"
   ],
+  "generation": {
+    "countryTopology": "lib/src/countries.topo.ts",
+    "source": "world-atlas@2.0.2 countries-10m.json",
+    "sourceFamily": "Natural Earth Admin 0 Countries",
+    "minimumCoordinatePrecision": 6,
+    "optimization": "quality-budgeted TopoJSON quantization",
+    "quantization": 10000,
+    "maximumQuantizationStepDegrees": 0.036003600360036005,
+    "sourceSizeReductionRatio": 0.8612112738538578,
+    "qualityFixtures": ["CY", "NO", "EH", "XK", "LU"],
+    "reviewStatus": "active"
+  },
+  "regionCoverage": [
+    {
+      "countryCode": "US",
+      "countryName": "United States",
+      "status": "complete",
+      "regionCount": 50,
+      "expectedRegionCount": 50,
+      "sourceSummary": "Generated from us-atlas@3.0.1 states-10m TopoJSON, derived from U.S. Census Bureau cartographic boundary data.",
+      "sourceUrl": "https://cdn.jsdelivr.net/npm/us-atlas@3.0.1/states-10m.json",
+      "reviewNotes": "Coverage includes the 50 U.S. states. District of Columbia and territories are not included in this first-level states layer."
+    },
+    {
+      "countryCode": "CA",
+      "countryName": "Canada",
+      "status": "complete",
+      "regionCount": 13,
+      "expectedRegionCount": 13,
+      "sourceSummary": "Generated from Opendatasoft georef-canada-province GeoJSON using Statistics Canada province and territory records.",
+      "sourceUrl": "https://public.opendatasoft.com/explore/dataset/georef-canada-province/",
+      "reviewNotes": "Coverage includes Canada's 10 provinces and 3 territories as thematic map data, not legal boundary data."
+    },
+    {
+      "countryCode": "MX",
+      "countryName": "Mexico",
+      "status": "complete",
+      "regionCount": 32,
+      "expectedRegionCount": 32,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "BR",
+      "countryName": "Brazil",
+      "status": "complete",
+      "regionCount": 27,
+      "expectedRegionCount": 27,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "status": "complete",
+      "regionCount": 24,
+      "expectedRegionCount": 24,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "VE",
+      "countryName": "Venezuela",
+      "status": "complete",
+      "regionCount": 25,
+      "expectedRegionCount": 25,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "DE",
+      "countryName": "Germany",
+      "status": "complete",
+      "regionCount": 16,
+      "expectedRegionCount": 16,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "CH",
+      "countryName": "Switzerland",
+      "status": "complete",
+      "regionCount": 26,
+      "expectedRegionCount": 26,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "AT",
+      "countryName": "Austria",
+      "status": "complete",
+      "regionCount": 9,
+      "expectedRegionCount": 9,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "BE",
+      "countryName": "Belgium",
+      "status": "complete",
+      "regionCount": 11,
+      "expectedRegionCount": 11,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "BA",
+      "countryName": "Bosnia and Herzegovina",
+      "status": "complete",
+      "regionCount": 18,
+      "expectedRegionCount": 18,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "RU",
+      "countryName": "Russia",
+      "status": "complete",
+      "regionCount": 85,
+      "expectedRegionCount": 85,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "IN",
+      "countryName": "India",
+      "status": "complete",
+      "regionCount": 36,
+      "expectedRegionCount": 36,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "PK",
+      "countryName": "Pakistan",
+      "status": "complete",
+      "regionCount": 8,
+      "expectedRegionCount": 8,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "AE",
+      "countryName": "United Arab Emirates",
+      "status": "complete",
+      "regionCount": 9,
+      "expectedRegionCount": 9,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "MY",
+      "countryName": "Malaysia",
+      "status": "complete",
+      "regionCount": 16,
+      "expectedRegionCount": 16,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "IQ",
+      "countryName": "Iraq",
+      "status": "complete",
+      "regionCount": 18,
+      "expectedRegionCount": 18,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "NG",
+      "countryName": "Nigeria",
+      "status": "complete",
+      "regionCount": 37,
+      "expectedRegionCount": 37,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "ET",
+      "countryName": "Ethiopia",
+      "status": "complete",
+      "regionCount": 11,
+      "expectedRegionCount": 11,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "ZA",
+      "countryName": "South Africa",
+      "status": "complete",
+      "regionCount": 9,
+      "expectedRegionCount": 9,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "SD",
+      "countryName": "Sudan",
+      "status": "complete",
+      "regionCount": 17,
+      "expectedRegionCount": 17,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "AU",
+      "countryName": "Australia",
+      "status": "complete",
+      "regionCount": 12,
+      "expectedRegionCount": 12,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    },
+    {
+      "countryCode": "FM",
+      "countryName": "Micronesia",
+      "status": "complete",
+      "regionCount": 4,
+      "expectedRegionCount": 4,
+      "sourceSummary": "Generated from Natural Earth Admin 1 states/provinces 10m cultural vectors.",
+      "sourceUrl": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/",
+      "reviewNotes": "Complete target-country coverage from Natural Earth Admin 1 after expected-count validation. Boundaries and names are thematic and non-authoritative; maintainers should review country-specific official sources when updating coverage."
+    }
+  ],
   "cases": [
     {
-      "id": "western-sahara",
-      "mode": "maintainer-review-required",
-      "notes": "Keep representation explicitly reviewable because sovereignty remains disputed."
-    },
-    {
-      "id": "kosovo",
-      "mode": "maintainer-review-required",
-      "notes": "Review naming and depiction together rather than silently adopting a single recognition model."
-    },
-    {
       "id": "crimea",
+      "tier": "tier-1",
       "mode": "coarse-neutral",
-      "notes": "Avoid presenting the small-scale default map as a legal or diplomatic boundary determination."
+      "reviewStatus": "active",
+      "cutoffCriteria": ["United Nations resolutions or processes"],
+      "notes": "Ukraine is the recognized baseline; Russia is recorded separately as controlling power where relevant. Avoid presenting the small-scale default map as a legal or diplomatic boundary determination."
     },
     {
-      "id": "palestine",
+      "id": "palestinian-territories",
+      "tier": "tier-1",
       "mode": "name-policy",
-      "notes": "Treat terminology and classification as the primary policy surface and document any geometry review."
+      "reviewStatus": "active",
+      "cutoffCriteria": [
+        "United Nations resolutions or processes",
+        "major geopolitical datasets"
+      ],
+      "notes": "Treat the West Bank and Gaza as distinguishable where scale supports it; terminology and classification are the primary policy surface."
     },
     {
       "id": "taiwan",
+      "tier": "tier-1",
       "mode": "name-policy",
-      "notes": "Handle naming and classification explicitly and review geometry changes before release."
+      "reviewStatus": "active",
+      "cutoffCriteria": [
+        "recognized interstate dispute",
+        "major map platforms"
+      ],
+      "notes": "Handle naming, separate control, and classification explicitly without implying universal recognition."
+    },
+    {
+      "id": "kashmir",
+      "tier": "tier-1",
+      "mode": "coarse-neutral",
+      "reviewStatus": "active",
+      "cutoffCriteria": [
+        "United Nations resolutions or processes",
+        "recognized interstate dispute"
+      ],
+      "notes": "Represent the dispute between India, Pakistan, and China through metadata and coarse display guidance unless a later reviewed feature adds precise segment geometry."
+    },
+    {
+      "id": "western-sahara",
+      "tier": "tier-1",
+      "mode": "maintainer-review-required",
+      "reviewStatus": "active",
+      "cutoffCriteria": ["United Nations processes"],
+      "notes": "Keep representation explicitly reviewable because sovereignty remains disputed and the territory is treated through the United Nations decolonization framework."
+    },
+    {
+      "id": "kosovo",
+      "tier": "tier-1",
+      "mode": "maintainer-review-required",
+      "reviewStatus": "active",
+      "cutoffCriteria": [
+        "partial international recognition",
+        "major map platforms"
+      ],
+      "notes": "Review naming and depiction together rather than silently adopting a single recognition model."
     },
     {
       "id": "northern-cyprus",
+      "tier": "tier-3",
       "mode": "maintainer-review-required",
-      "notes": "Do not change depiction silently because representation is recognition-sensitive."
+      "reviewStatus": "deferred",
+      "cutoffCriteria": ["limited international recognition"],
+      "notes": "Deferred expansion candidate. Do not change depiction silently because representation is recognition-sensitive."
     }
   ]
 }

@@ -10,6 +10,8 @@ A lightweight React component for rendering a bundled SVG world map for charts, 
 
 `react-svg-worldmap` is designed for teams that want a simple client-side world map without a hosted map service, API dependency, or heavyweight geographic stack. The package ships a bundled map and exposes a small React API for coloring countries, attaching interactions, and rendering values.
 
+Version `2.1.0` focuses on smoother zoom rendering, optional first-level region detail, and clearer release artifacts for the companion regions package.
+
 ## Why teams use it
 
 - Bundled map data with no runtime network requests
@@ -17,6 +19,8 @@ A lightweight React component for rendering a bundled SVG world map for charts, 
 - Works with standard React applications without a map platform dependency
 - Ships ESM, CJS, and TypeScript declaration files
 - CI enforces automated tests and `>90%` coverage
+- Optional dispute metadata for high-visibility geopolitical cases
+- Optional region-detail package for reviewed target-country sub-country coverage
 
 ## Documentation & Examples
 
@@ -34,6 +38,14 @@ Live examples and package documentation are available at [yanivam.github.io/reac
 ```bash
 npm install react-svg-worldmap
 ```
+
+Optional target-country region detail is published separately:
+
+```bash
+npm install @react-svg-worldmap/regions
+```
+
+For region detail, install matching major/minor versions of both packages, for example `react-svg-worldmap@2.1.0` with `@react-svg-worldmap/regions@2.1.0`.
 
 ## Usage
 
@@ -82,11 +94,68 @@ The project uses a documented source hierarchy instead of treating one raw datas
 
 This project aims to stay neutral by documenting how naming, geometry, and disputed territories are handled. For sensitive cases, maintainers prefer reviewable documentation and coarse small-scale representation over silent or over-precise political claims.
 
+The bundled country topology is regenerated from the documented Natural Earth Admin 0 source path with at least 6 decimal places of retained source precision. The current regeneration emits closed country shapes in two package-local tiers: reduced country geometry for the initial world view and detailed country geometry for zoomed views. Both tiers apply quality-budgeted TopoJSON compression, delta encoding, minification, and quantization so the core package preserves validated coastline, island, border, and small-country fixtures while remaining compact.
+
+The default visual treatment separates land from the surrounding ocean/background with sea/background color `#A0D7EB`, neutral no-data land color `#F4F2F2`, and a softer country/coastline stroke. Closed country paths keep the sea layer from bleeding into land fills. The SVG uses an explicit paint stack: ocean/background, countries, optional regions, labels, pins, then interaction targets. This follows common basemap readability principles such as water/land contrast and coastline emphasis while remaining a themeable SVG map. The package does not use Google Maps, hosted map tiles, raster imagery, terrain/satellite rendering, external geometry providers, or custom map provider APIs.
+
+Country detail uses gradual disclosure. The initial map uses the reduced closed country tier below `2x` zoom. At `2x` and above, the core package can load its detailed country tier. At `4x` and above, selected region detail can load when `detailLevel="regions"` and a compatible optional provider is supplied.
+
+When zoom is enabled, the map renders compact bottom-right `+` and `-` controls. Double-clicking zooms in around the clicked point and uses the same configured zoom factor as the `+` control.
+
+Zoom rendering is staged for perceived responsiveness. The SVG transform updates first so zoom controls provide immediate visible feedback, while secondary detail such as detailed country geometry, labels, pins, and optional region overlays can settle afterward. Representative package scenarios target visible feedback within 250 ms for typical zoom clicks and visible completion within 500 ms for worst-case representative zoom clicks.
+
+The package exposes Tier 1 dispute metadata for Crimea, Palestinian Territories, Taiwan, Kashmir, Western Sahara, and Kosovo. Consumers can opt into dispute-aware rendering through callback context:
+
+```tsx
+import WorldMap from "react-svg-worldmap";
+
+<WorldMap
+  data={[{ country: "UA", value: 1 }]}
+  styleFunction={(context) =>
+    context.dispute?.display.borderStyle === "dashed"
+      ? { strokeDasharray: "4 2" }
+      : {}
+  }
+  tooltipTextFunction={(context) =>
+    context.dispute?.display.tooltipLabel ?? context.countryName
+  }
+/>;
+```
+
+Region detail is opt-in and distributed through the optional `@react-svg-worldmap/regions` package. Target-country coverage currently includes complete first-level regions for 23 countries across the Americas, Europe, Asia, Africa, and Oceania. Future non-target countries may use partial or experimental metadata, but target countries are complete. Unsupported countries fall back to the country-level map, internal region borders render as dotted overlays at `4x` and above, and region labels use the same zoom-aware fit rules as country labels.
+
+When region overlays are visible, country borders are drawn slightly stronger than the internal dotted region lines so country edges remain legible. Native SVG hover text for region overlays is intentionally concise: `Region, Country`.
+
+Current target-country coverage:
+
+- Americas: United States, Canada, Mexico, Brazil, Argentina, Venezuela
+- Europe: Germany, Switzerland, Austria, Belgium, Bosnia and Herzegovina, Russia
+- Asia: India, Pakistan, United Arab Emirates, Malaysia, Iraq
+- Africa: Nigeria, Ethiopia, South Africa, Sudan
+- Oceania: Australia, Micronesia
+
+```tsx
+import WorldMap from "react-svg-worldmap";
+import { createRegionsDetailProvider } from "@react-svg-worldmap/regions";
+
+const detailProvider = createRegionsDetailProvider();
+
+<WorldMap
+  data={[{ country: "US", value: 1 }]}
+  zoom
+  detailLevel="regions"
+  detailProvider={detailProvider}
+/>;
+```
+
 Source attribution and policy details:
 
+- [Geopolitical policy](https://github.com/yanivam/react-svg-worldmap/blob/main/GEOPOLITICAL_POLICY.md)
 - [Map data policy](https://github.com/yanivam/react-svg-worldmap/blob/main/docs/map-data-policy.md)
 - [Sensitive-case overrides register](https://github.com/yanivam/react-svg-worldmap/blob/main/docs/map-data-overrides.json)
+- [Contributing guide](https://github.com/yanivam/react-svg-worldmap/blob/main/CONTRIBUTING.md)
 - [Natural Earth Admin 0 Countries](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-0-countries/)
+- [Natural Earth Admin 1 States/Provinces](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/)
 - [UNSD M49](https://unstats.un.org/unsd/methodology/m49/)
 - [UNTERM](https://unterm.un.org/)
 
@@ -100,9 +169,11 @@ Source attribution and policy details:
 
 The component is designed to be WCAG 2.2 AA compliant at the component level:
 
-- The root `<svg>` is annotated with `role="img"` and `aria-labelledby` pointing to an embedded `<title>` element.
-- Each country region SVG element carries its own `<title>` with the country name and value.
-- The component ships no decorative elements without `aria-hidden`.
+- The root `<svg>` is annotated with `role="img"` and a stable `aria-label` from the `title` prop or the fallback label `World map`.
+- Each country path carries an SVG `<title>` with its country name or configured tooltip text.
+- Interactive country paths and linked regions receive keyboard and accessible-name support.
+- Region overlay paths expose concise `Region, Country` title and ARIA text when region detail is visible.
+- Zoom controls are reachable as standard buttons and announce status changes through an off-screen live region.
 
 ### Responsibilities of the consuming application
 
@@ -121,6 +192,7 @@ Because `<WorldMap>` is a self-contained SVG widget and not a full page, the hos
 This repository is a Yarn workspace with two packages:
 
 - `lib` for the published component package
+- `regions` for the optional region-detail data package
 - `website` for the documentation and examples site
 
 ### Prerequisites
@@ -170,6 +242,10 @@ This runs `build:package` and then `build:website`.
 - `lib/README.md` is generated from the marked npm README section in the root README.
 - Run `yarn generate:readme` after editing package-facing README content.
 - CI fails if the generated package README is out of date.
+
+### Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) before changing generated map data, optional region data, source records, or package-size documentation.
 
 ## License
 

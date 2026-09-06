@@ -4,11 +4,168 @@ import type React from "react";
 // Kept as a const tuple so that `ISOCode` is a precise string-literal union
 // rather than plain `string`, giving consumers autocomplete and typo-checking.
 /* prettier-ignore */
-const ISO_CODES = ["FJ","TZ","EH","CA","US","KZ","UZ","PG","ID","AR","CL","CD","SO","KE","SD","TD","HT","DO","RU","BS","FK","NO","GL","TL","ZA","LS","MX","UY","BR","BO","PE","CO","PA","CR","NI","HN","SV","GT","BZ","VE","GY","SR","FR","EC","PR","JM","CU","ZW","BW","NA","SN","ML","MR","BJ","NE","NG","CM","TG","GH","CI","GN","GW","LR","SL","BF","CF","CG","GA","GQ","ZM","MW","MZ","SZ","AO","BI","IL","LB","MG","PS","GM","TN","DZ","JO","AE","QA","KW","IQ","OM","VU","KH","TH","LA","MM","VN","KP","KR","MN","IN","BD","BT","NP","PK","AF","TJ","KG","TM","IR","SY","AM","SE","BY","UA","PL","AT","HU","MD","RO","LT","LV","EE","DE","BG","GR","TR","AL","HR","CH","LU","BE","NL","PT","ES","IE","NC","SB","NZ","AU","LK","CN","TW","IT","DK","GB","IS","AZ","GE","PH","MY","BN","SI","FI","SK","CZ","ER","JP","PY","YE","SA","CY","MA","EG","LY","ET","DJ","UG","RW","BA","MK","RS","ME","XK","TT","SS"] as const;
+const ISO_CODES = ["FJ","TZ","EH","CA","US","KZ","UZ","PG","ID","AR","CL","CD","SO","KE","SD","TD","HT","DO","RU","BS","FK","NO","GL","TL","ZA","LS","MX","UY","BR","BO","PE","CO","PA","CR","NI","HN","SV","GT","BZ","VE","GY","SR","FR","EC","PR","JM","CU","ZW","BW","NA","SN","ML","MR","BJ","NE","NG","CM","TG","GH","CI","GN","GW","LR","SL","BF","CF","CG","GA","GQ","ZM","MW","MZ","SZ","AO","BI","IL","LB","MG","PS","GM","TN","DZ","JO","AE","QA","KW","IQ","OM","VU","KH","TH","LA","MM","VN","KP","KR","MN","IN","BD","BT","NP","PK","AF","TJ","KG","TM","IR","SY","AM","SE","BY","UA","PL","AT","HU","MD","RO","LT","LV","EE","DE","BG","GR","TR","AL","HR","CH","LU","BE","NL","PT","ES","IE","NC","SB","NZ","AU","FM","LK","CN","TW","IT","DK","GB","IS","AZ","GE","PH","MY","BN","SI","FI","SK","CZ","ER","JP","PY","YE","SA","CYP","CY","MA","EG","LY","ET","DJ","SOM","UG","RW","BA","MK","RS","ME","XK","TT","SS"] as const;
 export type ISOCode =
   | (typeof ISO_CODES)[number]
   | Lowercase<(typeof ISO_CODES)[number]>;
 export type SizeOption = "sm" | "md" | "lg" | "xl" | "xxl";
+
+export interface ZoomState {
+  scale: number;
+  translate: [number, number];
+}
+
+export type CountryGeometryTierName = "reduced" | "detailed";
+
+export type GeometryTierLoadState = "idle" | "loading" | "ready" | "failed";
+
+export interface CountryGeometryTierStatus {
+  tier: CountryGeometryTierName;
+  zoom: number;
+  loadState: GeometryTierLoadState;
+  packageLocal: true;
+}
+
+export type DetailLevel = "countries" | "regions";
+
+export const mapRenderingLayers = [
+  "ocean",
+  "countries",
+  "regions",
+  "labels",
+  "pins",
+  "interaction-targets",
+] as const;
+
+export type MapRenderingLayerId = (typeof mapRenderingLayers)[number];
+
+export const mapRenderingLayerOrder: Record<MapRenderingLayerId, number> = {
+  ocean: 0,
+  countries: 1,
+  regions: 2,
+  labels: 3,
+  pins: 4,
+  "interaction-targets": 5,
+};
+
+export type RegionCoverageStatus =
+  | "complete"
+  | "partial"
+  | "experimental"
+  | "unavailable";
+
+export type DetailLayerStatus =
+  | "idle"
+  | "loading"
+  | "ready"
+  | "unavailable"
+  | "failed";
+
+export interface RegionCoverageRecord {
+  countryCode: ISOCode;
+  countryName: string;
+  status: RegionCoverageStatus;
+  regionCount: number;
+  expectedRegionCount?: number;
+  sourceSummary?: string;
+  sourceUrl?: string;
+  reviewNotes?: string;
+}
+
+export interface RegionViewport {
+  center?: readonly [number, number];
+  bounds?: readonly [readonly [number, number], readonly [number, number]];
+  scale?: number;
+}
+
+export interface RegionFeatureRecord {
+  id: string;
+  countryCode: ISOCode;
+  name: string;
+  localizedName?: string;
+  kind?: string;
+  path: string;
+  centroid?: readonly [number, number];
+  bounds?: readonly [readonly [number, number], readonly [number, number]];
+  order?: number;
+  sourceId?: string;
+}
+
+export interface RegionCollectionRecord {
+  countryCode: ISOCode;
+  countryName: string;
+  coverageStatus: RegionCoverageStatus;
+  expectedRegionCount?: number;
+  sourceSummary?: string;
+  sourceUrl?: string;
+  regions: RegionFeatureRecord[];
+  preferredViewport?: RegionViewport;
+  reviewNotes?: string;
+}
+
+export interface DetailProviderResult {
+  status: DetailLayerStatus;
+  layer: "regions";
+  countryCode?: ISOCode;
+  coverageStatus?: RegionCoverageStatus;
+  collection?: RegionCollectionRecord;
+  warning?: string;
+}
+
+export interface DetailProvider {
+  supports: (countryCode: ISOCode) => boolean;
+  getCoverage?: (countryCode?: ISOCode) => RegionCoverageRecord[];
+  loadRegions: (countryCode: ISOCode) => Promise<DetailProviderResult>;
+}
+
+export interface ZoomOptions {
+  enabled?: boolean;
+  initialScale?: number;
+  minScale?: number;
+  zoomFactor?: number;
+  showControls?: boolean;
+  showCountryLabels?: boolean;
+  countryLabelMinFontSize?: number;
+  countryLabelMaxFontSize?: number;
+  countryLabelZoomGrowthRate?: number;
+  showPins?: boolean;
+}
+
+export interface MapPin {
+  id?: string;
+  coordinates: readonly [number, number];
+  caption: string;
+  countryCode?: ISOCode;
+  kind?: string;
+  priority?: number;
+}
+
+export interface CountryLabelCandidate {
+  countryCode: ISOCode;
+  countryName: string;
+  label: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  availableWidth: number;
+  availableHeight: number;
+  priority: number;
+}
+
+export interface RegionLabelCandidate {
+  regionId: string;
+  countryCode: ISOCode;
+  regionName: string;
+  label: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  availableWidth: number;
+  availableHeight: number;
+  priority: number;
+}
 
 export interface DataItem<T extends string | number = number> {
   country: ISOCode;
@@ -21,11 +178,54 @@ export interface CountryContext<T extends string | number = number> {
   countryCode: ISOCode;
   countryName: string;
   countryValue?: T | undefined;
+  dispute?: DisputeClassification | undefined;
   color: string;
   minValue: number;
   maxValue: number;
   prefix: string;
   suffix: string;
+}
+
+export type DisputeTier = "tier-1";
+
+export type DisputeStatus =
+  | "disputed"
+  | "partially-recognized"
+  | "non-self-governing"
+  | "politically-sensitive";
+
+export type DisputeReviewStatus =
+  | "active"
+  | "deferred"
+  | "maintainer-review-required";
+
+export type DisputeBorderStyle = "solid" | "dashed" | "unchanged";
+
+export type DisputeLabelStrategy =
+  | "single"
+  | "dual"
+  | "segment"
+  | "metadata-only";
+
+export interface DisputeDisplayGuidance {
+  borderStyle: DisputeBorderStyle;
+  labelStrategy: DisputeLabelStrategy;
+  tooltipLabel: string;
+  defaultDescription: string;
+}
+
+export interface DisputeClassification {
+  id: string;
+  name: string;
+  tier: DisputeTier;
+  status: DisputeStatus;
+  recognizedSovereign?: string | undefined;
+  controllingPower?: string | undefined;
+  disputeParties: readonly string[];
+  territories: readonly string[];
+  sourceRationale: string;
+  display: DisputeDisplayGuidance;
+  reviewStatus: DisputeReviewStatus;
 }
 
 export interface Props<T extends string | number = number> {
@@ -53,6 +253,12 @@ export interface Props<T extends string | number = number> {
   frameColor?: string;
   borderColor?: string;
   richInteraction?: boolean;
+  zoom?: boolean | ZoomOptions;
+  onZoomChange?: (state: ZoomState) => void;
+  pins?: readonly MapPin[];
+  detailLevel?: DetailLevel;
+  detailProvider?: DetailProvider;
+  onDetailStatusChange?: (status: DetailProviderResult) => void;
 
   styleFunction?: (context: CountryContext<T>) => React.CSSProperties;
 

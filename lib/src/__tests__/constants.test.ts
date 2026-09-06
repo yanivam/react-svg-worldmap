@@ -2,6 +2,11 @@ import { describe, it, expect } from "vitest";
 import {
   defaultSize,
   defaultColor,
+  defaultBackgroundColor,
+  defaultBorderColor,
+  defaultLandColor,
+  detailedCountryGeometryMinZoom,
+  regionGeometryMinZoom,
   heightRatio,
   sizeMap,
   sizeBreakpoints,
@@ -36,6 +41,23 @@ describe("module constants", () => {
 
   it("defaultColor is #dddddd", () => {
     expect(defaultColor).toBe("#dddddd");
+  });
+
+  it("defaultBackgroundColor provides a light ocean field", () => {
+    expect(defaultBackgroundColor).toBe("#A0D7EB");
+  });
+
+  it("defaultBorderColor provides a softer coastline and country stroke", () => {
+    expect(defaultBorderColor).toBe("#607d86");
+  });
+
+  it("defaultLandColor provides visible neutral land for countries without data", () => {
+    expect(defaultLandColor).toBe("#F4F2F2");
+  });
+
+  it("defines fixed geometry disclosure thresholds", () => {
+    expect(detailedCountryGeometryMinZoom).toBe(2);
+    expect(regionGeometryMinZoom).toBe(4);
   });
 
   it("heightRatio is 3/4", () => {
@@ -73,9 +95,10 @@ describe("sizeBreakpoints", () => {
 describe("defaultCountryStyle", () => {
   const style = defaultCountryStyle("black", 0.2);
 
-  it("returns opacity 0 when countryValue is undefined (country not in data)", () => {
+  it("renders visible neutral land when countryValue is undefined (country not in data)", () => {
     const result = style(makeCtx({ countryValue: undefined }));
-    expect(result.fillOpacity).toBe(0);
+    expect(result.fill).toBe(defaultLandColor);
+    expect(result.fillOpacity).toBe(1);
   });
 
   it("returns the minimum opacity (0.2) when countryValue equals minValue", () => {
@@ -127,6 +150,11 @@ describe("defaultCountryStyle", () => {
   it("fills with the provided color from context", () => {
     const result = style(makeCtx({ color: "red", countryValue: 50 }));
     expect(result.fill).toBe("red");
+  });
+
+  it("keeps consumer data colors separate from neutral no-data land", () => {
+    const result = style(makeCtx({ color: "red", countryValue: undefined }));
+    expect(result.fill).toBe(defaultLandColor);
   });
 
   it("applies the borderColor as the stroke", () => {

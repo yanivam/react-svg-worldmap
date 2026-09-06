@@ -20,6 +20,9 @@ pids
 lib-cov
 coverage
 *.lcov
+lib/map-assets/*.cjs
+lib/src/map-assets/*.cjs
+lib/src/map-assets/*.metadata.ts
 .grunt
 *.tsbuildinfo
 .npm
@@ -38,5 +41,6 @@ tmp-smoke
 .vscode/
 *.swp
 *.swo
+*.tmp
 .claude
 .worktrees/

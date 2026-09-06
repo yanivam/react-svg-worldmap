@@ -12,8 +12,16 @@
   ],
   "ignorePaths": [
     "package.json",
+    "package-lock.json",
     "yarn.lock",
     "project-words.txt",
-    "lib/src/countries.topo.ts"
-  ]
+    "lib/src/countries.topo.ts",
+    "lib/src/countries-reduced.topo.ts",
+    "lib/src/countries-detailed.topo.ts",
+    "regions/src/data/countries/**",
+    "regions/src/data/starter.ts",
+    ".agents/**",
+    ".specify/**"
+  ],
+  "words": ["subpaths", "unstub"]
 }
