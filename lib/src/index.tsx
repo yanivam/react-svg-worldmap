@@ -25,7 +25,20 @@ export type {
   Data,
   CountryContext,
   Props,
+  DisputeTier,
+  DisputeStatus,
+  DisputeReviewStatus,
+  DisputeDisplayGuidance,
+  DisputeClassification,
 } from "./types.js";
+export {
+  disputedTerritories,
+  disputeIds,
+  disputesByCountryCode,
+  getDisputeByCountryCode,
+  getDisputeById,
+} from "./disputes.js";
+export type { DisputeId } from "./disputes.js";
 
 // Decode the TopoJSON topology once at module load time.
 // `feature()` returns a GeoJSON FeatureCollection; each feature's
