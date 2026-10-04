@@ -1,16 +1,12 @@
 ---
-
 description: "Task list template for feature implementation"
 ---
 
 # Tasks: [FEATURE NAME]
 
-**Input**: Design documents from `/specs/[###-feature-name]/`
-**Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
+**Input**: Design documents from `/specs/[###-feature-name]/` **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: Code-bearing changes MUST include tests unless the implementation
-plan documents that the change is documentation-only, generated-only, or has no
-executable behavior. Coverage MUST remain above the project threshold.
+**Tests**: Code-bearing changes MUST include tests unless the implementation plan documents that the change is documentation-only, generated-only, or has no executable behavior. Coverage MUST remain above the project threshold.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -27,21 +23,21 @@ executable behavior. Coverage MUST remain above the project threshold.
 - **Mobile**: `api/src/`, `ios/src/` or `android/src/`
 - Paths shown below assume single project - adjust based on plan.md structure
 
-<!-- 
+<!--
   ============================================================================
   IMPORTANT: The tasks below are SAMPLE TASKS for illustration purposes only.
-  
+
   The /speckit-tasks command MUST replace these with actual tasks based on:
   - User stories from spec.md (with their priorities P1, P2, P3...)
   - Feature requirements from plan.md
   - Entities from data-model.md
   - Endpoints from contracts/
-  
+
   Tasks MUST be organized by user story so each story can be:
   - Implemented independently
   - Tested independently
   - Delivered as an MVP increment
-  
+
   DO NOT keep these sample tasks in the generated tasks.md file.
   ============================================================================
 -->
