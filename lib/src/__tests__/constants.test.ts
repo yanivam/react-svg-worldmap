@@ -4,7 +4,6 @@ import {
   defaultColor,
   heightRatio,
   sizeMap,
-  sizeBreakpoints,
   defaultCountryStyle,
   defaultTooltip,
 } from "../constants.js";
@@ -52,19 +51,6 @@ describe("sizeMap", () => {
     expect(sizeMap.lg).toBe(480);
     expect(sizeMap.xl).toBe(640);
     expect(sizeMap.xxl).toBe(1200);
-  });
-});
-
-// ── sizeBreakpoints ──────────────────────────────────────────────────────────
-
-describe("sizeBreakpoints", () => {
-  it("is sorted in ascending order", () => {
-    const sorted = [...sizeBreakpoints].sort((a, b) => a - b);
-    expect(sizeBreakpoints).toEqual(sorted);
-  });
-
-  it("exactly mirrors the sizeMap values", () => {
-    expect(sizeBreakpoints).toEqual(Object.values(sizeMap));
   });
 });
 

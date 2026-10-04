@@ -1,4 +1,6 @@
 .main {
+  width: 100%;
+  max-width: 900px;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
