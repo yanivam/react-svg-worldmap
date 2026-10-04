@@ -132,15 +132,6 @@ This repository is a Yarn workspace with two packages:
 yarn install
 ```
 
-### Dependency pins
-
-The root `package.json` pins two transitive website dependencies using Yarn `resolutions`; these overrides apply to Yarn installs only:
-
-- `cheerio` is held at `1.0.0` because the current `1.2.0` resolution (and its `undici` 7 dependency) requires Node `>=20.18.1`. Cheerio `1.0.0` uses `undici` 6 and supports Node `>=18.17`. Revisit this pin if Node 18 support is dropped or a newer Cheerio/Undici pair supports Node 18.
-- `webpack` is constrained to `>=5.105.4 <5.106.0`. Docusaurus 2 builds with Webpack 5.105.4, but Webpack 5.106.2 rejects the options Docusaurus passes to `ProgressPlugin`; newer releases fail too. This permits future fixes in the compatible 5.105 line. Revisit the constraint when upgrading Docusaurus and verify the site build across the supported Node matrix.
-
-`lib/package.json` pins `@testing-library/jest-dom` to `6.9.1`, the newest release compatible with the Node 18/20 support matrix. Version `6.10.0` requires Node `>=22`. Revisit this pin when the supported Node matrix changes or a newer release supports it.
-
 ### Build the package
 
 ```bash
