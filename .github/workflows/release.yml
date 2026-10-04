@@ -58,7 +58,7 @@ jobs:
         run: |
           VERSION=$(node -p "require('./lib/package.json').version")
           if npm view react-svg-worldmap@$VERSION version 2>/dev/null; then
-            echo "::error::Version $VERSION is already published. Run 'yarn version' and commit, or choose a different version."
+            echo "::error::Version $VERSION is already published. Run 'yarn changeset version' and commit, or choose a different version."
             exit 1
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT

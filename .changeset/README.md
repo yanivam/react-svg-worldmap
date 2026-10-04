@@ -12,7 +12,7 @@ Commit the `.changeset/*.md` file(s) with your PR so the release has an entry wh
 
 ## Releasing (maintainer)
 
-1. **Version**: run **`yarn version`** (runs `changeset version`).
+1. **Version**: run **`yarn changeset version`** (not `yarn version`, which is a Yarn 1 built-in).
    - Consumes all current changesets.
    - Bumps `lib/package.json` and updates `lib/CHANGELOG.md`.
 2. Commit and push the version + changelog changes to `main`.
