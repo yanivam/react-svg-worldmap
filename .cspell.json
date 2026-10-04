@@ -15,6 +15,7 @@
     "yarn.lock",
     "project-words.txt",
     "lib/src/countries.topo.ts",
-    ".specify"
+    ".specify",
+    ".github"
   ]
 }
