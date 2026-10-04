@@ -128,16 +128,18 @@ This repository is a Yarn workspace with two packages:
 - Node `>=18`
 - Yarn
 
-### Dependency resolutions
+```bash
+yarn install
+```
+
+### Dependency pins
 
 The root `package.json` pins two transitive website dependencies:
 
 - `cheerio` is held at `1.0.0` because the current `1.2.0` resolution (and its `undici` 7 dependency) requires Node `>=20.18.1`. Cheerio `1.0.0` uses `undici` 6 and supports Node `>=18.17`. Revisit this pin if Node 18 support is dropped or a newer Cheerio/Undici pair supports Node 18.
 - `webpack` is held at `5.105.4`, the version validated with the current Docusaurus 2 website build. Revisit or remove this pin when upgrading the website toolchain and verify the build across the supported Node matrix.
 
-```bash
-yarn install
-```
+`lib/package.json` pins `@testing-library/jest-dom` to `6.9.1`, the newest release compatible with the Node 18/20 support matrix. Version `6.10.0` requires Node `>=22`. Revisit this pin when the supported Node matrix changes or a newer release supports it.
 
 ### Build the package
 
