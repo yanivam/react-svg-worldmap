@@ -70,9 +70,9 @@ export default function WorldMap<T extends number | string>(
     containerClassName,
     regionClassName,
   } = props;
-  const [wrapperEl, setWrapperEl] = useState<HTMLDivElement | null>(null);
+  const [figureEl, setFigureEl] = useState<HTMLElement | null>(null);
   const containerRef = useRef<SVGSVGElement>(null);
-  const containerWidth = useContainerWidth(wrapperEl);
+  const containerWidth = useContainerWidth(figureEl);
   const windowWidth = useWindowWidth();
   const effectiveWidth = containerWidth ?? windowWidth;
 
@@ -224,13 +224,14 @@ export default function WorldMap<T extends number | string>(
     },
   };
 
-  // Render the SVG (wrapper div for ResizeObserver container sizing)
+  // Render the SVG. The figure is measured rather than the wrapper so the
+  // figure's default (or user-styled) margins don't make the SVG overflow.
   return (
     <div
-      ref={setWrapperEl}
       className={containerClassName ?? "worldmap__wrapper"}
       style={{ width: "100%", minHeight: 0 }}>
       <figure
+        ref={setFigureEl}
         className="worldmap__figure-container"
         style={{ backgroundColor }}>
         {title && (

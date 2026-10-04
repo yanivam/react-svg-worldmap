@@ -51,22 +51,18 @@ The `size` can be a number specifying the width of the map, in pixels. It can al
 | `xl`  | 640   |
 | `xxl` | 1200  |
 
-When the `size` is set to `responsive`, the map width grows and shrinks continuously with the available space. In practice, that means the width is capped by both:
+When the `size` is set to `responsive`, the map fills the width of its container and grows and shrinks continuously as the container resizes. The height is always `width * 3/4`.
 
-- the measured container width, when the map is rendered inside a container
-- `75%` of the smaller viewport dimension
+Because the map is not capped by the viewport height, a wide container can produce a map taller than the screen. To limit it, constrain the container, for example with `max-width`, or pass a number as the `size`.
 
-So `responsive` mode is smooth, but it intentionally stops growing once it hits that viewport-based cap.
+The container needs a width that doesn't depend on its content, such as a block element or a flex item with `width: 100%` or `flex: 1`. In a shrink-to-fit container (a flex item with no width or `flex-grow`, `inline-block`, a float, or an `auto` grid column), the map and its container size each other, so the map can shrink but will not grow back.
 
 :::info
 
 The algorithm used in responsive sizing is:
 
 ```js
-const width = Math.min(
-  availableWidth,
-  Math.min(window.innerHeight, window.innerWidth) * 0.75,
-);
+const width = availableWidth; // measured container width
 ```
 
 :::

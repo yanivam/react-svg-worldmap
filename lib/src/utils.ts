@@ -28,7 +28,7 @@ export function useWindowWidth(): number {
 
 /**
  * Returns the width of the container element when available.
- * Pass the wrapper element (e.g. from ref callback or state);
+ * Pass the element the SVG is laid out in (e.g. from ref callback or state);
  * When null or in SSR,
  * Returns null (caller should fall back to window width).
  */
@@ -73,10 +73,7 @@ export function responsify(
 ): number {
   if (sizeOption === "responsive") {
     if (typeof window === "undefined") return sizeMap[defaultSize];
-    return Math.min(
-      availableWidth,
-      Math.min(window.innerHeight, window.innerWidth) * 0.75,
-    );
+    return availableWidth;
   }
   if (typeof window === "undefined") return sizeMap[sizeOption];
 

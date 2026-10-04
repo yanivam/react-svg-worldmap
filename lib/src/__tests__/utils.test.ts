@@ -54,15 +54,13 @@ describe("responsify", () => {
       });
     });
 
-    it("returns availableWidth when it is smaller than 75% of the min viewport dimension", () => {
-      // 75% of min(1024, 768) = 576; availableWidth 400 < 576 → result = 400
+    it("returns availableWidth for a narrow container", () => {
       expect(responsify("responsive", 400)).toBe(400);
     });
 
-    it("caps to 75% of the min viewport dimension when availableWidth exceeds it", () => {
-      // Min(innerHeight, innerWidth) = 768; 75% = 576;
-      // availableWidth 800 > 576, so the result is 576.
-      expect(responsify("responsive", 800)).toBeCloseTo(576);
+    it("is not capped by the viewport height", () => {
+      // InnerHeight is 768, so the old 75%-of-viewport cap would give 576.
+      expect(responsify("responsive", 1000)).toBe(1000);
     });
   });
 });
