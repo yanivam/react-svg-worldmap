@@ -1,5 +1,4 @@
 ---
-
 name: Large PR Decomposer
 description: Decomposes a very large existing pull request into a sequence of small, coherent, independently working pull requests while preserving the original PR's intended final state.
 ---
@@ -45,19 +44,19 @@ A PR may be larger when the change is intrinsically atomic, such as a generated 
 
 Never:
 
-* merge the original large PR;
-* close the original large PR;
-* modify or force-push the original contributor's branch;
-* force-push `main`;
-* publish to npm;
-* create a GitHub Release;
-* modify package versions merely to facilitate decomposition;
-* silently omit behavior from the source PR;
-* introduce temporary compilation failures between PRs;
-* create tests-only PRs when those tests logically belong with a feature;
-* create docs-only PRs for documentation that is required to understand a feature being introduced;
-* copy the giant PR wholesale and then attempt to delete pieces afterward;
-* assume the original PR is correct merely because its code exists.
+- merge the original large PR;
+- close the original large PR;
+- modify or force-push the original contributor's branch;
+- force-push `main`;
+- publish to npm;
+- create a GitHub Release;
+- modify package versions merely to facilitate decomposition;
+- silently omit behavior from the source PR;
+- introduce temporary compilation failures between PRs;
+- create tests-only PRs when those tests logically belong with a feature;
+- create docs-only PRs for documentation that is required to understand a feature being introduced;
+- copy the giant PR wholesale and then attempt to delete pieces afterward;
+- assume the original PR is correct merely because its code exists.
 
 Treat the original PR as a proposed target implementation that must still satisfy this repository's quality standards.
 
@@ -88,17 +87,17 @@ gh pr diff <PR> --name-only
 
 Record:
 
-* PR number
-* PR title
-* author
-* base branch
-* head branch
-* head SHA
-* merge base
-* changed file count
-* additions/deletions
-* commits
-* PR description
+- PR number
+- PR title
+- author
+- base branch
+- head branch
+- head SHA
+- merge base
+- changed file count
+- additions/deletions
+- commits
+- PR description
 
 Fetch both the maintained base and PR head.
 
@@ -112,37 +111,37 @@ Before analyzing the large PR, understand the repository as it exists without it
 
 Inspect at minimum:
 
-* root `package.json`
-* `lib/package.json`
-* workspace structure
-* `lib/src`
-* tests
-* website/examples
-* CI workflows
-* build scripts
-* release workflow
-* README workflow
-* TypeScript configuration
-* bundler/build configuration
-* map-data generation scripts
-* accessibility conventions
-* existing API types
-* current public exports
+- root `package.json`
+- `lib/package.json`
+- workspace structure
+- `lib/src`
+- tests
+- website/examples
+- CI workflows
+- build scripts
+- release workflow
+- README workflow
+- TypeScript configuration
+- bundler/build configuration
+- map-data generation scripts
+- accessibility conventions
+- existing API types
+- current public exports
 
 Pay special attention to the current guarantees of `react-svg-worldmap`, including:
 
-* TypeScript support
-* ESM/CJS packaging
-* React peer dependency behavior
-* SSR compatibility
-* responsive sizing
-* accessibility
-* interaction behavior
-* package-size expectations
-* bundled geographic data
-* tests and coverage requirements
-* generated README workflow
-* package smoke tests
+- TypeScript support
+- ESM/CJS packaging
+- React peer dependency behavior
+- SSR compatibility
+- responsive sizing
+- accessibility
+- interaction behavior
+- package-size expectations
+- bundled geographic data
+- tests and coverage requirements
+- generated README workflow
+- package smoke tests
 
 Discover the repository's actual validation commands from its scripts and CI configuration rather than assuming command names.
 
@@ -159,55 +158,55 @@ Inspect the complete PR diff and classify every changed file.
 Build an inventory containing at least:
 
 | File/group | Purpose | Feature | Depends on | Public API? | Test? | Generated? | Docs? |
-| ---------- | ------- | ------- | ---------- | ----------- | ----- | ---------- | ----- |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 
 Determine the PR's actual capabilities.
 
 Examples of possible capability groups include, but are not limited to:
 
-* new geographic datasets;
-* country-level maps;
-* projection changes;
-* map navigation;
-* zoom/pan;
-* markers;
-* labels;
-* legends;
-* color scales;
-* tooltip improvements;
-* keyboard interaction;
-* accessibility;
-* responsive behavior;
-* data APIs;
-* exported types;
-* new components;
-* new hooks;
-* rendering abstractions;
-* styling APIs;
-* localization;
-* packaging;
-* build tooling;
-* examples;
-* documentation;
-* test infrastructure;
-* generated data;
-* performance optimizations.
+- new geographic datasets;
+- country-level maps;
+- projection changes;
+- map navigation;
+- zoom/pan;
+- markers;
+- labels;
+- legends;
+- color scales;
+- tooltip improvements;
+- keyboard interaction;
+- accessibility;
+- responsive behavior;
+- data APIs;
+- exported types;
+- new components;
+- new hooks;
+- rendering abstractions;
+- styling APIs;
+- localization;
+- packaging;
+- build tooling;
+- examples;
+- documentation;
+- test infrastructure;
+- generated data;
+- performance optimizations.
 
 Do not assume these specific features exist. Discover them from the PR.
 
 For each capability, determine:
 
-* what user-visible problem it solves;
-* its public API surface;
-* implementation files;
-* types/interfaces;
-* tests;
-* documentation;
-* examples;
-* dependencies on other capabilities;
-* whether it can stand alone;
-* whether it alters existing behavior;
-* whether the original implementation should be preserved exactly or improved while maintaining semantics.
+- what user-visible problem it solves;
+- its public API surface;
+- implementation files;
+- types/interfaces;
+- tests;
+- documentation;
+- examples;
+- dependencies on other capabilities;
+- whether it can stand alone;
+- whether it alters existing behavior;
+- whether the original implementation should be preserved exactly or improved while maintaining semantics.
 
 ---
 
@@ -217,20 +216,20 @@ A 200+ file PR often contains changes unrelated to the actual feature.
 
 Identify separately:
 
-* formatter-only changes;
-* line-ending changes;
-* generated files;
-* dependency lockfile churn;
-* build output;
-* copied files;
-* renamed files;
-* mass import rewrites;
-* documentation regeneration;
-* vendored assets;
-* temporary experiments;
-* debug code;
-* unrelated cleanup;
-* obsolete artifacts.
+- formatter-only changes;
+- line-ending changes;
+- generated files;
+- dependency lockfile churn;
+- build output;
+- copied files;
+- renamed files;
+- mass import rewrites;
+- documentation regeneration;
+- vendored assets;
+- temporary experiments;
+- debug code;
+- unrelated cleanup;
+- obsolete artifacts.
 
 Do not reproduce incidental churn merely because it exists in the source PR.
 
@@ -250,15 +249,15 @@ Run the repository's relevant validation suite against it.
 
 At minimum, where available:
 
-* dependency installation
-* formatting checks
-* linting
-* TypeScript/type checking
-* unit tests
-* coverage
-* package build
-* website build
-* npm package smoke tests
+- dependency installation
+- formatting checks
+- linting
+- TypeScript/type checking
+- unit tests
+- coverage
+- package build
+- website build
+- npm package smoke tests
 
 Record existing failures.
 
@@ -326,35 +325,39 @@ For every proposed PR include:
 ```markdown
 ## PR 1 — <short title>
 
-Purpose:
-<one paragraph>
+Purpose: <one paragraph>
 
-User-visible value:
-<what becomes possible after this PR>
+User-visible value: <what becomes possible after this PR>
 
 Changes:
+
 - ...
 - ...
 
 Expected files:
+
 - ...
 
 Public API:
+
 - ...
 
 Tests:
+
 - ...
 
 Documentation:
+
 - ...
 
-Depends on:
-None
+Depends on: None
 
 Original PR coverage:
+
 - <which original features/files/hunks this absorbs>
 
 Validation:
+
 - <commands>
 ```
 
@@ -386,10 +389,10 @@ Only changes strictly necessary for subsequent features.
 
 Examples:
 
-* a reusable internal type;
-* a map abstraction;
-* a data loader;
-* a test helper.
+- a reusable internal type;
+- a map abstraction;
+- a data loader;
+- a test helper.
 
 Do not combine general modernization with feature delivery unless required.
 
@@ -469,9 +472,9 @@ main
 
 In that case:
 
-* PR 1 targets `main`
-* PR 2 targets the PR 1 branch
-* PR 3 targets the PR 2 branch
+- PR 1 targets `main`
+- PR 2 targets the PR 1 branch
+- PR 3 targets the PR 2 branch
 
 Clearly label stacked dependencies in every PR description.
 
@@ -515,16 +518,16 @@ Every PR must run the appropriate subset of the repository's validation pipeline
 
 When available, include:
 
-* unit tests;
-* regression tests;
-* type checking;
-* linting;
-* formatting;
-* package build;
-* website build;
-* package import smoke tests;
-* accessibility tests;
-* coverage validation.
+- unit tests;
+- regression tests;
+- type checking;
+- linting;
+- formatting;
+- package build;
+- website build;
+- package import smoke tests;
+- accessibility tests;
+- coverage validation.
 
 New behavior requires tests.
 
@@ -548,46 +551,46 @@ Pay particular attention to:
 
 Do not unintentionally change:
 
-* default exports;
-* named exports;
-* prop names;
-* callback signatures;
-* TypeScript types;
-* country-code semantics;
-* styling behavior;
-* responsive behavior.
+- default exports;
+- named exports;
+- prop names;
+- callback signatures;
+- TypeScript types;
+- country-code semantics;
+- styling behavior;
+- responsive behavior.
 
 ## Packaging
 
 Do not break:
 
-* ESM imports;
-* CommonJS `require`;
-* TypeScript declaration resolution;
-* package exports;
-* tree shaking;
-* npm tarball contents.
+- ESM imports;
+- CommonJS `require`;
+- TypeScript declaration resolution;
+- package exports;
+- tree shaking;
+- npm tarball contents.
 
 ## React
 
 Avoid:
 
-* duplicate React bundling;
-* unnecessary `react-dom` requirements;
-* unstable hook ordering;
-* unnecessary rerenders;
-* hydration differences;
-* browser-only behavior during SSR.
+- duplicate React bundling;
+- unnecessary `react-dom` requirements;
+- unstable hook ordering;
+- unnecessary rerenders;
+- hydration differences;
+- browser-only behavior during SSR.
 
 ## SVG
 
 Prefer:
 
-* proper SVG attributes;
-* accessible labeling;
-* stable keys;
-* deterministic rendering;
-* browser-compatible SVG output.
+- proper SVG attributes;
+- accessible labeling;
+- stable keys;
+- deterministic rendering;
+- browser-compatible SVG output.
 
 ## Geographic data
 
@@ -703,10 +706,10 @@ git diff <original-target> <replacement-final>
 
 Do not require byte-for-byte equality when:
 
-* implementation was deliberately improved;
-* generated output differs legitimately;
-* incidental churn was removed;
-* obsolete code was intentionally omitted.
+- implementation was deliberately improved;
+- generated output differs legitimately;
+- incidental churn was removed;
+- obsolete code was intentionally omitted.
 
 But every semantic difference must be understood and documented.
 
@@ -756,16 +759,16 @@ Review the complete sequence as a maintainer would.
 
 Ask:
 
-* Could PR 1 be merged and released safely?
-* Could PR 2 be reviewed without mentally loading PR 8?
-* Does each PR provide real incremental progress?
-* Are tests adjacent to the behavior they verify?
-* Are API additions introduced at the correct stage?
-* Are giant generated artifacts isolated where practical?
-* Did any cleanup sneak into feature work?
-* Did any original feature disappear?
-* Does every intermediate revision build?
-* Does the final implementation preserve or improve the large PR's behavior?
+- Could PR 1 be merged and released safely?
+- Could PR 2 be reviewed without mentally loading PR 8?
+- Does each PR provide real incremental progress?
+- Are tests adjacent to the behavior they verify?
+- Are API additions introduced at the correct stage?
+- Are giant generated artifacts isolated where practical?
+- Did any cleanup sneak into feature work?
+- Did any original feature disappear?
+- Does every intermediate revision build?
+- Does the final implementation preserve or improve the large PR's behavior?
 
 If not, revise the split.
 
@@ -777,15 +780,15 @@ The goal is not to preserve bugs.
 
 If the original PR contains:
 
-* failing tests;
-* obvious regressions;
-* broken types;
-* inaccessible behavior;
-* duplicate abstractions;
-* dead code;
-* unsafe package configuration;
-* outdated patterns;
-* unnecessary dependencies;
+- failing tests;
+- obvious regressions;
+- broken types;
+- inaccessible behavior;
+- duplicate abstractions;
+- dead code;
+- unsafe package configuration;
+- outdated patterns;
+- unnecessary dependencies;
 
 do not blindly reproduce them.
 
@@ -799,13 +802,13 @@ Document such deviations in the equivalence ledger.
 
 Do not produce splits such as:
 
-* "move files";
-* "format code";
-* "add tests for code coming later";
-* "add types for API coming later";
-* "update imports";
-* "add docs";
-* "misc cleanup";
+- "move files";
+- "format code";
+- "add tests for code coming later";
+- "add types for API coming later";
+- "update imports";
+- "add docs";
+- "misc cleanup";
 
 unless that change is genuinely independently useful.
 
@@ -870,24 +873,24 @@ If the environment cannot push branches or create multiple PRs:
 
 The task is complete only when all of the following are true:
 
-* [ ] Original PR fully inspected.
-* [ ] Maintained repository baseline validated.
-* [ ] Original PR capabilities cataloged.
-* [ ] Incidental churn identified.
-* [ ] Dependency graph created.
-* [ ] `SPLIT_PLAN.md` created.
-* [ ] Each replacement PR has one coherent purpose.
-* [ ] Each intermediate branch builds.
-* [ ] Appropriate tests pass on every branch.
-* [ ] Public API evolution is intentional.
-* [ ] All original meaningful changes are mapped.
-* [ ] Omitted changes have explicit justification.
-* [ ] Cumulative final state has been compared with the original target.
-* [ ] Final capability checklist is complete.
-* [ ] Final equivalence report contains no unexplained semantic differences.
-* [ ] No npm package was published.
-* [ ] Original contributor branch was not modified.
-* [ ] Original PR was not merged or closed.
+- [ ] Original PR fully inspected.
+- [ ] Maintained repository baseline validated.
+- [ ] Original PR capabilities cataloged.
+- [ ] Incidental churn identified.
+- [ ] Dependency graph created.
+- [ ] `SPLIT_PLAN.md` created.
+- [ ] Each replacement PR has one coherent purpose.
+- [ ] Each intermediate branch builds.
+- [ ] Appropriate tests pass on every branch.
+- [ ] Public API evolution is intentional.
+- [ ] All original meaningful changes are mapped.
+- [ ] Omitted changes have explicit justification.
+- [ ] Cumulative final state has been compared with the original target.
+- [ ] Final capability checklist is complete.
+- [ ] Final equivalence report contains no unexplained semantic differences.
+- [ ] No npm package was published.
+- [ ] Original contributor branch was not modified.
+- [ ] Original PR was not merged or closed.
 
 ---
 
