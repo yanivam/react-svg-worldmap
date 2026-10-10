@@ -4,19 +4,29 @@ import type GeoJSON from "geojson";
 import { geoMercator, geoPath } from "d3-geo";
 import { feature as topoFeature } from "topojson-client";
 import topoData from "./countries.topo.js";
-import type { Props, CountryContext, DataItem, ISOCode } from "./types.js";
+import type {
+  Props,
+  CountryContext,
+  DataItem,
+  DisputedTerritoryContext,
+  ISOCode,
+} from "./types.js";
 import {
   defaultColor,
   defaultSize,
   heightRatio,
   defaultCountryStyle,
   defaultTooltip,
+  defaultDisputedTerritoryColor,
+  defaultDisputedTerritoryTooltip,
 } from "./constants.js";
 import { useWindowWidth, useContainerWidth, responsify } from "./utils.js";
 import { drawTooltip } from "./draw.js";
 import Frame from "./components/Frame.js";
 import Region from "./components/Region.js";
 import TextLabel from "./components/TextLabel.js";
+import { disputedTerritories, getDisputeByCountryCode } from "./disputes.js";
+import { disputedTerritoryFeatures } from "./disputedTerritoryAreas.js";
 
 export type {
   ISOCode,
@@ -25,7 +35,25 @@ export type {
   Data,
   CountryContext,
   Props,
+  DisputeTier,
+  DisputeStatus,
+  DisputeReviewStatus,
+  DisputeBorderStyle,
+  DisputeLabelStrategy,
+  DisputeDisplayGuidance,
+  DisputeClassification,
+  DisputedTerritoryContext,
 } from "./types.js";
+export {
+  disputedTerritories,
+  disputeIds,
+  disputesByCountryCode,
+  getDisputeByCountryCode,
+  getDisputeById,
+} from "./disputes.js";
+export type { DisputeId } from "./disputes.js";
+export { disputedTerritoryAreas } from "./disputedTerritoryAreas.js";
+export type { DisputedTerritoryArea } from "./disputedTerritoryAreas.js";
 
 // Decode the TopoJSON topology once at module load time.
 // `feature()` returns a GeoJSON FeatureCollection; each feature's
@@ -62,6 +90,10 @@ export default function WorldMap<T extends number | string>(
     frameColor = "black",
     borderColor = "black",
     richInteraction = false,
+    showDisputedTerritories = false,
+    disputedTerritoryColor = defaultDisputedTerritoryColor,
+    disputedTerritoryTooltipFunction = defaultDisputedTerritoryTooltip,
+    onDisputedTerritoryClick,
     styleFunction: styleFunctionProp,
     tooltipTextFunction = defaultTooltip,
     onClickFunction,
@@ -98,6 +130,13 @@ export default function WorldMap<T extends number | string>(
     );
   }
 
+  const territoryRefs = useRef<Array<{ current: SVGPathElement | null }>>([]);
+  if (territoryRefs.current.length !== disputedTerritoryFeatures.length) {
+    territoryRefs.current = disputedTerritoryFeatures.map(
+      (_, i) => territoryRefs.current[i] ?? { current: null },
+    );
+  }
+
   // Calc min/max values and build country map for direct access
   const countryValueMap = Object.fromEntries(
     data.map(({ country, value }) => [country.toUpperCase(), value]),
@@ -123,6 +162,7 @@ export default function WorldMap<T extends number | string>(
       maxValue,
       prefix: valuePrefix,
       suffix: valueSuffix,
+      dispute: getDisputeByCountryCode(isoCode as ISOCode),
     };
 
     // Resolve href and interactivity once so they can be used for both the
@@ -173,6 +213,65 @@ export default function WorldMap<T extends number | string>(
 
     return { path, highlightedTooltip: tooltip };
   });
+
+  // Opt-in overlay: one shape per disputed territory, drawn above the
+  // countries so that only the territory itself is highlighted.
+  const territoryElements = showDisputedTerritories
+    ? disputedTerritoryFeatures.map((territoryFeature, i) => {
+        const triggerRef = territoryRefs.current[i]!;
+        const { id, d, n, a } = territoryFeature.properties;
+        const context: DisputedTerritoryContext = {
+          territoryId: id,
+          territoryName: n,
+          administration: a,
+          dispute: disputedTerritories[d],
+        };
+        const tooltipContent = disputedTerritoryTooltipFunction(context);
+        const handleTerritoryClick =
+          onDisputedTerritoryClick == null
+            ? undefined
+            : (event: React.MouseEvent<SVGPathElement>) =>
+                onDisputedTerritoryClick({ ...context, event });
+        const dashed = context.dispute.display.borderStyle === "dashed";
+
+        return {
+          path: (
+            <Region
+              ref={triggerRef}
+              d={pathGenerator(territoryFeature)!}
+              style={{
+                fill: disputedTerritoryColor,
+                fillOpacity: 0.5,
+                stroke: disputedTerritoryColor,
+                strokeWidth: 0.75,
+                strokeDasharray: dashed ? "2 1" : undefined,
+                cursor: "pointer",
+              }}
+              // eslint-disable-next-line react/jsx-no-bind -- Region expects a callback prop.
+              onClick={handleTerritoryClick}
+              strokeOpacity={1}
+              key={id}
+              countryName={n}
+              svgTitle={tooltipContent}
+              isInteractive={handleTerritoryClick != null}
+              data-disputed-territory={id}
+            />
+          ),
+          tooltip: (
+            <React.Fragment key={`tooltip-territory-${id}`}>
+              {drawTooltip(
+                tooltipContent,
+                tooltipBgColor,
+                tooltipTextColor,
+                rtl,
+                triggerRef,
+                containerRef,
+              )}
+            </React.Fragment>
+          ),
+        };
+      })
+    : [];
 
   // Build paths
   const regionPaths = regionElements.map((entry) => entry.path);
@@ -257,6 +356,11 @@ export default function WorldMap<T extends number | string>(
             }) translate(0, 240)`}
             style={{ transition: "all 0.2s" }}>
             {regionPaths}
+            {showDisputedTerritories && (
+              <g className="worldmap__disputed-territories">
+                {territoryElements.map((entry) => entry.path)}
+              </g>
+            )}
           </g>
           <g>
             {textLabelFunction(width).map((labelProps) => (
@@ -264,6 +368,7 @@ export default function WorldMap<T extends number | string>(
             ))}
           </g>
           {regionTooltips}
+          {territoryElements.map((entry) => entry.tooltip)}
         </svg>
       </figure>
     </div>

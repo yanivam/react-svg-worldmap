@@ -1,5 +1,11 @@
 # react-svg-worldmap
 
+## 2.2.0
+
+### Minor Changes
+
+- dd8521e: Add Tier 1 geopolitical dispute metadata (Crimea, Palestinian Territories, Taiwan, Kashmir, Western Sahara, Kosovo). New exports: `disputedTerritories`, `disputeIds`, `disputesByCountryCode`, `getDisputeById`, `getDisputeByCountryCode`, and the `Dispute*` types. Callback context gains an optional `dispute` field for countries linked to a dispute. Each dispute also records its UN standing (`unStanding`). New opt-in `showDisputedTerritories` prop draws the disputed territories themselves (Crimea, the Kashmir areas, West Bank, Gaza, Western Sahara, Kosovo, Taiwan; from Natural Earth 5.1.2) as a red overlay, with `disputedTerritoryColor`, `disputedTerritoryTooltipFunction`, `onDisputedTerritoryClick`, and the `disputedTerritoryAreas` export. With the prop off, the default map geometry and rendering are unchanged. The map data policy now documents the Tier 1 scope, inclusion criteria, and review outcomes.
+
 ## 2.1.0
 
 ### Minor Changes

@@ -13,6 +13,12 @@ sidebar_position: 4
 - `CountryContext`: the context in rendering each country, to be used in customization callbacks.
 - `Props`: the props type for the `WorldMap` component.
 - `regions`: the list of regions (`{ name, code }`) available in the library
+- `disputedTerritories`: Tier 1 dispute metadata keyed by dispute ID (`crimea`, `palestinian-territories`, `taiwan`, `kashmir`, `western-sahara`, `kosovo`).
+- `disputeIds`: the list of dispute IDs.
+- `disputesByCountryCode`: map from rendered country code (e.g. `UA`, `XK`) to dispute ID.
+- `getDisputeById(id)` / `getDisputeByCountryCode(code)`: lookups returning a `DisputeClassification` (or `undefined` for a country code with no dispute).
+- `disputedTerritoryAreas`: the territory shapes drawn by `showDisputedTerritories` (`{ id, name, disputeId, administration }`), e.g. `crimea`, `aksai-chin`, `west-bank`.
+- `DisputedTerritoryContext`, `DisputedTerritoryArea`, `DisputeClassification`, `DisputeDisplayGuidance`, `DisputeTier`, `DisputeStatus`, `DisputeReviewStatus`, `DisputeBorderStyle`, `DisputeLabelStrategy`, `DisputeId`: types for the dispute metadata.
 - `WorldMap`: available both as named and default export. The actual component to be rendered.
 
 ## Props
@@ -40,6 +46,10 @@ sidebar_position: 4
 | `hrefFunction` | <code>(context: CountryContext) => object &#124; string &#124; undefined</code> | A callback function to bind an href link to each country. The return can be the target URL as a string or an object specifying props passed to the anchor element (e.g. `href` and `target`). (see [Href binding example](/examples/links)) |
 | `tooltipTextFunction` | `(context: CountryContext) => string` | A callback function to customize tooltip text (see [Localization example](/examples/localization)) |
 | `onClickFunction` | `(context: CountryContext & {event: React.MouseEvent}) => void` | A callback function to add custom onclick logic (see [Onclick action example](/examples/onclick)) |
+| `showDisputedTerritories` | `boolean` | Draw the disputed territories (Crimea, the Kashmir areas, West Bank, Gaza, Western Sahara, Kosovo, Taiwan) as a red overlay above the countries. Off by default. (see [Dispute metadata example](/examples/disputes)) |
+| `disputedTerritoryColor` | `string` | Fill and border color of the disputed-territory overlay. Default `#d32f2f`. |
+| `disputedTerritoryTooltipFunction` | `(context: DisputedTerritoryContext) => string` | Tooltip text for each territory. The default lists status, recognized sovereign, controlling power, and parties. |
+| `onDisputedTerritoryClick` | `(context: DisputedTerritoryContext & {event: React.MouseEvent}) => void` | Called when a territory in the overlay is clicked. |
 | `textLabelFunction` | `(mapWidth: number) => ({label: string} & TextProps)[]` | A callback function to draw text labels on the map (see [Text labels example](/examples/text-labels)) |
 
 </small>
@@ -61,5 +71,13 @@ type CountryContext = {
   maxValue: number;
   prefix: string;
   suffix: string;
+  dispute?: DisputeClassification; // Tier 1 dispute metadata, if any
+};
+
+type DisputedTerritoryContext = {
+  territoryId: string; // e.g. "crimea", "aksai-chin"
+  territoryName: string;
+  administration: string; // Natural Earth note, e.g. "Admin. by Russia; Claimed by Ukraine"
+  dispute: DisputeClassification; // includes status, parties, unStanding, sourceRationale
 };
 ```

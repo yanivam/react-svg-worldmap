@@ -14,6 +14,7 @@ sidebar_position: 5
 ## [examples/custom-style](/examples/custom-style)
 
 - An example of a custom styling function
+- An example of dispute-aware styling can use the same callback with optional `context.dispute` metadata.
 - Context type has fields are as follows:
 
 <small>
@@ -25,6 +26,7 @@ sidebar_position: 5
 | `color` | `string` | The color that is inputted by the user for countries with values |
 | `minValue` | `number` | The smallest value of the input data |
 | `maxValue` | `number` | The largest value of the input data |
+| `dispute` | `DisputeClassification \| undefined` | Optional dispute metadata for supported Tier 1 disputed territories |
 
 </small>
 
@@ -59,6 +61,12 @@ sidebar_position: 5
 
 - An example showing how a map with rich interactions enabled is like.
 - Try double-clicking on the map!
+
+## [examples/disputes](/examples/disputes)
+
+- An example of the opt-in disputed-territory overlay (`showDisputedTerritories`).
+- Only the disputed territories are highlighted in red (e.g. Crimea, not all of Ukraine; the Kashmir areas, not India, Pakistan, and China), dashed where the metadata suggests it.
+- Hovering a territory shows its status, recognized sovereign, controlling power, and parties. Clicking it shows the full record, including its UN standing.
 
 ## [examples/string-value](/examples/string-value)
 

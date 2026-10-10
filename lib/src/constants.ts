@@ -1,8 +1,13 @@
 import type { CSSProperties } from "react";
-import type { SizeOption, CountryContext } from "./types.js";
+import type {
+  SizeOption,
+  CountryContext,
+  DisputedTerritoryContext,
+} from "./types.js";
 
 export const defaultSize = "xl";
 export const defaultColor = "#dddddd";
+export const defaultDisputedTerritoryColor = "#d32f2f";
 export const heightRatio = 3 / 4;
 export const sizeMap: Record<SizeOption, number> = {
   sm: 240,
@@ -51,3 +56,17 @@ export const defaultTooltip = <T extends string | number>(
     .filter((part) => part !== "")
     .join(" ");
 };
+
+export const defaultDisputedTerritoryTooltip = ({
+  territoryName,
+  dispute,
+}: DisputedTerritoryContext): string =>
+  [
+    `${territoryName}: ${dispute.status.replace(/-/g, " ")}`,
+    dispute.recognizedSovereign &&
+      `Recognized sovereign: ${dispute.recognizedSovereign}`,
+    dispute.controllingPower && `Controlled by: ${dispute.controllingPower}`,
+    `Parties: ${dispute.disputeParties.join(", ")}`,
+  ]
+    .filter(Boolean)
+    .join(". ");
