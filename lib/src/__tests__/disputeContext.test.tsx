@@ -4,7 +4,7 @@ import { describe, it, expect, vi } from "vitest";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import WorldMap from "../index.js";
+import WorldMap, { disputedTerritoryAreas } from "../index.js";
 import type { CountryContext, DataItem } from "../index.js";
 
 // Same mock as WorldMap.test.tsx: the tooltip needs browser layout APIs.
@@ -122,5 +122,102 @@ describe("WorldMap — dispute context", () => {
 
     expect(container.querySelector('a[href="#dispute-crimea"]')).not.toBeNull();
     expect(container.querySelector('a[href="#dispute-kosovo"]')).not.toBeNull();
+  });
+});
+
+describe("WorldMap — disputed-territory overlay", () => {
+  const territoryPaths = (container: HTMLElement) =>
+    Array.from(container.querySelectorAll("path[data-disputed-territory]"));
+
+  it("is not rendered by default", () => {
+    const { container } = render(<WorldMap data={DATA} />);
+    expect(territoryPaths(container)).toHaveLength(0);
+    expect(
+      container.querySelector(".worldmap__disputed-territories"),
+    ).toBeNull();
+  });
+
+  it("draws one shape per territory when enabled", () => {
+    const { container } = render(
+      <WorldMap data={DATA} showDisputedTerritories />,
+    );
+    const ids = territoryPaths(container).map((p) =>
+      p.getAttribute("data-disputed-territory"),
+    );
+
+    expect(ids).toEqual(disputedTerritoryAreas.map((area) => area.id));
+    expect(ids).toContain("crimea");
+    expect(ids).toContain("aksai-chin");
+    for (const path of territoryPaths(container))
+      expect(path.getAttribute("d")).toMatch(/^M/);
+  });
+
+  it("highlights the territory, not the whole country", () => {
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        showDisputedTerritories
+        disputedTerritoryColor="#123456"
+      />,
+    );
+    const crimea = container.querySelector<SVGPathElement>(
+      '[data-disputed-territory="crimea"]',
+    )!;
+    const taiwan = container.querySelector<SVGPathElement>(
+      '[data-disputed-territory="taiwan"]',
+    )!;
+
+    expect(crimea.style.fill).toBe("#123456");
+    expect(crimea.style.strokeDasharray).toBe("2 1");
+    // Taiwan's display guidance is "unchanged": solid border.
+    expect(taiwan.style.strokeDasharray).toBe("");
+    // Ukraine itself keeps the default country style.
+    expect(pathWithTitle(container, "Ukraine").style.fill).not.toBe("#123456");
+  });
+
+  it("uses the dispute metadata for the default tooltip", () => {
+    const { container } = render(
+      <WorldMap data={DATA} showDisputedTerritories />,
+    );
+    const title = container.querySelector(
+      '[data-disputed-territory="crimea"] > title',
+    )?.textContent;
+
+    expect(title).toBe(
+      "Crimea: disputed. Recognized sovereign: Ukraine. Controlled by: Russia. Parties: Ukraine, Russia",
+    );
+  });
+
+  it("supports a custom tooltip and a click handler", async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+    const { container } = render(
+      <WorldMap
+        data={DATA}
+        showDisputedTerritories
+        disputedTerritoryTooltipFunction={(context) =>
+          `${context.territoryName} (${context.dispute.id})`
+        }
+        onDisputedTerritoryClick={onClick}
+      />,
+    );
+    const crimea = container.querySelector<SVGPathElement>(
+      '[data-disputed-territory="crimea"]',
+    )!;
+
+    expect(crimea.querySelector("title")?.textContent).toBe("Crimea (crimea)");
+    await user.click(crimea);
+    expect(onClick).toHaveBeenCalledWith(
+      expect.objectContaining({
+        territoryId: "crimea",
+        territoryName: "Crimea",
+        administration: "Admin. by Russia; Claimed by Ukraine",
+        dispute: expect.objectContaining({
+          id: "crimea",
+          unStanding: expect.stringContaining("68/262"),
+        }),
+        event: expect.any(Object),
+      }),
+    );
   });
 });

@@ -7,6 +7,7 @@ import {
   getDisputeByCountryCode,
   getDisputeById,
 } from "../disputes.js";
+import { disputedTerritoryAreas } from "../disputedTerritoryAreas.js";
 import type {
   DisputeClassification,
   DisputeDisplayGuidance,
@@ -43,6 +44,7 @@ describe("disputedTerritories", () => {
       expect(dispute.disputeParties.length).toBeGreaterThan(0);
       expect(dispute.territories.length).toBeGreaterThan(0);
       expect(dispute.sourceRationale.length).toBeGreaterThan(0);
+      expect(dispute.unStanding.length).toBeGreaterThan(0);
       expect(dispute.display.tooltipLabel.length).toBeGreaterThan(0);
       expect(dispute.display.defaultDescription.length).toBeGreaterThan(0);
       expect(dispute.reviewStatus).toBe("active");
@@ -95,5 +97,20 @@ describe("disputedTerritories", () => {
     expect(status).toBe("disputed");
     expect(display.borderStyle).toBe("dashed");
     expect(classification.id).toBe("crimea");
+  });
+
+  it("has overlay shapes for every Tier 1 dispute, and only those", () => {
+    const shapeDisputes = new Set(
+      disputedTerritoryAreas.map((area) => area.disputeId),
+    );
+
+    const compare = (a: string, b: string) => a.localeCompare(b);
+
+    expect([...shapeDisputes].sort(compare)).toEqual(
+      [...disputeIds].sort(compare),
+    );
+    expect(new Set(disputedTerritoryAreas.map((area) => area.id)).size).toBe(
+      disputedTerritoryAreas.length,
+    );
   });
 });

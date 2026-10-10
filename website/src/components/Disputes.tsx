@@ -1,66 +1,54 @@
 import * as React from "react";
 import { useState } from "react";
-import type { CountryContext, Data } from "react-svg-worldmap";
+import type { DisputedTerritoryContext } from "react-svg-worldmap";
 import WorldMap from "react-svg-worldmap";
 
-const data: Data = [
-  { country: "ua", value: 1 }, // Ukraine (Crimea)
-  { country: "ps", value: 1 }, // Palestinian Territories
-  { country: "tw", value: 1 }, // Taiwan
-  { country: "in", value: 1 }, // India (Kashmir)
-  { country: "pk", value: 1 }, // Pakistan (Kashmir)
-  { country: "eh", value: 1 }, // Western Sahara
-  { country: "xk", value: 1 }, // Kosovo
-  { country: "fr", value: 1 }, // France (no dispute)
-];
-
-const getStyle = ({ dispute, color, countryValue }: CountryContext) => ({
-  fill: color,
-  fillOpacity: countryValue ? 0.5 : 0,
-  stroke: dispute ? "#b00020" : "black",
-  strokeWidth: dispute ? 1.5 : 1,
-  strokeDasharray:
-    dispute?.display.borderStyle === "dashed" ? "4 2" : undefined,
-  cursor: "pointer",
-});
-
-const getTooltip = ({ dispute, countryName }: CountryContext) =>
-  dispute?.display.tooltipLabel ?? countryName;
-
 export default function Disputes(): JSX.Element {
-  const [selected, setSelected] = useState<CountryContext | null>(null);
+  const [selected, setSelected] = useState<DisputedTerritoryContext | null>(
+    null,
+  );
 
-  const clickAction = React.useCallback((context: CountryContext) => {
-    setSelected(context);
-  }, []);
+  const clickAction = React.useCallback(
+    ({
+      territoryId,
+      territoryName,
+      administration,
+      dispute,
+    }: DisputedTerritoryContext) => {
+      setSelected({ territoryId, territoryName, administration, dispute });
+    },
+    [],
+  );
 
   const dispute = selected?.dispute;
 
   return (
     <>
       <WorldMap
-        color="green"
-        title="Dispute metadata"
+        title="Disputed territories"
         size="lg"
-        data={data}
-        styleFunction={getStyle}
-        tooltipTextFunction={getTooltip}
-        onClickFunction={clickAction}
+        data={[]}
+        richInteraction
+        showDisputedTerritories
+        onDisputedTerritoryClick={clickAction}
       />
       <section aria-live="polite">
-        {!selected && <p>Click a country to see its dispute metadata.</p>}
-        {selected && !dispute && (
+        {!selected && (
           <p>
-            {selected.countryName} ({selected.countryCode}): no dispute
-            metadata.
+            Click a red territory to see its dispute details. Double-click the
+            map to zoom in.
           </p>
         )}
         {selected && dispute && (
           <dl>
-            <dt>Country</dt>
-            <dd>
-              {selected.countryName} ({selected.countryCode})
-            </dd>
+            <dt>Territory</dt>
+            <dd>{selected.territoryName}</dd>
+            {selected.administration && (
+              <>
+                <dt>Administration</dt>
+                <dd>{selected.administration}</dd>
+              </>
+            )}
             <dt>Dispute</dt>
             <dd>
               {dispute.name} ({dispute.status})
@@ -79,6 +67,8 @@ export default function Disputes(): JSX.Element {
                 <dd>{dispute.controllingPower}</dd>
               </>
             )}
+            <dt>UN standing</dt>
+            <dd>{dispute.unStanding}</dd>
             <dt>Rationale</dt>
             <dd>{dispute.sourceRationale}</dd>
           </dl>

@@ -44,8 +44,16 @@ declare module "react-svg-worldmap" {
     disputeParties: readonly string[];
     territories: readonly string[];
     sourceRationale: string;
+    unStanding: string;
     display: DisputeDisplayGuidance;
     reviewStatus: DisputeReviewStatus;
+  }
+
+  export interface DisputedTerritoryContext {
+    territoryId: string;
+    territoryName: string;
+    administration: string;
+    dispute: DisputeClassification;
   }
 
   export interface CountryContext<T extends string | number = number> {
@@ -78,6 +86,16 @@ declare module "react-svg-worldmap" {
     frameColor?: string;
     borderColor?: string;
     richInteraction?: boolean;
+    showDisputedTerritories?: boolean;
+    disputedTerritoryColor?: string;
+    disputedTerritoryTooltipFunction?: (
+      context: DisputedTerritoryContext,
+    ) => string;
+    onDisputedTerritoryClick?: (
+      context: DisputedTerritoryContext & {
+        event: React.MouseEvent<SVGElement, Event>;
+      },
+    ) => void;
     type?: string;
     styleFunction?: (context: CountryContext<T>) => React.CSSProperties;
     onClickFunction?: (

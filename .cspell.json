@@ -15,6 +15,7 @@
     "yarn.lock",
     "project-words.txt",
     "lib/src/countries.topo.ts",
+    "lib/src/disputed-territories.topo.ts",
     ".specify",
     ".github",
     "**/__snapshots__/**"

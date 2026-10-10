@@ -49,8 +49,23 @@ export interface DisputeClassification {
   disputeParties: readonly string[];
   territories: readonly string[];
   sourceRationale: string;
+  /** The dispute's standing in United Nations resolutions and processes. */
+  unStanding: string;
   display: DisputeDisplayGuidance;
   reviewStatus: DisputeReviewStatus;
+}
+
+/** Context for one disputed-territory shape drawn by the overlay. */
+export interface DisputedTerritoryContext {
+  /** Territory id, e.g. `"crimea"` or `"aksai-chin"`. */
+  territoryId: string;
+  territoryName: string;
+  /**
+   * Natural Earth administration note, e.g.
+   * "Admin. by Russia; Claimed by Ukraine". Empty when none.
+   */
+  administration: string;
+  dispute: DisputeClassification;
 }
 
 export interface CountryContext<T extends string | number = number> {
@@ -90,6 +105,22 @@ export interface Props<T extends string | number = number> {
   frameColor?: string;
   borderColor?: string;
   richInteraction?: boolean;
+  /**
+   * Draw the disputed territories (Crimea, Kashmir areas, West Bank, Gaza,
+   * Western Sahara, Kosovo, Taiwan) as an overlay above the countries.
+   * Off by default.
+   */
+  showDisputedTerritories?: boolean;
+  /** Fill and border colour of the disputed-territory overlay. */
+  disputedTerritoryColor?: string;
+  disputedTerritoryTooltipFunction?: (
+    context: DisputedTerritoryContext,
+  ) => string;
+  onDisputedTerritoryClick?: (
+    context: DisputedTerritoryContext & {
+      event: React.MouseEvent<SVGElement, Event>;
+    },
+  ) => void;
 
   styleFunction?: (context: CountryContext<T>) => React.CSSProperties;
 

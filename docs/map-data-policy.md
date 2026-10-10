@@ -86,7 +86,16 @@ Examples:
 
 ## Dispute Metadata In The Package
 
-The Tier 1 cases are also exported as metadata from `react-svg-worldmap` (`disputedTerritories`, `getDisputeByCountryCode`, and related types), and passed to callbacks as `context.dispute` for the rendered countries they touch. The metadata records recognized sovereignty, current control, dispute parties, and display guidance separately. It does not change the bundled geometry or the default rendering; consumers opt in through `styleFunction`, `tooltipTextFunction`, or their own UI.
+The Tier 1 cases are also exported as metadata from `react-svg-worldmap` (`disputedTerritories`, `getDisputeByCountryCode`, and related types), and passed to callbacks as `context.dispute` for the rendered countries they touch. The metadata records recognized sovereignty, current control, dispute parties, UN standing, and display guidance separately.
+
+## Disputed-Territory Overlay
+
+The package also ships shapes for the disputed territories themselves, drawn only when consumers set `showDisputedTerritories`. The default rendering and the bundled country geometry are unchanged.
+
+- Source: `Natural Earth 5.1.2 Admin 0 Breakaway and Disputed Areas` (10m), pinned to the `v5.1.2` tag, simplified and quantized by `lib/scripts/build-disputed-territories.mjs` into `lib/src/disputed-territories.topo.ts`.
+- Territories: Crimea; Jammu and Kashmir, Azad Kashmir, Gilgit-Baltistan, Aksai Chin, and Siachen Glacier; West Bank (including East Jerusalem, following UN usage) and Gaza; the Moroccan- and SADR-administered parts of Western Sahara; Kosovo; Taiwan.
+- Each shape carries Natural Earth's administration note (for example "Admin. by Russia; Claimed by Ukraine") next to the project's dispute metadata. The overlay draws territories above the countries; it does not reassign them.
+- Tier 2 and Tier 3 cases present in the source (for example the Paracel and Spratly Islands, or Demchok) are not included.
 
 ## Maintenance Workflow
 

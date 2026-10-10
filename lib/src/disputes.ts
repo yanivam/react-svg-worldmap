@@ -12,6 +12,8 @@ export const disputedTerritories = {
     territories: ["Crimea"],
     sourceRationale:
       "United Nations General Assembly Resolution 68/262 affirms Ukraine's territorial integrity and treats Crimea's status as disputed.",
+    unStanding:
+      "UN General Assembly resolution 68/262 (2014) affirms Ukraine's territorial integrity within its internationally recognized borders and calls on states not to recognize any alteration of the status of Crimea.",
     display: {
       borderStyle: "dashed",
       labelStrategy: "metadata-only",
@@ -30,6 +32,8 @@ export const disputedTerritories = {
     territories: ["West Bank", "Gaza"],
     sourceRationale:
       "The Palestinian Territories are widely treated as a recognition-sensitive case in United Nations processes and international diplomacy.",
+    unStanding:
+      "UN General Assembly resolution 67/19 (2012) accorded Palestine non-member observer State status. UN resolutions, including Security Council resolution 2334 (2016), refer to the West Bank, including East Jerusalem, and Gaza as occupied Palestinian territory.",
     display: {
       borderStyle: "dashed",
       labelStrategy: "segment",
@@ -49,6 +53,8 @@ export const disputedTerritories = {
     territories: ["Taiwan"],
     sourceRationale:
       "Taiwan is separately governed while its international status remains politically sensitive and contested.",
+    unStanding:
+      "UN General Assembly resolution 2758 (1971) recognized the representatives of the People's Republic of China as the only lawful representatives of China to the United Nations. Taiwan is not a UN member.",
     display: {
       borderStyle: "unchanged",
       labelStrategy: "metadata-only",
@@ -69,9 +75,12 @@ export const disputedTerritories = {
       "Azad Kashmir",
       "Gilgit-Baltistan",
       "Aksai Chin",
+      "Siachen Glacier",
     ],
     sourceRationale:
       "Kashmir is a longstanding dispute involving India, Pakistan, and China, with United Nations involvement and divided control lines.",
+    unStanding:
+      "On the UN Security Council agenda as the India-Pakistan question since 1948 (resolution 47). The UN Military Observer Group in India and Pakistan (UNMOGIP) observes the ceasefire line.",
     display: {
       borderStyle: "dashed",
       labelStrategy: "segment",
@@ -90,6 +99,8 @@ export const disputedTerritories = {
     territories: ["Western Sahara"],
     sourceRationale:
       "Western Sahara is listed through the United Nations decolonization framework as a non-self-governing territory.",
+    unStanding:
+      "Listed by the United Nations as a Non-Self-Governing Territory. The UN Mission for the Referendum in Western Sahara (MINURSO) was established by Security Council resolution 690 (1991).",
     display: {
       borderStyle: "dashed",
       labelStrategy: "single",
@@ -108,6 +119,8 @@ export const disputedTerritories = {
     territories: ["Kosovo"],
     sourceRationale:
       "Kosovo is partially recognized internationally and remains diplomatically disputed by Serbia.",
+    unStanding:
+      "UN Security Council resolution 1244 (1999) remains in force. Kosovo is not a UN member. The International Court of Justice advisory opinion of 2010 found that its declaration of independence did not violate international law.",
     display: {
       borderStyle: "dashed",
       labelStrategy: "single",

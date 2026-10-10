@@ -64,9 +64,9 @@ sidebar_position: 5
 
 ## [examples/disputes](/examples/disputes)
 
-- An example of opt-in dispute-aware rendering using `context.dispute`.
-- Countries linked to a Tier 1 dispute get a red border (dashed where the metadata suggests it) and a dispute tooltip label.
-- Clicking a country shows its dispute metadata; countries without a dispute show none.
+- An example of the opt-in disputed-territory overlay (`showDisputedTerritories`).
+- Only the disputed territories are highlighted in red (e.g. Crimea, not all of Ukraine; the Kashmir areas, not India, Pakistan, and China), dashed where the metadata suggests it.
+- Hovering a territory shows its status, recognized sovereign, controlling power, and parties. Clicking it shows the full record, including its UN standing.
 
 ## [examples/string-value](/examples/string-value)
 
