@@ -15,6 +15,7 @@ A lightweight React component for rendering a bundled SVG world map for charts, 
 - Works with standard React applications without a map platform dependency
 - Ships ESM, CJS, and TypeScript declaration files
 - CI enforces automated tests and `>90%` coverage
+- Optional dispute metadata for high-visibility geopolitical cases
 
 ## Documentation & Examples
 
@@ -79,6 +80,24 @@ The project uses a documented source hierarchy instead of treating one raw datas
 3. A repo-maintained overrides register for disputed or recognition-sensitive cases
 
 This project aims to stay neutral by documenting how naming, geometry, and disputed territories are handled. For sensitive cases, maintainers prefer reviewable documentation and coarse small-scale representation over silent or over-precise political claims.
+
+The package exposes Tier 1 dispute metadata for Crimea, Palestinian Territories, Taiwan, Kashmir, Western Sahara, and Kosovo. The default map does not change; consumers can opt into dispute-aware rendering through callback context:
+
+```tsx
+import { WorldMap } from "react-svg-worldmap";
+
+<WorldMap
+  data={[{ country: "UA", value: 1 }]}
+  styleFunction={(context) =>
+    context.dispute?.display.borderStyle === "dashed"
+      ? { strokeDasharray: "4 2" }
+      : {}
+  }
+  tooltipTextFunction={(context) =>
+    context.dispute?.display.tooltipLabel ?? context.countryName
+  }
+/>;
+```
 
 Source attribution and policy details:
 

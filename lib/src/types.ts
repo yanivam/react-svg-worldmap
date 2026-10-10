@@ -6,7 +6,8 @@ import type React from "react";
 /* prettier-ignore */
 const ISO_CODES = ["FJ","TZ","EH","CA","US","KZ","UZ","PG","ID","AR","CL","CD","SO","KE","SD","TD","HT","DO","RU","BS","FK","NO","GL","TL","ZA","LS","MX","UY","BR","BO","PE","CO","PA","CR","NI","HN","SV","GT","BZ","VE","GY","SR","FR","EC","PR","JM","CU","ZW","BW","NA","SN","ML","MR","BJ","NE","NG","CM","TG","GH","CI","GN","GW","LR","SL","BF","CF","CG","GA","GQ","ZM","MW","MZ","SZ","AO","BI","IL","LB","MG","PS","GM","TN","DZ","JO","AE","QA","KW","IQ","OM","VU","KH","TH","LA","MM","VN","KP","KR","MN","IN","BD","BT","NP","PK","AF","TJ","KG","TM","IR","SY","AM","SE","BY","UA","PL","AT","HU","MD","RO","LT","LV","EE","DE","BG","GR","TR","AL","HR","CH","LU","BE","NL","PT","ES","IE","NC","SB","NZ","AU","LK","CN","TW","IT","DK","GB","IS","AZ","GE","PH","MY","BN","SI","FI","SK","CZ","ER","JP","PY","YE","SA","CY","MA","EG","LY","ET","DJ","UG","RW","BA","MK","RS","ME","XK","TT","SS"] as const;
 export type ISOCode =
-  (typeof ISO_CODES)[number] | Lowercase<(typeof ISO_CODES)[number]>;
+  | (typeof ISO_CODES)[number]
+  | Lowercase<(typeof ISO_CODES)[number]>;
 export type SizeOption = "sm" | "md" | "lg" | "xl" | "xxl";
 
 export interface DataItem<T extends string | number = number> {
@@ -15,6 +16,48 @@ export interface DataItem<T extends string | number = number> {
 }
 
 export type Data<T extends string | number = number> = DataItem<T>[];
+
+export type DisputeTier = "tier-1";
+
+export type DisputeStatus =
+  | "disputed"
+  | "partially-recognized"
+  | "non-self-governing"
+  | "politically-sensitive";
+
+export type DisputeReviewStatus =
+  | "active"
+  | "deferred"
+  | "maintainer-review-required";
+
+export type DisputeBorderStyle = "solid" | "dashed" | "unchanged";
+
+export type DisputeLabelStrategy =
+  | "single"
+  | "dual"
+  | "segment"
+  | "metadata-only";
+
+export interface DisputeDisplayGuidance {
+  borderStyle: DisputeBorderStyle;
+  labelStrategy: DisputeLabelStrategy;
+  tooltipLabel: string;
+  defaultDescription: string;
+}
+
+export interface DisputeClassification {
+  id: string;
+  name: string;
+  tier: DisputeTier;
+  status: DisputeStatus;
+  recognizedSovereign?: string | undefined;
+  controllingPower?: string | undefined;
+  disputeParties: readonly string[];
+  territories: readonly string[];
+  sourceRationale: string;
+  display: DisputeDisplayGuidance;
+  reviewStatus: DisputeReviewStatus;
+}
 
 export interface CountryContext<T extends string | number = number> {
   countryCode: ISOCode;
@@ -25,6 +68,7 @@ export interface CountryContext<T extends string | number = number> {
   maxValue: number;
   prefix: string;
   suffix: string;
+  dispute?: DisputeClassification | undefined;
 }
 
 export interface Props<T extends string | number = number> {

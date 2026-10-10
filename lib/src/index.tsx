@@ -17,6 +17,7 @@ import { drawTooltip } from "./draw.js";
 import Frame from "./components/Frame.js";
 import Region from "./components/Region.js";
 import TextLabel from "./components/TextLabel.js";
+import { getDisputeByCountryCode } from "./disputes.js";
 
 export type {
   ISOCode,
@@ -25,7 +26,22 @@ export type {
   Data,
   CountryContext,
   Props,
+  DisputeTier,
+  DisputeStatus,
+  DisputeReviewStatus,
+  DisputeBorderStyle,
+  DisputeLabelStrategy,
+  DisputeDisplayGuidance,
+  DisputeClassification,
 } from "./types.js";
+export {
+  disputedTerritories,
+  disputeIds,
+  disputesByCountryCode,
+  getDisputeByCountryCode,
+  getDisputeById,
+} from "./disputes.js";
+export type { DisputeId } from "./disputes.js";
 
 // Decode the TopoJSON topology once at module load time.
 // `feature()` returns a GeoJSON FeatureCollection; each feature's
@@ -123,6 +139,7 @@ export default function WorldMap<T extends number | string>(
       maxValue,
       prefix: valuePrefix,
       suffix: valueSuffix,
+      dispute: getDisputeByCountryCode(isoCode as ISOCode),
     };
 
     // Resolve href and interactivity once so they can be used for both the

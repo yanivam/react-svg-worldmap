@@ -16,6 +16,7 @@
     "project-words.txt",
     "lib/src/countries.topo.ts",
     ".specify",
-    ".github"
+    ".github",
+    "**/__snapshots__/**"
   ]
 }

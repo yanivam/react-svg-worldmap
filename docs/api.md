@@ -13,6 +13,11 @@ sidebar_position: 4
 - `CountryContext`: the context in rendering each country, to be used in customization callbacks.
 - `Props`: the props type for the `WorldMap` component.
 - `regions`: the list of regions (`{ name, code }`) available in the library
+- `disputedTerritories`: Tier 1 dispute metadata keyed by dispute ID (`crimea`, `palestinian-territories`, `taiwan`, `kashmir`, `western-sahara`, `kosovo`).
+- `disputeIds`: the list of dispute IDs.
+- `disputesByCountryCode`: map from rendered country code (e.g. `UA`, `XK`) to dispute ID.
+- `getDisputeById(id)` / `getDisputeByCountryCode(code)`: lookups returning a `DisputeClassification` (or `undefined` for a country code with no dispute).
+- `DisputeClassification`, `DisputeDisplayGuidance`, `DisputeTier`, `DisputeStatus`, `DisputeReviewStatus`, `DisputeBorderStyle`, `DisputeLabelStrategy`, `DisputeId`: types for the dispute metadata.
 - `WorldMap`: available both as named and default export. The actual component to be rendered.
 
 ## Props
@@ -61,5 +66,6 @@ type CountryContext = {
   maxValue: number;
   prefix: string;
   suffix: string;
+  dispute?: DisputeClassification; // Tier 1 dispute metadata, if any
 };
 ```
