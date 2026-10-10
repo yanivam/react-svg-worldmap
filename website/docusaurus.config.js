@@ -32,6 +32,7 @@ module.exports = {
             { to: "/examples/links", label: "Binding links" },
             { to: "/examples/text-labels", label: "Text labels" },
             { to: "/examples/rich-interaction", label: "Rich interactions" },
+            { to: "/examples/disputes", label: "Dispute metadata" },
           ],
         },
         {

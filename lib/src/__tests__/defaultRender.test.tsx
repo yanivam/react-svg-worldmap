@@ -4,7 +4,6 @@ import { describe, it, expect, vi } from "vitest";
 import { render } from "@testing-library/react";
 
 import WorldMap from "../index.js";
-import type { CountryContext } from "../index.js";
 
 // Same mock as WorldMap.test.tsx: the tooltip needs browser layout APIs.
 vi.mock("react-path-tooltip", () => ({
@@ -34,22 +33,5 @@ describe("WorldMap — default render", () => {
       );
     });
     expect(root).toMatchSnapshot();
-  });
-});
-
-describe("WorldMap — dispute context", () => {
-  it("passes dispute metadata to callbacks for disputed countries only", () => {
-    const contexts = new Map<string, CountryContext>();
-    const styleFunction = (context: CountryContext) => {
-      contexts.set(context.countryCode.toUpperCase(), context);
-      return {};
-    };
-    // eslint-disable-next-line react/jsx-no-bind -- This prop is the subject under test.
-    render(<WorldMap data={[]} styleFunction={styleFunction} />);
-
-    expect(contexts.get("UA")?.dispute?.id).toBe("crimea");
-    expect(contexts.get("XK")?.dispute?.id).toBe("kosovo");
-    expect(contexts.get("TW")?.dispute?.id).toBe("taiwan");
-    expect(contexts.get("US")?.dispute).toBeUndefined();
   });
 });

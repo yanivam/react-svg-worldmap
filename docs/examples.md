@@ -62,6 +62,12 @@ sidebar_position: 5
 - An example showing how a map with rich interactions enabled is like.
 - Try double-clicking on the map!
 
+## [examples/disputes](/examples/disputes)
+
+- An example of opt-in dispute-aware rendering using `context.dispute`.
+- Countries linked to a Tier 1 dispute get a red border (dashed where the metadata suggests it) and a dispute tooltip label.
+- Clicking a country shows its dispute metadata; countries without a dispute show none.
+
 ## [examples/string-value](/examples/string-value)
 
 - Some users do not have a need to display numeric values.
