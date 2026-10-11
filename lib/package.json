@@ -62,7 +62,7 @@
     "topojson-server": "^3.0.1",
     "tsup": "^8.5.1",
     "tsx": "^4.23.15",
-    "vitest": "^3.2.4"
+    "vitest": "^4.1.11"
   },
   "peerDependencies": {
     "react": ">=16.8",
