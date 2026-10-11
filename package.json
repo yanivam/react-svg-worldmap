@@ -45,6 +45,8 @@
   "resolutions": {
     "cheerio": "1.0.0",
     "image-size": "2.0.3",
-    "webpack": ">=5.105.4 <5.106.0"
+    "webpack": ">=5.105.4 <5.106.0",
+    "serialize-javascript": "^7.0.5",
+    "**/sockjs/uuid": "^14.0.3"
   }
 }
