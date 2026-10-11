@@ -102,7 +102,7 @@ describe("WorldMap — title and accessibility", () => {
   it("countries with data get a tooltip title that includes the value", () => {
     const { container } = render(<WorldMap data={DATA} valueSuffix="people" />);
     const titles = Array.from(container.querySelectorAll("path > title")).map(
-      (t) => t.textContent ?? "",
+      (t) => t.textContent,
     );
     // At least one title should mention the United States
     expect(titles.some((t) => t.includes("United States"))).toBe(true);
