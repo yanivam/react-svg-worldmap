@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "defaultRepresentation": "coarse-neutral",
   "sourceHierarchy": [
     "UNSD M49",
@@ -9,34 +9,72 @@
   ],
   "cases": [
     {
-      "id": "western-sahara",
-      "mode": "maintainer-review-required",
-      "notes": "Keep representation explicitly reviewable because sovereignty remains disputed."
-    },
-    {
-      "id": "kosovo",
-      "mode": "maintainer-review-required",
-      "notes": "Review naming and depiction together rather than silently adopting a single recognition model."
-    },
-    {
       "id": "crimea",
+      "tier": "tier-1",
       "mode": "coarse-neutral",
-      "notes": "Avoid presenting the small-scale default map as a legal or diplomatic boundary determination."
+      "reviewStatus": "active",
+      "cutoffCriteria": ["United Nations resolutions or processes"],
+      "notes": "Ukraine is the recognized baseline; Russia is recorded separately as controlling power where relevant. Avoid presenting the small-scale default map as a legal or diplomatic boundary determination."
     },
     {
-      "id": "palestine",
+      "id": "palestinian-territories",
+      "tier": "tier-1",
       "mode": "name-policy",
-      "notes": "Treat terminology and classification as the primary policy surface and document any geometry review."
+      "reviewStatus": "active",
+      "cutoffCriteria": [
+        "United Nations resolutions or processes",
+        "major geopolitical datasets"
+      ],
+      "notes": "Treat the West Bank and Gaza as distinguishable where scale supports it; terminology and classification are the primary policy surface."
     },
     {
       "id": "taiwan",
+      "tier": "tier-1",
       "mode": "name-policy",
-      "notes": "Handle naming and classification explicitly and review geometry changes before release."
+      "reviewStatus": "active",
+      "cutoffCriteria": [
+        "recognized interstate dispute",
+        "major map platforms"
+      ],
+      "notes": "Handle naming, separate control, and classification explicitly without implying universal recognition."
+    },
+    {
+      "id": "kashmir",
+      "tier": "tier-1",
+      "mode": "coarse-neutral",
+      "reviewStatus": "active",
+      "cutoffCriteria": [
+        "United Nations resolutions or processes",
+        "recognized interstate dispute"
+      ],
+      "notes": "Represent the dispute between India, Pakistan, and China through metadata and coarse display guidance unless a later reviewed feature adds precise segment geometry."
+    },
+    {
+      "id": "western-sahara",
+      "tier": "tier-1",
+      "mode": "maintainer-review-required",
+      "reviewStatus": "active",
+      "cutoffCriteria": ["United Nations processes"],
+      "notes": "Keep representation explicitly reviewable because sovereignty remains disputed and the territory is treated through the United Nations decolonization framework."
+    },
+    {
+      "id": "kosovo",
+      "tier": "tier-1",
+      "mode": "maintainer-review-required",
+      "reviewStatus": "active",
+      "cutoffCriteria": [
+        "partial international recognition",
+        "major map platforms"
+      ],
+      "notes": "Review naming and depiction together rather than silently adopting a single recognition model."
     },
     {
       "id": "northern-cyprus",
+      "tier": "tier-3",
       "mode": "maintainer-review-required",
-      "notes": "Do not change depiction silently because representation is recognition-sensitive."
+      "reviewStatus": "deferred",
+      "cutoffCriteria": ["limited international recognition"],
+      "notes": "Deferred expansion candidate. Do not change depiction silently because representation is recognition-sensitive."
     }
   ]
 }

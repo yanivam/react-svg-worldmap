@@ -15,6 +15,47 @@ declare module "react-svg-worldmap" {
 
   export type Data<T extends string | number = number> = DataItem<T>[];
 
+  export type DisputeTier = "tier-1";
+  export type DisputeStatus =
+    | "disputed"
+    | "partially-recognized"
+    | "non-self-governing"
+    | "politically-sensitive";
+  export type DisputeReviewStatus =
+    "active" | "deferred" | "maintainer-review-required";
+  export type DisputeBorderStyle = "solid" | "dashed" | "unchanged";
+  export type DisputeLabelStrategy =
+    "single" | "dual" | "segment" | "metadata-only";
+
+  export interface DisputeDisplayGuidance {
+    borderStyle: DisputeBorderStyle;
+    labelStrategy: DisputeLabelStrategy;
+    tooltipLabel: string;
+    defaultDescription: string;
+  }
+
+  export interface DisputeClassification {
+    id: string;
+    name: string;
+    tier: DisputeTier;
+    status: DisputeStatus;
+    recognizedSovereign?: string | undefined;
+    controllingPower?: string | undefined;
+    disputeParties: readonly string[];
+    territories: readonly string[];
+    sourceRationale: string;
+    unStanding: string;
+    display: DisputeDisplayGuidance;
+    reviewStatus: DisputeReviewStatus;
+  }
+
+  export interface DisputedTerritoryContext {
+    territoryId: string;
+    territoryName: string;
+    administration: string;
+    dispute: DisputeClassification;
+  }
+
   export interface CountryContext<T extends string | number = number> {
     countryCode: ISOCode;
     countryName: string;
@@ -24,6 +65,7 @@ declare module "react-svg-worldmap" {
     maxValue: number;
     prefix: string;
     suffix: string;
+    dispute?: DisputeClassification | undefined;
   }
 
   export interface Props<T extends string | number = number> {
@@ -44,6 +86,16 @@ declare module "react-svg-worldmap" {
     frameColor?: string;
     borderColor?: string;
     richInteraction?: boolean;
+    showDisputedTerritories?: boolean;
+    disputedTerritoryColor?: string;
+    disputedTerritoryTooltipFunction?: (
+      context: DisputedTerritoryContext,
+    ) => string;
+    onDisputedTerritoryClick?: (
+      context: DisputedTerritoryContext & {
+        event: React.MouseEvent<SVGElement, Event>;
+      },
+    ) => void;
     type?: string;
     styleFunction?: (context: CountryContext<T>) => React.CSSProperties;
     onClickFunction?: (

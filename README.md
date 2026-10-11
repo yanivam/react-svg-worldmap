@@ -17,6 +17,7 @@ A lightweight React component for rendering a bundled SVG world map for charts, 
 - Works with standard React applications without a map platform dependency
 - Ships ESM, CJS, and TypeScript declaration files
 - CI enforces automated tests and `>90%` coverage
+- Optional dispute metadata and disputed-territory overlay for high-visibility geopolitical cases
 
 ## Documentation & Examples
 
@@ -82,11 +83,28 @@ The project uses a documented source hierarchy instead of treating one raw datas
 
 This project aims to stay neutral by documenting how naming, geometry, and disputed territories are handled. For sensitive cases, maintainers prefer reviewable documentation and coarse small-scale representation over silent or over-precise political claims.
 
+The package exposes Tier 1 dispute metadata for Crimea, Palestinian Territories, Taiwan, Kashmir, Western Sahara, and Kosovo, with shapes for the disputed territories themselves (for example Crimea rather than all of Ukraine, and the Kashmir areas rather than India, Pakistan, and China). The default map does not change. Turn on the overlay to highlight the territories, with tooltips listing status, recognized sovereign, controlling power, and parties:
+
+```tsx
+import { WorldMap } from "react-svg-worldmap";
+
+<WorldMap
+  data={[]}
+  showDisputedTerritories
+  onDisputedTerritoryClick={({ territoryName, dispute }) =>
+    console.log(territoryName, dispute.unStanding)
+  }
+/>;
+```
+
+Country callbacks also receive the metadata as `context.dispute`, for example to style the countries involved.
+
 Source attribution and policy details:
 
 - [Map data policy](https://github.com/yanivam/react-svg-worldmap/blob/main/docs/map-data-policy.md)
 - [Sensitive-case overrides register](https://github.com/yanivam/react-svg-worldmap/blob/main/docs/map-data-overrides.json)
 - [Natural Earth Admin 0 Countries](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-0-countries/)
+- [Natural Earth Admin 0 Breakaway and Disputed Areas](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-0-breakaway-disputed-areas/) (disputed-territory overlay)
 - [UNSD M49](https://unstats.un.org/unsd/methodology/m49/)
 - [UNTERM](https://unterm.un.org/)
 
