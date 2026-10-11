@@ -1,5 +1,7 @@
-const lightCodeTheme = require("prism-react-renderer/themes/github");
-const darkCodeTheme = require("prism-react-renderer/themes/vsDark");
+const { themes: prismThemes } = require("prism-react-renderer");
+
+const lightCodeTheme = prismThemes.github;
+const darkCodeTheme = prismThemes.vsDark;
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
@@ -9,7 +11,11 @@ module.exports = {
   url: "https://yanivam.github.io",
   baseUrl: "/react-svg-worldmap/",
   onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "warn",
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: "warn",
+    },
+  },
   themeConfig: {
     navbar: {
       title: "React Worldmap",

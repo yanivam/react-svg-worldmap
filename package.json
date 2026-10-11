@@ -39,7 +39,7 @@
     "prettier": "^3.9.9",
     "prettier-config-jc": "^2.3.0",
     "tsconfig-jc": "^2.3.1",
-    "typescript": "^4.9.5"
+    "typescript": "^5.4.5"
   },
   "version": "2.0.0",
   "resolutions": {
