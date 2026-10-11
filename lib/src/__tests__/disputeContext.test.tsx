@@ -24,7 +24,7 @@ const tooltipText = (context: CountryContext) =>
 // Finds the country path whose <title> (the tooltip text) contains `text`.
 function pathWithTitle(container: HTMLElement, text: string) {
   const title = Array.from(container.querySelectorAll("path > title")).find(
-    (t) => t.textContent?.includes(text),
+    (t) => t.textContent.includes(text),
   );
   if (!title) throw new Error(`No path with title containing "${text}"`);
   return title.parentElement as unknown as SVGPathElement;

@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.1",
-    "@types/node": "^18.19.130",
+    "@types/node": "^22.0.0",
     "@types/react": "^18.3.31",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",

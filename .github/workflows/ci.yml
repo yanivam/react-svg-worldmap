@@ -21,13 +21,13 @@ jobs:
       run_coverage: false
     strategy:
       matrix:
-        node_version: ["18", "20", "22"]
+        node_version: ["22", "24"]
 
   coverage:
     name: Coverage
     uses: ./.github/workflows/build-and-test.yml
     with:
-      node_version: "20"
+      node_version: "22"
       run_coverage: true
 
   # Step 3: Lint (format, types, eslint, spellcheck)
@@ -38,7 +38,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: yarn
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -65,7 +65,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: yarn
       - name: Install dependencies
         run: yarn install --frozen-lockfile
