@@ -36,7 +36,6 @@ testid
 topo
 topojson
 Topo
-tsup
 typecheck
 unidos
 vitest

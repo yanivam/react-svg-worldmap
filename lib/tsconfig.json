@@ -1,6 +1,6 @@
 {
   "extends": "../node_modules/tsconfig-jc/tsconfig.json",
-  "include": ["src", "tsup.config.ts"],
+  "include": ["src"],
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
