@@ -1,0 +1,1602 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 1`] = `
+<div
+  class="worldmap__wrapper"
+  style="width: 100%; min-height: 0;"
+>
+  <figure
+    class="worldmap__figure-container"
+    style="background-color: white;"
+  >
+    <svg
+      aria-label="World map"
+      height="0px"
+      role="img"
+      width="0px"
+    >
+      <g
+        style="transition: all 0.2s;"
+        transform="translate(0, 0) scale(0) translate(0, 240)"
+      >
+        <path
+          d="sha1:a11aba922f49"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Fiji
+          </title>
+        </path>
+        <path
+          d="sha1:03946437bf34"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Tanzania
+          </title>
+        </path>
+        <path
+          d="sha1:b0c1c9944b34"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Western Sahara
+          </title>
+        </path>
+        <path
+          d="sha1:c45a9ff9444c"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Canada
+          </title>
+        </path>
+        <path
+          d="sha1:e3bae026af5f"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0.8; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            United States 100
+          </title>
+        </path>
+        <path
+          d="sha1:e2546908bbb5"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Kazakhstan
+          </title>
+        </path>
+        <path
+          d="sha1:a1ea899f2e33"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Uzbekistan
+          </title>
+        </path>
+        <path
+          d="sha1:50da5eb77471"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Papua New Guinea
+          </title>
+        </path>
+        <path
+          d="sha1:1ad63fae3e18"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Indonesia
+          </title>
+        </path>
+        <path
+          d="sha1:fcfe3f9d44a7"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Argentina
+          </title>
+        </path>
+        <path
+          d="sha1:597a99b9d9d6"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Chile
+          </title>
+        </path>
+        <path
+          d="sha1:c317157b797c"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Democratic Republic of the Congo
+          </title>
+        </path>
+        <path
+          d="sha1:fb4ae6f92b6c"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Somalia
+          </title>
+        </path>
+        <path
+          d="sha1:84c5ded53750"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Kenya
+          </title>
+        </path>
+        <path
+          d="sha1:626ab4b14916"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Sudan
+          </title>
+        </path>
+        <path
+          d="sha1:21409964dfe7"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Chad
+          </title>
+        </path>
+        <path
+          d="sha1:65a5f6311cc1"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Haiti
+          </title>
+        </path>
+        <path
+          d="sha1:a5aac057b38f"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Dominican Republic
+          </title>
+        </path>
+        <path
+          d="sha1:8043a1a98fb7"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Russia
+          </title>
+        </path>
+        <path
+          d="sha1:fe2c182767ae"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Bahamas
+          </title>
+        </path>
+        <path
+          d="sha1:2be24f81ecd3"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Falkland Islands
+          </title>
+        </path>
+        <path
+          d="sha1:6b9813ec4acf"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Norway
+          </title>
+        </path>
+        <path
+          d="sha1:d14a4f2491f4"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Greenland
+          </title>
+        </path>
+        <path
+          d="sha1:00a6521a8638"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Timor-Leste
+          </title>
+        </path>
+        <path
+          d="sha1:d8563559f7ec"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            South Africa
+          </title>
+        </path>
+        <path
+          d="sha1:56f75c3ee36b"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Lesotho
+          </title>
+        </path>
+        <path
+          d="sha1:38c766994def"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Mexico
+          </title>
+        </path>
+        <path
+          d="sha1:447d219e82fd"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Uruguay
+          </title>
+        </path>
+        <path
+          d="sha1:2f02d9d9826b"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Brazil
+          </title>
+        </path>
+        <path
+          d="sha1:4965fd1ca9eb"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Bolivia
+          </title>
+        </path>
+        <path
+          d="sha1:2a56bc584909"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Peru
+          </title>
+        </path>
+        <path
+          d="sha1:a9ee18251e64"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Colombia
+          </title>
+        </path>
+        <path
+          d="sha1:f812fb5dce3a"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Panama
+          </title>
+        </path>
+        <path
+          d="sha1:0c513a4cb26c"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Costa Rica
+          </title>
+        </path>
+        <path
+          d="sha1:68738cc26667"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Nicaragua
+          </title>
+        </path>
+        <path
+          d="sha1:7104a878ac1b"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Honduras
+          </title>
+        </path>
+        <path
+          d="sha1:439530e4003f"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            El Salvador
+          </title>
+        </path>
+        <path
+          d="sha1:0d155a3ee388"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Guatemala
+          </title>
+        </path>
+        <path
+          d="sha1:85bb42ccaeca"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Belize
+          </title>
+        </path>
+        <path
+          d="sha1:ebc3a18b3dbd"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Venezuela
+          </title>
+        </path>
+        <path
+          d="sha1:bb336b1e237c"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Guyana
+          </title>
+        </path>
+        <path
+          d="sha1:e4a721f53351"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Suriname
+          </title>
+        </path>
+        <path
+          d="sha1:294a109c087b"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            France
+          </title>
+        </path>
+        <path
+          d="sha1:aab4b3ff95c1"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Ecuador
+          </title>
+        </path>
+        <path
+          d="sha1:c2303ab94450"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Puerto Rico
+          </title>
+        </path>
+        <path
+          d="sha1:ac38b63a2c8b"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Jamaica
+          </title>
+        </path>
+        <path
+          d="sha1:89d34c04df14"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Cuba
+          </title>
+        </path>
+        <path
+          d="sha1:f2846184440e"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Zimbabwe
+          </title>
+        </path>
+        <path
+          d="sha1:8a3d4479e497"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Botswana
+          </title>
+        </path>
+        <path
+          d="sha1:f47ca1f04860"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Namibia
+          </title>
+        </path>
+        <path
+          d="sha1:a3bcf9a55d10"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Senegal
+          </title>
+        </path>
+        <path
+          d="sha1:0c66e710f781"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Mali
+          </title>
+        </path>
+        <path
+          d="sha1:bdabbca3ea8c"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Mauritania
+          </title>
+        </path>
+        <path
+          d="sha1:20ecee2d34a9"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Benin
+          </title>
+        </path>
+        <path
+          d="sha1:380cff139853"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Niger
+          </title>
+        </path>
+        <path
+          d="sha1:d8654d97a926"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Nigeria
+          </title>
+        </path>
+        <path
+          d="sha1:cad3aefb9c84"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Cameroon
+          </title>
+        </path>
+        <path
+          d="sha1:c939731e11be"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Togo
+          </title>
+        </path>
+        <path
+          d="sha1:acc7c9785538"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Ghana
+          </title>
+        </path>
+        <path
+          d="sha1:4458149a7ae9"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Côted'Ivoire
+          </title>
+        </path>
+        <path
+          d="sha1:939b8817add7"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Guinea
+          </title>
+        </path>
+        <path
+          d="sha1:54f2c889e812"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Guinea-Bissau
+          </title>
+        </path>
+        <path
+          d="sha1:ffbcf0998eda"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Liberia
+          </title>
+        </path>
+        <path
+          d="sha1:8b580751685c"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Sierra Leone
+          </title>
+        </path>
+        <path
+          d="sha1:afb79b6d439c"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Burkina Faso
+          </title>
+        </path>
+        <path
+          d="sha1:1e53b119098b"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Central African Republic
+          </title>
+        </path>
+        <path
+          d="sha1:0e8067f0eb90"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Republic of the Congo
+          </title>
+        </path>
+        <path
+          d="sha1:66a1b6a011e7"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Gabon
+          </title>
+        </path>
+        <path
+          d="sha1:108ae6ad0f6d"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Equatorial Guinea
+          </title>
+        </path>
+        <path
+          d="sha1:61759c0e72dc"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Zambia
+          </title>
+        </path>
+        <path
+          d="sha1:1dbeea0b9ce2"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Malawi
+          </title>
+        </path>
+        <path
+          d="sha1:8417aed0011a"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Mozambique
+          </title>
+        </path>
+        <path
+          d="sha1:2cea07f52f4e"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Eswatini
+          </title>
+        </path>
+        <path
+          d="sha1:5298c2b7ee7a"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Angola
+          </title>
+        </path>
+        <path
+          d="sha1:ffe1cbc71457"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Burundi
+          </title>
+        </path>
+        <path
+          d="sha1:1e3d8bba399e"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Israel
+          </title>
+        </path>
+        <path
+          d="sha1:35e97a8b9f0d"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Lebanon
+          </title>
+        </path>
+        <path
+          d="sha1:de74fd94d404"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Madagascar
+          </title>
+        </path>
+        <path
+          d="sha1:5600f993f7e8"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Palestine
+          </title>
+        </path>
+        <path
+          d="sha1:9f7e3dfcb04b"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            The Gambia
+          </title>
+        </path>
+        <path
+          d="sha1:35822a9368e6"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Tunisia
+          </title>
+        </path>
+        <path
+          d="sha1:6acf1520fc54"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Algeria
+          </title>
+        </path>
+        <path
+          d="sha1:b14d116e2602"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Jordan
+          </title>
+        </path>
+        <path
+          d="sha1:3a9c31fdffc4"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            United Arab Emirates
+          </title>
+        </path>
+        <path
+          d="sha1:caf569ab3fbd"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Qatar
+          </title>
+        </path>
+        <path
+          d="sha1:c961f1f3f59f"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Kuwait
+          </title>
+        </path>
+        <path
+          d="sha1:623692a0b6b1"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Iraq
+          </title>
+        </path>
+        <path
+          d="sha1:99e9a65bcd4b"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Oman
+          </title>
+        </path>
+        <path
+          d="sha1:a806fc22f84c"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Vanuatu
+          </title>
+        </path>
+        <path
+          d="sha1:8f6b9774b091"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Cambodia
+          </title>
+        </path>
+        <path
+          d="sha1:fdf6aedb6176"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Thailand
+          </title>
+        </path>
+        <path
+          d="sha1:22623ce0f5d4"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Lao PDR
+          </title>
+        </path>
+        <path
+          d="sha1:ea7e1db99836"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Myanmar
+          </title>
+        </path>
+        <path
+          d="sha1:e5efa102e482"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Vietnam
+          </title>
+        </path>
+        <path
+          d="sha1:c53f28fcbc40"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Dem. Rep. Korea
+          </title>
+        </path>
+        <path
+          d="sha1:31dbae21aa90"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Republic of Korea
+          </title>
+        </path>
+        <path
+          d="sha1:75a50b99511b"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Mongolia
+          </title>
+        </path>
+        <path
+          d="sha1:b8b3c0eea541"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            India
+          </title>
+        </path>
+        <path
+          d="sha1:4d53038afaa8"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Bangladesh
+          </title>
+        </path>
+        <path
+          d="sha1:fbcbcf2318d4"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Bhutan
+          </title>
+        </path>
+        <path
+          d="sha1:a17219178bbd"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Nepal
+          </title>
+        </path>
+        <path
+          d="sha1:8f2491907278"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Pakistan
+          </title>
+        </path>
+        <path
+          d="sha1:aeeaf5b1e256"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Afghanistan
+          </title>
+        </path>
+        <path
+          d="sha1:82e479f6652a"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Tajikistan
+          </title>
+        </path>
+        <path
+          d="sha1:13e8684943ed"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Kyrgyzstan
+          </title>
+        </path>
+        <path
+          d="sha1:9a23cc31d346"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Turkmenistan
+          </title>
+        </path>
+        <path
+          d="sha1:f6207750abca"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Iran
+          </title>
+        </path>
+        <path
+          d="sha1:055c36779d0c"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Syria
+          </title>
+        </path>
+        <path
+          d="sha1:742e9eadc5cd"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Armenia
+          </title>
+        </path>
+        <path
+          d="sha1:1b00744dcb3c"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Sweden
+          </title>
+        </path>
+        <path
+          d="sha1:5da59a4085b7"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Belarus
+          </title>
+        </path>
+        <path
+          d="sha1:fb86ff7c8c6f"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0.2; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Ukraine 50
+          </title>
+        </path>
+        <path
+          d="sha1:d82dec1b266d"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Poland
+          </title>
+        </path>
+        <path
+          d="sha1:f9d564e0c66f"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Austria
+          </title>
+        </path>
+        <path
+          d="sha1:0f8dfaa57228"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Hungary
+          </title>
+        </path>
+        <path
+          d="sha1:d56649e93ceb"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Moldova
+          </title>
+        </path>
+        <path
+          d="sha1:271ffa477534"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Romania
+          </title>
+        </path>
+        <path
+          d="sha1:22930a0c4794"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Lithuania
+          </title>
+        </path>
+        <path
+          d="sha1:c5b2e55948f8"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Latvia
+          </title>
+        </path>
+        <path
+          d="sha1:7038d8d51dc0"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Estonia
+          </title>
+        </path>
+        <path
+          d="sha1:a2d5bb930481"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Germany
+          </title>
+        </path>
+        <path
+          d="sha1:e831168dbd1b"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Bulgaria
+          </title>
+        </path>
+        <path
+          d="sha1:07bf8e84fd52"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Greece
+          </title>
+        </path>
+        <path
+          d="sha1:a84f0b59e605"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Turkey
+          </title>
+        </path>
+        <path
+          d="sha1:f45df6c5e956"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Albania
+          </title>
+        </path>
+        <path
+          d="sha1:310700978e22"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Croatia
+          </title>
+        </path>
+        <path
+          d="sha1:941a44c1c68f"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Switzerland
+          </title>
+        </path>
+        <path
+          d="sha1:c83e3879e204"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Luxembourg
+          </title>
+        </path>
+        <path
+          d="sha1:3bcc4b8e115f"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Belgium
+          </title>
+        </path>
+        <path
+          d="sha1:9ef1099a89b7"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Netherlands
+          </title>
+        </path>
+        <path
+          d="sha1:b7c2f6bae01f"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Portugal
+          </title>
+        </path>
+        <path
+          d="sha1:a95d984bc7de"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Spain
+          </title>
+        </path>
+        <path
+          d="sha1:8c1166ba1ddb"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Ireland
+          </title>
+        </path>
+        <path
+          d="sha1:8f04dfb73162"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            New Caledonia
+          </title>
+        </path>
+        <path
+          d="sha1:c8a0466170b4"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Solomon Islands
+          </title>
+        </path>
+        <path
+          d="sha1:9cd3df1d3db6"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            New Zealand
+          </title>
+        </path>
+        <path
+          d="sha1:d29521e7a905"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Australia
+          </title>
+        </path>
+        <path
+          d="sha1:4b9e02579eb9"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Sri Lanka
+          </title>
+        </path>
+        <path
+          d="sha1:6054cb2724c4"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            China
+          </title>
+        </path>
+        <path
+          d="sha1:8c6cd4de92ca"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Taiwan
+          </title>
+        </path>
+        <path
+          d="sha1:c47fc60ccbc9"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Italy
+          </title>
+        </path>
+        <path
+          d="sha1:609e4ddda59b"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Denmark
+          </title>
+        </path>
+        <path
+          d="sha1:b683f5db714d"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            United Kingdom
+          </title>
+        </path>
+        <path
+          d="sha1:61fb6d70786b"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Iceland
+          </title>
+        </path>
+        <path
+          d="sha1:279632901237"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Azerbaijan
+          </title>
+        </path>
+        <path
+          d="sha1:96d03f14d934"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Georgia
+          </title>
+        </path>
+        <path
+          d="sha1:ae04f8f733ea"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Philippines
+          </title>
+        </path>
+        <path
+          d="sha1:a4887f8bb6de"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Malaysia
+          </title>
+        </path>
+        <path
+          d="sha1:b7c29151d572"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Brunei Darussalam
+          </title>
+        </path>
+        <path
+          d="sha1:b87f7d2c3beb"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Slovenia
+          </title>
+        </path>
+        <path
+          d="sha1:7ed1c4c5a020"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Finland
+          </title>
+        </path>
+        <path
+          d="sha1:b08a20adae0c"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Slovakia
+          </title>
+        </path>
+        <path
+          d="sha1:22b3457f8ac7"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Czech Republic
+          </title>
+        </path>
+        <path
+          d="sha1:b794b0073a79"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Eritrea
+          </title>
+        </path>
+        <path
+          d="sha1:3660f19918fb"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Japan
+          </title>
+        </path>
+        <path
+          d="sha1:4bc1e010a4b5"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Paraguay
+          </title>
+        </path>
+        <path
+          d="sha1:19021bb7d726"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Yemen
+          </title>
+        </path>
+        <path
+          d="sha1:89fdeaa80ec4"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Saudi Arabia
+          </title>
+        </path>
+        <path
+          d="sha1:60b42268c6e5"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Northern Cyprus
+          </title>
+        </path>
+        <path
+          d="sha1:00b01b97b434"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Cyprus
+          </title>
+        </path>
+        <path
+          d="sha1:22feb22e0bdf"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Morocco
+          </title>
+        </path>
+        <path
+          d="sha1:e5ef8a8088e0"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Egypt
+          </title>
+        </path>
+        <path
+          d="sha1:fc31a7d6a2ef"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Libya
+          </title>
+        </path>
+        <path
+          d="sha1:99be13dd6604"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Ethiopia
+          </title>
+        </path>
+        <path
+          d="sha1:17ad470f077f"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Djibouti
+          </title>
+        </path>
+        <path
+          d="sha1:f48aab44d92d"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Somaliland
+          </title>
+        </path>
+        <path
+          d="sha1:9ef4247b8ed1"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Uganda
+          </title>
+        </path>
+        <path
+          d="sha1:e4597c633d72"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Rwanda
+          </title>
+        </path>
+        <path
+          d="sha1:ef6cc46be970"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Bosnia and Herzegovina
+          </title>
+        </path>
+        <path
+          d="sha1:87dbd505b947"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Macedonia
+          </title>
+        </path>
+        <path
+          d="sha1:b0ad5576bd1b"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Serbia
+          </title>
+        </path>
+        <path
+          d="sha1:8221079622d5"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Montenegro
+          </title>
+        </path>
+        <path
+          d="sha1:aa2427aff36a"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Kosovo
+          </title>
+        </path>
+        <path
+          d="sha1:e817021a5aa1"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            Trinidad and Tobago
+          </title>
+        </path>
+        <path
+          d="sha1:8091e935324c"
+          stroke-opacity="0.2"
+          style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
+        >
+          <title>
+            South Sudan
+          </title>
+        </path>
+      </g>
+      <g />
+    </svg>
+  </figure>
+</div>
+`;

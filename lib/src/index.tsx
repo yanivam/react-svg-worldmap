@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState, useRef } from "react";
 import type GeoJSON from "geojson";
-import { geoMercator, geoPath } from "d3-geo";
+import { geoPath } from "d3-geo";
 import { feature as topoFeature } from "topojson-client";
 import topoData from "./countries.topo.js";
 import type {
@@ -10,6 +10,7 @@ import type {
   DataItem,
   DisputedTerritoryContext,
   ISOCode,
+  ProjectionOption,
 } from "./types.js";
 import {
   defaultColor,
@@ -27,10 +28,12 @@ import Region from "./components/Region.js";
 import TextLabel from "./components/TextLabel.js";
 import { disputedTerritories, getDisputeByCountryCode } from "./disputes.js";
 import { disputedTerritoryFeatures } from "./disputedTerritoryAreas.js";
+import { createProjection, defaultProjection } from "./projections.js";
 
 export type {
   ISOCode,
   SizeOption,
+  ProjectionOption,
   DataItem,
   Data,
   CountryContext,
@@ -54,18 +57,32 @@ export {
 export type { DisputeId } from "./disputes.js";
 export { disputedTerritoryAreas } from "./disputedTerritoryAreas.js";
 export type { DisputedTerritoryArea } from "./disputedTerritoryAreas.js";
+export { projectionOptions } from "./projections.js";
 
 // Decode the TopoJSON topology once at module load time.
 // `feature()` returns a GeoJSON FeatureCollection; each feature's
 // properties carries { N: countryName, I: isoCode } as set during encoding.
 /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
-const geoFeatures = (
-  topoFeature(
-    topoData,
-    topoData.objects.countries,
-  ) as unknown as GeoJSON.FeatureCollection
-).features as Array<GeoJSON.Feature & { properties: { N: string; I: string } }>;
+const geoCollection = topoFeature(
+  topoData,
+  topoData.objects.countries,
+) as unknown as GeoJSON.FeatureCollection;
 /* eslint-enable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
+const geoFeatures = geoCollection.features as Array<
+  GeoJSON.Feature & { properties: { N: string; I: string } }
+>;
+
+// One path generator per projection, built on first use. The projections
+// depend only on the bundled countries, so they never change between renders.
+const pathGenerators = new Map<ProjectionOption, ReturnType<typeof geoPath>>();
+function getPathGenerator(option: ProjectionOption) {
+  let generator = pathGenerators.get(option);
+  if (!generator) {
+    generator = geoPath().projection(createProjection(option, geoCollection));
+    pathGenerators.set(option, generator);
+  }
+  return generator;
+}
 
 function toValue({ value }: DataItem<string | number>): number {
   return typeof value === "string" ? 0 : value;
@@ -86,6 +103,7 @@ export default function WorldMap<T extends number | string>(
     tooltipTextColor = "white",
     rtl = false,
     size = defaultSize,
+    projection = defaultProjection,
     frame = false,
     frameColor = "black",
     borderColor = "black",
@@ -147,8 +165,7 @@ export default function WorldMap<T extends number | string>(
   const maxValue = numericValues.length > 0 ? Math.max(...numericValues) : 0;
 
   // Build a path & a tooltip for each country
-  const projection = geoMercator();
-  const pathGenerator = geoPath().projection(projection);
+  const pathGenerator = getPathGenerator(projection);
 
   const regionElements = geoFeatures.map((geoFeature, i) => {
     const triggerRef = triggerRefs.current[i]!;

@@ -8,6 +8,8 @@ const ISO_CODES = ["FJ","TZ","EH","CA","US","KZ","UZ","PG","ID","AR","CL","CD","
 export type ISOCode =
   (typeof ISO_CODES)[number] | Lowercase<(typeof ISO_CODES)[number]>;
 export type SizeOption = "sm" | "md" | "lg" | "xl" | "xxl";
+/** Map projection. `"mercator"` is the default. */
+export type ProjectionOption = "mercator" | "equalEarth";
 
 export interface DataItem<T extends string | number = number> {
   country: ISOCode;
@@ -97,6 +99,11 @@ export interface Props<T extends string | number = number> {
    * - "sm" | "md" | "lg" | "xl" | "xxl": preset cap, shrinks if smaller
    */
   size?: SizeOption | "responsive" | number;
+  /**
+   * Map projection. `"mercator"` (default) or `"equalEarth"`, an equal-area
+   * projection that shows countries at their true relative size.
+   */
+  projection?: ProjectionOption;
   frame?: boolean;
   /** Optional class for the wrapper div (for CSP or custom layout). */
   containerClassName?: string;

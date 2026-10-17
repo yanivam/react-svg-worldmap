@@ -78,3 +78,26 @@ TODO:
 - Vertical-scrolling causes the map to zoom in and out.
 - Draggable when zoomed in.
 - Separate scale slider and zoom button components.
+
+## Projections
+
+`WorldMap` draws in the Mercator projection by default. Mercator keeps local shapes but inflates areas far from the equator: Greenland looks about as large as Africa, which is about 14 times larger.
+
+Pass `projection="equalEarth"` to use the [Equal Earth](https://en.wikipedia.org/wiki/Equal_Earth_projection) equal-area projection, where countries keep their true relative size. The African Union adopted it as its standard world map in 2026, and the UN General Assembly's non-binding "Correct the Map" resolution of 4 September 2026 recommends equal-area maps such as Equal Earth for general use.
+
+```tsx
+import { WorldMap, type ProjectionOption } from "react-svg-worldmap";
+
+const [projection, setProjection] = useState<ProjectionOption>("mercator");
+
+<WorldMap data={data} projection={projection} />;
+```
+
+Notes:
+
+- The default stays `mercator`, so existing maps render exactly as before.
+- The SVG keeps its 4:3 size. Equal Earth is wider than it is tall, so the map fills the width and is centred vertically.
+- Tooltips, click and href callbacks, `richInteraction` zoom, and `showDisputedTerritories` work the same in both projections.
+- `textLabelFunction` positions are SVG pixels. Labels placed for Mercator may need new coordinates for Equal Earth.
+
+See the [Projections example](/examples/projections), which switches between both projections.
