@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, react/jsx-no-bind -- userEvent is untyped here (as in WorldMap.test.tsx); callback props are the subject under test. */
-import { createHash } from "node:crypto";
 import * as React from "react";
 import { describe, it, expect, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/react";
@@ -12,6 +11,7 @@ import WorldMap, { projectionOptions } from "../index.js";
 import type { CountryContext, ProjectionOption } from "../index.js";
 import { createProjection, defaultProjection } from "../projections.js";
 import topoData from "../countries.topo.js";
+import { withHashedPaths } from "./snapshotPaths.js";
 
 // Same mock as WorldMap.test.tsx: the tooltip needs browser layout APIs.
 vi.mock("react-path-tooltip", () => ({
@@ -200,14 +200,6 @@ describe("WorldMap — projection prop", () => {
     const { container } = render(
       <WorldMap data={DATA} projection="equalEarth" />,
     );
-    const root = container.firstElementChild!.cloneNode(true) as Element;
-    root.querySelectorAll("path[d]").forEach((path) => {
-      const d = path.getAttribute("d")!;
-      path.setAttribute(
-        "d",
-        `sha1:${createHash("sha1").update(d).digest("hex").slice(0, 12)}`,
-      );
-    });
-    expect(root).toMatchSnapshot();
+    expect(withHashedPaths(container.firstElementChild!)).toMatchSnapshot();
   });
 });

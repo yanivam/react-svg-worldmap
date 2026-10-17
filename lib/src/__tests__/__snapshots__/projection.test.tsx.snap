@@ -20,7 +20,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
         transform="translate(0, 0) scale(0) translate(0, 240)"
       >
         <path
-          d="sha1:a11aba922f49"
+          d="sha1:4ea6036fc64e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -29,7 +29,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:03946437bf34"
+          d="sha1:3ff97396be2f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -38,7 +38,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:b0c1c9944b34"
+          d="sha1:a2826aa8d6fc"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -47,7 +47,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:c45a9ff9444c"
+          d="sha1:3900f241b5ff"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -56,7 +56,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:e3bae026af5f"
+          d="sha1:2822404c7b41"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0.8; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -65,7 +65,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:e2546908bbb5"
+          d="sha1:294741372bf5"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -74,7 +74,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:a1ea899f2e33"
+          d="sha1:9cdbd12347ba"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -83,7 +83,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:50da5eb77471"
+          d="sha1:0bbeb82965f8"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -92,7 +92,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:1ad63fae3e18"
+          d="sha1:ddd7f47473c1"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -101,7 +101,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:fcfe3f9d44a7"
+          d="sha1:4609ee1e371f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -110,7 +110,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:597a99b9d9d6"
+          d="sha1:8ea2f9c194ae"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -119,7 +119,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:c317157b797c"
+          d="sha1:d4f836ed2444"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -128,7 +128,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:fb4ae6f92b6c"
+          d="sha1:82302eb7b11f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -137,7 +137,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:84c5ded53750"
+          d="sha1:078ee184620a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -146,7 +146,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:626ab4b14916"
+          d="sha1:b96a8765af2d"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -155,7 +155,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:21409964dfe7"
+          d="sha1:58ecadfb14e1"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -164,7 +164,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:65a5f6311cc1"
+          d="sha1:3fc4e559c79a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -173,7 +173,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:a5aac057b38f"
+          d="sha1:9f0b4e9f205c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -182,7 +182,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:8043a1a98fb7"
+          d="sha1:4c07bf69abd7"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -191,7 +191,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:fe2c182767ae"
+          d="sha1:d6150a186b3c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -200,7 +200,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:2be24f81ecd3"
+          d="sha1:2b4368e280f2"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -209,7 +209,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:6b9813ec4acf"
+          d="sha1:3c5d05020dbf"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -218,7 +218,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:d14a4f2491f4"
+          d="sha1:0c10d826cdf6"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -227,7 +227,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:00a6521a8638"
+          d="sha1:5cfdf4b551fb"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -236,7 +236,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:d8563559f7ec"
+          d="sha1:df8c77300b93"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -245,7 +245,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:56f75c3ee36b"
+          d="sha1:d560febc0006"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -254,7 +254,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:38c766994def"
+          d="sha1:410f89b8501e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -263,7 +263,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:447d219e82fd"
+          d="sha1:007ee3f90691"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -272,7 +272,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:2f02d9d9826b"
+          d="sha1:cd613e67ee7c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -281,7 +281,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:4965fd1ca9eb"
+          d="sha1:c8d12c8e447f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -290,7 +290,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:2a56bc584909"
+          d="sha1:12bb3468f147"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -299,7 +299,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:a9ee18251e64"
+          d="sha1:f5afbb2f6aa6"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -308,7 +308,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:f812fb5dce3a"
+          d="sha1:b57e11282db5"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -317,7 +317,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:0c513a4cb26c"
+          d="sha1:409807c33bc2"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -326,7 +326,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:68738cc26667"
+          d="sha1:52278c235ead"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -335,7 +335,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:7104a878ac1b"
+          d="sha1:56716b16a22e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -344,7 +344,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:439530e4003f"
+          d="sha1:5166dd31d88a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -353,7 +353,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:0d155a3ee388"
+          d="sha1:65725b0a3287"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -362,7 +362,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:85bb42ccaeca"
+          d="sha1:7c464914dc9e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -371,7 +371,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:ebc3a18b3dbd"
+          d="sha1:2dd5e230708e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -380,7 +380,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:bb336b1e237c"
+          d="sha1:35344270cb2d"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -389,7 +389,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:e4a721f53351"
+          d="sha1:015920bd93be"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -398,7 +398,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:294a109c087b"
+          d="sha1:3a1cf3c124c1"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -407,7 +407,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:aab4b3ff95c1"
+          d="sha1:a42292d729d5"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -416,7 +416,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:c2303ab94450"
+          d="sha1:e014325544b5"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -425,7 +425,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:ac38b63a2c8b"
+          d="sha1:07e3c6108406"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -434,7 +434,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:89d34c04df14"
+          d="sha1:196d8a082c2a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -443,7 +443,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:f2846184440e"
+          d="sha1:be67f0d5fcc3"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -452,7 +452,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:8a3d4479e497"
+          d="sha1:08bb4cb7c1b9"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -461,7 +461,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:f47ca1f04860"
+          d="sha1:11371a120282"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -470,7 +470,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:a3bcf9a55d10"
+          d="sha1:7310b0afc693"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -479,7 +479,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:0c66e710f781"
+          d="sha1:f965d69691cc"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -488,7 +488,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:bdabbca3ea8c"
+          d="sha1:d5f8f28c3ba6"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -497,7 +497,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:20ecee2d34a9"
+          d="sha1:e4bfcff937c7"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -506,7 +506,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:380cff139853"
+          d="sha1:cd3ddef92ed5"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -515,7 +515,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:d8654d97a926"
+          d="sha1:8a01a9b52b6a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -524,7 +524,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:cad3aefb9c84"
+          d="sha1:a0fb9693c927"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -533,7 +533,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:c939731e11be"
+          d="sha1:d9eb2833121a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -542,7 +542,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:acc7c9785538"
+          d="sha1:a3222215293b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -551,7 +551,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:4458149a7ae9"
+          d="sha1:2f760b106a02"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -560,7 +560,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:939b8817add7"
+          d="sha1:e760d45f730b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -569,7 +569,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:54f2c889e812"
+          d="sha1:f343d2663a89"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -578,7 +578,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:ffbcf0998eda"
+          d="sha1:442ff4e3957e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -587,7 +587,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:8b580751685c"
+          d="sha1:193e261be53e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -596,7 +596,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:afb79b6d439c"
+          d="sha1:9cc53646bc0b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -605,7 +605,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:1e53b119098b"
+          d="sha1:75975bbaffae"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -614,7 +614,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:0e8067f0eb90"
+          d="sha1:5fa73010b6a8"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -623,7 +623,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:66a1b6a011e7"
+          d="sha1:7e36b766bfcd"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -632,7 +632,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:108ae6ad0f6d"
+          d="sha1:f466b735b018"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -641,7 +641,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:61759c0e72dc"
+          d="sha1:5eb43e77ba4a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -650,7 +650,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:1dbeea0b9ce2"
+          d="sha1:9cdb7401f425"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -659,7 +659,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:8417aed0011a"
+          d="sha1:719dcf8a4765"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -668,7 +668,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:2cea07f52f4e"
+          d="sha1:d0389a4492cc"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -677,7 +677,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:5298c2b7ee7a"
+          d="sha1:b10c8dc2c195"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -686,7 +686,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:ffe1cbc71457"
+          d="sha1:1f7503149a47"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -695,7 +695,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:1e3d8bba399e"
+          d="sha1:8ff34092f268"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -704,7 +704,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:35e97a8b9f0d"
+          d="sha1:969fe84459d7"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -713,7 +713,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:de74fd94d404"
+          d="sha1:193483c5a07c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -722,7 +722,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:5600f993f7e8"
+          d="sha1:2a620aced13f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -731,7 +731,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:9f7e3dfcb04b"
+          d="sha1:7a1cc75bd30b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -740,7 +740,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:35822a9368e6"
+          d="sha1:9579bd6b19cd"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -749,7 +749,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:6acf1520fc54"
+          d="sha1:5afe32a059f0"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -758,7 +758,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:b14d116e2602"
+          d="sha1:ce1d89a94b28"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -767,7 +767,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:3a9c31fdffc4"
+          d="sha1:68f3e171b1b2"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -776,7 +776,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:caf569ab3fbd"
+          d="sha1:957d4d85d4ae"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -785,7 +785,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:c961f1f3f59f"
+          d="sha1:6ad7d9764fc1"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -794,7 +794,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:623692a0b6b1"
+          d="sha1:8fc7579054d4"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -803,7 +803,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:99e9a65bcd4b"
+          d="sha1:95c322c0c280"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -812,7 +812,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:a806fc22f84c"
+          d="sha1:cf8b3f7de7de"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -821,7 +821,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:8f6b9774b091"
+          d="sha1:8b8546b21f31"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -830,7 +830,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:fdf6aedb6176"
+          d="sha1:457c56969009"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -839,7 +839,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:22623ce0f5d4"
+          d="sha1:be4daf99e080"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -848,7 +848,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:ea7e1db99836"
+          d="sha1:0edd30a740e0"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -857,7 +857,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:e5efa102e482"
+          d="sha1:b933572a00be"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -866,7 +866,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:c53f28fcbc40"
+          d="sha1:c76e48c40f72"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -875,7 +875,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:31dbae21aa90"
+          d="sha1:bca1ee62d4b1"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -884,7 +884,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:75a50b99511b"
+          d="sha1:fd6d0374cf8e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -893,7 +893,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:b8b3c0eea541"
+          d="sha1:5cd91f17de90"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -902,7 +902,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:4d53038afaa8"
+          d="sha1:e0358878ae87"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -911,7 +911,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:fbcbcf2318d4"
+          d="sha1:9aa05d17ed77"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -920,7 +920,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:a17219178bbd"
+          d="sha1:c735ec15610b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -929,7 +929,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:8f2491907278"
+          d="sha1:5f01da21d1ee"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -938,7 +938,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:aeeaf5b1e256"
+          d="sha1:03534f631c43"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -947,7 +947,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:82e479f6652a"
+          d="sha1:b9498ef34777"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -956,7 +956,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:13e8684943ed"
+          d="sha1:21c23b5a8b4c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -965,7 +965,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:9a23cc31d346"
+          d="sha1:0625393d7f07"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -974,7 +974,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:f6207750abca"
+          d="sha1:f0b30f5db327"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -983,7 +983,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:055c36779d0c"
+          d="sha1:eef55299b28b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -992,7 +992,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:742e9eadc5cd"
+          d="sha1:a0325431489b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1001,7 +1001,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:1b00744dcb3c"
+          d="sha1:903ca56cb65a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1010,7 +1010,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:5da59a4085b7"
+          d="sha1:9046dba197ab"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1019,7 +1019,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:fb86ff7c8c6f"
+          d="sha1:173c6a375083"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0.2; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1028,7 +1028,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:d82dec1b266d"
+          d="sha1:e38a177527dd"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1037,7 +1037,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:f9d564e0c66f"
+          d="sha1:4273861beef6"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1046,7 +1046,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:0f8dfaa57228"
+          d="sha1:848b9756df69"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1055,7 +1055,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:d56649e93ceb"
+          d="sha1:95b04cc60fef"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1064,7 +1064,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:271ffa477534"
+          d="sha1:215eb1199d5a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1073,7 +1073,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:22930a0c4794"
+          d="sha1:ab634488dcca"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1082,7 +1082,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:c5b2e55948f8"
+          d="sha1:8282e9c4f41b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1091,7 +1091,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:7038d8d51dc0"
+          d="sha1:f7e2ed40b6ec"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1100,7 +1100,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:a2d5bb930481"
+          d="sha1:12024b96bade"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1109,7 +1109,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:e831168dbd1b"
+          d="sha1:f03c4c6e9f5c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1118,7 +1118,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:07bf8e84fd52"
+          d="sha1:8e7306ffd159"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1127,7 +1127,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:a84f0b59e605"
+          d="sha1:720348c6ae70"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1136,7 +1136,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:f45df6c5e956"
+          d="sha1:4d5d8d9d9b39"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1145,7 +1145,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:310700978e22"
+          d="sha1:e6b78f619ca1"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1154,7 +1154,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:941a44c1c68f"
+          d="sha1:79ec3879891f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1163,7 +1163,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:c83e3879e204"
+          d="sha1:6f36a2afbe37"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1172,7 +1172,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:3bcc4b8e115f"
+          d="sha1:427544bc4dde"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1181,7 +1181,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:9ef1099a89b7"
+          d="sha1:af4d9e8fbae4"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1190,7 +1190,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:b7c2f6bae01f"
+          d="sha1:ee2a7878ff1f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1199,7 +1199,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:a95d984bc7de"
+          d="sha1:1e07ebbe63d8"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1208,7 +1208,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:8c1166ba1ddb"
+          d="sha1:590732d61a79"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1217,7 +1217,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:8f04dfb73162"
+          d="sha1:16e874a1643f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1226,7 +1226,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:c8a0466170b4"
+          d="sha1:2ac82468f1c9"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1235,7 +1235,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:9cd3df1d3db6"
+          d="sha1:3ac8f244be9e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1244,7 +1244,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:d29521e7a905"
+          d="sha1:5ceb2a0607da"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1253,7 +1253,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:4b9e02579eb9"
+          d="sha1:5ac033c72da9"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1262,7 +1262,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:6054cb2724c4"
+          d="sha1:a76fa9006fae"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1271,7 +1271,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:8c6cd4de92ca"
+          d="sha1:9fe7f57867a0"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1280,7 +1280,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:c47fc60ccbc9"
+          d="sha1:9050b069d192"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1289,7 +1289,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:609e4ddda59b"
+          d="sha1:aff97705fab8"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1298,7 +1298,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:b683f5db714d"
+          d="sha1:51c1bd70a1b2"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1307,7 +1307,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:61fb6d70786b"
+          d="sha1:86013d536491"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1316,7 +1316,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:279632901237"
+          d="sha1:24a7f1553545"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1325,7 +1325,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:96d03f14d934"
+          d="sha1:cbfc5fad84e2"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1334,7 +1334,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:ae04f8f733ea"
+          d="sha1:12cfe9be8cab"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1343,7 +1343,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:a4887f8bb6de"
+          d="sha1:59233b8321de"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1352,7 +1352,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:b7c29151d572"
+          d="sha1:bb5e6516e60e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1361,7 +1361,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:b87f7d2c3beb"
+          d="sha1:bcc2ac6c6a63"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1370,7 +1370,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:7ed1c4c5a020"
+          d="sha1:36cd8cf3ad25"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1379,7 +1379,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:b08a20adae0c"
+          d="sha1:c3ac1570f1ce"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1388,7 +1388,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:22b3457f8ac7"
+          d="sha1:43bee2c244b9"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1397,7 +1397,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:b794b0073a79"
+          d="sha1:49c9664f7628"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1406,7 +1406,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:3660f19918fb"
+          d="sha1:08492b7fc582"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1415,7 +1415,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:4bc1e010a4b5"
+          d="sha1:fc497951da79"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1424,7 +1424,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:19021bb7d726"
+          d="sha1:cc31bd9ea88b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1433,7 +1433,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:89fdeaa80ec4"
+          d="sha1:cd2d9225cd1e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1442,7 +1442,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:60b42268c6e5"
+          d="sha1:4a338d3e2ff7"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1451,7 +1451,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:00b01b97b434"
+          d="sha1:be62815d8af7"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1460,7 +1460,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:22feb22e0bdf"
+          d="sha1:405ebd34aa44"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1469,7 +1469,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:e5ef8a8088e0"
+          d="sha1:98e062b5a1f9"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1478,7 +1478,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:fc31a7d6a2ef"
+          d="sha1:e9c99c11fdf7"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1487,7 +1487,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:99be13dd6604"
+          d="sha1:a5b13ba29620"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1496,7 +1496,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:17ad470f077f"
+          d="sha1:b558af9520ec"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1505,7 +1505,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:f48aab44d92d"
+          d="sha1:7b4e0fca4bb0"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1514,7 +1514,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:9ef4247b8ed1"
+          d="sha1:5e7aa5080c9c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1523,7 +1523,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:e4597c633d72"
+          d="sha1:2a5e4401cb25"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1532,7 +1532,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:ef6cc46be970"
+          d="sha1:121cbd637571"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1541,7 +1541,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:87dbd505b947"
+          d="sha1:88ca6df1bc89"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1550,7 +1550,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:b0ad5576bd1b"
+          d="sha1:246f36e411c8"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1559,7 +1559,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:8221079622d5"
+          d="sha1:c418afbb7afd"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1568,7 +1568,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:aa2427aff36a"
+          d="sha1:6dfb757fae54"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1577,7 +1577,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:e817021a5aa1"
+          d="sha1:0f6519156742"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1586,7 +1586,7 @@ exports[`WorldMap — projection prop > matches the Equal Earth render snapshot 
           </title>
         </path>
         <path
-          d="sha1:8091e935324c"
+          d="sha1:4879a02b8ea9"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
