@@ -96,8 +96,8 @@ const [projection, setProjection] = useState<ProjectionOption>("mercator");
 Notes:
 
 - The default stays `mercator`, so existing maps render exactly as before.
-- The SVG keeps its 4:3 size. Equal Earth is wider than it is tall, so the map fills the width and is centred vertically.
+- Equal Earth is about twice as wide as it is tall, so the SVG uses a 2:1 frame (height = width / 2) instead of the 4:3 Mercator frame. The width and sizing presets are unchanged.
 - Tooltips, click and href callbacks, `richInteraction` zoom, and `showDisputedTerritories` work the same in both projections.
 - `textLabelFunction` positions are SVG pixels. Labels placed for Mercator may need new coordinates for Equal Earth.
 
-See the [Projections example](/examples/projections), which switches between both projections.
+See the [Equal Earth example](/examples/equal-earth), which switches between both projections and shows the disputed-territory overlay.

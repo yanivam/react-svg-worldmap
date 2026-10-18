@@ -39,7 +39,7 @@ module.exports = {
             { to: "/examples/text-labels", label: "Text labels" },
             { to: "/examples/rich-interaction", label: "Rich interactions" },
             { to: "/examples/disputes", label: "Dispute metadata" },
-            { to: "/examples/projections", label: "Projections" },
+            { to: "/examples/equal-earth", label: "Equal Earth" },
           ],
         },
         {

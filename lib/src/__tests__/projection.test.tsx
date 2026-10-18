@@ -70,15 +70,14 @@ describe("createProjection", () => {
     expect(mercator.translate()).toEqual([480, 250]);
   });
 
-  it("fits Equal Earth to the full width of the viewport, vertically centred", () => {
+  it("fits Equal Earth to the full width of its 960 × 480 viewport, vertically centred", () => {
     const path = geoPath(createProjection("equalEarth", countries));
     const [[x0, y0], [x1, y1]] = path.bounds(countries);
-    expect(x0).toBeCloseTo(0, 3);
-    expect(x1).toBeCloseTo(960, 3);
-    // The visible area is y = -240 … 480 in projection coordinates.
-    expect(y0).toBeGreaterThan(-240);
-    expect(y1).toBeLessThan(480);
-    expect((y0 + y1) / 2).toBeCloseTo(120, 3);
+    expect(x0).toBeCloseTo(8, 3);
+    expect(x1).toBeCloseTo(952, 3);
+    expect(y0).toBeGreaterThanOrEqual(8);
+    expect(y1).toBeLessThanOrEqual(472);
+    expect((y0 + y1) / 2).toBeCloseTo(240, 3);
   });
 
   it("draws areas at their true relative size with Equal Earth only", () => {
@@ -112,14 +111,21 @@ describe("WorldMap — projection prop", () => {
     );
   });
 
-  it("keeps the SVG size and the viewport transform", () => {
-    const { container } = render(
+  it("uses a 2:1 frame for Equal Earth and keeps 4:3 for Mercator", () => {
+    const equalEarth = render(
       <WorldMap data={DATA} size={480} projection="equalEarth" />,
+    ).container.querySelector("svg")!;
+    expect(equalEarth.getAttribute("width")).toBe("480px");
+    expect(equalEarth.getAttribute("height")).toBe("240px");
+    expect(equalEarth.querySelector("g")!.getAttribute("transform")).toBe(
+      "translate(0, 0) scale(0.5) translate(0, 0)",
     );
-    const svg = container.querySelector("svg")!;
-    expect(svg.getAttribute("width")).toBe("480px");
-    expect(svg.getAttribute("height")).toBe("360px");
-    expect(svg.querySelector("g")!.getAttribute("transform")).toBe(
+
+    const mercator = render(
+      <WorldMap data={DATA} size={480} />,
+    ).container.querySelector("svg")!;
+    expect(mercator.getAttribute("height")).toBe("360px");
+    expect(mercator.querySelector("g")!.getAttribute("transform")).toBe(
       "translate(0, 0) scale(0.5) translate(0, 240)",
     );
   });

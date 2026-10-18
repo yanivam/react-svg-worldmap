@@ -43,7 +43,7 @@ sidebar_position: 4
 | `frameColor` | `string` | Frame color. |
 | `borderColor` | `string` | Border color around each individual country. |
 | `richInteraction` | `boolean` | WHen turned on, double clicks would cause the map to rescale. (Other cool features to come) |
-| `projection` | <code>'mercator' &#124; 'equalEarth'</code> | Map projection. Default `mercator`. `equalEarth` shows countries at their true relative size. See [Projections](./customization.md#projections) and the [Projections example](/examples/projections). |
+| `projection` | <code>'mercator' &#124; 'equalEarth'</code> | Map projection. Default `mercator`. `equalEarth` shows countries at their true relative size. See [Projections](./customization.md#projections) and the [Equal Earth example](/examples/equal-earth). |
 | :construction: `type` :construction: | `string` | Select type of map you want, either "tooltip" or "marker". <br />:memo: This functionality not only complicates the code, but is infrequently used and needs to be redesigned to make it better. For now it is deprecated and has no effect. :memo: |
 | `styleFunction` | `(context: CountryContext) => React.CSSProperties` | A callback function to customize styling of each country (see [Custom styles example](/examples/custom-style)) |
 | `hrefFunction` | <code>(context: CountryContext) => object &#124; string &#124; undefined</code> | A callback function to bind an href link to each country. The return can be the target URL as a string or an object specifying props passed to the anchor element (e.g. `href` and `target`). (see [Href binding example](/examples/links)) |

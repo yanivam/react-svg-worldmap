@@ -23,7 +23,7 @@ A developer passes `projection="equalEarth"` and gets the same component (data c
 **Acceptance Scenarios**:
 
 1. **Given** a WorldMap with `projection="equalEarth"`, **When** it renders, **Then** every country is drawn, and Greenland's projected area is smaller than DR Congo's.
-2. **Given** the same props, **When** compared with the Mercator render, **Then** the SVG width, height, and layout transform are identical.
+2. **Given** the same props, **When** compared with the Mercator render, **Then** the SVG width is identical and the height is width / 2 (2:1 frame, matching the projection) instead of width × 3/4.
 
 ---
 
@@ -43,17 +43,18 @@ A developer who upgrades to 2.3.0 without touching their code sees exactly the s
 
 ---
 
-### User Story 3 - Switch projections at runtime (Priority: P2)
+### User Story 3 - Equal Earth example (Priority: P2)
 
-A website example offers a radio group (Mercator / Equal Earth) that re-renders the same map.
+The website example "Equal Earth" shows a world population map in Equal Earth, with a switch to Mercator and a checkbox for the disputed-territory overlay.
 
 **Why this priority**: Shows the difference between the projections and how to use the prop.
 
-**Independent Test**: Open `/examples/projections` and switch between the options.
+**Independent Test**: Open `/examples/equal-earth` and switch between the options.
 
 **Acceptance Scenarios**:
 
-1. **Given** the Projections example, **When** the user selects Equal Earth, **Then** the map geometry changes; selecting Mercator restores the original geometry.
+1. **Given** the Equal Earth example, **When** the user selects Mercator, **Then** the map geometry and frame change; selecting Equal Earth restores them.
+2. **Given** the overlay checkbox is on, **When** the projection changes, **Then** the disputed territories are drawn in the selected projection.
 
 ---
 
@@ -70,10 +71,10 @@ A website example offers a radio group (Mercator / Equal Earth) that re-renders 
 
 - **FR-001**: `Props.projection?: "mercator" | "equalEarth"`, default `"mercator"`.
 - **FR-002**: Mercator keeps d3 defaults (scale 961 / 2π ≈ 152.95, translate [480, 250]) so default output is unchanged.
-- **FR-003**: Equal Earth is fitted once (cached) to the bundled countries inside the existing 960 × 720 viewport, full width, vertically centred.
+- **FR-003**: Equal Earth is fitted once (cached) to the bundled countries inside a 960 × 480 viewport (8-unit margin), full width, vertically centred. The SVG height is width / 2 for Equal Earth and width × 3/4 for Mercator.
 - **FR-004**: Export the `ProjectionOption` type and the `projectionOptions` list.
 - **FR-005**: Country paths and disputed-territory paths use the selected projection.
-- **FR-006**: Website example `/examples/projections` with a projection switch.
+- **FR-006**: Website example "Equal Earth" (`/examples/equal-earth`) with a projection switch and a disputed-territory overlay toggle.
 
 ### Constitution Requirements _(mandatory)_
 
@@ -95,11 +96,10 @@ A website example offers a radio group (Mercator / Equal Earth) that re-renders 
 ## Out of scope / follow-ups
 
 - Sphere outline (graticule / ocean shape) for Equal Earth.
-- A height ratio adapted to Equal Earth (about 2:1) instead of the fixed 4:3 viewport, which leaves empty space above and below.
 - Other projections (e.g. Natural Earth, Robinson) or a custom projection function.
 - Making Equal Earth the default (would be a major release).
 
 ## Assumptions
 
-- The rendering viewport, size presets and `heightRatio` stay as they are.
-- Snapshot path hashes are generated on x86-64 (as in CI); arm64 machines produce slightly different floating-point output for the same geometry.
+- Size presets and the Mercator 4:3 frame stay as they are; only Equal Earth uses a 2:1 frame.
+- Snapshot path data is rounded to 0.1 before hashing, so the snapshots match on arm64 and x86-64 even though their floating-point output differs slightly.

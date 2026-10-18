@@ -68,10 +68,11 @@ sidebar_position: 5
 - Only the disputed territories are highlighted in red (e.g. Crimea, not all of Ukraine; the Kashmir areas, not India, Pakistan, and China), dashed where the metadata suggests it.
 - Hovering a territory shows its status, recognized sovereign, controlling power, and parties. Clicking it shows the full record, including its UN standing.
 
-## [examples/projections](/examples/projections)
+## [examples/equal-earth](/examples/equal-earth)
 
-- An example that switches the same map between the default Mercator projection and the equal-area Equal Earth projection (`projection="equalEarth"`).
+- A world population map in the equal-area Equal Earth projection (`projection="equalEarth"`), with a switch to compare it with the default Mercator projection.
 - In Equal Earth, Greenland and Europe shrink and Africa shows its true relative size.
+- A checkbox turns the disputed-territory overlay (`showDisputedTerritories`) on and off; it follows the selected projection.
 
 ## [examples/string-value](/examples/string-value)
 

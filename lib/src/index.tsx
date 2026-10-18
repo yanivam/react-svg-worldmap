@@ -15,7 +15,6 @@ import type {
 import {
   defaultColor,
   defaultSize,
-  heightRatio,
   defaultCountryStyle,
   defaultTooltip,
   defaultDisputedTerritoryColor,
@@ -28,7 +27,11 @@ import Region from "./components/Region.js";
 import TextLabel from "./components/TextLabel.js";
 import { disputedTerritories, getDisputeByCountryCode } from "./disputes.js";
 import { disputedTerritoryFeatures } from "./disputedTerritoryAreas.js";
-import { createProjection, defaultProjection } from "./projections.js";
+import {
+  createProjection,
+  defaultProjection,
+  projectionLayouts,
+} from "./projections.js";
 
 export type {
   ISOCode,
@@ -135,7 +138,8 @@ export default function WorldMap<T extends number | string>(
   // Inits
   const width =
     typeof size === "number" ? size : responsify(size, effectiveWidth);
-  const height = width * heightRatio;
+  const layout = projectionLayouts[projection];
+  const height = width * layout.heightRatio;
   const [scale, setScale] = useState(1);
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
@@ -370,7 +374,7 @@ export default function WorldMap<T extends number | string>(
           <g
             transform={`translate(${translateX}, ${translateY}) scale(${
               (width / 960) * scale
-            }) translate(0, 240)`}
+            }) translate(0, ${layout.offsetY})`}
             style={{ transition: "all 0.2s" }}>
             {regionPaths}
             {showDisputedTerritories && (

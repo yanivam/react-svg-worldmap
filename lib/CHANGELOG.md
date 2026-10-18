@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- 49757bc: Add an opt-in `projection` prop. `projection="equalEarth"` draws the map in the equal-area Equal Earth projection, so countries keep their true relative size. The default stays `"mercator"` and renders exactly as before. Also exports the `ProjectionOption` type and the `projectionOptions` list.
+- 49757bc: Add an opt-in `projection` prop. `projection="equalEarth"` draws the map in the equal-area Equal Earth projection, so countries keep their true relative size. The default stays `"mercator"` and renders exactly as before. Equal Earth uses a 2:1 frame (height = width / 2) to match its shape. Also exports the `ProjectionOption` type and the `projectionOptions` list.
 
 ## 2.2.0
 
