@@ -48,6 +48,8 @@
     "image-size": "2.0.3",
     "webpack": ">=5.105.4 <5.106.0",
     "serialize-javascript": "^7.0.5",
-    "**/sockjs/uuid": "^14.0.3"
+    "**/sockjs/uuid": "^14.0.3",
+    "postcss-selector-parser": "^7.1.6",
+    "tinypool": "^2.1.2"
   }
 }
