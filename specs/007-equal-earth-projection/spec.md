@@ -33,11 +33,11 @@ A developer who upgrades to 2.3.0 without touching their code sees exactly the s
 
 **Why this priority**: The change ships in a minor release, so it must be fully backward compatible.
 
-**Independent Test**: The existing default-render snapshot and all existing tests pass unchanged.
+**Independent Test**: The default-render snapshot and all existing tests pass. The snapshot hashes were regenerated once with 0.1 rounding (so they match on arm64 and x86); the path data behind them is unchanged.
 
 **Acceptance Scenarios**:
 
-1. **Given** a WorldMap with no `projection`, **When** it renders, **Then** output matches the 2.2.0 default-render snapshot (path hashes included).
+1. **Given** a WorldMap with no `projection`, **When** it renders, **Then** the path data is identical to 2.2.0. The default-render snapshot hashes were regenerated with coordinates rounded to 0.1, and regenerating them from the 2.2.0 code gives a byte-identical snapshot.
 2. **Given** `projection="mercator"`, **Then** output equals the render without the prop.
 3. **Given** every existing website example, **When** the site is built and loaded, **Then** each renders with no console errors.
 

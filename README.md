@@ -75,7 +75,7 @@ function App() {
 
 The map uses the Mercator projection by default, unchanged from earlier releases. Mercator inflates areas far from the equator, so Greenland looks about as large as Africa, which is in fact about 14 times larger.
 
-Set `projection="equalEarth"` to draw the map in the [Equal Earth](https://en.wikipedia.org/wiki/Equal_Earth_projection) projection, an equal-area projection in which countries keep their true relative size. It is the projection recommended by the African Union and by the UN General Assembly's "Correct the Map" resolution (September 2026) for general-purpose world maps.
+Set `projection="equalEarth"` to draw the map in the [Equal Earth](https://en.wikipedia.org/wiki/Equal_Earth_projection) projection, an equal-area projection in which countries keep their true relative size. The African Union adopted it as its standard world map, and the UN General Assembly's "Correct the Map" resolution (September 2026) recommends equal-area maps such as Equal Earth for general-purpose world maps.
 
 ```tsx
 <WorldMap data={data} projection="equalEarth" />
