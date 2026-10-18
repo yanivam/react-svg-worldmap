@@ -4,8 +4,6 @@
 
 A lightweight React component for rendering a bundled SVG world map for charts, dashboards, and thematic data visualizations.
 
-> **New in 2.3.0: the Equal Earth projection is generally available.** Add `projection="equalEarth"` to draw countries at their true relative size. Mercator stays the default, so existing maps do not change. [Read about projections](#projections) and tell us what you think.
-
 ![simple example](https://raw.githubusercontent.com/yanivam/react-svg-worldmap/master/simple-example.gif)
 
 ## Overview
@@ -20,7 +18,7 @@ A lightweight React component for rendering a bundled SVG world map for charts, 
 - Ships ESM, CJS, and TypeScript declaration files
 - CI enforces automated tests and `>90%` coverage
 - Optional dispute metadata and disputed-territory overlay for high-visibility geopolitical cases
-- Fully supported, opt-in Equal Earth projection (equal-area) alongside the default Mercator projection
+- Opt-in Equal Earth projection alongside the default Mercator projection
 
 ## Documentation & Examples
 
@@ -76,24 +74,11 @@ function App() {
 
 ## Projections
 
-The map uses the Mercator projection by default, unchanged from earlier releases. Mercator inflates areas far from the equator, so Greenland looks about as large as Africa, which is in fact about 14 times larger.
-
-Set `projection="equalEarth"` to draw the map in the [Equal Earth](https://en.wikipedia.org/wiki/Equal_Earth_projection) projection, an equal-area projection in which countries keep their true relative size. The African Union adopted it as its standard world map, and the UN General Assembly's "Correct the Map" resolution (September 2026) recommends equal-area maps such as Equal Earth for general-purpose world maps.
+Mercator is the default. Pass `projection="equalEarth"` for the equal-area [Equal Earth](https://en.wikipedia.org/wiki/Equal_Earth_projection) projection, where countries keep their true relative size. Equal Earth uses a 2:1 SVG frame and draws a globe outline in `borderColor`. Existing maps are unchanged unless you opt in.
 
 ```tsx
 <WorldMap data={data} projection="equalEarth" />
 ```
-
-The map keeps its width and sizing presets; in Equal Earth the SVG is 2:1 (height = width / 2) instead of 4:3, matching the shape of the projection, and the outline of the globe is drawn in `borderColor`. Tooltips, callbacks, `richInteraction` zoom, and the disputed-territory overlay work the same in both projections. Positions returned by `textLabelFunction` are in SVG pixels, so labels placed for Mercator may need new coordinates in Equal Earth.
-
-### Our approach to projections
-
-- **Equal Earth is generally available.** From 2.3.0 it is a fully supported part of the public API: tested, documented, and covered by semantic versioning like every other prop. You can use it in production today.
-- **Mercator stays the default.** Upgrading never changes how an existing map looks. Equal Earth is opt-in.
-- **We are supporting it early on purpose.** Equal-area world maps are becoming the expected choice for general-purpose maps, and we want teams to be able to adopt Equal Earth now instead of waiting for a default change.
-- **The default may change later, based on your feedback.** We are not planning to change the default in the short term. If we ever make Equal Earth the default, it will happen only in a major release, announced in advance, and `projection="mercator"` will keep today's map.
-
-We would like to hear how Equal Earth works for you and whether, and when, it should become the default. [Share your feedback in a GitHub issue](https://github.com/yanivam/react-svg-worldmap/issues/new?title=%5BEqual%20Earth%20feedback%5D%20).
 
 ## Data Sources And Neutrality Policy
 

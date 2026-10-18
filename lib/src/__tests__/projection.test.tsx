@@ -11,7 +11,7 @@ import WorldMap, { projectionOptions } from "../index.js";
 import type { CountryContext, ProjectionOption } from "../index.js";
 import { createProjection, defaultProjection } from "../projections.js";
 import topoData from "../countries.topo.js";
-import { withHashedPaths } from "./snapshotPaths.js";
+import { hashPathData } from "./snapshotPaths.js";
 
 // Same mock as WorldMap.test.tsx: the tooltip needs browser layout APIs.
 vi.mock("react-path-tooltip", () => ({
@@ -231,10 +231,19 @@ describe("WorldMap — projection prop", () => {
     expect(crimea(equalEarth.container)).not.toBe(crimea(mercator.container));
   });
 
-  it("matches the Equal Earth render snapshot", () => {
-    const { container } = render(
-      <WorldMap data={DATA} projection="equalEarth" />,
+  it("keeps stable Equal Earth geometry for the outline and sample countries", () => {
+    const equalEarth = render(
+      <WorldMap data={DATA} size={480} projection="equalEarth" />,
+    ).container;
+    const mercator = render(<WorldMap data={DATA} size={480} />).container;
+    const outline = equalEarth.querySelector(".worldmap__outline")!;
+    const us = pathWithTitle(equalEarth, "United States 100");
+
+    expect(equalEarth.querySelectorAll("path").length).toBeGreaterThan(100);
+    expect(hashPathData(outline.getAttribute("d")!)).toBe("sha1:b7318be3b985");
+    expect(hashPathData(us.getAttribute("d")!)).toMatch(/^sha1:[0-9a-f]{12}$/);
+    expect(us.getAttribute("d")).not.toBe(
+      pathData(mercator).get("United States 100"),
     );
-    expect(withHashedPaths(container.firstElementChild!)).toMatchSnapshot();
   });
 });

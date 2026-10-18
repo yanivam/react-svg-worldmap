@@ -5,12 +5,6 @@ slug: /
 
 # Introduction
 
-:::tip New in 2.3.0: Equal Earth projection
-
-The equal-area Equal Earth projection is now generally available. Add `projection="equalEarth"` to draw countries at their true relative size. Mercator stays the default, so existing maps do not change. See [Projections](./customization.md#projections) and the [Equal Earth example](/examples/equal-earth).
-
-:::
-
 ## Why is it different?
 
 Focus on simple and free.
