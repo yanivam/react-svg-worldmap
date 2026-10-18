@@ -78,3 +78,18 @@ TODO:
 - Vertical-scrolling causes the map to zoom in and out.
 - Draggable when zoomed in.
 - Separate scale slider and zoom button components.
+
+## Projections
+
+`WorldMap` uses Mercator by default. Pass `projection="equalEarth"` for the [Equal Earth](https://en.wikipedia.org/wiki/Equal_Earth_projection) equal-area projection, where countries keep their true relative size.
+
+```tsx
+<WorldMap data={data} projection="equalEarth" />
+```
+
+- Default stays `mercator`, so existing maps are unchanged.
+- Equal Earth uses a 2:1 SVG frame (height = width / 2) and draws a globe outline in `borderColor`.
+- Tooltips, callbacks, `richInteraction`, and `showDisputedTerritories` work in both projections.
+- `textLabelFunction` positions are SVG pixels; labels placed for Mercator may need new coordinates in Equal Earth.
+
+See the [Equal Earth example](/examples/equal-earth).

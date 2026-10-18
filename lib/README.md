@@ -16,6 +16,7 @@ A lightweight React component for rendering a bundled SVG world map for charts, 
 - Ships ESM, CJS, and TypeScript declaration files
 - CI enforces automated tests and `>90%` coverage
 - Optional dispute metadata and disputed-territory overlay for high-visibility geopolitical cases
+- Opt-in Equal Earth projection alongside the default Mercator projection
 
 ## Documentation & Examples
 
@@ -67,6 +68,14 @@ function App() {
     </div>
   );
 }
+```
+
+## Projections
+
+Mercator is the default. Pass `projection="equalEarth"` for the equal-area [Equal Earth](https://en.wikipedia.org/wiki/Equal_Earth_projection) projection, where countries keep their true relative size. Equal Earth uses a 2:1 SVG frame and draws a globe outline in `borderColor`. Existing maps are unchanged unless you opt in.
+
+```tsx
+<WorldMap data={data} projection="equalEarth" />
 ```
 
 ## Data Sources And Neutrality Policy

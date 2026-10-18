@@ -20,7 +20,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
         transform="translate(0, 0) scale(0) translate(0, 240)"
       >
         <path
-          d="sha1:0de584b010e9"
+          d="sha1:74465af5b9d9"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -29,7 +29,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:2b4331a74eee"
+          d="sha1:21bca6093606"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -38,7 +38,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:d2f4205267a9"
+          d="sha1:f25f6b159a36"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -47,7 +47,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:a34fc86b31d0"
+          d="sha1:407957fb5e54"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -56,7 +56,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:34b4b8ee143d"
+          d="sha1:9665065f14ba"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0.8; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -65,7 +65,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:53a8b0456766"
+          d="sha1:e2b0562b677d"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -74,7 +74,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:aa989d73af81"
+          d="sha1:52970eab2f8f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -83,7 +83,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:feda8445883f"
+          d="sha1:d8b8f78ff682"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -92,7 +92,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:8c27f939fffc"
+          d="sha1:0460ca10e041"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -101,7 +101,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:c2bbbd7ae69b"
+          d="sha1:face872208a9"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -110,7 +110,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:b608e7ccdc1e"
+          d="sha1:e70d9914e9b4"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -119,7 +119,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:2708d5a23a53"
+          d="sha1:6197781eb68e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -128,7 +128,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:090fa0bdc6d5"
+          d="sha1:1ca1348e02d7"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -137,7 +137,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:178b98f39413"
+          d="sha1:fee018d21764"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -146,7 +146,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:e9bcba867db5"
+          d="sha1:f7d6ba34ee6c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -155,7 +155,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:8d85fc4ada5c"
+          d="sha1:4919d9e38326"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -164,7 +164,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:d75812501fb4"
+          d="sha1:d8713c3072b0"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -173,7 +173,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:846e2dbcedd3"
+          d="sha1:050a7bf13e39"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -182,7 +182,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:b28025051bbf"
+          d="sha1:bb6f85293ff6"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -191,7 +191,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:cf6872b13f08"
+          d="sha1:77a6c36f4cd7"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -200,7 +200,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:1ea9e0d77d2c"
+          d="sha1:4af8f0a47337"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -209,7 +209,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:495d3b6da047"
+          d="sha1:fbd812af359b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -218,7 +218,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:79942ae2790b"
+          d="sha1:592dbfbbef66"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -227,7 +227,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:d6f7026458e2"
+          d="sha1:772eb6d5a036"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -236,7 +236,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:fe0af1827187"
+          d="sha1:949e123a9b69"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -245,7 +245,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:2aa1fa810649"
+          d="sha1:1c1ac7c8eb18"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -254,7 +254,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:d4ae0eb9dd40"
+          d="sha1:277b7a8b8cf7"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -263,7 +263,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:af52e5837886"
+          d="sha1:c6b645731d66"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -272,7 +272,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:590d311e8ecb"
+          d="sha1:2c6960a7844d"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -281,7 +281,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:2d512052da0e"
+          d="sha1:cb96279c07f9"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -290,7 +290,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:05bb3cfe2312"
+          d="sha1:5c9787fc8d7b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -299,7 +299,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:652c0cbe474e"
+          d="sha1:3ea80650471f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -308,7 +308,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:dfb9639e1605"
+          d="sha1:a9df481f87c8"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -317,7 +317,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:a040d314788c"
+          d="sha1:8cbe72500c80"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -326,7 +326,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:4044345c61a9"
+          d="sha1:bf596a6b628e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -335,7 +335,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:359222afe8b9"
+          d="sha1:4a1fe927d92b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -344,7 +344,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:4f58c0482692"
+          d="sha1:e0af6f60146c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -353,7 +353,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:f89e104bd5cb"
+          d="sha1:20c105b9ff52"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -362,7 +362,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:1e915dc9db19"
+          d="sha1:d2c3bfd24d79"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -371,7 +371,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:24db36c5dd1e"
+          d="sha1:a75292a52536"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -380,7 +380,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:010fa23977c5"
+          d="sha1:af66a619a44d"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -389,7 +389,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:7ee350a31563"
+          d="sha1:555cbd28a27b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -398,7 +398,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:dcd49af16ff6"
+          d="sha1:4f4191b6321d"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -407,7 +407,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:e36c76ded03b"
+          d="sha1:5eee73d66812"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -416,7 +416,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:99e77873e877"
+          d="sha1:59807b11ac45"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -425,7 +425,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:86c5fdc7d72a"
+          d="sha1:eb76bc12797c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -434,7 +434,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:9ee5fe99b94c"
+          d="sha1:21c1eb31265d"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -443,7 +443,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:b95227f748cd"
+          d="sha1:eadf2db310f9"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -452,7 +452,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:62ff9d8dc651"
+          d="sha1:fca828809894"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -461,7 +461,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:24b3808b8901"
+          d="sha1:a8156fb88a75"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -470,7 +470,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:b0aa5dc7295d"
+          d="sha1:a772bb313d7f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -479,7 +479,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:d8dc06ac4d9b"
+          d="sha1:7372c7caae9a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -488,7 +488,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:a2e227e4d4ec"
+          d="sha1:2febb70e214e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -497,7 +497,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:a460c918e693"
+          d="sha1:febda35b9657"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -506,7 +506,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:bc697d2cc0ca"
+          d="sha1:f384292c2f77"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -515,7 +515,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:6ecff29e5ca9"
+          d="sha1:dc2b17f849d4"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -524,7 +524,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:2d982c3d1444"
+          d="sha1:3658d9e3929a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -533,7 +533,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:a828c26a87b5"
+          d="sha1:c0ab1a0a1b41"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -542,7 +542,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:e42cf3a4d61e"
+          d="sha1:d4be92cf361a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -551,7 +551,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:d1599f6418de"
+          d="sha1:fd87ce38e635"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -560,7 +560,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:7208e9586121"
+          d="sha1:1d11441fb9bd"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -569,7 +569,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:530d645d5f67"
+          d="sha1:f0ad1f72cc02"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -578,7 +578,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:472befa63631"
+          d="sha1:6141ac34b417"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -587,7 +587,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:73be37e64e1e"
+          d="sha1:2b1934d6ff08"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -596,7 +596,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:358ece0555ef"
+          d="sha1:260e2af29fe0"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -605,7 +605,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:800dd56ab4b9"
+          d="sha1:3bb8baa13d8a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -614,7 +614,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:8e88c6d3e339"
+          d="sha1:6f5254de344a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -623,7 +623,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:7bcbf78cde50"
+          d="sha1:5bdbe27e21af"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -632,7 +632,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:0594d9c4d200"
+          d="sha1:6f3da9da0f2e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -641,7 +641,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:68c529e9f49c"
+          d="sha1:6fcc13cd8d53"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -650,7 +650,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:27f82d82df15"
+          d="sha1:628ef685d07a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -659,7 +659,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:967d56656078"
+          d="sha1:876e7f0fe63f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -668,7 +668,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:3e3be458b0b8"
+          d="sha1:910c3f3f5322"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -677,7 +677,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:2476e27583a1"
+          d="sha1:a4827cc203f0"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -686,7 +686,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:3075afa969ea"
+          d="sha1:e72550dd99de"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -695,7 +695,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:6b3a1f5400c8"
+          d="sha1:497862378e6a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -704,7 +704,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:9bb309b5ccee"
+          d="sha1:21b55a6e8c90"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -713,7 +713,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:8c64495c0540"
+          d="sha1:de0b40428fee"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -722,7 +722,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:ddd572d21405"
+          d="sha1:1d1bc77c9f15"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -731,7 +731,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:f7eb7c49c480"
+          d="sha1:6d7fde64b87f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -740,7 +740,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:fb59fbdd2191"
+          d="sha1:926f85bdc8e6"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -749,7 +749,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:2ff0ed5e285c"
+          d="sha1:163dbc55f805"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -758,7 +758,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:4caa30c316d7"
+          d="sha1:c1d9a1a5886c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -767,7 +767,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:87c1518acb0d"
+          d="sha1:2f6db4c6de9e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -776,7 +776,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:d3abcd4625ed"
+          d="sha1:82488ef4bd7d"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -785,7 +785,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:eb8d002c78a5"
+          d="sha1:bf03bce8a52f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -794,7 +794,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:ec2e8b08aa12"
+          d="sha1:9ee5231c8fcc"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -803,7 +803,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:1f036321e6c7"
+          d="sha1:a0f358d41d28"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -812,7 +812,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:5bcb278777bf"
+          d="sha1:a025806e67e6"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -821,7 +821,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:c3c37df4e7cc"
+          d="sha1:a82f60f36a44"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -830,7 +830,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:ccde21706ac4"
+          d="sha1:41f7c839c670"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -839,7 +839,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:bdbab797b0bb"
+          d="sha1:67f9727a902f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -848,7 +848,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:3a258804a8f1"
+          d="sha1:fbb680d4259c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -857,7 +857,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:70a3d9bcf51d"
+          d="sha1:522090ddb72b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -866,7 +866,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:3d692ec92dc1"
+          d="sha1:695769ab5077"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -875,7 +875,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:af0e1c9062c6"
+          d="sha1:56c0d8de87ce"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -884,7 +884,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:932e85719524"
+          d="sha1:30010f2bb3b3"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -893,7 +893,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:2fb9f71a6fe7"
+          d="sha1:4eb6c1ac56d1"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -902,7 +902,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:85c0962a340c"
+          d="sha1:324fe883bbba"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -911,7 +911,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:2e404c9f41f8"
+          d="sha1:c782ad42d407"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -920,7 +920,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:e8aa3b83b727"
+          d="sha1:1677ec76b546"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -929,7 +929,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:aa263c76b900"
+          d="sha1:6e64a484567a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -938,7 +938,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:a3e095a26877"
+          d="sha1:1e9fadf13958"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -947,7 +947,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:9cc388230f53"
+          d="sha1:2e876dce19c4"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -956,7 +956,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:c5686ad3a111"
+          d="sha1:c40823a3bbd3"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -965,7 +965,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:f78e16287d80"
+          d="sha1:595e91e0376f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -974,7 +974,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:0fb1acd8f817"
+          d="sha1:6e0bb16f0b12"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -983,7 +983,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:196aa17a4d4a"
+          d="sha1:89c8d77abe56"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -992,7 +992,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:b301164c15d9"
+          d="sha1:c5d33ddeb193"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1001,7 +1001,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:03dc807fc292"
+          d="sha1:adb66e0437e3"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1010,7 +1010,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:1b4e82cec438"
+          d="sha1:3ac4123b4c9b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1019,7 +1019,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:b4ae3ddc6afa"
+          d="sha1:7dfef3ea0842"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0.2; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1028,7 +1028,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:ffa9528371f0"
+          d="sha1:b2c8ff378fa8"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1037,7 +1037,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:734d288f3e9b"
+          d="sha1:345b5d979057"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1046,7 +1046,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:c31da638ae29"
+          d="sha1:fd447da2c5d8"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1055,7 +1055,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:a2c150acb002"
+          d="sha1:9febb24acf15"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1064,7 +1064,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:8e4c5912a8f7"
+          d="sha1:1bc19da61ecd"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1073,7 +1073,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:88f515a9f6a6"
+          d="sha1:f94216297cf4"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1082,7 +1082,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:923a1fe2acd5"
+          d="sha1:a888918618b6"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1091,7 +1091,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:e076b11d4d21"
+          d="sha1:4928f0cbe94d"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1100,7 +1100,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:e9ce00f9bd8f"
+          d="sha1:6e575bc25830"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1109,7 +1109,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:f9ce87d5cdd4"
+          d="sha1:db315c16e6c6"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1118,7 +1118,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:b1c02ca6be06"
+          d="sha1:ee0af7e9bc47"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1127,7 +1127,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:a8a80d180dbb"
+          d="sha1:306de7fcd550"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1136,7 +1136,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:75354648dba3"
+          d="sha1:a49e1db0de18"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1145,7 +1145,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:e174e8e18d59"
+          d="sha1:a5658c5666f9"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1154,7 +1154,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:7217ac3063a0"
+          d="sha1:dddaa24b6a60"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1163,7 +1163,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:fcb6e28d1341"
+          d="sha1:b8c8fa08706b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1172,7 +1172,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:ca69729e0d78"
+          d="sha1:e6f0d795d29d"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1181,7 +1181,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:b6874f87bc93"
+          d="sha1:f94e22c245c7"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1190,7 +1190,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:8a3e2c45374a"
+          d="sha1:093a22580444"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1199,7 +1199,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:200304e7606f"
+          d="sha1:cb8378aadc8b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1208,7 +1208,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:be44073ee8b0"
+          d="sha1:fbc1e0c5e0fe"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1217,7 +1217,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:c71b8f0b7a77"
+          d="sha1:749edef3b317"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1226,7 +1226,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:83b06c5fdc4b"
+          d="sha1:45df2d8e663a"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1235,7 +1235,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:4bbd244b3bc3"
+          d="sha1:252abdc6129c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1244,7 +1244,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:3f5efb90543d"
+          d="sha1:c19dcc2acc49"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1253,7 +1253,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:6f4725a29fde"
+          d="sha1:d3e05124f5d2"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1262,7 +1262,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:21c4eff41dd9"
+          d="sha1:4c0c8d9e248b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1271,7 +1271,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:35785ceb6cda"
+          d="sha1:ef39bf92e13c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1280,7 +1280,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:01196e166877"
+          d="sha1:13a4eab86dc7"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1289,7 +1289,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:6289634058bf"
+          d="sha1:69f5894b9df8"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1298,7 +1298,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:f912ef5f1548"
+          d="sha1:f2255bf569ee"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1307,7 +1307,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:6637640c2dda"
+          d="sha1:44bc895de06e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1316,7 +1316,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:39bae4c6a4e9"
+          d="sha1:146499b8ff3e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1325,7 +1325,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:a5b1af4a6a9e"
+          d="sha1:b695a52fd33c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1334,7 +1334,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:0a617396b543"
+          d="sha1:3d6eeac221d0"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1343,7 +1343,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:46c0b1fdbe5a"
+          d="sha1:d28ae9baa95e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1352,7 +1352,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:bbf09b560501"
+          d="sha1:a34fbf1e2492"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1361,7 +1361,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:d12eb53a11aa"
+          d="sha1:84cf1440ef6c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1370,7 +1370,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:924bcf17951a"
+          d="sha1:957e943c5759"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1379,7 +1379,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:edb272d6be0c"
+          d="sha1:d6d88aa19387"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1388,7 +1388,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:c1e77c23483c"
+          d="sha1:b9862d06d8c7"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1397,7 +1397,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:701c599f7ea2"
+          d="sha1:2639a05588cf"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1406,7 +1406,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:75bf191c7634"
+          d="sha1:692d63525df6"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1415,7 +1415,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:d11c0139940c"
+          d="sha1:77eae67ce459"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1424,7 +1424,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:958c2e940049"
+          d="sha1:90aaf1a9e916"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1433,7 +1433,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:dce4cf5ae1db"
+          d="sha1:4cde727e5d75"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1442,7 +1442,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:46aac4aea2b2"
+          d="sha1:4fedcbc1dd21"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1451,7 +1451,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:b07b41e32795"
+          d="sha1:a2b19bddcaf4"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1460,7 +1460,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:97059d5d4153"
+          d="sha1:3a7be896721c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1469,7 +1469,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:af8631a30ba7"
+          d="sha1:d334fa99f3b1"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1478,7 +1478,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:b90ef4237446"
+          d="sha1:0201cb9f635d"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1487,7 +1487,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:30eb20fc99e1"
+          d="sha1:7be892d7cb36"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1496,7 +1496,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:6105abf2297c"
+          d="sha1:311c5a579bde"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1505,7 +1505,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:015c78776229"
+          d="sha1:3950bc3ea5ed"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1514,7 +1514,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:88b9c4a56b4d"
+          d="sha1:20bf53c2e62e"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1523,7 +1523,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:1bb35674998e"
+          d="sha1:6135d5058886"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1532,7 +1532,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:8a9b90705811"
+          d="sha1:bb2124bb0cb9"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1541,7 +1541,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:eea5f6526d9d"
+          d="sha1:4481c691b02d"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1550,7 +1550,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:b3bdb8e41438"
+          d="sha1:4e6d7ab2130f"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1559,7 +1559,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:5b90004b493c"
+          d="sha1:4a80f27864cf"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1568,7 +1568,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:72cda8d6508a"
+          d="sha1:33c0a66a876c"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1577,7 +1577,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:4799653f6a7c"
+          d="sha1:b9123958d45b"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >
@@ -1586,7 +1586,7 @@ exports[`WorldMap — default render > matches the default render snapshot 1`] =
           </title>
         </path>
         <path
-          d="sha1:edb340814d75"
+          d="sha1:f061c6cbb676"
           stroke-opacity="0.2"
           style="fill: #dddddd; fill-opacity: 0; stroke: black; stroke-width: 1; stroke-opacity: 0.2; cursor: pointer;"
         >

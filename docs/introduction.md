@@ -14,6 +14,7 @@ Focus on simple and free.
 - No registration - It is just a pure react component.
 - No internet dependency - All the data is local, no calls to a back-end server.
 - Easy to learn, easy to use, easy to customize.
+- Two projections: the familiar Mercator (default) and the equal-area Equal Earth.
 
 ## Yet another package for world map...but why?
 
