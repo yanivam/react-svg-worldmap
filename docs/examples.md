@@ -72,6 +72,7 @@ sidebar_position: 5
 
 - A world population map in the equal-area Equal Earth projection (`projection="equalEarth"`), with a switch to compare it with the default Mercator projection.
 - In Equal Earth, Greenland and Europe shrink and Africa shows its true relative size.
+- A `styleFunction` puts countries into seven blue shades on a log scale, with grey for countries without data, a globe outline, and a legend below the map.
 - A checkbox turns the disputed-territory overlay (`showDisputedTerritories`) on and off; it follows the selected projection.
 
 ## [examples/string-value](/examples/string-value)

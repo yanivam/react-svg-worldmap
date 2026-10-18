@@ -81,7 +81,7 @@ Set `projection="equalEarth"` to draw the map in the [Equal Earth](https://en.wi
 <WorldMap data={data} projection="equalEarth" />
 ```
 
-The map keeps its width and sizing presets; in Equal Earth the SVG is 2:1 (height = width / 2) instead of 4:3, matching the shape of the projection. Tooltips, callbacks, `richInteraction` zoom, and the disputed-territory overlay work the same in both projections. Positions returned by `textLabelFunction` are in SVG pixels, so labels placed for Mercator may need new coordinates in Equal Earth.
+The map keeps its width and sizing presets; in Equal Earth the SVG is 2:1 (height = width / 2) instead of 4:3, matching the shape of the projection, and the outline of the globe is drawn in `borderColor`. Tooltips, callbacks, `richInteraction` zoom, and the disputed-territory overlay work the same in both projections. Positions returned by `textLabelFunction` are in SVG pixels, so labels placed for Mercator may need new coordinates in Equal Earth.
 
 ## Data Sources And Neutrality Policy
 

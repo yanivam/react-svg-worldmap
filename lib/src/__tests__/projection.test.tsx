@@ -41,9 +41,9 @@ function countryFeature(iso: string) {
 // `d` attribute of each country path, keyed by its <title>.
 function pathData(container: HTMLElement) {
   return new Map(
-    Array.from(container.querySelectorAll("path")).map((path) => [
-      path.querySelector("title")?.textContent,
-      path.getAttribute("d"),
+    Array.from(container.querySelectorAll("path > title")).map((title) => [
+      title.textContent,
+      title.parentElement!.getAttribute("d"),
     ]),
   );
 }
@@ -65,24 +65,30 @@ describe("projection options", () => {
 
 describe("createProjection", () => {
   it("keeps d3's default Mercator scale and translate", () => {
-    const mercator = createProjection("mercator", countries);
+    const mercator = createProjection("mercator");
     expect(mercator.scale()).toBeCloseTo(961 / (2 * Math.PI), 6);
     expect(mercator.translate()).toEqual([480, 250]);
   });
 
-  it("fits Equal Earth to the full width of its 960 × 480 viewport, vertically centred", () => {
-    const path = geoPath(createProjection("equalEarth", countries));
-    const [[x0, y0], [x1, y1]] = path.bounds(countries);
+  it("fits the Equal Earth globe to the full width of its 960 × 480 viewport, vertically centred", () => {
+    const path = geoPath(createProjection("equalEarth"));
+    const [[x0, y0], [x1, y1]] = path.bounds({ type: "Sphere" });
     expect(x0).toBeCloseTo(8, 3);
     expect(x1).toBeCloseTo(952, 3);
     expect(y0).toBeGreaterThanOrEqual(8);
     expect(y1).toBeLessThanOrEqual(472);
     expect((y0 + y1) / 2).toBeCloseTo(240, 3);
+    // Every country lies inside the globe.
+    const [[cx0, cy0], [cx1, cy1]] = path.bounds(countries);
+    expect(cx0).toBeGreaterThanOrEqual(x0);
+    expect(cx1).toBeLessThanOrEqual(x1);
+    expect(cy0).toBeGreaterThanOrEqual(y0);
+    expect(cy1).toBeLessThanOrEqual(y1);
   });
 
   it("draws areas at their true relative size with Equal Earth only", () => {
     const ratio = (option: ProjectionOption) => {
-      const path = geoPath(createProjection(option, countries));
+      const path = geoPath(createProjection(option));
       return path.area(countryFeature("GL")) / path.area(countryFeature("CD"));
     };
     // Greenland (2.17M km²) is slightly smaller than DR Congo (2.34M km²).
@@ -128,6 +134,19 @@ describe("WorldMap — projection prop", () => {
     expect(mercator.querySelector("g")!.getAttribute("transform")).toBe(
       "translate(0, 0) scale(0.5) translate(0, 240)",
     );
+  });
+
+  it("draws the globe outline for Equal Earth only", () => {
+    const equalEarth = render(
+      <WorldMap data={DATA} projection="equalEarth" borderColor="#123456" />,
+    ).container.querySelector(".worldmap__outline")!;
+    expect(equalEarth.getAttribute("d")).toMatch(/^M/);
+    expect(equalEarth.getAttribute("fill")).toBe("none");
+    expect(equalEarth.getAttribute("stroke")).toBe("#123456");
+    expect(equalEarth.getAttribute("aria-hidden")).toBe("true");
+
+    const mercator = render(<WorldMap data={DATA} />).container;
+    expect(mercator.querySelector(".worldmap__outline")).toBeNull();
   });
 
   it("switches projection when the prop changes", () => {

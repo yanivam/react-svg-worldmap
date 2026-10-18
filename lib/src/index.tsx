@@ -76,12 +76,12 @@ const geoFeatures = geoCollection.features as Array<
 >;
 
 // One path generator per projection, built on first use. The projections
-// depend only on the bundled countries, so they never change between renders.
+// never change between renders.
 const pathGenerators = new Map<ProjectionOption, ReturnType<typeof geoPath>>();
 function getPathGenerator(option: ProjectionOption) {
   let generator = pathGenerators.get(option);
   if (!generator) {
-    generator = geoPath().projection(createProjection(option, geoCollection));
+    generator = geoPath().projection(createProjection(option));
     pathGenerators.set(option, generator);
   }
   return generator;
@@ -376,6 +376,16 @@ export default function WorldMap<T extends number | string>(
               (width / 960) * scale
             }) translate(0, ${layout.offsetY})`}
             style={{ transition: "all 0.2s" }}>
+            {layout.outline && (
+              <path
+                className="worldmap__outline"
+                d={pathGenerator({ type: "Sphere" })!}
+                fill="none"
+                stroke={borderColor}
+                strokeOpacity={strokeOpacity}
+                aria-hidden="true"
+              />
+            )}
             {regionPaths}
             {showDisputedTerritories && (
               <g className="worldmap__disputed-territories">

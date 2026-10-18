@@ -97,6 +97,7 @@ Notes:
 
 - The default stays `mercator`, so existing maps render exactly as before.
 - Equal Earth is about twice as wide as it is tall, so the SVG uses a 2:1 frame (height = width / 2) instead of the 4:3 Mercator frame. The width and sizing presets are unchanged.
+- In Equal Earth the map is fitted to the whole globe, and the outline of the globe is drawn behind the countries in `borderColor` (with `strokeOpacity`).
 - Tooltips, click and href callbacks, `richInteraction` zoom, and `showDisputedTerritories` work the same in both projections.
 - `textLabelFunction` positions are SVG pixels. Labels placed for Mercator may need new coordinates for Equal Earth.
 

@@ -54,30 +54,52 @@ const population: Data = [
   { country: "au", value: 27 },
 ];
 
-// Population spans three orders of magnitude, so shade on a log scale.
-// Countries without data are drawn as plain land on a light-blue ocean.
+// Seven shades from light to dark blue. Population spans three orders of
+// magnitude, so countries are placed in a shade on a log scale.
+const shades = [
+  "#d2e3fc",
+  "#a8c7f5",
+  "#7eaaec",
+  "#4f87e0",
+  "#3a69be",
+  "#284a92",
+  "#172f63",
+];
+const noDataColor = "#eef0f5";
+const borderColor = "#b5bdcc";
+
+const values = population.map(({ value }) => value);
+const minValue = Math.min(...values);
+const maxValue = Math.max(...values);
+
+function shadeFor(value: number): string {
+  const share = Math.log(value / minValue) / Math.log(maxValue / minValue);
+  return shades[
+    Math.min(shades.length - 1, Math.floor(share * shades.length))
+  ]!;
+}
+
 const styleFunction = ({
   countryValue,
-  minValue,
-  maxValue,
-}: CountryContext): React.CSSProperties => {
-  const value = typeof countryValue === "number" ? countryValue : undefined;
-  const share =
-    value === undefined
-      ? 0
-      : Math.log(value / minValue) / Math.log(maxValue / minValue);
-  return {
-    fill: value === undefined ? "#ffffff" : "#1565c0",
-    fillOpacity: value === undefined ? 1 : 0.2 + 0.8 * share,
-    stroke: "#607d8b",
-    strokeWidth: 0.5,
-    cursor: "pointer",
-  };
-};
+}: CountryContext): React.CSSProperties => ({
+  fill: typeof countryValue === "number" ? shadeFor(countryValue) : noDataColor,
+  fillOpacity: 1,
+  stroke: borderColor,
+  strokeWidth: 0.5,
+  strokeOpacity: 1,
+  cursor: "pointer",
+});
 
 const projections: Record<ProjectionOption, string> = {
   equalEarth: "Equal Earth",
   mercator: "Mercator",
+};
+
+const swatch: React.CSSProperties = {
+  display: "inline-block",
+  width: 28,
+  height: 18,
+  verticalAlign: "middle",
 };
 
 export default function EqualEarth(): JSX.Element {
@@ -85,14 +107,29 @@ export default function EqualEarth(): JSX.Element {
   const [showDisputes, setShowDisputes] = useState(true);
 
   return (
-    <>
+    <section
+      aria-labelledby="population-heading"
+      style={{
+        textAlign: "left",
+        color: "#1f2328",
+        background: "#ffffff",
+        border: "1px solid #d0d7de",
+        borderRadius: 12,
+        padding: "1.5rem 2rem",
+      }}>
+      <h2 id="population-heading" style={{ fontWeight: 400 }}>
+        World population
+      </h2>
+      <p>
+        Stronger shading means more people. Countries without data are grey.
+      </p>
       <div
         style={{
           display: "flex",
           flexWrap: "wrap",
           gap: "1.5rem",
-          justifyContent: "center",
-          marginBottom: "1rem",
+          marginBottom: "0.5rem",
+          color: "#57606a",
         }}>
         <div role="radiogroup" aria-label="Projection">
           {(Object.keys(projections) as ProjectionOption[]).map((option) => (
@@ -118,15 +155,34 @@ export default function EqualEarth(): JSX.Element {
         </label>
       </div>
       <WorldMap
-        title={`World population (${projections[projection]} projection)`}
         size="responsive"
-        backgroundColor="#dceefb"
+        borderColor="#9aa5b8"
+        strokeOpacity={1}
         styleFunction={styleFunction}
         valueSuffix="million people"
         data={population}
         projection={projection}
         showDisputedTerritories={showDisputes}
       />
-    </>
+      <p style={{ color: "#57606a", margin: "0.75rem 0 0.5rem" }}>
+        Hover or focus a shaded country for its value.
+      </p>
+      <div style={{ color: "#57606a" }} aria-hidden="true">
+        <span
+          style={{
+            ...swatch,
+            background: noDataColor,
+            border: `1px solid ${borderColor}`,
+          }}
+        />{" "}
+        No data
+        <span style={{ marginLeft: "1rem" }}>
+          {shades.map((shade) => (
+            <span key={shade} style={{ ...swatch, background: shade }} />
+          ))}
+        </span>{" "}
+        {minValue} to {maxValue.toLocaleString()} million people
+      </div>
+    </section>
   );
 }

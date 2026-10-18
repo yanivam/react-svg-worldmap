@@ -71,7 +71,7 @@ The website example "Equal Earth" shows a world population map in Equal Earth, w
 
 - **FR-001**: `Props.projection?: "mercator" | "equalEarth"`, default `"mercator"`.
 - **FR-002**: Mercator keeps d3 defaults (scale 961 / 2π ≈ 152.95, translate [480, 250]) so default output is unchanged.
-- **FR-003**: Equal Earth is fitted once (cached) to the bundled countries inside a 960 × 480 viewport (8-unit margin), full width, vertically centred. The SVG height is width / 2 for Equal Earth and width × 3/4 for Mercator.
+- **FR-003**: Equal Earth is fitted once (cached) to the whole globe inside a 960 × 480 viewport (8-unit margin), full width, vertically centred, and the outline of the globe is drawn behind the countries in `borderColor` (hidden from assistive technology). The SVG height is width / 2 for Equal Earth and width × 3/4 for Mercator.
 - **FR-004**: Export the `ProjectionOption` type and the `projectionOptions` list.
 - **FR-005**: Country paths and disputed-territory paths use the selected projection.
 - **FR-006**: Website example "Equal Earth" (`/examples/equal-earth`) with a projection switch and a disputed-territory overlay toggle.
@@ -95,7 +95,7 @@ The website example "Equal Earth" shows a world population map in Equal Earth, w
 
 ## Out of scope / follow-ups
 
-- Sphere outline (graticule / ocean shape) for Equal Earth.
+- Graticule lines (latitude / longitude) for Equal Earth.
 - Other projections (e.g. Natural Earth, Robinson) or a custom projection function.
 - Making Equal Earth the default (would be a major release).
 

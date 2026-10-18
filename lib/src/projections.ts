@@ -1,4 +1,3 @@
-import type GeoJSON from "geojson";
 import type { GeoProjection } from "d3-geo";
 import { geoEqualEarth, geoMercator } from "d3-geo";
 import type { ProjectionOption } from "./types.js";
@@ -20,30 +19,30 @@ export const defaultProjection: ProjectionOption = "mercator";
 export interface ProjectionLayout {
   heightRatio: number;
   offsetY: number;
+  /** Whether to draw the outline of the globe behind the countries. */
+  outline: boolean;
 }
 
 export const projectionLayouts: Record<ProjectionOption, ProjectionLayout> = {
   // 960 × 720, as in every release before 2.3.0.
-  mercator: { heightRatio, offsetY: 240 },
+  mercator: { heightRatio, offsetY: 240, outline: false },
   // Equal Earth is about twice as wide as it is tall, so a 2:1 frame avoids
-  // the empty bands a 4:3 frame would leave above and below the map.
-  equalEarth: { heightRatio: 1 / 2, offsetY: 0 },
+  // the empty bands a 4:3 frame would leave above and below the map. Its
+  // rounded outline shows the edge of the globe.
+  equalEarth: { heightRatio: 1 / 2, offsetY: 0, outline: true },
 };
 
-// Margin around the fitted Equal Earth map, in viewport units.
+// Margin around the fitted Equal Earth globe, in viewport units.
 const equalEarthPadding = 8;
 
 /**
  * Builds the d3 projection for an option.
  *
  * Mercator keeps d3's default scale and translate so the default render is
- * unchanged. Equal Earth is fitted to the given features inside its 960 × 480
+ * unchanged. Equal Earth is fitted to the whole globe inside its 960 × 480
  * viewport with a small margin: it fills the width and is vertically centred.
  */
-export function createProjection(
-  option: ProjectionOption,
-  features: GeoJSON.FeatureCollection,
-): GeoProjection {
+export function createProjection(option: ProjectionOption): GeoProjection {
   if (option === "equalEarth") {
     const height = 960 * projectionLayouts.equalEarth.heightRatio;
     return geoEqualEarth().fitExtent(
@@ -51,7 +50,7 @@ export function createProjection(
         [equalEarthPadding, equalEarthPadding],
         [960 - equalEarthPadding, height - equalEarthPadding],
       ],
-      features,
+      { type: "Sphere" },
     );
   }
   return geoMercator();
