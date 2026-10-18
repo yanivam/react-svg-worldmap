@@ -149,6 +149,16 @@ describe("WorldMap — projection prop", () => {
     expect(mercator.querySelector(".worldmap__outline")).toBeNull();
   });
 
+  it("falls back to Mercator for an unsupported projection value", () => {
+    const fallback = render(
+      <WorldMap data={DATA} size={480} projection={"robinson" as never} />,
+    ).container;
+    const mercator = render(<WorldMap data={DATA} size={480} />).container;
+    expect(pathData(fallback)).toEqual(pathData(mercator));
+    expect(fallback.querySelector("svg")!.getAttribute("height")).toBe("360px");
+    expect(fallback.querySelector(".worldmap__outline")).toBeNull();
+  });
+
   it("switches projection when the prop changes", () => {
     const { container, rerender } = render(<WorldMap data={DATA} />);
     const mercator = pathData(container);

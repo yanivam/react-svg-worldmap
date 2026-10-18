@@ -31,6 +31,7 @@ import {
   createProjection,
   defaultProjection,
   projectionLayouts,
+  projectionOptions,
 } from "./projections.js";
 
 export type {
@@ -106,7 +107,7 @@ export default function WorldMap<T extends number | string>(
     tooltipTextColor = "white",
     rtl = false,
     size = defaultSize,
-    projection = defaultProjection,
+    projection: projectionProp = defaultProjection,
     frame = false,
     frameColor = "black",
     borderColor = "black",
@@ -138,6 +139,11 @@ export default function WorldMap<T extends number | string>(
   // Inits
   const width =
     typeof size === "number" ? size : responsify(size, effectiveWidth);
+  // Plain JavaScript callers can pass any string; fall back to the default
+  // projection instead of failing on an unknown one.
+  const projection = projectionOptions.includes(projectionProp)
+    ? projectionProp
+    : defaultProjection;
   const layout = projectionLayouts[projection];
   const height = width * layout.heightRatio;
   const [scale, setScale] = useState(1);
