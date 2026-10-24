@@ -123,17 +123,21 @@ describe("WorldMap — projection prop", () => {
     ).container.querySelector("svg")!;
     expect(equalEarth.getAttribute("width")).toBe("480px");
     expect(equalEarth.getAttribute("height")).toBe("240px");
-    expect(equalEarth.querySelector("g")!.getAttribute("transform")).toBe(
-      "translate(0, 0) scale(0.5) translate(0, 0)",
-    );
+    expect(
+      equalEarth
+        .querySelector('[data-map-layer="countries"]')!
+        .getAttribute("transform"),
+    ).toBe("translate(0, 0) scale(0.5) translate(0, 0)");
 
     const mercator = render(
       <WorldMap data={DATA} size={480} />,
     ).container.querySelector("svg")!;
     expect(mercator.getAttribute("height")).toBe("360px");
-    expect(mercator.querySelector("g")!.getAttribute("transform")).toBe(
-      "translate(0, 0) scale(0.5) translate(0, 240)",
-    );
+    expect(
+      mercator
+        .querySelector('[data-map-layer="countries"]')!
+        .getAttribute("transform"),
+    ).toBe("translate(0, 0) scale(0.5) translate(0, 240)");
   });
 
   it("draws the globe outline for Equal Earth only", () => {
@@ -210,7 +214,7 @@ describe("WorldMap — projection prop", () => {
       />,
     );
     const svg = container.querySelector("svg")!;
-    const g = svg.querySelector("g")!;
+    const g = svg.querySelector('[data-map-layer="countries"]')!;
     const original = g.getAttribute("transform");
     fireEvent.keyDown(svg, { key: "+" });
     expect(g.getAttribute("transform")).not.toBe(original);

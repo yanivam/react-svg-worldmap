@@ -12,6 +12,7 @@ import type {
   ISOCode,
   ProjectionOption,
 } from "./types.js";
+import { mapRenderingLayerOrder } from "./types.js";
 import {
   defaultColor,
   defaultSize,
@@ -50,7 +51,9 @@ export type {
   DisputeDisplayGuidance,
   DisputeClassification,
   DisputedTerritoryContext,
+  MapRenderingLayerId,
 } from "./types.js";
+export { mapRenderingLayers, mapRenderingLayerOrder } from "./types.js";
 export {
   disputedTerritories,
   disputeIds,
@@ -220,6 +223,8 @@ export default function WorldMap<T extends number | string>(
         href={resolvedHref}
         key={countryName}
         countryName={countryName}
+        data-country-code={isoCode}
+        data-country-name={countryName}
         svgTitle={svgTitle}
         isInteractive={isInteractive}
         {...(regionClassName != null ? { regionClassName } : {})}
@@ -300,6 +305,11 @@ export default function WorldMap<T extends number | string>(
       })
     : [];
 
+  // The countries and the disputed-territory overlay share one transform.
+  const mapTransform = `translate(${translateX}, ${translateY}) scale(${
+    (width / 960) * scale
+  }) translate(0, ${layout.offsetY})`;
+
   // Build paths
   const regionPaths = regionElements.map((entry) => entry.path);
 
@@ -376,11 +386,26 @@ export default function WorldMap<T extends number | string>(
           height={`${height}px`}
           width={`${width}px`}
           {...(richInteraction ? eventHandlers : undefined)}>
+          <g
+            data-map-layer="ocean"
+            data-map-layer-order={mapRenderingLayerOrder.ocean}>
+            {/* Same colour as the figure behind it, so it adds no visible
+                change; it gives the water its own element to style. */}
+            <rect
+              data-map-ocean="true"
+              x={0}
+              y={0}
+              width="100%"
+              height="100%"
+              fill={backgroundColor}
+              aria-hidden="true"
+            />
+          </g>
           {frame && <Frame color={frameColor} />}
           <g
-            transform={`translate(${translateX}, ${translateY}) scale(${
-              (width / 960) * scale
-            }) translate(0, ${layout.offsetY})`}
+            data-map-layer="countries"
+            data-map-layer-order={mapRenderingLayerOrder.countries}
+            transform={mapTransform}
             style={{ transition: "all 0.2s" }}>
             {layout.outline && (
               <path
@@ -393,13 +418,22 @@ export default function WorldMap<T extends number | string>(
               />
             )}
             {regionPaths}
-            {showDisputedTerritories && (
-              <g className="worldmap__disputed-territories">
-                {territoryElements.map((entry) => entry.path)}
-              </g>
-            )}
           </g>
-          <g>
+          {showDisputedTerritories && (
+            <g
+              className="worldmap__disputed-territories"
+              data-map-layer="disputed-territories"
+              data-map-layer-order={
+                mapRenderingLayerOrder["disputed-territories"]
+              }
+              transform={mapTransform}
+              style={{ transition: "all 0.2s" }}>
+              {territoryElements.map((entry) => entry.path)}
+            </g>
+          )}
+          <g
+            data-map-layer="labels"
+            data-map-layer-order={mapRenderingLayerOrder.labels}>
             {textLabelFunction(width).map((labelProps) => (
               <TextLabel {...labelProps} key={labelProps.label} />
             ))}

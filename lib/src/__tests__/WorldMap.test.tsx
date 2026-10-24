@@ -112,23 +112,23 @@ describe("WorldMap — title and accessibility", () => {
 // ── Frame prop ───────────────────────────────────────────────────────────────
 
 describe("WorldMap — frame", () => {
-  it("renders a <rect> when frame=true", () => {
+  it("renders the frame when frame=true", () => {
     const { container } = render(<WorldMap data={DATA} frame />);
-    expect(container.querySelector("rect")).not.toBeNull();
+    expect(container.querySelector("[data-map-frame]")).not.toBeNull();
   });
 
-  it("does not render a <rect> by default (frame=false)", () => {
+  it("does not render the frame by default (frame=false)", () => {
     const { container } = render(<WorldMap data={DATA} />);
-    expect(container.querySelector("rect")).toBeNull();
+    expect(container.querySelector("[data-map-frame]")).toBeNull();
   });
 
-  it("applies frameColor as the rect stroke color", () => {
+  it("applies frameColor as the frame stroke color", () => {
     const { container } = render(
       <WorldMap data={DATA} frame frameColor="crimson" />,
     );
-    expect(container.querySelector("rect")!.getAttribute("stroke")).toBe(
-      "crimson",
-    );
+    expect(
+      container.querySelector("[data-map-frame]")!.getAttribute("stroke"),
+    ).toBe("crimson");
   });
 });
 
@@ -213,7 +213,7 @@ describe("WorldMap — richInteraction", () => {
       <WorldMap data={DATA} size={400} richInteraction />,
     );
     const svg = container.querySelector("svg")!;
-    const g = container.querySelector("svg > g")!;
+    const g = container.querySelector('[data-map-layer="countries"]')!;
     const before = g.getAttribute("transform");
 
     fireEvent.keyDown(svg, { key: "+" });
@@ -226,7 +226,7 @@ describe("WorldMap — richInteraction", () => {
       <WorldMap data={DATA} size={400} richInteraction />,
     );
     const svg = container.querySelector("svg")!;
-    const g = container.querySelector("svg > g")!;
+    const g = container.querySelector('[data-map-layer="countries"]')!;
     const original = g.getAttribute("transform");
 
     fireEvent.keyDown(svg, { key: "+" });
@@ -240,7 +240,7 @@ describe("WorldMap — richInteraction", () => {
       <WorldMap data={DATA} size={400} richInteraction />,
     );
     const svg = container.querySelector("svg")!;
-    const g = container.querySelector("svg > g")!;
+    const g = container.querySelector('[data-map-layer="countries"]')!;
     const before = g.getAttribute("transform");
 
     fireEvent.keyDown(svg, { key: "=" });
@@ -258,12 +258,16 @@ describe("WorldMap — richInteraction", () => {
     fireEvent.keyDown(svg, { key: "+" });
     fireEvent.keyDown(svg, { key: "+" });
     fireEvent.keyDown(svg, { key: "+" });
-    const at4x = container.querySelector("svg > g")!.getAttribute("transform")!;
+    const at4x = container
+      .querySelector('[data-map-layer="countries"]')!
+      .getAttribute("transform")!;
 
     fireEvent.keyDown(svg, { key: "+" });
-    expect(container.querySelector("svg > g")!.getAttribute("transform")).toBe(
-      at4x,
-    );
+    expect(
+      container
+        .querySelector('[data-map-layer="countries"]')!
+        .getAttribute("transform"),
+    ).toBe(at4x);
   });
 
   it("zooms around the pointer on double click and resets on a later double click at 4x", () => {
@@ -271,7 +275,7 @@ describe("WorldMap — richInteraction", () => {
       <WorldMap data={DATA} size={400} richInteraction />,
     );
     const svg = container.querySelector("svg")!;
-    const g = container.querySelector("svg > g")!;
+    const g = container.querySelector('[data-map-layer="countries"]')!;
     const getBoundingClientRect = vi
       .spyOn(svg, "getBoundingClientRect")
       .mockReturnValue({
