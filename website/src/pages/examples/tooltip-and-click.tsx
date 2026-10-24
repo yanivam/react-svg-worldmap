@@ -8,7 +8,7 @@ import styles from "./styles.module.css";
 
 export default function TooltipAndClickExample(): JSX.Element {
   return (
-    <Layout title="Tooltip + Click (interaction repro)">
+    <Layout title="Tooltip + Click example">
       <main id="main-content" className={styles.main}>
         <Map />
         <div className={styles.code}>

@@ -5,13 +5,11 @@ import { populationData } from "../../data/CountryData";
 export default function App(): JSX.Element {
   return (
     <WorldMap
-      color="red"
-      tooltipBgColor="blue"
-      title="Top 10 Populous Countries Small Map"
-      valueSuffix="people"
+      title="Population"
+      color="#2563eb"
+      valueSuffix="million people"
       size="sm"
       data={populationData}
-      frame
     />
   );
 }

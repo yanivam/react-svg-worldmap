@@ -30,6 +30,7 @@ module.exports = {
           type: "dropdown",
           label: "Examples",
           items: [
+            { to: "/examples/equal-earth", label: "Equal Earth" },
             { to: "/examples/sizing", label: "Sizing" },
             { to: "/examples/custom-style", label: "Custom styles" },
             { to: "/examples/localization", label: "Localization" },
@@ -39,7 +40,6 @@ module.exports = {
             { to: "/examples/text-labels", label: "Text labels" },
             { to: "/examples/rich-interaction", label: "Rich interactions" },
             { to: "/examples/disputes", label: "Dispute metadata" },
-            { to: "/examples/equal-earth", label: "Equal Earth" },
           ],
         },
         {

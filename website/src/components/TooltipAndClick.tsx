@@ -1,57 +1,37 @@
 import * as React from "react";
 import { useState } from "react";
-import type { CountryContext } from "react-svg-worldmap";
 import WorldMap from "react-svg-worldmap";
-import { populationData } from "../data/CountryData";
+import { gdpData } from "../data/CountryData";
 
-function formattedNumber(num: number | undefined, digits: number) {
-  if (typeof num === "undefined") return "";
-  const magnitude = [
-    { value: 1e9, text: " billion " },
-    { value: 1e6, text: " million " },
-    { value: 1e3, text: " thousand " },
-    { value: 1, text: "" },
-  ].find((m) => num >= m.value);
-  if (magnitude) {
-    return (
-      (num / magnitude.value)
-        .toFixed(digits)
-        .replace(/\.0+$|(?<number>\.[0-9]*[1-9])0+$/, "$1") + magnitude.text
-    );
-  }
-  return "";
-}
+const money = new Intl.NumberFormat("en", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 0,
+});
 
-export default function TooltipAndClick(): JSX.Element {
-  const [state, setState] = useState({
-    cName: "Select a country",
-    iso: "",
-    val: "",
-  });
+export default function App(): JSX.Element {
+  const [selected, setSelected] = useState<string>();
 
-  const clickAction = React.useCallback(
-    ({ countryName, countryCode, countryValue }: CountryContext) => {
-      setState({
-        cName: countryName,
-        iso: countryCode,
-        val: formattedNumber(countryValue, 2),
-      });
-    },
-    [],
-  );
-
+  // Hover shows a formatted tooltip; click outlines the country.
   return (
-    <>
-      <WorldMap
-        title="Tooltip + Click: hover for tooltip, click to select"
-        data={populationData}
-        onClickFunction={clickAction}
-      />
-      <ul>
-        <li>Country: {state.cName}</li>
-        <li>ISO Code: {state.iso}</li>
-        <li>Value: {state.val}</li>
-      </ul>
-    </>
+    <WorldMap
+      title="GDP per capita: hover for details, click to select"
+      color="#16a34a"
+      data={gdpData}
+      tooltipTextFunction={({ countryName, countryValue = 0 }) =>
+        `${countryName}: ${money.format(countryValue)} per person`
+      }
+      onClickFunction={({ countryCode }) => setSelected(countryCode)}
+      styleFunction={({ countryCode, countryValue, minValue, maxValue }) => ({
+        fill: "#16a34a",
+        fillOpacity:
+          countryValue === undefined
+            ? 0
+            : 0.2 + (0.6 * (countryValue - minValue)) / (maxValue - minValue),
+        stroke: countryCode === selected ? "#111827" : "#9ca3af",
+        strokeWidth: countryCode === selected ? 2 : 0.5,
+        cursor: "pointer",
+      })}
+    />
   );
 }
