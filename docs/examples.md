@@ -6,6 +6,8 @@ sidebar_position: 5
 
 All examples share one small data set (`website/src/data/CountryData.ts`): population in millions and GDP per capita in US dollars, approximate 2024 figures.
 
+Every example follows the site's light or dark mode. A small hook (`website/src/components/mapTheme.ts`) picks `backgroundColor`, `borderColor`, `strokeOpacity` and the tooltip colors for the current mode, and each example spreads them on `WorldMap` with `{...theme}`.
+
 ## [examples/equal-earth](/examples/equal-earth)
 
 - Population map with `projection="equalEarth"`, plus a menu to compare with Mercator.

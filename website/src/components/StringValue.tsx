@@ -1,5 +1,6 @@
 import * as React from "react";
 import WorldMap, { type Data } from "react-svg-worldmap";
+import { useMapTheme } from "./mapTheme";
 
 // Values can be text. All text values get the same shade.
 const trips: Data<string> = [
@@ -11,5 +12,6 @@ const trips: Data<string> = [
 ];
 
 export default function App(): JSX.Element {
-  return <WorldMap title="My trips" color="#db2777" data={trips} />;
+  const theme = useMapTheme();
+  return <WorldMap {...theme} title="My trips" color="#db2777" data={trips} />;
 }

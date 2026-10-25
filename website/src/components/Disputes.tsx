@@ -2,13 +2,16 @@ import * as React from "react";
 import { useState } from "react";
 import type { DisputedTerritoryContext } from "react-svg-worldmap";
 import WorldMap from "react-svg-worldmap";
+import { useMapTheme } from "./mapTheme";
 
 export default function Disputes(): JSX.Element {
+  const theme = useMapTheme();
   const [selected, setSelected] = useState<DisputedTerritoryContext>();
 
   return (
     <>
       <WorldMap
+        {...theme}
         title="Disputed territories"
         data={[]}
         richInteraction
