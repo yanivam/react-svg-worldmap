@@ -1,39 +1,31 @@
 import * as React from "react";
-import type { CountryContext, Data } from "react-svg-worldmap";
+import type { CountryContext } from "react-svg-worldmap";
 import WorldMap from "react-svg-worldmap";
-
-const data: Data = [
-  { country: "cn", value: 5 }, // China
-  { country: "us", value: 10 }, // United States
-  { country: "ru", value: 7 }, // Russia
-];
-
-const getStyle = ({
-  countryValue,
-  countryCode,
-  minValue,
-  maxValue,
-  color,
-}: CountryContext) => ({
-  fill: countryCode === "US" ? "blue" : color,
-  fillOpacity: countryValue
-    ? 0.1 + (1.5 * (countryValue - minValue)) / (maxValue - minValue)
-    : 0,
-  stroke: "green",
-  strokeWidth: 1,
-  strokeOpacity: 0.2,
-  cursor: "pointer",
-});
+import { gdpData } from "../data/CountryData";
+import { useMapTheme } from "./mapTheme";
 
 export default function App(): JSX.Element {
+  const theme = useMapTheme();
+
+  // Countries with data get darker as the value grows; the rest are a faint
+  // tint of the border colour, which suits both light and dark mode.
+  const getStyle = ({ countryValue, maxValue }: CountryContext) => ({
+    fill: countryValue === undefined ? theme.borderColor : "#22c55e",
+    fillOpacity:
+      countryValue === undefined
+        ? 0.12
+        : 0.25 + 0.75 * (countryValue / maxValue),
+    stroke: theme.backgroundColor,
+    strokeWidth: 0.5,
+    cursor: "pointer",
+  });
+
   return (
     <WorldMap
-      color="red"
-      tooltipBgColor="#D3D3D3"
-      title="Custom Styles Map"
-      valueSuffix="points"
-      data={data}
-      frame
+      {...theme}
+      title="GDP per capita"
+      valuePrefix="$"
+      data={gdpData}
       styleFunction={getStyle}
     />
   );

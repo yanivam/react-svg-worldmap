@@ -60,3 +60,5 @@ Peucker
 Siachen
 Spratly
 UNMOGIP
+habitantes
+mundial

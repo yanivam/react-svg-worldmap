@@ -11,6 +11,26 @@ export type SizeOption = "sm" | "md" | "lg" | "xl" | "xxl";
 /** Map projection. `"mercator"` is the default. */
 export type ProjectionOption = "mercator" | "equalEarth";
 
+/**
+ * The SVG layers of the map, in paint order (first is drawn at the back).
+ * Each layer is a direct child `<g>` of the map's `<svg>` with
+ * `data-map-layer="<id>"` and `data-map-layer-order="<index>"`. The order
+ * numbers only describe relative paint order; later releases may insert
+ * layers between them.
+ */
+export const mapRenderingLayers = [
+  "ocean",
+  "countries",
+  "disputed-territories",
+  "labels",
+] as const;
+
+export type MapRenderingLayerId = (typeof mapRenderingLayers)[number];
+
+export const mapRenderingLayerOrder = Object.fromEntries(
+  mapRenderingLayers.map((layer, index) => [layer, index]),
+) as Record<MapRenderingLayerId, number>;
+
 export interface DataItem<T extends string | number = number> {
   country: ISOCode;
   value: T;

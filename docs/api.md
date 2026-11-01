@@ -14,6 +14,7 @@ sidebar_position: 4
 - `Data`: it's just `DataItem[]`, for more convenience.
 - `CountryContext`: the context in rendering each country, to be used in customization callbacks.
 - `Props`: the props type for the `WorldMap` component.
+- `mapRenderingLayers`: the SVG layers in paint order (`ocean`, `countries`, `disputed-territories`, `labels`), each rendered as `<g data-map-layer>`. `mapRenderingLayerOrder` maps a layer to its order and `MapRenderingLayerId` is the layer type. See [Styling and testing hooks](./customization.md#styling-and-testing-hooks).
 - `regions`: the list of regions (`{ name, code }`) available in the library
 - `disputedTerritories`: Tier 1 dispute metadata keyed by dispute ID (`crimea`, `palestinian-territories`, `taiwan`, `kashmir`, `western-sahara`, `kosovo`).
 - `disputeIds`: the list of dispute IDs.

@@ -4,7 +4,9 @@
 
 A lightweight React component for rendering a bundled SVG world map for charts, dashboards, and thematic data visualizations.
 
-![simple example](https://raw.githubusercontent.com/yanivam/react-svg-worldmap/master/simple-example.gif)
+<p align="center">
+  <img src="docs/media/hero.gif" alt="World map demo: Equal Earth projection, tooltips and zoom" width="800" />
+</p>
 
 ## Overview
 

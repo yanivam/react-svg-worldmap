@@ -39,6 +39,28 @@ const stylingFunction = ({
 };
 ```
 
+## Styling and testing hooks
+
+The map's SVG carries stable attributes you can target from CSS or tests, so you don't depend on element order:
+
+- Each country `<path>` has `data-country-code` (ISO code, e.g. `US`) and `data-country-name` (e.g. `United States`).
+- The map is drawn in layers. Each layer is a `<g>` directly under the `<svg>` with `data-map-layer` and `data-map-layer-order` (paint order, back to front): `ocean`, `countries`, `disputed-territories` (only with `showDisputedTerritories`), and `labels`. The list is exported as `mapRenderingLayers`.
+- The `ocean` layer holds one `<rect data-map-ocean>` filled with `backgroundColor`. It has the same colour as the figure behind it, so the map looks the same as before.
+- With `frame`, the frame is a `<rect data-map-frame>` drawn between the ocean and the countries.
+
+```css
+.my-map [data-map-ocean] {
+  fill: #a0d7eb;
+}
+.my-map [data-country-code="FR"] {
+  stroke-width: 2;
+}
+```
+
+```ts
+screen.getByRole("img").querySelector('[data-country-code="US"]');
+```
+
 ## Sizing
 
 The `size` can be a number specifying the width of the map, in pixels. It can also be one of the following aliases:
