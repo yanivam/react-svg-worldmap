@@ -30,7 +30,7 @@ export default function Sizing(): JSX.Element {
             value: String(size),
           }))}
           defaultValue="sm"
-          className={styles.tabsContainer}>
+          className={styles.tabsContainer ?? ""}>
           {sizes.map(({ size }) => (
             <TabItem value={String(size)} key={String(size)}>
               <SizeExample size={size} />
