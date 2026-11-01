@@ -23,9 +23,8 @@ function withoutStylingHooks(root: Element): Element {
   clone.querySelector('[data-map-layer="ocean"]')?.remove();
   for (const el of [clone, ...Array.from(clone.querySelectorAll("*"))]) {
     for (const name of el.getAttributeNames()) {
-      if (name.startsWith("data-map-") || name.startsWith("data-country-")) 
+      if (name.startsWith("data-map-") || name.startsWith("data-country-"))
         el.removeAttribute(name);
-      
     }
   }
   return clone;
