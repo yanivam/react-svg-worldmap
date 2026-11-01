@@ -1,53 +1,44 @@
 import * as React from "react";
-import { type ComponentType } from "react";
 import Layout from "@theme/Layout";
 import CodeBlock from "@theme/CodeBlock";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
+import SizeExample, {
+  type ExampleSize,
+} from "@site/src/components/SizeExample";
+import Source from "!!raw-loader!@site/src/components/SizeExample";
 import styles from "./styles.module.css";
 
-const sizes = ["SM", "MD", "LG", "XL", "XXL", "Responsive", "Numeric"] as const;
-const Maps = Object.fromEntries(
-  sizes.map((size) => [
-    size,
-    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-member-access
-    require(`@site/src/components/sizing/${size}`).default,
-  ]),
-) as { [size in (typeof sizes)[number]]: ComponentType };
-const Sources = Object.fromEntries(
-  sizes.map((size) => [
-    size,
-    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-member-access
-    require(`!!raw-loader!@site/src/components/sizing/${size}`).default,
-  ]),
-) as { [size in (typeof sizes)[number]]: string };
+const sizes: { label: string; size: ExampleSize }[] = [
+  { label: "SM", size: "sm" },
+  { label: "MD", size: "md" },
+  { label: "LG", size: "lg" },
+  { label: "XL", size: "xl" },
+  { label: "XXL", size: "xxl" },
+  { label: "Responsive", size: "responsive" },
+  { label: "Numeric", size: 400 },
+];
 
 export default function Sizing(): JSX.Element {
   return (
     <Layout title="Sizing examples">
       <main id="main-content" className={styles.main}>
         <Tabs
-          values={sizes.map((size) => ({
-            label: size,
-            value: size.toLowerCase(),
+          values={sizes.map(({ label, size }) => ({
+            label,
+            value: String(size),
           }))}
           defaultValue="sm"
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-          className={styles.tabsContainer!}>
-          {sizes.map((size) => {
-            const Map = Maps[size];
-            return (
-              <TabItem value={size.toLowerCase()} key={size}>
-                <Map />
-                <div className={styles.code}>
-                  <CodeBlock className="language-tsx">
-                    {Sources[size]}
-                  </CodeBlock>
-                </div>
-              </TabItem>
-            );
-          })}
+          className={styles.tabsContainer}>
+          {sizes.map(({ size }) => (
+            <TabItem value={String(size)} key={String(size)}>
+              <SizeExample size={size} />
+              <div className={styles.code}>
+                <CodeBlock className="language-tsx">{Source}</CodeBlock>
+              </div>
+            </TabItem>
+          ))}
         </Tabs>
       </main>
     </Layout>
