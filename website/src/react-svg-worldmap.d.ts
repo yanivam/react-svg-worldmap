@@ -17,6 +17,34 @@ declare module "react-svg-worldmap" {
 
   export type Data<T extends string | number = number> = DataItem<T>[];
 
+  export interface ZoomState {
+    scale: number;
+    translate: [number, number];
+  }
+
+  export interface ZoomOptions {
+    enabled?: boolean;
+    initialScale?: number;
+    minScale?: number;
+    maxScale?: number;
+    zoomFactor?: number;
+    showControls?: boolean;
+    showCountryLabels?: boolean;
+    countryLabelMinFontSize?: number;
+    countryLabelMaxFontSize?: number;
+    countryLabelZoomGrowthRate?: number;
+    showPins?: boolean;
+  }
+
+  export interface MapPin {
+    id?: string;
+    coordinates: readonly [number, number];
+    caption: string;
+    countryCode?: ISOCode;
+    kind?: string;
+    priority?: number;
+  }
+
   export type DisputeTier = "tier-1";
   export type DisputeStatus =
     | "disputed"
@@ -89,6 +117,14 @@ declare module "react-svg-worldmap" {
     frameColor?: string;
     borderColor?: string;
     richInteraction?: boolean;
+    zoom?: boolean | ZoomOptions;
+    onZoomChange?: (state: ZoomState) => void;
+    pins?: readonly MapPin[];
+    pinColor?: string;
+    pinTextColor?: string;
+    pinOutlineColor?: string;
+    labelColor?: string;
+    labelHaloColor?: string;
     showDisputedTerritories?: boolean;
     disputedTerritoryColor?: string;
     disputedTerritoryTooltipFunction?: (
