@@ -518,7 +518,66 @@ describe("zoom layout", () => {
     expect(figure.getAttribute("style")).toBe("background-color: white;");
     const box = container.querySelector(".worldmap__zoom-viewport")!;
     expect(box).toHaveStyle({ position: "relative", width: "400px" });
-    expect(box.firstElementChild).toBe(getSvg(container));
+    expect(box.contains(getSvg(container))).toBe(true);
+  });
+
+  it("puts the zoom buttons before clickable countries in the tab order", () => {
+    const { container } = render(
+      <WorldMap data={DATA} size={400} zoom onClickFunction={vi.fn()} />,
+    );
+    const focusable = Array.from(
+      container.querySelectorAll<HTMLElement | SVGElement>(
+        'button, [tabindex="0"]',
+      ),
+    );
+    expect(focusable[0]).toHaveAccessibleName("Zoom in");
+    expect(focusable[1]).toHaveAccessibleName("Zoom out");
+    expect(focusable[2]).toHaveAccessibleName("Reset zoom");
+    expect(focusable[3]).toBe(getSvg(container));
+    expect(focusable.length).toBeGreaterThan(100);
+  });
+
+  it("turns off the zoom transition when the user prefers reduced motion", () => {
+    const listeners = new Set<() => void>();
+    const query = {
+      matches: true,
+      addEventListener: (_: string, fn: () => void) => listeners.add(fn),
+      removeEventListener: (_: string, fn: () => void) => listeners.delete(fn),
+    };
+    const matchMedia = vi.fn(() => query);
+    vi.stubGlobal("matchMedia", matchMedia);
+    try {
+      const { container, unmount } = render(
+        <WorldMap data={DATA} size={400} zoom />,
+      );
+      const countries = container.querySelector(
+        '[data-map-layer="countries"]',
+      )!;
+      expect(matchMedia).toHaveBeenCalledWith(
+        "(prefers-reduced-motion: reduce)",
+      );
+      expect(countries).toHaveStyle({ transition: "none" });
+
+      query.matches = false;
+      act(() => {
+        for (const fn of listeners) fn();
+      });
+      expect(countries).toHaveStyle({ transition: "all 0.2s" });
+
+      unmount();
+      expect(listeners.size).toBe(0);
+
+      // Without zoom the old transition is kept.
+      query.matches = true;
+      const legacy = render(
+        <WorldMap data={DATA} size={400} richInteraction />,
+      );
+      expect(
+        legacy.container.querySelector('[data-map-layer="countries"]'),
+      ).toHaveStyle({ transition: "all 0.2s" });
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 
   it("cleans up the wheel listener on unmount", () => {

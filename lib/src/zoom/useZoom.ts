@@ -52,7 +52,23 @@ const WHEEL_DELTA_PER_DOUBLING = 200;
 const ARROW_PAN_RATIO = 0.1;
 
 const transitionStyle: React.CSSProperties = { transition: "all 0.2s" };
-const draggingStyle: React.CSSProperties = { transition: "none" };
+const noTransitionStyle: React.CSSProperties = { transition: "none" };
+const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
+
+// Whether the user asked for reduced motion. False on the server, when
+// matchMedia is missing, and while `enabled` is false.
+function usePrefersReducedMotion(enabled: boolean): boolean {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    if (!enabled || typeof window.matchMedia !== "function") return undefined;
+    const query = window.matchMedia(reducedMotionQuery);
+    const update = () => setReduced(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, [enabled]);
+  return enabled && reduced;
+}
 
 const zoomKeyShortcuts = "+ - Escape ArrowUp ArrowDown ArrowLeft ArrowRight";
 
@@ -96,6 +112,7 @@ export function useZoom({
   );
   const [status, setStatus] = useState("Map zoom reset");
   const [dragging, setDragging] = useState(false);
+  const reducedMotion = usePrefersReducedMotion(enabled);
   const stateRef = useRef(state);
   const onZoomChangeRef = useRef(onZoomChange);
   onZoomChangeRef.current = onZoomChange;
@@ -176,12 +193,49 @@ export function useZoom({
     return () => svg.removeEventListener("wheel", listener);
   }, [enabled, svgRef]);
 
-  const endDrag = () => {
-    if (dragRef.current && dragRef.current.distance > DRAG_THRESHOLD)
-      suppressClickRef.current = true;
-    dragRef.current = null;
-    setDragging(false);
+  // A drag is followed on the window, not the map: it keeps going when the
+  // pointer leaves the map and ends wherever the button is released. This
+  // also ignores the synthetic mouseout a country sends when it loses focus,
+  // which React would otherwise report as the pointer leaving the map.
+  const moveDragRef = useRef<(event: MouseEvent) => void>();
+  moveDragRef.current = (event: MouseEvent) => {
+    const drag = dragRef.current;
+    if (drag == null) return;
+    const delta: [number, number] = [
+      event.clientX - drag.last[0],
+      event.clientY - drag.last[1],
+    ];
+    drag.last = [event.clientX, event.clientY];
+    drag.distance += Math.abs(delta[0]) + Math.abs(delta[1]);
+    if (drag.distance > DRAG_THRESHOLD) setDragging(true);
+    commit(panZoomState(stateRef.current, delta));
   };
+  const stopDragRef = useRef<() => void>();
+  const startDrag = (point: [number, number]) => {
+    stopDragRef.current?.();
+    dragRef.current = { last: point, distance: 0 };
+    const onMove = (event: MouseEvent) => moveDragRef.current?.(event);
+    const onUp = () => {
+      if (dragRef.current && dragRef.current.distance > DRAG_THRESHOLD)
+        suppressClickRef.current = true;
+      stopDragRef.current?.();
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    stopDragRef.current = () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+      stopDragRef.current = undefined;
+      dragRef.current = null;
+      setDragging(false);
+    };
+  };
+  useEffect(
+    () => () => {
+      stopDragRef.current?.();
+    },
+    [],
+  );
 
   const legacyHandlers = {
     onMouseDown(e: React.MouseEvent) {
@@ -233,22 +287,8 @@ export function useZoom({
       legacyHandlers.onMouseDown(e);
       if (e.button !== 0) return;
       suppressClickRef.current = false;
-      dragRef.current = { last: [e.clientX, e.clientY], distance: 0 };
+      startDrag([e.clientX, e.clientY]);
     },
-    onMouseMove(e: React.MouseEvent) {
-      const drag = dragRef.current;
-      if (drag == null) return;
-      const delta: [number, number] = [
-        e.clientX - drag.last[0],
-        e.clientY - drag.last[1],
-      ];
-      drag.last = [e.clientX, e.clientY];
-      drag.distance += Math.abs(delta[0]) + Math.abs(delta[1]);
-      if (drag.distance > DRAG_THRESHOLD) setDragging(true);
-      commit(panZoomState(stateRef.current, delta));
-    },
-    onMouseUp: endDrag,
-    onMouseLeave: endDrag,
     // A drag that ends over a country must not count as a click on it.
     onClickCapture(e: React.MouseEvent) {
       if (!suppressClickRef.current) return;
@@ -311,6 +351,8 @@ export function useZoom({
     svgProps,
     controls,
     status,
-    layerStyle: dragging ? draggingStyle : transitionStyle,
+    // No animation while dragging (it would lag behind the pointer) or when
+    // the user prefers reduced motion. Without zoom, keep the old transition.
+    layerStyle: dragging || reducedMotion ? noTransitionStyle : transitionStyle,
   };
 }

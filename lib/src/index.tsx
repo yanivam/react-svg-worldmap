@@ -557,7 +557,8 @@ export default function WorldMap<T extends number | string>(
           <div
             className="worldmap__zoom-viewport"
             style={{ position: "relative", width: `${width}px` }}>
-            {svg}
+            {/* The buttons come before the map in the tab order, so keyboard
+                users don't have to tab through every clickable country first. */}
             {zoomOptions.showControls && (
               <ZoomControls
                 onZoomIn={controls.zoomIn}
@@ -565,6 +566,7 @@ export default function WorldMap<T extends number | string>(
                 onResetZoom={controls.reset}
               />
             )}
+            {svg}
             <ZoomStatus message={zoomStatus} />
           </div>
         ) : (
