@@ -23,6 +23,8 @@ export const mapRenderingLayers = [
   "countries",
   "disputed-territories",
   "labels",
+  "country-labels",
+  "pins",
 ] as const;
 
 export type MapRenderingLayerId = (typeof mapRenderingLayers)[number];
@@ -30,6 +32,73 @@ export type MapRenderingLayerId = (typeof mapRenderingLayers)[number];
 export const mapRenderingLayerOrder = Object.fromEntries(
   mapRenderingLayers.map((layer, index) => [layer, index]),
 ) as Record<MapRenderingLayerId, number>;
+
+/**
+ * The pan and zoom of the map. `scale` is the zoom level (1 shows the whole
+ * map) and `translate` is the offset of the map in SVG pixels.
+ */
+export interface ZoomState {
+  scale: number;
+  translate: [number, number];
+}
+
+/** Options for the `zoom` prop. Every field is optional. */
+export interface ZoomOptions {
+  /** Set to `false` to turn zoom off while keeping the options object. */
+  enabled?: boolean;
+  /** Zoom level on first render. Default `1`. */
+  initialScale?: number;
+  /** Lowest zoom level. Default `1`. */
+  minScale?: number;
+  /** Highest zoom level. Default `8`. */
+  maxScale?: number;
+  /** Zoom per step (button, key or double-click). Default `2`. */
+  zoomFactor?: number;
+  /** Show the zoom in / zoom out / reset buttons. Default `true`. */
+  showControls?: boolean;
+  /** Show country names that fit inside their country. Default `true`. */
+  showCountryLabels?: boolean;
+  /** Country label size at zoom level 1, in pixels. Default `12`. */
+  countryLabelMinFontSize?: number;
+  /** Largest country label size, in pixels. Default `20`. */
+  countryLabelMaxFontSize?: number;
+  /** How fast labels grow as you zoom in (exponent). Default `0.35`. */
+  countryLabelZoomGrowthRate?: number;
+  /** Show the `pins` prop's pins. Default `true`. */
+  showPins?: boolean;
+}
+
+/** A marker drawn at a longitude / latitude with a caption. */
+export interface MapPin {
+  /** Stable key. Defaults to the caption and index. */
+  id?: string;
+  /** `[longitude, latitude]` in degrees. Invalid coordinates are skipped. */
+  coordinates: readonly [number, number];
+  caption: string;
+  /** Written to the pin's `data-country-code` attribute. */
+  countryCode?: ISOCode;
+  /** Written to the pin's `data-map-pin` attribute. Default `"pin"`. */
+  kind?: string;
+  /**
+   * When pins overlap, the one with the higher priority is kept. Defaults to
+   * the order of the `pins` array (earlier pins win).
+   */
+  priority?: number;
+}
+
+/** A country label that fits inside its country, in map coordinates. */
+export interface CountryLabelCandidate {
+  countryCode: ISOCode;
+  countryName: string;
+  label: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  availableWidth: number;
+  availableHeight: number;
+  priority: number;
+}
 
 export interface DataItem<T extends string | number = number> {
   country: ISOCode;
@@ -132,6 +201,26 @@ export interface Props<T extends string | number = number> {
   frameColor?: string;
   borderColor?: string;
   richInteraction?: boolean;
+  /**
+   * Opt-in zoom and pan: buttons, drag to pan, double-click, keyboard, and
+   * ctrl / ⌘ + wheel (or trackpad pinch). Also draws country labels.
+   * `true` uses the defaults; pass an object to change them.
+   */
+  zoom?: boolean | ZoomOptions;
+  /** Called with the new state each time the zoom or pan changes. */
+  onZoomChange?: (state: ZoomState) => void;
+  /** Markers drawn at longitude / latitude. Shown with or without zoom. */
+  pins?: readonly MapPin[];
+  /** Fill colour of the pin markers. Default `"#b91c1c"`. */
+  pinColor?: string;
+  /** Colour of the pin captions. Default `"#1f2937"`. */
+  pinTextColor?: string;
+  /** Pin outline and caption halo colour. Default `"#fff"`. */
+  pinOutlineColor?: string;
+  /** Colour of the country labels shown with zoom. Default `"#222"`. */
+  labelColor?: string;
+  /** Optional halo drawn behind the country labels. Default: none. */
+  labelHaloColor?: string;
   /**
    * Draw the disputed territories (Crimea, Kashmir areas, West Bank, Gaza,
    * Western Sahara, Kosovo, Taiwan) as an overlay above the countries.
