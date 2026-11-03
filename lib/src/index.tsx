@@ -137,9 +137,11 @@ function toValue({ value }: DataItem<string | number>): number {
   return typeof value === "string" ? 0 : value;
 }
 
+// Returns React.ReactElement rather than JSX.Element: the global JSX
+// namespace is gone from the React 19 types.
 export default function WorldMap<T extends number | string>(
   props: Props<T>,
-): JSX.Element {
+): React.ReactElement {
   const {
     data,
     title,
