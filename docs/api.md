@@ -136,11 +136,12 @@ type MapPin = {
 With `zoom` on:
 
 - **Buttons**: zoom in, zoom out and reset, at the bottom right of the map.
-- **Pointer**: drag to pan, double-click to zoom in around the pointer. A drag that ends over a country doesn't click it.
+- **Pointer**: drag to pan, double-click to zoom in around the pointer. A drag keeps going if the pointer leaves the map, and a drag that ends over a country doesn't click it.
 - **Wheel**: hold ctrl (or ⌘) and scroll, or pinch on a trackpad, to zoom around the pointer. A plain wheel scrolls the page as usual, so the map never traps page scrolling.
-- **Keyboard** (once the map has focus): `+` / `=` zoom in, `-` / `_` zoom out, arrow keys pan, `Escape` resets.
+- **Keyboard** (once the map has focus): `+` / `=` zoom in, `-` / `_` zoom out, arrow keys pan, `Escape` resets. The buttons come before the map in the tab order.
 - The map always covers its viewport: you can't pan past its edges, with either projection.
 - Zoom changes are announced to screen readers through a polite live region.
+- Zooming and panning are animated, except while dragging and when the user prefers reduced motion.
 - Country borders keep a constant width while zooming (`vector-effect: non-scaling-stroke`).
 
 Country labels are drawn only where the name fits inside the country, larger countries first, at a constant on-screen size that grows slightly as you zoom in. Pins also keep their on-screen size.
