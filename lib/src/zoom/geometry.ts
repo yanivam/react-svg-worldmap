@@ -14,78 +14,6 @@ export interface GeometryMeasurement {
   area: number;
 }
 
-function reversePolygonRings(
-  coordinates: GeoJSON.Polygon["coordinates"],
-): GeoJSON.Polygon["coordinates"] {
-  return coordinates.map((ring) => [...ring].reverse());
-}
-
-function isFullSphereMeasurement(
-  pathGenerator: GeoPath,
-  measurement: GeometryMeasurement,
-): boolean {
-  const sphereBounds = pathGenerator.bounds({ type: "Sphere" });
-  const sphereWidth = Math.max(0, sphereBounds[1][0] - sphereBounds[0][0]);
-  const sphereHeight = Math.max(0, sphereBounds[1][1] - sphereBounds[0][1]);
-
-  return (
-    sphereWidth > 0 &&
-    sphereHeight > 0 &&
-    measurement.width >= sphereWidth * 0.99 &&
-    measurement.height >= sphereHeight * 0.99
-  );
-}
-
-function normalizePolygonForProjection(
-  pathGenerator: GeoPath,
-  coordinates: GeoJSON.Polygon["coordinates"],
-): GeoJSON.Polygon["coordinates"] {
-  const polygon: GeoJSON.Feature<GeoJSON.Polygon> = {
-    type: "Feature",
-    properties: {},
-    geometry: {
-      type: "Polygon",
-      coordinates,
-    },
-  };
-  const measurement = measureFeature(pathGenerator, polygon);
-  if (!isFullSphereMeasurement(pathGenerator, measurement)) return coordinates;
-
-  return reversePolygonRings(coordinates);
-}
-
-export function normalizeFeatureForProjection<T extends GeoJSON.Feature>(
-  pathGenerator: GeoPath,
-  feature: T,
-): T {
-  if (feature.geometry.type === "Polygon") {
-    return {
-      ...feature,
-      geometry: {
-        ...feature.geometry,
-        coordinates: normalizePolygonForProjection(
-          pathGenerator,
-          feature.geometry.coordinates,
-        ),
-      },
-    };
-  }
-
-  if (feature.geometry.type === "MultiPolygon") {
-    return {
-      ...feature,
-      geometry: {
-        ...feature.geometry,
-        coordinates: feature.geometry.coordinates.map((coordinates) =>
-          normalizePolygonForProjection(pathGenerator, coordinates),
-        ),
-      },
-    };
-  }
-
-  return feature;
-}
-
 export interface MapViewport {
   width: number;
   height: number;
@@ -155,23 +83,22 @@ export function measureFeature(
   };
 }
 
+/**
+ * The largest projected part of a country, so its label goes on the
+ * mainland rather than between islands (the contiguous US, not Alaska).
+ */
 export function getLargestGeometryPart(
   pathGenerator: GeoPath,
   feature: GeoJSON.Feature,
 ): GeoJSON.Feature {
-  const normalizedFeature = normalizeFeatureForProjection(
-    pathGenerator,
-    feature,
-  );
-  if (normalizedFeature.geometry.type !== "MultiPolygon")
-    return normalizedFeature;
+  if (feature.geometry.type !== "MultiPolygon") return feature;
 
-  return normalizedFeature.geometry.coordinates
+  return feature.geometry.coordinates
     .map((coordinates, index) => {
       const part: GeoJSON.Feature = {
         type: "Feature",
         properties: {
-          ...(normalizedFeature.properties ?? {}),
+          ...(feature.properties ?? {}),
           geometryPartId: index,
         },
         geometry: {
