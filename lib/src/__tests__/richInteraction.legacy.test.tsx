@@ -117,3 +117,21 @@ describe("richInteraction without zoom (legacy behavior)", () => {
     ).toBe(false);
   });
 });
+
+describe("richInteraction markup", () => {
+  it("keeps the svg attribute order of earlier releases", () => {
+    const { container } = render(
+      <WorldMap data={DATA} size={400} richInteraction />,
+    );
+    expect(
+      container.querySelector('svg[role="img"]')!.getAttributeNames(),
+    ).toEqual([
+      "role",
+      "aria-label",
+      "tabindex",
+      "aria-keyshortcuts",
+      "height",
+      "width",
+    ]);
+  });
+});

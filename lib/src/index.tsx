@@ -420,10 +420,11 @@ export default function WorldMap<T extends number | string>(
       // ids while still giving the SVG an accessible name (WCAG 1.1.1).
       role="img"
       aria-label={title ?? "World map"}
-      height={`${height}px`}
-      width={`${width}px`}
       // Focus, keyboard and pointer handlers for richInteraction or zoom.
-      {...svgProps}>
+      // Spread before the size so the markup matches earlier releases.
+      {...svgProps}
+      height={`${height}px`}
+      width={`${width}px`}>
       <g
         data-map-layer="ocean"
         data-map-layer-order={mapRenderingLayerOrder.ocean}>
