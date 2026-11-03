@@ -1,0 +1,5 @@
+---
+"react-svg-worldmap": minor
+---
+
+Add opt-in zoom and pan, map pins and country labels. `zoom` (or `zoom={{ ... }}` with `ZoomOptions`) adds zoom in / zoom out / reset buttons, drag to pan, double-click zoom, keyboard zoom and pan (`+`, `-`, arrow keys, `Escape`) and ctrl / ⌘ + wheel or trackpad pinch; a plain wheel still scrolls the page. The map stays inside its viewport in both projections, zoom changes are announced to screen readers, borders keep a constant width, and `maxScale` (default 8) caps every zoom gesture. With zoom on, country names are drawn where they fit. `onZoomChange` reports each change from the interaction itself, so storing the state in a parent can't cause a render loop. New `pins` prop draws captioned markers at longitude / latitude, with or without zoom. New colour props: `pinColor`, `pinTextColor`, `pinOutlineColor`, `labelColor` and `labelHaloColor`. New `country-labels` and `pins` map layers (existing layer ids and order numbers are unchanged) and new type exports `ZoomOptions`, `ZoomState`, `MapPin` and `CountryLabelCandidate`. Without `zoom`, the default render and `richInteraction` behave exactly as before.
