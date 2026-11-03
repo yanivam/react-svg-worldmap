@@ -20,12 +20,28 @@ import {
   defaultTooltip,
   defaultDisputedTerritoryColor,
   defaultDisputedTerritoryTooltip,
+  defaultLabelColor,
+  defaultPinColor,
+  defaultPinOutlineColor,
+  defaultPinTextColor,
 } from "./constants.js";
 import { useWindowWidth, useContainerWidth, responsify } from "./utils.js";
 import { drawTooltip } from "./draw.js";
 import Frame from "./components/Frame.js";
 import Region from "./components/Region.js";
 import TextLabel from "./components/TextLabel.js";
+import PinMarker from "./components/PinMarker.js";
+import ZoomControls from "./components/ZoomControls.js";
+import ZoomStatus from "./components/ZoomStatus.js";
+import { useZoom } from "./zoom/useZoom.js";
+import { projectMapPins } from "./pins/mapPins.js";
+import {
+  createCountryLabelCandidateFromAnchor,
+  measureCountryLabelAnchor,
+  placeCountryLabels,
+  resolveCountryLabelMapFontSize,
+} from "./labels/placement.js";
+import type { CountryLabelAnchor } from "./labels/placement.js";
 import { disputedTerritories, getDisputeByCountryCode } from "./disputes.js";
 import { disputedTerritoryFeatures } from "./disputedTerritoryAreas.js";
 import {
@@ -52,6 +68,10 @@ export type {
   DisputeClassification,
   DisputedTerritoryContext,
   MapRenderingLayerId,
+  ZoomOptions,
+  ZoomState,
+  MapPin,
+  CountryLabelCandidate,
 } from "./types.js";
 export { mapRenderingLayers, mapRenderingLayerOrder } from "./types.js";
 export {
@@ -79,16 +99,38 @@ const geoFeatures = geoCollection.features as Array<
   GeoJSON.Feature & { properties: { N: string; I: string } }
 >;
 
-// One path generator per projection, built on first use. The projections
-// never change between renders.
-const pathGenerators = new Map<ProjectionOption, ReturnType<typeof geoPath>>();
-function getPathGenerator(option: ProjectionOption) {
-  let generator = pathGenerators.get(option);
-  if (!generator) {
-    generator = geoPath().projection(createProjection(option));
-    pathGenerators.set(option, generator);
+// One projection and path generator per projection option, built on first
+// use. The projections never change between renders.
+const projections = new Map<
+  ProjectionOption,
+  {
+    projection: ReturnType<typeof createProjection>;
+    pathGenerator: ReturnType<typeof geoPath>;
   }
-  return generator;
+>();
+function getProjection(option: ProjectionOption) {
+  let entry = projections.get(option);
+  if (!entry) {
+    const projection = createProjection(option);
+    entry = { projection, pathGenerator: geoPath().projection(projection) };
+    projections.set(option, entry);
+  }
+  return entry;
+}
+
+// Where each country's label would go, measured once per projection and only
+// when labels are first shown.
+const labelAnchors = new Map<ProjectionOption, CountryLabelAnchor[]>();
+function getLabelAnchors(option: ProjectionOption) {
+  let anchors = labelAnchors.get(option);
+  if (!anchors) {
+    const { pathGenerator } = getProjection(option);
+    anchors = geoFeatures.map((geoFeature) =>
+      measureCountryLabelAnchor(pathGenerator, geoFeature),
+    );
+    labelAnchors.set(option, anchors);
+  }
+  return anchors;
 }
 
 function toValue({ value }: DataItem<string | number>): number {
@@ -126,6 +168,14 @@ export default function WorldMap<T extends number | string>(
     textLabelFunction = () => [],
     containerClassName,
     regionClassName,
+    zoom,
+    onZoomChange,
+    pins,
+    pinColor = defaultPinColor,
+    pinTextColor = defaultPinTextColor,
+    pinOutlineColor = defaultPinOutlineColor,
+    labelColor = defaultLabelColor,
+    labelHaloColor,
   } = props;
   const [figureEl, setFigureEl] = useState<HTMLElement | null>(null);
   const containerRef = useRef<SVGSVGElement>(null);
@@ -149,9 +199,27 @@ export default function WorldMap<T extends number | string>(
     : defaultProjection;
   const layout = projectionLayouts[projection];
   const height = width * layout.heightRatio;
-  const [scale, setScale] = useState(1);
-  const [translateX, setTranslateX] = useState(0);
-  const [translateY, setTranslateY] = useState(0);
+  const {
+    options: zoomOptions,
+    state: zoomState,
+    mapTransform: { transform: mapTransform, mapScale },
+    svgProps,
+    controls,
+    status: zoomStatus,
+    layerStyle,
+  } = useZoom({
+    zoom,
+    onZoomChange,
+    richInteraction,
+    width,
+    height,
+    projection,
+    svgRef: containerRef,
+  });
+  const zoomEnabled = zoomOptions.enabled;
+  // Keep borders one pixel wide at any zoom. Only with zoom, so the default
+  // render is unchanged.
+  const vectorEffect = zoomEnabled ? "non-scaling-stroke" : undefined;
 
   // Stable refs per region for tooltips (avoids ref identity churn)
   const triggerRefs = useRef<Array<{ current: SVGPathElement | null }>>([]);
@@ -178,7 +246,8 @@ export default function WorldMap<T extends number | string>(
   const maxValue = numericValues.length > 0 ? Math.max(...numericValues) : 0;
 
   // Build a path & a tooltip for each country
-  const pathGenerator = getPathGenerator(projection);
+  const { projection: geoProjection, pathGenerator } =
+    getProjection(projection);
 
   const regionElements = geoFeatures.map((geoFeature, i) => {
     const triggerRef = triggerRefs.current[i]!;
@@ -225,6 +294,7 @@ export default function WorldMap<T extends number | string>(
         countryName={countryName}
         data-country-code={isoCode}
         data-country-name={countryName}
+        vectorEffect={vectorEffect}
         svgTitle={svgTitle}
         isInteractive={isInteractive}
         {...(regionClassName != null ? { regionClassName } : {})}
@@ -287,6 +357,7 @@ export default function WorldMap<T extends number | string>(
               svgTitle={tooltipContent}
               isInteractive={handleTerritoryClick != null}
               data-disputed-territory={id}
+              vectorEffect={vectorEffect}
             />
           ),
           tooltip: (
@@ -305,10 +376,34 @@ export default function WorldMap<T extends number | string>(
       })
     : [];
 
-  // The countries and the disputed-territory overlay share one transform.
-  const mapTransform = `translate(${translateX}, ${translateY}) scale(${
-    (width / 960) * scale
-  }) translate(0, ${layout.offsetY})`;
+  // Country labels: shown with zoom, sized in screen pixels and kept only
+  // where they fit inside their country without overlapping a larger one.
+  const labelFontSize = resolveCountryLabelMapFontSize(
+    zoomState.scale,
+    mapScale,
+    zoomOptions,
+  );
+  const showCountryLabels = zoomEnabled && zoomOptions.showCountryLabels;
+  const countryLabels = React.useMemo(
+    () =>
+      showCountryLabels
+        ? placeCountryLabels(
+            getLabelAnchors(projection).map((anchor) =>
+              createCountryLabelCandidateFromAnchor(anchor, labelFontSize),
+            ),
+          )
+        : [],
+    [labelFontSize, projection, showCountryLabels],
+  );
+
+  // Pins render with or without zoom; overlapping ones are dropped. They are
+  // sized in screen pixels, so wait until the map has a width.
+  const showPins =
+    zoomOptions.showPins && pins != null && pins.length > 0 && mapScale > 0;
+  const mapPins = React.useMemo(
+    () => (showPins ? projectMapPins(pins, geoProjection, mapScale) : []),
+    [geoProjection, mapScale, pins, showPins],
+  );
 
   // Build paths
   const regionPaths = regionElements.map((entry) => entry.path);
@@ -318,50 +413,135 @@ export default function WorldMap<T extends number | string>(
     (entry) => entry.highlightedTooltip,
   );
 
-  const eventHandlers = {
-    onMouseDown(e: React.MouseEvent) {
-      // Only suppress default on multi-click (≥2) to prevent text-selection
-      // during double-click zoom. Single clicks must still move focus normally
-      // so keyboard users aren't locked out (WCAG 2.1.1).
-      if (e.detail > 1) e.preventDefault();
-      e.stopPropagation();
-    },
-    onDoubleClick(e: React.MouseEvent) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      if (scale === 4) {
-        setTranslateX(0);
-        setTranslateY(0);
-        setScale(1);
-      } else {
-        setTranslateX(2 * translateX - x);
-        setTranslateY(2 * translateY - y);
-        setScale(scale * 2);
-      }
-    },
-    // Keyboard equivalents for double-click zoom (WCAG 2.1.1).
-    // + / =  → zoom in to the centre of the map
-    // - / _  → reset zoom
-    onKeyDown(e: React.KeyboardEvent<SVGSVGElement>) {
-      if (e.key === "+" || e.key === "=") {
-        e.preventDefault();
-        if (scale < 4) {
-          setTranslateX(2 * translateX - width / 2);
-          setTranslateY(2 * translateY - height / 2);
-          setScale(scale * 2);
-        }
-      } else if (e.key === "-" || e.key === "_") {
-        e.preventDefault();
-        setTranslateX(0);
-        setTranslateY(0);
-        setScale(1);
-      }
-    },
-  };
+  const svg = (
+    <svg
+      ref={containerRef}
+      // A direct aria-label avoids SSR hydration mismatches from generated
+      // ids while still giving the SVG an accessible name (WCAG 1.1.1).
+      role="img"
+      aria-label={title ?? "World map"}
+      height={`${height}px`}
+      width={`${width}px`}
+      // Focus, keyboard and pointer handlers for richInteraction or zoom.
+      {...svgProps}>
+      <g
+        data-map-layer="ocean"
+        data-map-layer-order={mapRenderingLayerOrder.ocean}>
+        {/* Same colour as the figure behind it, so it adds no visible
+            change; it gives the water its own element to style. */}
+        <rect
+          data-map-ocean="true"
+          x={0}
+          y={0}
+          width="100%"
+          height="100%"
+          fill={backgroundColor}
+          aria-hidden="true"
+        />
+      </g>
+      {frame && <Frame color={frameColor} />}
+      {/* Every layer that moves with the countries shares mapTransform. */}
+      <g
+        data-map-layer="countries"
+        data-map-layer-order={mapRenderingLayerOrder.countries}
+        transform={mapTransform}
+        style={layerStyle}>
+        {layout.outline && (
+          <path
+            className="worldmap__outline"
+            d={pathGenerator({ type: "Sphere" })!}
+            fill="none"
+            stroke={borderColor}
+            strokeOpacity={strokeOpacity}
+            vectorEffect={vectorEffect}
+            aria-hidden="true"
+          />
+        )}
+        {regionPaths}
+      </g>
+      {showDisputedTerritories && (
+        <g
+          className="worldmap__disputed-territories"
+          data-map-layer="disputed-territories"
+          data-map-layer-order={mapRenderingLayerOrder["disputed-territories"]}
+          transform={mapTransform}
+          style={layerStyle}>
+          {territoryElements.map((entry) => entry.path)}
+        </g>
+      )}
+      <g
+        data-map-layer="labels"
+        data-map-layer-order={mapRenderingLayerOrder.labels}>
+        {textLabelFunction(width).map((labelProps) => (
+          <TextLabel {...labelProps} key={labelProps.label} />
+        ))}
+      </g>
+      {showCountryLabels && (
+        <g
+          className="worldmap__country-labels"
+          data-map-layer="country-labels"
+          data-map-layer-order={mapRenderingLayerOrder["country-labels"]}
+          transform={mapTransform}
+          style={layerStyle}
+          pointerEvents="none"
+          aria-hidden="true">
+          {countryLabels.map((label) => (
+            <TextLabel
+              key={label.countryCode}
+              label={label.label}
+              x={label.x}
+              y={label.y}
+              data-country-code={label.countryCode}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fontSize={labelFontSize}
+              fill={labelColor}
+              {...(labelHaloColor != null
+                ? {
+                    paintOrder: "stroke",
+                    stroke: labelHaloColor,
+                    strokeWidth: 3 / mapScale,
+                    strokeLinejoin: "round" as const,
+                  }
+                : {})}
+            />
+          ))}
+        </g>
+      )}
+      {showPins && (
+        <g
+          className="worldmap__pins"
+          data-map-layer="pins"
+          data-map-layer-order={mapRenderingLayerOrder.pins}
+          transform={mapTransform}
+          style={layerStyle}>
+          {mapPins.map(({ pin, x, y }, index) => (
+            <PinMarker
+              key={pin.id ?? `${pin.caption}-${index}`}
+              caption={pin.caption}
+              mapScale={mapScale}
+              x={x}
+              y={y}
+              color={pinColor}
+              textColor={pinTextColor}
+              outlineColor={pinOutlineColor}
+              {...(pin.countryCode != null
+                ? { countryCode: pin.countryCode }
+                : {})}
+              {...(pin.kind != null ? { kind: pin.kind } : {})}
+            />
+          ))}
+        </g>
+      )}
+      {regionTooltips}
+      {territoryElements.map((entry) => entry.tooltip)}
+    </svg>
+  );
 
   // Render the SVG. The figure is measured rather than the wrapper so the
   // figure's default (or user-styled) margins don't make the SVG overflow.
+  // With zoom, a positioned box the size of the map holds the SVG and the
+  // zoom buttons; the figure itself keeps its styles.
   return (
     <div
       className={containerClassName ?? "worldmap__wrapper"}
@@ -373,74 +553,23 @@ export default function WorldMap<T extends number | string>(
         {title && (
           <figcaption className="worldmap__figure-caption">{title}</figcaption>
         )}
-        <svg
-          ref={containerRef}
-          // A direct aria-label avoids SSR hydration mismatches from generated
-          // ids while still giving the SVG an accessible name (WCAG 1.1.1).
-          role="img"
-          aria-label={title ?? "World map"}
-          // Make the SVG focusable when richInteraction is on so keyboard
-          // users can reach the zoom controls (WCAG 2.1.1).
-          tabIndex={richInteraction ? 0 : undefined}
-          aria-keyshortcuts={richInteraction ? "+ -" : undefined}
-          height={`${height}px`}
-          width={`${width}px`}
-          {...(richInteraction ? eventHandlers : undefined)}>
-          <g
-            data-map-layer="ocean"
-            data-map-layer-order={mapRenderingLayerOrder.ocean}>
-            {/* Same colour as the figure behind it, so it adds no visible
-                change; it gives the water its own element to style. */}
-            <rect
-              data-map-ocean="true"
-              x={0}
-              y={0}
-              width="100%"
-              height="100%"
-              fill={backgroundColor}
-              aria-hidden="true"
-            />
-          </g>
-          {frame && <Frame color={frameColor} />}
-          <g
-            data-map-layer="countries"
-            data-map-layer-order={mapRenderingLayerOrder.countries}
-            transform={mapTransform}
-            style={{ transition: "all 0.2s" }}>
-            {layout.outline && (
-              <path
-                className="worldmap__outline"
-                d={pathGenerator({ type: "Sphere" })!}
-                fill="none"
-                stroke={borderColor}
-                strokeOpacity={strokeOpacity}
-                aria-hidden="true"
+        {zoomEnabled ? (
+          <div
+            className="worldmap__zoom-viewport"
+            style={{ position: "relative", width: `${width}px` }}>
+            {svg}
+            {zoomOptions.showControls && (
+              <ZoomControls
+                onZoomIn={controls.zoomIn}
+                onZoomOut={controls.zoomOut}
+                onResetZoom={controls.reset}
               />
             )}
-            {regionPaths}
-          </g>
-          {showDisputedTerritories && (
-            <g
-              className="worldmap__disputed-territories"
-              data-map-layer="disputed-territories"
-              data-map-layer-order={
-                mapRenderingLayerOrder["disputed-territories"]
-              }
-              transform={mapTransform}
-              style={{ transition: "all 0.2s" }}>
-              {territoryElements.map((entry) => entry.path)}
-            </g>
-          )}
-          <g
-            data-map-layer="labels"
-            data-map-layer-order={mapRenderingLayerOrder.labels}>
-            {textLabelFunction(width).map((labelProps) => (
-              <TextLabel {...labelProps} key={labelProps.label} />
-            ))}
-          </g>
-          {regionTooltips}
-          {territoryElements.map((entry) => entry.tooltip)}
-        </svg>
+            <ZoomStatus message={zoomStatus} />
+          </div>
+        ) : (
+          svg
+        )}
       </figure>
     </div>
   );

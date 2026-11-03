@@ -27,7 +27,13 @@ function getDirectMapLayerIds(svg: SVGSVGElement): string[] {
 describe("WorldMap — layers and data attributes", () => {
   it("renders the map layers as direct children of the svg in paint order", () => {
     const { container } = render(
-      <WorldMap data={DATA} showDisputedTerritories />,
+      <WorldMap
+        data={DATA}
+        size={640}
+        showDisputedTerritories
+        zoom
+        pins={[{ caption: "Paris", coordinates: [2.35, 48.86] }]}
+      />,
     );
     const svg = getMapSvg(container);
 
@@ -39,6 +45,15 @@ describe("WorldMap — layers and data attributes", () => {
           ?.getAttribute("data-map-layer-order"),
       ).toBe(String(mapRenderingLayerOrder[layer]));
     }
+  });
+
+  it("keeps the order numbers of the layers from 2.4.0", () => {
+    expect(mapRenderingLayerOrder).toMatchObject({
+      ocean: 0,
+      countries: 1,
+      "disputed-territories": 2,
+      labels: 3,
+    });
   });
 
   it("omits the disputed-territories layer unless it is turned on", () => {
