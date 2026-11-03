@@ -1,3 +1,4 @@
+import type { GeoPath } from "d3-geo";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -41,13 +42,15 @@ const zoomOptions: ResolvedZoomOptions = {
   showPins: true,
 };
 
-const measuredPathGenerator = () => [50, 25];
-measuredPathGenerator.bounds = () => [
-  [0, 0],
-  [100, 50],
-];
-measuredPathGenerator.area = () => 5000;
-measuredPathGenerator.centroid = () => [50, 25];
+// Every feature measures 100 × 50 with its centroid in the middle.
+const measuredPathGenerator = Object.assign(() => [50, 25], {
+  bounds: () => [
+    [0, 0],
+    [100, 50],
+  ],
+  area: () => 5000,
+  centroid: () => [50, 25],
+}) as unknown as GeoPath;
 
 describe("label placement", () => {
   it("keeps higher-priority labels when candidates overlap", () => {

@@ -8,7 +8,7 @@ vi.mock("react-path-tooltip", () => ({
   PathTooltip: () => null,
 }));
 
-const DATA = [{ country: "us", value: 100 }] as const;
+const DATA = [{ country: "us" as const, value: 100 }];
 
 function getCountriesLayer(container: HTMLElement): SVGGElement {
   return container.querySelector('[data-map-layer="countries"]')!;
