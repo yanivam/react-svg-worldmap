@@ -1,4 +1,5 @@
 import type React from "react";
+import type GeoJSON from "geojson";
 
 // ISO 3166-1 alpha-2 codes for every country in the world map.
 // Kept as a const tuple so that `ISOCode` is a precise string-literal union
@@ -66,6 +67,73 @@ export interface ZoomOptions {
   countryLabelZoomGrowthRate?: number;
   /** Show the `pins` prop's pins. Default `true`. */
   showPins?: boolean;
+  /**
+   * Load the detailed (Natural Earth 10m) country borders when zoomed in to
+   * `detailedGeometryMinScale` or more. They load once, on first use, as a
+   * separate file. Default `true`.
+   */
+  detailedGeometry?: boolean;
+  /** Zoom level at which the detailed borders are drawn. Default `2`. */
+  detailedGeometryMinScale?: number;
+  /**
+   * Zoom level at which `detailLevel="regions"` loads and draws regions.
+   * Default `4`.
+   */
+  regionDetailMinScale?: number;
+}
+
+/** `"regions"` draws a `detailProvider`'s regions when zoomed in. */
+export type DetailLevel = "countries" | "regions";
+
+export type DetailStatus =
+  "idle" | "loading" | "ready" | "unavailable" | "failed";
+
+export type RegionCoverageStatus = "complete" | "partial" | "experimental";
+
+/**
+ * One region (state, province, ...) of a country. The geometry is GeoJSON in
+ * `[longitude, latitude]` degrees, like the bundled countries, and the map
+ * projects it with the current `projection`. Rings follow d3's winding: the
+ * exterior ring is clockwise.
+ */
+export interface RegionFeature {
+  /** Stable id, written to the path's `data-region-id`. */
+  id: string;
+  countryCode: ISOCode;
+  name: string;
+  geometry: GeoJSON.Polygon | GeoJSON.MultiPolygon;
+}
+
+/** The regions of one country, as returned by a `DetailProvider`. */
+export interface RegionCollection {
+  countryCode: ISOCode;
+  countryName?: string;
+  coverageStatus?: RegionCoverageStatus;
+  regions: readonly RegionFeature[];
+  /** Where the region data comes from, for attribution. */
+  sourceSummary?: string;
+  sourceUrl?: string;
+}
+
+/** The state of the region layer, or of one country's regions. */
+export interface DetailProviderResult {
+  status: DetailStatus;
+  layer: "regions";
+  countryCode?: ISOCode;
+  coverageStatus?: RegionCoverageStatus;
+  /** Set when `status` is `"ready"`. */
+  collection?: RegionCollection;
+  warning?: string;
+}
+
+/**
+ * Supplies region geometry for `detailLevel="regions"`. The map asks for the
+ * countries in view once it is zoomed in to `regionDetailMinScale`, at most
+ * once per country for a given provider.
+ */
+export interface DetailProvider {
+  supports: (countryCode: ISOCode) => boolean;
+  loadRegions: (countryCode: ISOCode) => Promise<DetailProviderResult>;
 }
 
 /** A marker drawn at a longitude / latitude with a caption. */
@@ -209,6 +277,21 @@ export interface Props<T extends string | number = number> {
   zoom?: boolean | ZoomOptions;
   /** Called with the new state each time the zoom or pan changes. */
   onZoomChange?: (state: ZoomState) => void;
+  /**
+   * `"regions"` draws the regions of the countries in view, from
+   * `detailProvider`, as a dashed overlay once zoomed in to
+   * `zoom.regionDetailMinScale` (default 4). Needs `zoom`. Default
+   * `"countries"`.
+   */
+  detailLevel?: DetailLevel;
+  /** Where region geometry comes from, for `detailLevel="regions"`. */
+  detailProvider?: DetailProvider;
+  /**
+   * Called when region loading starts, finishes or fails for a country, and
+   * with `"idle"` when regions are hidden again. Called from the load, not
+   * from an effect, so a parent that stores the status can't cause a loop.
+   */
+  onDetailStatusChange?: (status: DetailProviderResult) => void;
   /** Markers drawn at longitude / latitude. Shown with or without zoom. */
   pins?: readonly MapPin[];
   /** Fill colour of the pin markers. Default `"#b91c1c"`. */

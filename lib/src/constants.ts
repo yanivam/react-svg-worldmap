@@ -33,6 +33,9 @@ export const defaultZoomOptions = {
   countryLabelMaxFontSize: 20,
   countryLabelZoomGrowthRate: 0.35,
   showPins: true,
+  detailedGeometry: true,
+  detailedGeometryMinScale: 2,
+  regionDetailMinScale: 4,
 };
 
 export const defaultCountryStyle =
