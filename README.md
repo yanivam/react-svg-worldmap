@@ -96,6 +96,8 @@ Pass `zoom` for zoom and pan with buttons, drag, double-click, keyboard, and ctr
 />
 ```
 
+When zoomed in to 2x or more, the map draws sharper (Natural Earth 10m) country borders, loaded on demand as a separate file that is not part of the default bundle. With `detailLevel="regions"` and a `detailProvider`, it also draws the regions of the countries in view.
+
 Colors are props: `pinColor`, `pinTextColor`, `pinOutlineColor`, `labelColor`, and `labelHaloColor`. Both projections are supported. Without `zoom`, `richInteraction` and the default render are unchanged. See the [API docs](https://yanivam.github.io/react-svg-worldmap/api#zoom-and-pan).
 
 ## Data Sources And Neutrality Policy

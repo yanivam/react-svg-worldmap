@@ -24,6 +24,9 @@ sidebar_position: 4
 - `DisputedTerritoryContext`, `DisputedTerritoryArea`, `DisputeClassification`, `DisputeDisplayGuidance`, `DisputeTier`, `DisputeStatus`, `DisputeReviewStatus`, `DisputeBorderStyle`, `DisputeLabelStrategy`, `DisputeId`: types for the dispute metadata.
 - `ZoomOptions`, `ZoomState`: the options of the `zoom` prop and the state passed to `onZoomChange`. See [Zoom and pan](#zoom-and-pan).
 - `MapPin`: one entry of the `pins` prop.
+- `preloadDetailedCountryGeometry()`: starts loading the detailed country borders drawn when zoomed in, for example when the pointer enters the map, so the first zoom shows them at once. See [Detailed borders](#detailed-borders).
+- `DetailProvider`, `DetailProviderResult`, `DetailLevel`, `DetailStatus`, `RegionCollection`, `RegionFeature`, `RegionCoverageStatus`: types for region detail. See [Region detail](#region-detail).
+- `createReadyDetailResult`, `createUnavailableDetailResult`, `createFailedDetailResult`, `createIdleDetailResult`, `isReadyDetailResult`: helpers to build and check `DetailProviderResult` values.
 - `CountryLabelCandidate`: a placed country label (code, name, position and size in map coordinates).
 - `WorldMap`: available both as named and default export. The actual component to be rendered.
 
@@ -55,6 +58,9 @@ sidebar_position: 4
 | `pinOutlineColor` | `string` | Outline of the pin markers and halo behind their captions. Default `#fff`. |
 | `labelColor` | `string` | Color of the country labels shown with `zoom`. Default `#222`. |
 | `labelHaloColor` | `string` | Halo drawn behind the country labels, for dark or busy maps. Default: none. |
+| `detailLevel` | <code>'countries' &#124; 'regions'</code> | `regions` draws the regions (states, provinces) of the countries in view from `detailProvider`, as dashed borders, once zoomed in to `zoom.regionDetailMinScale`. Needs `zoom`. Default `countries`. See [Region detail](#region-detail). |
+| `detailProvider` | `DetailProvider` | Supplies region geometry for `detailLevel="regions"`. |
+| `onDetailStatusChange` | `(status: DetailProviderResult) => void` | Called when regions start loading, finish or fail for a country, and with `idle` when they are hidden again. |
 | `projection` | <code>'mercator' &#124; 'equalEarth'</code> | Map projection. Default `mercator`. `equalEarth` shows countries at their true relative size. See [Projections](./customization.md#projections) and the [Equal Earth example](/examples/equal-earth). |
 | :construction: `type` :construction: | `string` | Select type of map you want, either "tooltip" or "marker". <br />:memo: This functionality not only complicates the code, but is infrequently used and needs to be redesigned to make it better. For now it is deprecated and has no effect. :memo: |
 | `styleFunction` | `(context: CountryContext) => React.CSSProperties` | A callback function to customize styling of each country (see [Custom styles example](/examples/custom-style)) |
@@ -116,6 +122,9 @@ type ZoomOptions = {
   countryLabelMaxFontSize?: number; // default 20
   countryLabelZoomGrowthRate?: number; // default 0.35
   showPins?: boolean; // default true
+  detailedGeometry?: boolean; // load detailed borders when zoomed in, default true
+  detailedGeometryMinScale?: number; // default 2
+  regionDetailMinScale?: number; // zoom for detailLevel="regions", default 4
 };
 
 type ZoomState = {
@@ -155,3 +164,58 @@ const [zoomState, setZoomState] = useState<ZoomState>();
 ```
 
 Without `zoom`, `richInteraction` behaves exactly as in earlier releases.
+
+### Detailed borders
+
+With `zoom`, the map switches to detailed country borders (Natural Earth 10m) once zoomed in to `detailedGeometryMinScale` (default 2), and back to the default borders below it. The countries, their names and codes, and every callback stay the same; only the outlines get sharper. Disputed areas are assigned as in the default map; for example Crimea is part of Ukraine in both. See the [Map Data Policy](https://github.com/yanivam/react-svg-worldmap/blob/main/docs/map-data-policy.md#detailed-geometry).
+
+The detailed data (about 2.4 MB, 360 kB gzipped) is a separate file, `dist/map-assets/countries-detailed.cjs`, loaded with `import()` the first time it is needed, so it is not part of the default bundle and Vite and webpack emit it as its own chunk. The map shows the default borders until it has loaded, and keeps them if it fails to load. Call `preloadDetailedCountryGeometry()` to load it ahead of time, or pass `zoom={{ detailedGeometry: false }}` to never load it. The countries layer has `data-map-geometry="default"` or `"detailed"` while `zoom` is on. Without `zoom` (including with `richInteraction`), the detailed data is never loaded.
+
+### Region detail
+
+`detailLevel="regions"` draws the regions of the countries in view as dashed borders once zoomed in to `regionDetailMinScale` (default 4). The regions come from a `detailProvider`: the map asks it for each country in view that it `supports`, once per country for the same provider.
+
+```ts
+type DetailProvider = {
+  supports: (countryCode: ISOCode) => boolean;
+  loadRegions: (countryCode: ISOCode) => Promise<DetailProviderResult>;
+};
+
+type RegionFeature = {
+  id: string; // written to data-region-id
+  countryCode: ISOCode;
+  name: string; // written to data-region-name
+  geometry: GeoJSON.Polygon | GeoJSON.MultiPolygon; // [longitude, latitude]
+};
+
+type RegionCollection = {
+  countryCode: ISOCode;
+  countryName?: string;
+  coverageStatus?: "complete" | "partial" | "experimental";
+  regions: RegionFeature[];
+  sourceSummary?: string;
+  sourceUrl?: string;
+};
+```
+
+Region geometry is GeoJSON in `[longitude, latitude]` degrees, with the exterior ring clockwise (d3's winding, as produced by `topojson-client`). The map projects it with the current `projection`, so the same provider works with Mercator and Equal Earth. Return `createReadyDetailResult(collection)` when the regions are ready and `createUnavailableDetailResult(countryCode)` when there are none; a rejected promise is reported as `failed`.
+
+```tsx
+const provider: DetailProvider = {
+  supports: (code) => code.toUpperCase() === "US",
+  loadRegions: async (code) => {
+    const collection = await fetchUsStates(); // your own data
+    return createReadyDetailResult(collection);
+  },
+};
+
+<WorldMap
+  data={data}
+  zoom
+  detailLevel="regions"
+  detailProvider={provider}
+  onDetailStatusChange={(status) => console.log(status.status)}
+/>;
+```
+
+Region borders are drawn in `borderColor` at the `strokeOpacity` of the countries, in a `<g data-map-sublayer="regions" class="worldmap__regions">` inside the countries layer (so the layer order numbers stay the same); style `.worldmap__regions path` with CSS to change them. `onDetailStatusChange` is called from the load itself, so storing the status in your component can't cause a render loop.
