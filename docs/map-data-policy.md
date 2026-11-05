@@ -97,6 +97,18 @@ The package also ships shapes for the disputed territories themselves, drawn onl
 - Each shape carries Natural Earth's administration note (for example "Admin. by Russia; Claimed by Ukraine") next to the project's dispute metadata. The overlay draws territories above the countries; it does not reassign them.
 - Tier 2 and Tier 3 cases present in the source (for example the Paracel and Spratly Islands, or Demchok) are not included.
 
+## Detailed Geometry
+
+With `zoom`, the map draws more detailed country borders once zoomed in. They are generated from the same source family as the default map and follow the same assignments.
+
+- Source: `Natural Earth Admin 0 Countries` (10m), as redistributed by the `world-atlas@2.0.2` package (`countries-10m.json`), pinned as a devDependency. `lib/scripts/build-detailed-countries.mjs` generates `lib/src/map-assets/countries-detailed.cjs` from it, and CI fails if the committed file is out of date.
+- Same countries, names, and codes as the default map, in the same order.
+- Crimea is part of Ukraine, as in the default map and following the recognized baseline above. Natural Earth's default (de facto) view places it in Russia, so the generator moves it to Ukraine and dissolves the border between them.
+- Areas that Natural Earth records as separate units but the default map includes in a country are merged into it: Akrotiri, Dhekelia, and the U.N. buffer zone into Cyprus; Baikonur into Kazakhstan; the Guantánamo Bay naval base into Cuba; Hong Kong and Macao into China.
+- Siachen Glacier, claimed by India and Pakistan, is not assigned to either and is left blank in the detailed borders; the disputed-territory overlay (`showDisputedTerritories`) draws it.
+- Countries and territories that the default map does not include (for example Andorra, Monaco, Singapore, Malta, or Gibraltar) are left out of the detailed borders too. The generator fails on any Natural Earth unit that is not explicitly listed, so new source units need a policy decision.
+- Some countries gain outlying islands or overseas territories that the coarser default map omits (for example French overseas departments or the Caribbean Netherlands).
+
 ## Maintenance Workflow
 
 When maintainers need to revisit a geopolitical case or update the bundled map:
