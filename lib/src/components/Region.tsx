@@ -3,22 +3,22 @@ import { useState, useRef, useCallback } from "react";
 import type { ComponentProps, ForwardedRef } from "react";
 
 export interface Props extends Omit<ComponentProps<"path">, "href"> {
-  strokeOpacity: string | number;
-  href?: ComponentProps<"a"> | string | undefined;
-  regionClassName?: string;
+  readonly strokeOpacity: string | number;
+  readonly href?: ComponentProps<"a"> | string | undefined;
+  readonly regionClassName?: string;
   /** Country name used as the accessible label and SVG title fallback. */
-  countryName?: string;
+  readonly countryName?: string;
   /**
    * Text rendered as an SVG <title> child — read by screen readers and shown
    * as a native browser tooltip on hover. Provides a text alternative for the
    * colour-coded data values (WCAG 1.1.1, 1.4.1).
    */
-  svgTitle?: string;
+  readonly svgTitle?: string;
   /**
    * When true the region is interactive (onClick or href is set).
    * Enables keyboard support and appropriate ARIA role (WCAG 2.1.1, 4.1.2).
    */
-  isInteractive?: boolean;
+  readonly isInteractive?: boolean;
 }
 
 const HOVER_CLASS = "worldmap__region--hover";

@@ -9,12 +9,30 @@ export const defaultSize = "xl";
 export const defaultColor = "#dddddd";
 export const defaultDisputedTerritoryColor = "#d32f2f";
 export const heightRatio = 3 / 4;
+export const defaultPinColor = "#b91c1c";
+export const defaultPinTextColor = "#1f2937";
+export const defaultPinOutlineColor = "#fff";
+export const defaultLabelColor = "#222";
 export const sizeMap: Record<SizeOption, number> = {
   sm: 240,
   md: 336,
   lg: 480,
   xl: 640,
   xxl: 1200,
+};
+
+/** Defaults for the `zoom` prop's options. */
+export const defaultZoomOptions = {
+  initialScale: 1,
+  minScale: 1,
+  maxScale: 8,
+  zoomFactor: 2,
+  showControls: true,
+  showCountryLabels: true,
+  countryLabelMinFontSize: 12,
+  countryLabelMaxFontSize: 20,
+  countryLabelZoomGrowthRate: 0.35,
+  showPins: true,
 };
 
 export const defaultCountryStyle =

@@ -4,7 +4,7 @@ import { render } from "@testing-library/react";
 import Frame from "../components/Frame.js";
 import TextLabel from "../components/TextLabel.js";
 
-function Svg({ children }: { children: React.ReactNode }) {
+function Svg({ children }: { readonly children: React.ReactNode }) {
   return <svg>{children}</svg>;
 }
 

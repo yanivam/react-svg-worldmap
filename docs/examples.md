@@ -62,6 +62,11 @@ Every example follows the site's light or dark mode. A small hook (`website/src/
 
 - `richInteraction` turns on zoom: double-click the map, or press `+` and `-`.
 
+## [examples/zoom](/examples/zoom)
+
+- `zoom` with a few capital-city `pins` and the automatic country labels.
+- Drag to pan, double-click or use the buttons to zoom, or hold ctrl (⌘) and scroll. The pins and labels keep their size, and their colors follow the light or dark theme.
+
 ## [examples/disputes](/examples/disputes)
 
 - The opt-in disputed-territory overlay (`showDisputedTerritories`).

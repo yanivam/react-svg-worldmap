@@ -62,3 +62,7 @@ Spratly
 UNMOGIP
 habitantes
 mundial
+keyshortcuts
+trackpad
+Brasília
+unstub

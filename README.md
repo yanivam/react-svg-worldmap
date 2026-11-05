@@ -21,6 +21,7 @@ A lightweight React component for rendering a bundled SVG world map for charts, 
 - CI enforces automated tests and `>90%` coverage
 - Optional dispute metadata and disputed-territory overlay for high-visibility geopolitical cases
 - Opt-in Equal Earth projection alongside the default Mercator projection
+- Opt-in zoom and pan, map pins, and country labels
 
 ## Documentation & Examples
 
@@ -81,6 +82,21 @@ Mercator is the default. Pass `projection="equalEarth"` for the equal-area [Equa
 ```tsx
 <WorldMap data={data} projection="equalEarth" />
 ```
+
+## Zoom, Pins And Labels
+
+Pass `zoom` for zoom and pan with buttons, drag, double-click, keyboard, and ctrl / ⌘ + wheel (a plain wheel still scrolls the page). Zooming also shows country names that fit inside their countries. `pins` draws captioned markers at `[longitude, latitude]`, with or without zoom.
+
+```tsx
+<WorldMap
+  data={data}
+  zoom={{ maxScale: 6 }}
+  onZoomChange={(state) => console.log(state.scale)}
+  pins={[{ caption: "Paris", coordinates: [2.35, 48.86], countryCode: "FR" }]}
+/>
+```
+
+Colors are props: `pinColor`, `pinTextColor`, `pinOutlineColor`, `labelColor`, and `labelHaloColor`. Both projections are supported. Without `zoom`, `richInteraction` and the default render are unchanged. See the [API docs](https://yanivam.github.io/react-svg-worldmap/api#zoom-and-pan).
 
 ## Data Sources And Neutrality Policy
 

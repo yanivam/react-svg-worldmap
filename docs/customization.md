@@ -44,7 +44,9 @@ const stylingFunction = ({
 The map's SVG carries stable attributes you can target from CSS or tests, so you don't depend on element order:
 
 - Each country `<path>` has `data-country-code` (ISO code, e.g. `US`) and `data-country-name` (e.g. `United States`).
-- The map is drawn in layers. Each layer is a `<g>` directly under the `<svg>` with `data-map-layer` and `data-map-layer-order` (paint order, back to front): `ocean`, `countries`, `disputed-territories` (only with `showDisputedTerritories`), and `labels`. The list is exported as `mapRenderingLayers`.
+- The map is drawn in layers. Each layer is a `<g>` directly under the `<svg>` with `data-map-layer` and `data-map-layer-order` (paint order, back to front): `ocean`, `countries`, `disputed-territories` (only with `showDisputedTerritories`), `labels` (from `textLabelFunction`), `country-labels` (only with `zoom`), and `pins` (only with `pins`). The list is exported as `mapRenderingLayers`. Layers that move with the map share the `countries` layer's `transform`.
+- Each pin is a `<g data-map-pin>` (its `kind`, default `pin`) with `data-country-code` when the pin has a `countryCode`. Each country label is a `<text data-country-code>` in the `country-labels` layer.
+- With `zoom`, the `<svg>` has `data-zoom-scale` (the current zoom level) and sits in a `<div class="worldmap__zoom-viewport">` together with the zoom buttons.
 - The `ocean` layer holds one `<rect data-map-ocean>` filled with `backgroundColor`. It has the same colour as the figure behind it, so the map looks the same as before.
 - With `frame`, the frame is a `<rect data-map-frame>` drawn between the ocean and the countries.
 
@@ -91,15 +93,34 @@ const width = availableWidth; // measured container width
 
 ## Rich interactions
 
-This cool UI feature would cause a few events to be captured inside the SVG graphics. Current interactions include:
+`richInteraction` captures a few events inside the SVG:
 
-- Double-clicking causes the map to zoom in twice, then restore its original scale.
+- Double-clicking zooms in twice, then restores the original scale.
+- With the map focused, `+` zooms in to the centre (up to 4x) and `-` resets.
 
-TODO:
+## Zoom, pins and labels
 
-- Vertical-scrolling causes the map to zoom in and out.
-- Draggable when zoomed in.
-- Separate scale slider and zoom button components.
+For full zoom and pan, pass `zoom` instead: buttons, drag, double-click, keyboard, and ctrl / ⌘ + wheel or trackpad pinch, with `maxScale` and other [options](./api.md#zoom-and-pan). It also shows country names that fit inside their countries. `pins` draws captioned markers at longitude / latitude, with or without `zoom`.
+
+```tsx
+<WorldMap
+  data={data}
+  zoom={{ maxScale: 6 }}
+  pins={[{ caption: "Paris", coordinates: [2.35, 48.86], countryCode: "FR" }]}
+/>
+```
+
+Their colors are props, so they can follow your theme (for example a dark mode):
+
+| Prop | Default | Used for |
+| --- | --- | --- |
+| `pinColor` | `#b91c1c` | Fill of the pin markers. |
+| `pinTextColor` | `#1f2937` | Pin captions. |
+| `pinOutlineColor` | `#fff` | Outline of the markers and halo behind the captions. |
+| `labelColor` | `#222` | Country labels. |
+| `labelHaloColor` | none | Optional halo behind the country labels. |
+
+The zoom buttons can be styled through `[aria-label="Map zoom controls"] button`, or hidden with `zoom={{ showControls: false }}`.
 
 ## Projections
 
@@ -111,7 +132,7 @@ TODO:
 
 - Default stays `mercator`, so existing maps are unchanged.
 - Equal Earth uses a 2:1 SVG frame (height = width / 2) and draws a globe outline in `borderColor`.
-- Tooltips, callbacks, `richInteraction`, and `showDisputedTerritories` work in both projections.
+- Tooltips, callbacks, `richInteraction`, `zoom`, `pins`, and `showDisputedTerritories` work in both projections.
 - `textLabelFunction` positions are SVG pixels; labels placed for Mercator may need new coordinates in Equal Earth.
 
 See the [Equal Earth example](/examples/equal-earth).

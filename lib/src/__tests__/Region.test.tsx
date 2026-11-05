@@ -6,7 +6,7 @@ import userEvent from "@testing-library/user-event";
 import Region from "../components/Region.js";
 
 /** SVG context is required for SVG child elements in jsdom. */
-function Svg({ children }: { children: React.ReactNode }) {
+function Svg({ children }: { readonly children: React.ReactNode }) {
   return <svg>{children}</svg>;
 }
 

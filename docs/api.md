@@ -14,7 +14,7 @@ sidebar_position: 4
 - `Data`: it's just `DataItem[]`, for more convenience.
 - `CountryContext`: the context in rendering each country, to be used in customization callbacks.
 - `Props`: the props type for the `WorldMap` component.
-- `mapRenderingLayers`: the SVG layers in paint order (`ocean`, `countries`, `disputed-territories`, `labels`), each rendered as `<g data-map-layer>`. `mapRenderingLayerOrder` maps a layer to its order and `MapRenderingLayerId` is the layer type. See [Styling and testing hooks](./customization.md#styling-and-testing-hooks).
+- `mapRenderingLayers`: the SVG layers in paint order (`ocean`, `countries`, `disputed-territories`, `labels`, `country-labels`, `pins`), each rendered as `<g data-map-layer>`. `mapRenderingLayerOrder` maps a layer to its order and `MapRenderingLayerId` is the layer type. See [Styling and testing hooks](./customization.md#styling-and-testing-hooks).
 - `regions`: the list of regions (`{ name, code }`) available in the library
 - `disputedTerritories`: Tier 1 dispute metadata keyed by dispute ID (`crimea`, `palestinian-territories`, `taiwan`, `kashmir`, `western-sahara`, `kosovo`).
 - `disputeIds`: the list of dispute IDs.
@@ -22,6 +22,9 @@ sidebar_position: 4
 - `getDisputeById(id)` / `getDisputeByCountryCode(code)`: lookups returning a `DisputeClassification` (or `undefined` for a country code with no dispute).
 - `disputedTerritoryAreas`: the territory shapes drawn by `showDisputedTerritories` (`{ id, name, disputeId, administration }`), e.g. `crimea`, `aksai-chin`, `west-bank`.
 - `DisputedTerritoryContext`, `DisputedTerritoryArea`, `DisputeClassification`, `DisputeDisplayGuidance`, `DisputeTier`, `DisputeStatus`, `DisputeReviewStatus`, `DisputeBorderStyle`, `DisputeLabelStrategy`, `DisputeId`: types for the dispute metadata.
+- `ZoomOptions`, `ZoomState`: the options of the `zoom` prop and the state passed to `onZoomChange`. See [Zoom and pan](#zoom-and-pan).
+- `MapPin`: one entry of the `pins` prop.
+- `CountryLabelCandidate`: a placed country label (code, name, position and size in map coordinates).
 - `WorldMap`: available both as named and default export. The actual component to be rendered.
 
 ## Props
@@ -43,7 +46,15 @@ sidebar_position: 4
 | `frame` | `boolean` | Should a frame be drawn around the map. |
 | `frameColor` | `string` | Frame color. |
 | `borderColor` | `string` | Border color around each individual country. |
-| `richInteraction` | `boolean` | WHen turned on, double clicks would cause the map to rescale. (Other cool features to come) |
+| `richInteraction` | `boolean` | When turned on, double-click zooms the map 1x → 2x → 4x → reset, and `+` / `-` zoom in and reset from the keyboard. For full zoom and pan, use `zoom`. |
+| `zoom` | <code>boolean &#124; ZoomOptions</code> | Opt-in zoom and pan with buttons, drag, double-click, keyboard and ctrl / ⌘ + wheel; also shows country labels. Off by default. See [Zoom and pan](#zoom-and-pan) and the [Zoom example](/examples/zoom). |
+| `onZoomChange` | `(state: ZoomState) => void` | Called with the new zoom state each time the zoom or pan changes (not on mount). |
+| `pins` | `MapPin[]` | Markers with captions at longitude / latitude. Shown with or without `zoom`; overlapping pins are dropped by `priority`. |
+| `pinColor` | `string` | Fill color of the pin markers. Default `#b91c1c`. |
+| `pinTextColor` | `string` | Color of the pin captions. Default `#1f2937`. |
+| `pinOutlineColor` | `string` | Outline of the pin markers and halo behind their captions. Default `#fff`. |
+| `labelColor` | `string` | Color of the country labels shown with `zoom`. Default `#222`. |
+| `labelHaloColor` | `string` | Halo drawn behind the country labels, for dark or busy maps. Default: none. |
 | `projection` | <code>'mercator' &#124; 'equalEarth'</code> | Map projection. Default `mercator`. `equalEarth` shows countries at their true relative size. See [Projections](./customization.md#projections) and the [Equal Earth example](/examples/equal-earth). |
 | :construction: `type` :construction: | `string` | Select type of map you want, either "tooltip" or "marker". <br />:memo: This functionality not only complicates the code, but is infrequently used and needs to be redesigned to make it better. For now it is deprecated and has no effect. :memo: |
 | `styleFunction` | `(context: CountryContext) => React.CSSProperties` | A callback function to customize styling of each country (see [Custom styles example](/examples/custom-style)) |
@@ -87,3 +98,60 @@ type DisputedTerritoryContext = {
   dispute: DisputeClassification; // includes status, parties, unStanding, sourceRationale
 };
 ```
+
+## Zoom and pan
+
+`zoom` is off by default. `zoom` (or `zoom={true}`) turns it on with the defaults below; pass an object to change them:
+
+```ts
+type ZoomOptions = {
+  enabled?: boolean; // default true when an object is passed
+  initialScale?: number; // default 1
+  minScale?: number; // default 1
+  maxScale?: number; // default 8
+  zoomFactor?: number; // zoom per button, key or double-click, default 2
+  showControls?: boolean; // zoom in / zoom out / reset buttons, default true
+  showCountryLabels?: boolean; // default true
+  countryLabelMinFontSize?: number; // label size at 1x, in px, default 12
+  countryLabelMaxFontSize?: number; // default 20
+  countryLabelZoomGrowthRate?: number; // default 0.35
+  showPins?: boolean; // default true
+};
+
+type ZoomState = {
+  scale: number; // 1 shows the whole map
+  translate: [number, number]; // offset of the map, in SVG pixels
+};
+
+type MapPin = {
+  id?: string;
+  coordinates: [longitude: number, latitude: number];
+  caption: string;
+  countryCode?: ISOCode; // written to data-country-code
+  kind?: string; // written to data-map-pin, default "pin"
+  priority?: number; // higher wins when pins overlap; default: earlier pins win
+};
+```
+
+With `zoom` on:
+
+- **Buttons**: zoom in, zoom out and reset, at the bottom right of the map.
+- **Pointer**: drag to pan, double-click to zoom in around the pointer. A drag keeps going if the pointer leaves the map, and a drag that ends over a country doesn't click it.
+- **Wheel**: hold ctrl (or ⌘) and scroll, or pinch on a trackpad, to zoom around the pointer. A plain wheel scrolls the page as usual, so the map never traps page scrolling.
+- **Keyboard** (once the map has focus): `+` / `=` zoom in, `-` / `_` zoom out, arrow keys pan, `Escape` resets. The buttons come before the map in the tab order.
+- The map always covers its viewport: you can't pan past its edges, with either projection.
+- Zoom changes are announced to screen readers through a polite live region.
+- Zooming and panning are animated, except while dragging and when the user prefers reduced motion.
+- Country borders keep a constant width while zooming (`vector-effect: non-scaling-stroke`).
+
+Country labels are drawn only where the name fits inside the country, larger countries first, at a constant on-screen size that grows slightly as you zoom in. Pins also keep their on-screen size.
+
+`onZoomChange` is called from the interaction that changed the state, so you can store the state in your own component without causing a render loop:
+
+```tsx
+const [zoomState, setZoomState] = useState<ZoomState>();
+
+<WorldMap data={data} zoom={{ maxScale: 6 }} onZoomChange={setZoomState} />;
+```
+
+Without `zoom`, `richInteraction` behaves exactly as in earlier releases.
