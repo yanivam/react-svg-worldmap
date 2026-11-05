@@ -78,9 +78,8 @@ describe.each(tiers)("%s country geometry", (_, features) => {
       [-30, 0],
       [-150, 0],
       [70, -30],
-    ] as const) 
+    ] as const)
       expect(features.filter((f) => geoContains(f, [...point]))).toEqual([]);
-    
   });
 });
 
