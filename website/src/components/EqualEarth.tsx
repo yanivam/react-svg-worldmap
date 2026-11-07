@@ -1,15 +1,19 @@
 import * as React from "react";
 import { useState } from "react";
-import type { ProjectionOption } from "react-svg-worldmap";
+import type { ProjectionOption, ZoomState } from "react-svg-worldmap";
 import WorldMap from "react-svg-worldmap";
 import { populationData } from "../data/CountryData";
 import { useMapTheme } from "./mapTheme";
 
-// Switch projections to compare: in Equal Earth, Greenland shrinks and
-// Africa shows its true size.
+// The recommended setup: the equal-area Equal Earth projection, with zoom
+// and country names where they fit. In Equal Earth, Greenland
+// shrinks and Africa shows its true size. Zoom in (drag to pan, double-click,
+// use the buttons, or hold ctrl (⌘) and scroll) and the detailed borders load.
+// Use the menu to compare with Mercator.
 export default function EqualEarth(): JSX.Element {
   const theme = useMapTheme();
   const [projection, setProjection] = useState<ProjectionOption>("equalEarth");
+  const [zoom, setZoom] = useState<ZoomState>({ scale: 1, translate: [0, 0] });
 
   return (
     <>
@@ -28,7 +32,10 @@ export default function EqualEarth(): JSX.Element {
         size="responsive"
         data={populationData}
         projection={projection}
+        zoom={{ maxScale: 8 }}
+        onZoomChange={setZoom}
       />
+      <p>Zoom: {zoom.scale.toFixed(1)}x</p>
     </>
   );
 }
