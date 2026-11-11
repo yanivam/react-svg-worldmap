@@ -19,6 +19,7 @@ A lightweight React component for rendering a bundled SVG world map for charts, 
 - CI enforces automated tests and `>90%` coverage
 - Optional dispute metadata and disputed-territory overlay for high-visibility geopolitical cases
 - Opt-in Equal Earth projection alongside the default Mercator projection
+- Opt-in atlas colour theme
 - Opt-in zoom and pan, map pins, and country labels
 
 ## Documentation & Examples
@@ -79,6 +80,14 @@ Mercator is the default. Pass `projection="equalEarth"` for the equal-area [Equa
 
 ```tsx
 <WorldMap data={data} projection="equalEarth" />
+```
+
+## Themes
+
+Pass `theme="atlas"` for a classic atlas look: blue water, slate borders, and light land for countries without data, with borders that stay one pixel wide. Colour props you set (`backgroundColor`, `borderColor`, `styleFunction`, ...) override the theme. Without `theme`, the map is unchanged.
+
+```tsx
+<WorldMap data={data} theme="atlas" />
 ```
 
 ## Zoom, Pins And Labels

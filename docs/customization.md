@@ -122,6 +122,30 @@ Their colors are props, so they can follow your theme (for example a dark mode):
 
 The zoom buttons can be styled through `[aria-label="Map zoom controls"] button`, or hidden with `zoom={{ showControls: false }}`.
 
+## Themes
+
+`theme="atlas"` gives the map a classic atlas look. It is opt-in; without it (or with `theme="default"`) the map renders exactly as before.
+
+```tsx
+<WorldMap data={data} theme="atlas" />
+```
+
+| Value | `default` | `atlas` |
+| --- | --- | --- |
+| `backgroundColor` (water) | `white` | `#A0D7EB` |
+| `borderColor` | `black` | `#607d86` |
+| `frameColor` | `black` | `#607d86` |
+| Countries without data | transparent | `#F4F2F2`, fully opaque |
+| Borders | scale with zoom | always one pixel wide (`vector-effect: non-scaling-stroke`) |
+| `labelColor` / `labelHaloColor` | `#222` / none | `#263238` / `#F4F2F2` |
+| `pinTextColor` | `#1f2937` | `#263238` |
+
+- Countries with data keep the `color` prop and its opacity scale. Under `atlas` the land is drawn once beneath the countries (`<path class="worldmap__land" data-map-sublayer="land">` in the countries layer), so they read against land, not water.
+- Any colour prop you pass wins over the theme: `backgroundColor`, `borderColor`, `frameColor`, the pin and label colour props, and `styleFunction`, which replaces the theme's country style entirely.
+- Works with both projections, `zoom`, detailed borders, region detail, pins and the disputed-territory overlay.
+
+See the [Atlas theme example](/examples/atlas-theme).
+
 ## Projections
 
 `WorldMap` uses Mercator by default. Pass `projection="equalEarth"` for the [Equal Earth](https://en.wikipedia.org/wiki/Equal_Earth_projection) equal-area projection, where countries keep their true relative size.

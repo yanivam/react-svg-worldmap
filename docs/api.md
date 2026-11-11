@@ -9,6 +9,8 @@ sidebar_position: 4
 - `SizeOption`: the union of available sizes.
 - `ProjectionOption`: the union of available projections, `"mercator" | "equalEarth"`.
 - `projectionOptions`: the list of available projections.
+- `MapTheme`: the union of available themes, `"default" | "atlas"`.
+- `mapThemeOptions`: the list of available themes.
 - `ISOCode`: the ISO code available to name countries.
 - `DataItem`: the type for each country's value to be passed in the `data` prop.
 - `Data`: it's just `DataItem[]`, for more convenience.
@@ -61,6 +63,7 @@ sidebar_position: 4
 | `detailLevel` | <code>'countries' &#124; 'regions'</code> | `regions` draws the regions (states, provinces) of the countries in view from `detailProvider`, as dashed borders, once zoomed in to `zoom.regionDetailMinScale`. Needs `zoom`. Default `countries`. See [Region detail](#region-detail). |
 | `detailProvider` | `DetailProvider` | Supplies region geometry for `detailLevel="regions"`. |
 | `onDetailStatusChange` | `(status: DetailProviderResult) => void` | Called when regions start loading, finish or fail for a country, and with `idle` when they are hidden again. |
+| `theme` | <code>'default' &#124; 'atlas'</code> | Colour theme. Default `default` (the original look). `atlas` draws blue water, slate borders and light land, and keeps borders one pixel wide. Colour props you set, including `styleFunction`, override the theme. See [Themes](./customization.md#themes) and the [Atlas theme example](/examples/atlas-theme). |
 | `projection` | <code>'mercator' &#124; 'equalEarth'</code> | Map projection. Default `mercator`. `equalEarth` shows countries at their true relative size. See [Projections](./customization.md#projections) and the [Equal Earth example](/examples/equal-earth). |
 | :construction: `type` :construction: | `string` | Select type of map you want, either "tooltip" or "marker". <br />:memo: This functionality not only complicates the code, but is infrequently used and needs to be redesigned to make it better. For now it is deprecated and has no effect. :memo: |
 | `styleFunction` | `(context: CountryContext) => React.CSSProperties` | A callback function to customize styling of each country (see [Custom styles example](/examples/custom-style)) |
