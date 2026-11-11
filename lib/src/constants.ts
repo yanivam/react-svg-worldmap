@@ -3,6 +3,7 @@ import type {
   SizeOption,
   CountryContext,
   DisputedTerritoryContext,
+  MapTheme,
 } from "./types.js";
 
 export const defaultSize = "xl";
@@ -13,6 +14,55 @@ export const defaultPinColor = "#b91c1c";
 export const defaultPinTextColor = "#1f2937";
 export const defaultPinOutlineColor = "#fff";
 export const defaultLabelColor = "#222";
+
+/** The values a theme supplies. Explicit props always take precedence. */
+export interface ThemeValues {
+  backgroundColor: string;
+  borderColor: string;
+  frameColor: string;
+  labelColor: string;
+  labelHaloColor?: string;
+  pinColor: string;
+  pinTextColor: string;
+  pinOutlineColor: string;
+  /**
+   * Fill of countries without data, and of the land drawn beneath the
+   * countries. Unset for the default theme: countries without data are
+   * transparent there.
+   */
+  landColor?: string;
+  /** Keep borders one pixel wide even without zoom. */
+  nonScalingStroke: boolean;
+}
+
+export const mapThemeOptions: readonly MapTheme[] = ["default", "atlas"];
+export const defaultMapTheme: MapTheme = "default";
+
+export const mapThemes: Record<MapTheme, ThemeValues> = {
+  default: {
+    backgroundColor: "white",
+    borderColor: "black",
+    frameColor: "black",
+    labelColor: defaultLabelColor,
+    pinColor: defaultPinColor,
+    pinTextColor: defaultPinTextColor,
+    pinOutlineColor: defaultPinOutlineColor,
+    nonScalingStroke: false,
+  },
+  atlas: {
+    backgroundColor: "#A0D7EB",
+    borderColor: "#607d86",
+    frameColor: "#607d86",
+    labelColor: "#263238",
+    labelHaloColor: "#F4F2F2",
+    pinColor: defaultPinColor,
+    pinTextColor: "#263238",
+    pinOutlineColor: "#fff",
+    landColor: "#F4F2F2",
+    nonScalingStroke: true,
+  },
+};
+
 export const sizeMap: Record<SizeOption, number> = {
   sm: 240,
   md: 336,
@@ -39,7 +89,7 @@ export const defaultZoomOptions = {
 };
 
 export const defaultCountryStyle =
-  (stroke: string, strokeOpacity: number) =>
+  (stroke: string, strokeOpacity: number, noDataColor?: string) =>
   <T extends string | number>(context: CountryContext<T>): CSSProperties => {
     const { countryValue, minValue, maxValue, color } = context;
 
@@ -58,9 +108,11 @@ export const defaultCountryStyle =
     // We adjust it to the maximum value.
     if (Number.isNaN(opacityLevel)) opacityLevel = 0.8;
 
+    // Themes with a land colour paint countries without data with it.
+    const noData = calculatedValue === undefined && noDataColor != null;
     const style = {
-      fill: color,
-      fillOpacity: opacityLevel,
+      fill: noData ? noDataColor : color,
+      fillOpacity: noData ? 1 : opacityLevel,
       stroke,
       strokeWidth: 1,
       strokeOpacity,

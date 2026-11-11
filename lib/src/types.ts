@@ -11,6 +11,11 @@ export type ISOCode =
 export type SizeOption = "sm" | "md" | "lg" | "xl" | "xxl";
 /** Map projection. `"mercator"` is the default. */
 export type ProjectionOption = "mercator" | "equalEarth";
+/**
+ * Built-in colour theme. `"default"` keeps the original look; `"atlas"` is a
+ * classic atlas style with blue water and light land.
+ */
+export type MapTheme = "default" | "atlas";
 
 /**
  * The SVG layers of the map, in paint order (first is drawn at the back).
@@ -261,6 +266,14 @@ export interface Props<T extends string | number = number> {
    * projection that shows countries at their true relative size.
    */
   projection?: ProjectionOption;
+  /**
+   * Colour theme. `"default"` (the original look) or `"atlas"`: blue water
+   * (`#A0D7EB`), slate borders (`#607d86`), light land (`#F4F2F2`) for
+   * countries without data, and borders that stay one pixel wide. Colour
+   * props you pass (`backgroundColor`, `borderColor`, `styleFunction`, ...)
+   * override the theme.
+   */
+  theme?: MapTheme;
   frame?: boolean;
   /** Optional class for the wrapper div (for CSP or custom layout). */
   containerClassName?: string;
