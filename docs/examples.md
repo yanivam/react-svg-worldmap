@@ -71,7 +71,8 @@ Every example follows the site's light or dark mode. A small hook (`website/src/
 
 ## [examples/zoom](/examples/zoom)
 
-- `zoom` with a few capital-city `pins` and the automatic country labels.
+- `zoom` with `pins` and the automatic country labels. Switch the pins between the capital cities of every country on the map and the AWS regions (`website/src/data/countryCapitalPins.ts` and `awsRegionLocations.ts`, both `[longitude, latitude]`).
+- Overlapping pins are dropped (earlier pins win), so zooming in shows more of them.
 - Drag to pan, double-click or use the buttons to zoom, or hold ctrl (⌘) and scroll. The pins and labels keep their size, and their colors follow the light or dark theme.
 
 ## [examples/disputes](/examples/disputes)
