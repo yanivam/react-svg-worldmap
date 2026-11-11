@@ -1,0 +1,5 @@
+---
+"react-svg-worldmap": minor
+---
+
+Add an opt-in `theme` prop with an `"atlas"` theme. `theme="atlas"` draws blue water (`#A0D7EB`), slate borders and frame (`#607d86`), and light land (`#F4F2F2`, fully opaque) for countries without data, and keeps borders one pixel wide (`vector-effect: non-scaling-stroke`) with or without zoom. The land is drawn once beneath the countries (`<path class="worldmap__land" data-map-sublayer="land">` in the countries layer), so countries with data keep the `color` prop and its opacity scale and read against land rather than water. Country labels are `#263238` with a `#F4F2F2` halo and pin captions are `#263238`. Any colour prop you pass (`backgroundColor`, `borderColor`, `frameColor`, the pin and label colour props) overrides the theme, and `styleFunction` replaces the theme's country style. Works with both projections, `zoom`, the detailed borders and region detail. New exports: the `MapTheme` type and `mapThemeOptions`. Without `theme` (or with `theme="default"`) the map renders exactly as before.
