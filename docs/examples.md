@@ -14,6 +14,12 @@ Every example follows the site's light or dark mode. A small hook (`website/src/
 - Also turns on `zoom` and the automatic country labels, and loads the detailed borders as you zoom in. Drag to pan, double-click or use the buttons to zoom, or hold ctrl (⌘) and scroll.
 - In Equal Earth, Greenland shrinks and Africa shows its true relative size.
 
+## [examples/atlas-theme](/examples/atlas-theme)
+
+- GDP per capita with `theme="atlas"`: blue water, slate borders, and light land for countries without data. Borders stay one pixel wide as you zoom.
+- Menus switch between the atlas and default themes and between Equal Earth and Mercator.
+- The atlas palette is the same in light and dark mode; only the tooltip colors follow the site.
+
 ## [examples/sizing](/examples/sizing)
 
 - The same map at each `size`: `sm`, `md`, `lg`, `xl` (default), `xxl`, `"responsive"` and a number of pixels.
