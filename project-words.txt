@@ -66,3 +66,14 @@ keyshortcuts
 trackpad
 Brasília
 unstub
+sublayer
+Akrotiri
+Dhekelia
+Baikonur
+Guantánamo
+Ashburn
+Dhabi
+Kuala
+Lumpur
+Ningxia
+Yinchuan

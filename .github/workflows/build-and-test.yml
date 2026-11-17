@@ -32,6 +32,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Check detailed country data is up to date
+        run: yarn workspace react-svg-worldmap check:detailed-data
+
       - name: Build package
         run: yarn build:package
 
@@ -48,10 +51,11 @@ jobs:
           cd lib && npm pack && cd ..
           mkdir -p tmp-smoke && cd tmp-smoke
           npm init -y
-          npm install ../lib/react-svg-worldmap-*.tgz react react-dom --save
-          cp ../lib/scripts/smoke-cjs.cjs ../lib/scripts/smoke-esm.mjs .
+          npm install ../lib/react-svg-worldmap-*.tgz react react-dom vite@8.3.4 webpack@5.105.4 --save
+          cp ../lib/scripts/smoke-cjs.cjs ../lib/scripts/smoke-esm.mjs ../lib/scripts/smoke-bundlers.mjs .
           node smoke-cjs.cjs
           node smoke-esm.mjs
+          node smoke-bundlers.mjs
 
       - name: Build website
         run: yarn build:website

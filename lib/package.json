@@ -1,6 +1,6 @@
 {
   "name": "react-svg-worldmap",
-  "version": "2.5.0",
+  "version": "2.7.0",
   "license": "MIT",
   "displayName": "React Worldmap",
   "description": "A pure react component to draw a map of world countries. Simple. Free.",
@@ -13,7 +13,8 @@
     "dist/index.js",
     "dist/index.cjs",
     "dist/index.d.ts",
-    "dist/index.d.cts"
+    "dist/index.d.cts",
+    "dist/map-assets/countries-detailed.cjs"
   ],
   "sideEffects": false,
   "engines": {
@@ -22,6 +23,8 @@
   "scripts": {
     "build": "node scripts/build.mjs && node scripts/inline-sourcemaps.cjs",
     "build:local": "yarn build && npm pack",
+    "build:detailed-data": "node scripts/build-detailed-countries.mjs",
+    "check:detailed-data": "node scripts/build-detailed-countries.mjs --check",
     "generate:readme": "node scripts/generate-readme.mjs",
     "test": "ESBUILD_LOG_LEVEL=silent vitest run",
     "test:watch": "ESBUILD_LOG_LEVEL=silent vitest",
@@ -55,7 +58,7 @@
     "@types/geojson": "^7946.0.16",
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-server": "^3.0.4",
-    "@vitest/coverage-v8": "^4.1.11",
+    "@vitest/coverage-v8": "^4.1.12",
     "esbuild": "^0.28.1",
     "jsdom": "^24.1.3",
     "react": "^18.3.1",
@@ -64,7 +67,8 @@
     "rollup-plugin-dts": "6.2.3",
     "topojson-server": "^3.0.1",
     "tsx": "^4.23.15",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12",
+    "world-atlas": "2.0.2"
   },
   "peerDependencies": {
     "react": ">=16.8",

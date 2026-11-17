@@ -11,6 +11,8 @@ import type {
   DisputedTerritoryContext,
   ISOCode,
   ProjectionOption,
+  DetailProviderResult,
+  RegionCollection,
 } from "./types.js";
 import { mapRenderingLayerOrder } from "./types.js";
 import {
@@ -20,10 +22,9 @@ import {
   defaultTooltip,
   defaultDisputedTerritoryColor,
   defaultDisputedTerritoryTooltip,
-  defaultLabelColor,
-  defaultPinColor,
-  defaultPinOutlineColor,
-  defaultPinTextColor,
+  defaultMapTheme,
+  mapThemeOptions,
+  mapThemes,
 } from "./constants.js";
 import { useWindowWidth, useContainerWidth, responsify } from "./utils.js";
 import { drawTooltip } from "./draw.js";
@@ -45,6 +46,12 @@ import type { CountryLabelAnchor } from "./labels/placement.js";
 import { disputedTerritories, getDisputeByCountryCode } from "./disputes.js";
 import { disputedTerritoryFeatures } from "./disputedTerritoryAreas.js";
 import {
+  getDetailedCountryPaths,
+  useDetailedCountryFeatures,
+} from "./geometry/detailedCountries.js";
+import { useRegionDetail } from "./detail/useRegionDetail.js";
+import { isReadyDetailResult } from "./detail/providerState.js";
+import {
   createProjection,
   defaultProjection,
   projectionLayouts,
@@ -55,6 +62,7 @@ export type {
   ISOCode,
   SizeOption,
   ProjectionOption,
+  MapTheme,
   DataItem,
   Data,
   CountryContext,
@@ -72,6 +80,13 @@ export type {
   ZoomState,
   MapPin,
   CountryLabelCandidate,
+  DetailLevel,
+  DetailStatus,
+  DetailProvider,
+  DetailProviderResult,
+  RegionCoverageStatus,
+  RegionFeature,
+  RegionCollection,
 } from "./types.js";
 export { mapRenderingLayers, mapRenderingLayerOrder } from "./types.js";
 export {
@@ -85,6 +100,15 @@ export type { DisputeId } from "./disputes.js";
 export { disputedTerritoryAreas } from "./disputedTerritoryAreas.js";
 export type { DisputedTerritoryArea } from "./disputedTerritoryAreas.js";
 export { projectionOptions } from "./projections.js";
+export { mapThemeOptions } from "./constants.js";
+export {
+  createIdleDetailResult,
+  createUnavailableDetailResult,
+  createFailedDetailResult,
+  createReadyDetailResult,
+  isReadyDetailResult,
+} from "./detail/providerState.js";
+export { preloadDetailedCountryGeometry } from "./geometry/detailedCountries.js";
 
 // Decode the TopoJSON topology once at module load time.
 // `feature()` returns a GeoJSON FeatureCollection; each feature's
@@ -133,6 +157,64 @@ function getLabelAnchors(option: ProjectionOption) {
   return anchors;
 }
 
+// Projected bounds of each country, per projection, to find the countries in
+// view for region detail.
+const countryBounds = new Map<
+  ProjectionOption,
+  Array<[[number, number], [number, number]]>
+>();
+function getCountryBounds(option: ProjectionOption) {
+  let bounds = countryBounds.get(option);
+  if (!bounds) {
+    const { pathGenerator } = getProjection(option);
+    bounds = geoFeatures.map((geoFeature) => pathGenerator.bounds(geoFeature));
+    countryBounds.set(option, bounds);
+  }
+  return bounds;
+}
+
+interface ProjectedRegion {
+  id: string;
+  countryCode: string;
+  name: string;
+  d: string;
+}
+
+// Projected region paths, per collection and projection.
+const regionPathCache = new WeakMap<
+  RegionCollection,
+  Map<ProjectionOption, ProjectedRegion[]>
+>();
+function getRegionPaths(
+  collection: RegionCollection,
+  option: ProjectionOption,
+): ProjectedRegion[] {
+  let byProjection = regionPathCache.get(collection);
+  if (!byProjection) {
+    byProjection = new Map();
+    regionPathCache.set(collection, byProjection);
+  }
+  let paths = byProjection.get(option);
+  if (!paths) {
+    const { pathGenerator } = getProjection(option);
+    paths = collection.regions.flatMap((region) => {
+      const d = pathGenerator(region.geometry);
+      return d
+        ? [
+            {
+              id: region.id,
+              countryCode: region.countryCode.toUpperCase(),
+              name: region.name,
+              d,
+            },
+          ]
+        : [];
+    });
+    byProjection.set(option, paths);
+  }
+  return paths;
+}
+
 function toValue({ value }: DataItem<string | number>): number {
   return typeof value === "string" ? 0 : value;
 }
@@ -149,15 +231,13 @@ export default function WorldMap<T extends number | string>(
     valueSuffix = "",
     color = defaultColor,
     strokeOpacity = 0.2,
-    backgroundColor = "white",
+    theme: themeProp = defaultMapTheme,
     tooltipBgColor = "black",
     tooltipTextColor = "white",
     rtl = false,
     size = defaultSize,
     projection: projectionProp = defaultProjection,
     frame = false,
-    frameColor = "black",
-    borderColor = "black",
     richInteraction = false,
     showDisputedTerritories = false,
     disputedTerritoryColor = defaultDisputedTerritoryColor,
@@ -173,12 +253,27 @@ export default function WorldMap<T extends number | string>(
     zoom,
     onZoomChange,
     pins,
-    pinColor = defaultPinColor,
-    pinTextColor = defaultPinTextColor,
-    pinOutlineColor = defaultPinOutlineColor,
-    labelColor = defaultLabelColor,
-    labelHaloColor,
+    detailLevel = "countries",
+    detailProvider,
+    onDetailStatusChange,
   } = props;
+  // Plain JavaScript callers can pass any string; fall back to the default
+  // theme. Colour props that are set override the theme's values.
+  const themeValues =
+    mapThemes[
+      mapThemeOptions.includes(themeProp) ? themeProp : defaultMapTheme
+    ];
+  const {
+    backgroundColor = themeValues.backgroundColor,
+    borderColor = themeValues.borderColor,
+    frameColor = themeValues.frameColor,
+    labelColor = themeValues.labelColor,
+    labelHaloColor = themeValues.labelHaloColor,
+    pinColor = themeValues.pinColor,
+    pinTextColor = themeValues.pinTextColor,
+    pinOutlineColor = themeValues.pinOutlineColor,
+  } = props;
+  const { landColor } = themeValues;
   const [figureEl, setFigureEl] = useState<HTMLElement | null>(null);
   const containerRef = useRef<SVGSVGElement>(null);
   const containerWidth = useContainerWidth(figureEl);
@@ -186,8 +281,8 @@ export default function WorldMap<T extends number | string>(
   const effectiveWidth = containerWidth ?? windowWidth;
 
   const defaultStyle = React.useMemo(
-    () => defaultCountryStyle(borderColor, strokeOpacity),
-    [borderColor, strokeOpacity],
+    () => defaultCountryStyle(borderColor, strokeOpacity, landColor),
+    [borderColor, strokeOpacity, landColor],
   );
   const styleFunction = styleFunctionProp ?? defaultStyle;
 
@@ -204,7 +299,11 @@ export default function WorldMap<T extends number | string>(
   const {
     options: zoomOptions,
     state: zoomState,
-    mapTransform: { transform: mapTransform, mapScale },
+    mapTransform: {
+      transform: mapTransform,
+      mapScale,
+      contentTranslate: [contentX, contentY],
+    },
     svgProps,
     controls,
     status: zoomStatus,
@@ -219,9 +318,19 @@ export default function WorldMap<T extends number | string>(
     svgRef: containerRef,
   });
   const zoomEnabled = zoomOptions.enabled;
-  // Keep borders one pixel wide at any zoom. Only with zoom, so the default
-  // render is unchanged.
-  const vectorEffect = zoomEnabled ? "non-scaling-stroke" : undefined;
+  // Keep borders one pixel wide at any zoom. Only with zoom or a theme that
+  // asks for it, so the default render is unchanged.
+  const vectorEffect =
+    zoomEnabled || themeValues.nonScalingStroke
+      ? "non-scaling-stroke"
+      : undefined;
+
+  // Sharper borders when zoomed in: the detailed geometry loads on first use.
+  const detailedFeatures = useDetailedCountryFeatures(
+    zoomEnabled &&
+      zoomOptions.detailedGeometry &&
+      zoomState.scale >= zoomOptions.detailedGeometryMinScale,
+  );
 
   // Stable refs per region for tooltips (avoids ref identity churn)
   const triggerRefs = useRef<Array<{ current: SVGPathElement | null }>>([]);
@@ -250,9 +359,68 @@ export default function WorldMap<T extends number | string>(
   // Build a path & a tooltip for each country
   const { projection: geoProjection, pathGenerator } =
     getProjection(projection);
+  const detailedPaths = React.useMemo(
+    () =>
+      detailedFeatures &&
+      getDetailedCountryPaths(
+        projection,
+        pathGenerator,
+        geoFeatures,
+        detailedFeatures,
+      ),
+    [detailedFeatures, pathGenerator, projection],
+  );
 
+  // Region detail: the regions of the countries in view, once zoomed in.
+  const regionsActive =
+    detailLevel === "regions" &&
+    detailProvider != null &&
+    zoomEnabled &&
+    zoomState.scale >= zoomOptions.regionDetailMinScale &&
+    mapScale > 0;
+  const [translateX, translateY] = zoomState.translate;
+  const visibleCountryCodes = React.useMemo((): ISOCode[] => {
+    if (!regionsActive) return [];
+    const left = -translateX / mapScale - contentX;
+    const right = (width - translateX) / mapScale - contentX;
+    const top = -translateY / mapScale - contentY;
+    const bottom = (height - translateY) / mapScale - contentY;
+    const bounds = getCountryBounds(projection);
+    return geoFeatures
+      .filter((_, i) => {
+        const [[x0, y0], [x1, y1]] = bounds[i]!;
+        return x1 >= left && x0 <= right && y1 >= top && y0 <= bottom;
+      })
+      .map((geoFeature) => geoFeature.properties.I as ISOCode);
+  }, [
+    contentX,
+    contentY,
+    height,
+    mapScale,
+    projection,
+    regionsActive,
+    translateX,
+    translateY,
+    width,
+  ]);
+  const regionResults = useRegionDetail({
+    active: regionsActive,
+    provider: detailProvider,
+    countryCodes: visibleCountryCodes,
+    onStatusChange: onDetailStatusChange,
+  });
+  const regionPaths = visibleCountryCodes.flatMap((countryCode) => {
+    const result: DetailProviderResult | undefined = regionResults[countryCode];
+    return result && isReadyDetailResult(result)
+      ? getRegionPaths(result.collection, projection)
+      : [];
+  });
+
+  const countryPathData: string[] = [];
   const regionElements = geoFeatures.map((geoFeature, i) => {
     const triggerRef = triggerRefs.current[i]!;
+    const d = detailedPaths?.[i] ?? pathGenerator(geoFeature)!;
+    countryPathData.push(d);
     const { N: countryName, I: isoCode } = geoFeature.properties;
     const context: CountryContext<T> = {
       countryCode: isoCode as ISOCode,
@@ -286,7 +454,7 @@ export default function WorldMap<T extends number | string>(
     const path = (
       <Region
         ref={triggerRef}
-        d={pathGenerator(geoFeature)!}
+        d={d}
         style={styleFunction(context)}
         // eslint-disable-next-line react/jsx-no-bind -- Region expects a callback prop.
         onClick={handleRegionClick}
@@ -408,7 +576,7 @@ export default function WorldMap<T extends number | string>(
   );
 
   // Build paths
-  const regionPaths = regionElements.map((entry) => entry.path);
+  const countryPaths = regionElements.map((entry) => entry.path);
 
   // Build tooltips
   const regionTooltips = regionElements.map(
@@ -447,6 +615,11 @@ export default function WorldMap<T extends number | string>(
       <g
         data-map-layer="countries"
         data-map-layer-order={mapRenderingLayerOrder.countries}
+        // Which borders are drawn; only with zoom, the one case that loads
+        // the detailed ones.
+        data-map-geometry={
+          zoomEnabled ? (detailedPaths ? "detailed" : "default") : undefined
+        }
         transform={mapTransform}
         style={layerStyle}>
         {layout.outline && (
@@ -460,7 +633,46 @@ export default function WorldMap<T extends number | string>(
             aria-hidden="true"
           />
         )}
-        {regionPaths}
+        {/* Themes with a land colour paint all land once beneath the
+            countries, so countries with data (drawn semi-transparent) show
+            over land rather than water. */}
+        {landColor != null && (
+          <path
+            className="worldmap__land"
+            data-map-sublayer="land"
+            d={countryPathData.join("")}
+            fill={landColor}
+            stroke="none"
+            pointerEvents="none"
+            aria-hidden="true"
+          />
+        )}
+        {countryPaths}
+        {/* Region borders, above the countries and in the same layer, so
+            the layer order numbers of earlier releases stay the same. */}
+        {regionPaths.length > 0 && (
+          <g
+            className="worldmap__regions"
+            data-map-sublayer="regions"
+            pointerEvents="none"
+            aria-hidden="true">
+            {regionPaths.map((region) => (
+              <path
+                key={region.id}
+                d={region.d}
+                data-region-id={region.id}
+                data-region-name={region.name}
+                data-country-code={region.countryCode}
+                fill="none"
+                stroke={borderColor}
+                strokeOpacity={strokeOpacity}
+                strokeWidth={0.75}
+                strokeDasharray="3 2"
+                vectorEffect="non-scaling-stroke"
+              />
+            ))}
+          </g>
+        )}
       </g>
       {showDisputedTerritories && (
         <g

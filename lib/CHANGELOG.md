@@ -1,5 +1,17 @@
 # react-svg-worldmap
 
+## 2.7.0
+
+### Minor Changes
+
+- 6cf30d9: Add an opt-in `theme` prop with an `"atlas"` theme. `theme="atlas"` draws blue water (`#A0D7EB`), slate borders and frame (`#607d86`), and light land (`#F4F2F2`, fully opaque) for countries without data, and keeps borders one pixel wide (`vector-effect: non-scaling-stroke`) with or without zoom. The land is drawn once beneath the countries (`<path class="worldmap__land" data-map-sublayer="land">` in the countries layer), so countries with data keep the `color` prop and its opacity scale and read against land rather than water. Country labels are `#263238` with a `#F4F2F2` halo and pin captions are `#263238`. Any colour prop you pass (`backgroundColor`, `borderColor`, `frameColor`, the pin and label colour props) overrides the theme, and `styleFunction` replaces the theme's country style. Works with both projections, `zoom`, the detailed borders and region detail. New exports: the `MapTheme` type and `mapThemeOptions`. Without `theme` (or with `theme="default"`) the map renders exactly as before.
+
+## 2.6.0
+
+### Minor Changes
+
+- 37839ad: Add sharper borders when zoomed in and a region-detail API. With `zoom`, the map now draws detailed country borders (Natural Earth 10m) once zoomed in to 2x or more (`detailedGeometryMinScale`), and the default borders below that. The detailed data is a separate file (`dist/map-assets/countries-detailed.cjs`, about 2.4 MB, 360 kB gzipped) loaded with `import()` the first time it is needed, so the default bundle grows by only a few kB and Vite and webpack emit the data as its own chunk. It has the same countries, names and codes as the default map, with Crimea as part of Ukraine in both. `zoom={{ detailedGeometry: false }}` turns it off and `preloadDetailedCountryGeometry()` loads it ahead of time. New `detailLevel="regions"`, `detailProvider` and `onDetailStatusChange` props draw the regions of the countries in view as dashed borders once zoomed in to `regionDetailMinScale` (default 4); providers return GeoJSON in longitude / latitude, which the map projects with the current projection. New exports: `createReadyDetailResult`, `createUnavailableDetailResult`, `createFailedDetailResult`, `createIdleDetailResult`, `isReadyDetailResult`, and the `DetailProvider`, `DetailProviderResult`, `DetailLevel`, `DetailStatus`, `RegionCollection`, `RegionFeature` and `RegionCoverageStatus` types. Without `zoom`, including with `richInteraction`, the default render is unchanged and the detailed data is never loaded.
+
 ## 2.5.0
 
 ### Minor Changes

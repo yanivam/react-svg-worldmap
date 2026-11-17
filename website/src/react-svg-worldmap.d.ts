@@ -9,6 +9,8 @@ declare module "react-svg-worldmap" {
   export type SizeOption = "sm" | "md" | "lg" | "xl" | "xxl";
   export type ProjectionOption = "mercator" | "equalEarth";
   export const projectionOptions: readonly ProjectionOption[];
+  export type MapTheme = "default" | "atlas";
+  export const mapThemeOptions: readonly MapTheme[];
 
   export interface DataItem<T extends string | number = number> {
     country: ISOCode;
@@ -111,6 +113,7 @@ declare module "react-svg-worldmap" {
     rtl?: boolean;
     size?: SizeOption | "responsive" | number;
     projection?: ProjectionOption;
+    theme?: MapTheme;
     frame?: boolean;
     containerClassName?: string;
     regionClassName?: string;

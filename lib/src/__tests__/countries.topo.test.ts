@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import topoData from "../countries.topo.js";
+import detailedTopoData from "../map-assets/countries-detailed.cjs";
 
 type Arc = [number, number][];
 type Ring = number[];
@@ -10,12 +11,11 @@ interface Geometry {
   properties: { N: string; I: string };
 }
 
-const topology = topoData as {
+interface CountryTopology {
   arcs: Arc[];
+  transform?: { scale: [number, number]; translate: [number, number] };
   objects: { countries: { geometries: Geometry[] } };
-};
-const { arcs } = topology;
-const { geometries } = topology.objects.countries;
+}
 
 const arcIndex = (ref: number) => (ref < 0 ? ~ref : ref);
 
@@ -38,7 +38,21 @@ const ringKey = (ring: Ring) => {
 
 const polygonKey = (polygon: Polygon) => polygon.map(ringKey).join("|");
 
-describe("countries topology", () => {
+// Both tiers: the default topology and the detailed one loaded on zoom.
+describe.each([
+  ["default", topoData as CountryTopology],
+  ["detailed", detailedTopoData as unknown as CountryTopology],
+])("countries topology (%s)", (_tier, topology) => {
+  // Quantized arcs are delta-encoded; compare absolute positions.
+  const arcs = topology.transform
+    ? topology.arcs.map((arc) => {
+        let x = 0;
+        let y = 0;
+        return arc.map(([dx, dy]): [number, number] => [(x += dx), (y += dy)]);
+      })
+    : topology.arcs;
+  const { geometries } = topology.objects.countries;
+
   it("has unique ISO codes", () => {
     expect(findDuplicates(geometries.map((g) => g.properties.I))).toEqual([]);
   });

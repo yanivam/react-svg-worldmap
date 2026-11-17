@@ -14,6 +14,9 @@ export interface ResolvedZoomOptions {
   countryLabelMaxFontSize: number;
   countryLabelZoomGrowthRate: number;
   showPins: boolean;
+  detailedGeometry: boolean;
+  detailedGeometryMinScale: number;
+  regionDetailMinScale: number;
 }
 
 export function resolveZoomOptions(

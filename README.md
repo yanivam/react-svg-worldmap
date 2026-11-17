@@ -21,6 +21,7 @@ A lightweight React component for rendering a bundled SVG world map for charts, 
 - CI enforces automated tests and `>90%` coverage
 - Optional dispute metadata and disputed-territory overlay for high-visibility geopolitical cases
 - Opt-in Equal Earth projection alongside the default Mercator projection
+- Opt-in atlas colour theme
 - Opt-in zoom and pan, map pins, and country labels
 
 ## Documentation & Examples
@@ -83,6 +84,14 @@ Mercator is the default. Pass `projection="equalEarth"` for the equal-area [Equa
 <WorldMap data={data} projection="equalEarth" />
 ```
 
+## Themes
+
+Pass `theme="atlas"` for a classic atlas look: blue water, slate borders, and light land for countries without data, with borders that stay one pixel wide. Colour props you set (`backgroundColor`, `borderColor`, `styleFunction`, ...) override the theme. Without `theme`, the map is unchanged.
+
+```tsx
+<WorldMap data={data} theme="atlas" />
+```
+
 ## Zoom, Pins And Labels
 
 Pass `zoom` for zoom and pan with buttons, drag, double-click, keyboard, and ctrl / ⌘ + wheel (a plain wheel still scrolls the page). Zooming also shows country names that fit inside their countries. `pins` draws captioned markers at `[longitude, latitude]`, with or without zoom.
@@ -95,6 +104,8 @@ Pass `zoom` for zoom and pan with buttons, drag, double-click, keyboard, and ctr
   pins={[{ caption: "Paris", coordinates: [2.35, 48.86], countryCode: "FR" }]}
 />
 ```
+
+When zoomed in to 2x or more, the map draws sharper (Natural Earth 10m) country borders, loaded on demand as a separate file that is not part of the default bundle. With `detailLevel="regions"` and a `detailProvider`, it also draws the regions of the countries in view.
 
 Colors are props: `pinColor`, `pinTextColor`, `pinOutlineColor`, `labelColor`, and `labelHaloColor`. Both projections are supported. Without `zoom`, `richInteraction` and the default render are unchanged. See the [API docs](https://yanivam.github.io/react-svg-worldmap/api#zoom-and-pan).
 

@@ -31,6 +31,7 @@ module.exports = {
           label: "Examples",
           items: [
             { to: "/examples/equal-earth", label: "Equal Earth" },
+            { to: "/examples/atlas-theme", label: "Atlas theme" },
             { to: "/examples/sizing", label: "Sizing" },
             { to: "/examples/custom-style", label: "Custom styles" },
             { to: "/examples/localization", label: "Localization" },
